@@ -1,0 +1,132 @@
+/* 
+ 
+Copyright 2006 Eric Hakenholz
+
+This file is part of C.a.R. software.
+
+    C.a.R. is a free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License.
+
+    C.a.R. is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ */
+ 
+ 
+ package eric.GUI.palette;
+
+import eric.*;
+import eric.GUI.themes;
+import java.awt.Color;
+import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import eric.JEricPanel;
+import javax.swing.JSlider;
+
+import rene.gui.Global;
+
+/**
+ * 
+ * @author erichake
+ */
+public class JCursor extends JEricPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JLabel mylabel, myval;
+	public JSlider mycursor;
+	String myP, mytxt;
+	boolean palmember = false;
+
+	/** Creates a new instance of JCursor */
+	@Override
+	public void paintComponent(final java.awt.Graphics g) {
+		super.paintComponent(g);
+		if (palmember) {
+			final java.awt.Dimension d = this.getSize();
+			g.drawImage(themes.getImage("palbackground.gif"), 0, 0,
+					d.width, d.height, this);
+		}
+	}
+
+	// JCursor constructor for palette member :
+	public JCursor(final String myparam, final String mytext, final int min,
+			final int max, int sel) {
+		sel = Global.getParameter(myparam, sel);
+		myP = myparam;
+		palmember = true;
+		final int lblwidth = 65;
+		mytxt = mytext;
+		mycursor = new JSlider();
+		mylabel = new JLabel();
+		myval = new JLabel();
+		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.setAlignmentX(0);
+		mylabel.setText(" " + mytxt);
+		mylabel.setForeground(Color.DARK_GRAY);
+		mylabel.setFont(new Font(Global.GlobalFont, Font.PLAIN, 11));
+		mylabel.setSize(lblwidth, 27);
+		mylabel.setMaximumSize(new java.awt.Dimension(lblwidth, 27));
+		mylabel.setMinimumSize(new java.awt.Dimension(lblwidth, 27));
+		mylabel.setPreferredSize(new java.awt.Dimension(lblwidth, 27));
+		myval.setText(String.valueOf(sel));
+		myval.setForeground(Color.GRAY);
+		myval.setFont(new java.awt.Font(Global.GlobalFont, Font.BOLD, 11));
+		myval.setSize(20, 27);
+		myval.setMaximumSize(new java.awt.Dimension(20, 27));
+		myval.setMinimumSize(new java.awt.Dimension(20, 27));
+		myval.setPreferredSize(new java.awt.Dimension(20, 27));
+		mycursor.setFont(new java.awt.Font(Global.GlobalFont, 0, 11));
+		mycursor.setOpaque(false);
+		mycursor.setMajorTickSpacing(1);
+		mycursor.setMaximum(max);
+		mycursor.setMinimum(min);
+		mycursor.setMinorTickSpacing(1);
+		mycursor.setPaintLabels(false);
+		mycursor.setPaintTicks(false);
+		mycursor.setSnapToTicks(true);
+		mycursor.setValue(sel);
+		mycursor.setAlignmentX(0.0F);
+		mycursor.setMaximumSize(new java.awt.Dimension(themes.getRightPanelWidth() - 82, 27));
+		mycursor.setMinimumSize(new java.awt.Dimension(themes.getRightPanelWidth() - 82, 27));
+		mycursor.setPreferredSize(new java.awt.Dimension(themes.getRightPanelWidth() - 82, 27));
+		mycursor.setSize(new java.awt.Dimension(themes.getRightPanelWidth() - 82, 27));
+
+		mycursor.addChangeListener(new javax.swing.event.ChangeListener() {
+			public void stateChanged(final javax.swing.event.ChangeEvent evt) {
+				final JSlider myc = (JSlider) evt.getSource();
+				final int mysel = myc.getValue();
+				rene.gui.Global.setParameter(myP, mysel);
+
+//				JPM.MW.JPR.getLocalPreferences();
+                                if (JZirkelCanvas.getCurrentZC()!=null) {
+                                JZirkelCanvas.getCurrentZC().getLocalPreferences();
+				JZirkelCanvas.getCurrentZC().updateDigits();
+				JZirkelCanvas.getCurrentZC().JCM.updateDigits();
+				JZirkelCanvas.getCurrentZC().resetGraphics();
+				JZirkelCanvas.getCurrentZC().repaint();
+                                };
+				myval.setText(String.valueOf(mysel));
+			}
+		});
+
+		this.add(mylabel);
+		this.add(mycursor);
+		this.add(myval);
+		this.setOpaque(false);
+		this.setMaximumSize(new java.awt.Dimension(themes.getRightPanelWidth(), 27));
+		this.setMinimumSize(new java.awt.Dimension(themes.getRightPanelWidth(), 27));
+		this.setPreferredSize(new java.awt.Dimension(themes.getRightPanelWidth(), 27));
+		this.setSize(themes.getRightPanelWidth(), 27);
+	}
+
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaR>
+<Construction>
+<Window x="0.0" y="0.0" w="8.0"/>
+<Windowdim w="1280" h="800"/>
+<Preferences minfontsize="13" minpointsize="3" minlinesize="1" arrowsize="15" digits.lengths="5" digits.edit="5" digits.angles="0" colorbackground="3,60,126" colorbackgroundx="79" colorbackgroundy="128" colorbackgroundPal="4" fig3D="false"/>
+<Objects>
+<Point name="CH" n="0" color="2" hidden="true" showname="true" x="0" actx="0.0" y="0" acty="0.0" shape="circle" fixed="true">Point</Point>
+<Circle name="Hz" n="3" color="3" type="thick" hidden="true" ctag0="z" cexpr0="0" fixed="4" midpoint="CH" acute="true">Cercle de centre P1 de rayon 4.0</Circle>
+<Circle name="HzBack" n="7" color="4" scolor="245,245,245" type="thin" hidden="super" solid="true" ctag0="z" cexpr0="1" fixed="Hz-0.0010/pixel" midpoint="CH" filled="true" acute="true">Cercle de centre CH de rayon 0.8387572301991061</Circle>
+</Objects>
+</Construction>
+</CaR>
