@@ -381,7 +381,7 @@ public class JHelpPanel extends JEricPanel {
     }
 
     public String clear(String s) {
-	s = s.replace('ß', ' ');
+	/*s = s.replace('ß', ' ');*/
 	s = s.replaceAll("__", "");
 	return s;
     }
