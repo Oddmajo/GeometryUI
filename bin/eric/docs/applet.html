@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=utf-8">
+<META NAME="GENERATOR" Content="CaRMetal">
+<TITLE>Applet CaRMetal</TITLE>
+<style type="text/css">
+<!--
+body {
+	background-color: #EDEDED;
+}
+.titre {
+	background-color: #A5BCD4;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	height: 40px;
+	line-height:40px;
+	margin-bottom: 20px;
+}
+.divapplet {
+	text-align: center;
+	margin-bottom: 5px;
+}
+.divdownload {
+	text-align: center;
+}
+.ptitre {
+	vertical-align:middle;
+}
+.footer {
+	background-color: #708090;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+	font-weight: normal;
+	text-align: center;
+	height: 20px;
+	line-height:20px;
+	margin-top: 20px;
+	color: #DADFDF;
+}
+.a_carmetal {
+	color: #FFF;
+}
+.a_download {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 11px;
+	color: #036;
+}
+-->
+</style>
+</HEAD>
+<BODY BGCOLOR=#F5F5F5 marginwidth="0" marginheight="0">
+<div class="titre"><p class="ptitre">@workbook@</p></div>
+<div class="divapplet">
+
+        <APPLET ARCHIVE="CaRMetal.jar" CODE="Main.class" WIDTH="@width@" HEIGHT="@height@" ALIGN="CENTER" MAYSCRIPT="true">
+                <PARAM NAME="file" VALUE="@file@">
+        </APPLET>
+
+</div>
+<div class="divdownload">
+<a href="@file@" class="a_download">Cliquer ici pour télécharger le fichier</a></div>
+<div class="footer">Applet créée avec <a href="http://db-maths.nuxit.net/CaRMetal/" target="_blank" class="a_carmetal">CaRMetal</a></div>
+</BODY>
+</HTML>
