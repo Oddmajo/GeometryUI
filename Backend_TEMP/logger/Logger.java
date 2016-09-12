@@ -121,6 +121,8 @@ public class Logger
         try
         {
             _writer.write(str);
+            if (_parentId != null)
+                return _parentId.write(str);
         }
         catch (IOException ioe)
         {
