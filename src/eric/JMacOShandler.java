@@ -21,9 +21,9 @@ package eric;
 
 import javax.swing.SwingUtilities;
 
-import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationAdapter;
 import eric.GUI.pipe_tools;
+import ui.com.apple.eawt.Application;
+import ui.com.apple.eawt.ApplicationAdapter;
 
 /**
  * 
@@ -40,7 +40,7 @@ public class JMacOShandler extends Application {
     class OpenHandler extends ApplicationAdapter {
 
         @Override
-        public void handleOpenFile(final com.apple.eawt.ApplicationEvent evt) {
+        public void handleOpenFile(final ui.com.apple.eawt.ApplicationEvent evt) {
             final String filename=evt.getFilename();
             if (FileTools.isStartup()) {
                 FileTools.addStartupFile(filename);
@@ -54,7 +54,7 @@ public class JMacOShandler extends Application {
         }
 
         @Override
-        public void handleQuit(final com.apple.eawt.ApplicationEvent e) {
+        public void handleQuit(final ui.com.apple.eawt.ApplicationEvent e) {
             pipe_tools.quitAll();
         }
 

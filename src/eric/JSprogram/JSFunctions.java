@@ -15,9 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+
 import rene.gui.Global;
 import rene.util.FileName;
 import rene.zirkel.ZirkelCanvas;
@@ -40,6 +38,9 @@ import rene.zirkel.objects.SegmentObject;
 import rene.zirkel.objects.TextObject;
 import rene.zirkel.objects.TwoPointLineObject;
 import rene.zirkel.objects.VectorObject;
+import ui.org.mozilla.javascript.Context;
+import ui.org.mozilla.javascript.Scriptable;
+import ui.org.mozilla.javascript.ScriptableObject;
 
 /**
  *

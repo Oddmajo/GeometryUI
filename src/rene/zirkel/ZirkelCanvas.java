@@ -19,8 +19,6 @@ t
  */
 package rene.zirkel;
 
-// file: ZirkelCanvas.java
-import de.erichseifert.vectorgraphics2d.VectorGraphics2D;
 import eric.GUI.ZDialog.ZDialog;
 import eric.GUI.palette.JIconMouseAdapter;
 import eric.GUI.palette.PaletteManager;
@@ -163,6 +161,7 @@ import rene.zirkel.tools.Tracker;
 import rene.zirkel.tools.UniversalTracker;
 import rene.zirkel.tools.ZoomerTool;
 import rene.zirkel.tools.nullTool;
+import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D;
 
 /**
  * @author Rene Main class, doing most of the work in the C.a.R. application.
@@ -242,7 +241,7 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
 //    private boolean
     private boolean DontPaint=false;
     private boolean firstLoad=true;
-    private pm.Client.ClientNetworkTools cnt = null;
+    private ui.pm.Client.ClientNetworkTools cnt = null;
 
     public boolean isEuclidian() {
         return C.isEuclidian();
@@ -5530,11 +5529,11 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
      * PARTIE RESEAU  *
      ******************/
 
-    public void set_cnt(pm.Client.ClientNetworkTools cnt) {
+    public void set_cnt(ui.pm.Client.ClientNetworkTools cnt) {
         this.cnt = cnt;
     }
 
-    public pm.Client.ClientNetworkTools get_cnt(){
+    public ui.pm.Client.ClientNetworkTools get_cnt(){
         return cnt;
     }
 
@@ -5550,9 +5549,9 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
     
     public ZDialog updatable(){
 	if(cnt!=null && cnt.get_real_time()){
-	    return (pm.Client.ClientNetworkTools) cnt;
+	    return (ui.pm.Client.ClientNetworkTools) cnt;
 	} else if(JGeneralMenuBar.get_scp()!=null && JGeneralMenuBar.get_scp().get_collaboration()){
-	    return (pm.Server.ServerControlPanel) JGeneralMenuBar.get_scp();
+	    return (ui.pm.Server.ServerControlPanel) JGeneralMenuBar.get_scp();
 	}
         return null;
     }

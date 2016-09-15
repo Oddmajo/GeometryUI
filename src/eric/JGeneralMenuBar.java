@@ -75,8 +75,8 @@ public class JGeneralMenuBar extends JEricPanel {
     myJMenuItem hiddenitem, griditem, restrictpaletteitem, editpaletteitem,
             macrositem, historyitem, helpitem, propertiesitem, smallitem,
             mediumitem, largeitem, definejobitem, commentitem, leftpanelitem, paletteitem;
-    private static pm.Server.ServerControlPanel scp = null;
-    private pm.Client.ClientNetworkTools cnt = null;
+    private static ui.pm.Server.ServerControlPanel scp = null;
+    private ui.pm.Client.ClientNetworkTools cnt = null;
 
     @Override
     public void paintComponent(final java.awt.Graphics g) {
@@ -1184,7 +1184,7 @@ public class JGeneralMenuBar extends JEricPanel {
             @Override
             void action(){
                 if(scp==null){
-                    scp = new pm.Server.ServerControlPanel();
+                    scp = new ui.pm.Server.ServerControlPanel();
                     JZirkelCanvas.getCurrentZC().add(scp);
                     JZirkelCanvas.getCurrentZC().repaint();
                     scp.init();
@@ -1205,7 +1205,7 @@ public class JGeneralMenuBar extends JEricPanel {
 	    void action(){
                 cnt = JZirkelCanvas.getCurrentZC().get_cnt();
                 if(cnt==null) { //then display the ConnectionControlPanel
-                    pm.Client.ConnectionControlPanel client = new pm.Client.ConnectionControlPanel();
+                    ui.pm.Client.ConnectionControlPanel client = new ui.pm.Client.ConnectionControlPanel();
                     JZirkelCanvas.getCurrentZC().add(client);
                     JZirkelCanvas.getCurrentZC().repaint();
                     client.init();
@@ -1294,7 +1294,7 @@ public class JGeneralMenuBar extends JEricPanel {
         this.repaint();
     }
 
-    public static pm.Server.ServerControlPanel get_scp(){
+    public static ui.pm.Server.ServerControlPanel get_scp(){
 	return scp;
     }
 }

@@ -4,9 +4,9 @@
  */
 package rene.zirkel.graphics;
 
-import atp.sHotEqn;
 import java.awt.Graphics2D;
 import rene.zirkel.ZirkelCanvas;
+import ui.atp.sHotEqn;
 
 /**
  *

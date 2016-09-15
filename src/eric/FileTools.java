@@ -4,9 +4,6 @@
  */
 package eric;
 
-import de.erichseifert.vectorgraphics2d.EPSGraphics2D;
-import de.erichseifert.vectorgraphics2d.PDFGraphics2D;
-import de.erichseifert.vectorgraphics2d.SVGGraphics2D;
 import eric.GUI.palette.PaletteManager;
 import eric.GUI.pipe_tools;
 import eric.GUI.themes;
@@ -72,6 +69,9 @@ import rene.zirkel.ZirkelFrame;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.graphics.MainGraphics;
 import rene.zirkel.tools.SelectTool;
+import ui.de.erichseifert.vectorgraphics2d.EPSGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.PDFGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.SVGGraphics2D;
 
 /**
  *

@@ -44,9 +44,9 @@ import javax.swing.JLabel;
 import eric.JEricPanel;
 import javax.swing.SwingConstants;
 
-import net.java.dev.colorchooser.ColorChooser;
-import net.java.dev.colorchooser.Palette;
 import rene.gui.Global;
+import ui.net.java.dev.colorchooser.ColorChooser;
+import ui.net.java.dev.colorchooser.Palette;
 
 /**
  * 

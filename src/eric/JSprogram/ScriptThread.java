@@ -5,15 +5,15 @@
 package eric.JSprogram;
 
 import eric.JZirkelCanvas;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
-import org.mozilla.javascript.RhinoException;
-import org.mozilla.javascript.Script;
-import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.ImporterTopLevel;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.objects.ConstructionObject;
+import ui.org.mozilla.javascript.Context;
+import ui.org.mozilla.javascript.ContextFactory;
+import ui.org.mozilla.javascript.ImporterTopLevel;
+import ui.org.mozilla.javascript.RhinoException;
+import ui.org.mozilla.javascript.Script;
+import ui.org.mozilla.javascript.ScriptableObject;
 
 /**
  *

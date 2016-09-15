@@ -25,11 +25,12 @@ import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-import netscape.javascript.JSObject;
+
 import rene.gui.Global;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.ZirkelFrame;
 import rene.zirkel.macro.Macro;
+import ui.netscape.javascript.JSObject;
 
 /**
  * This is a static class provide to be a bridge between the GUI

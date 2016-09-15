@@ -37,9 +37,10 @@ import rene.gui.Global;
 import rene.zirkel.ZirkelFrame;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.PointObject;
-import de.erichseifert.vectorgraphics2d.EPSGraphics2D;
-import de.erichseifert.vectorgraphics2d.SVGGraphics2D;
-import de.erichseifert.vectorgraphics2d.VectorGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.EPSGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.SVGGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D;
+
 import java.awt.geom.Path2D;
 import rene.zirkel.ZirkelCanvas;
 

@@ -34,9 +34,9 @@ import eric.JEricPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.text.JTextComponent;
 
-import atp.sHotEqn;
 import java.awt.Graphics2D;
 import rene.gui.Global;
+import ui.atp.sHotEqn;
 
 /**
  * 

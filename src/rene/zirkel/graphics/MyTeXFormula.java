@@ -4,8 +4,6 @@
  */
 package rene.zirkel.graphics;
 
-import de.erichseifert.vectorgraphics2d.VectorGraphics2D;
-import de.erichseifert.vectorgraphics2d.VectorGraphics2D.FontRendering;
 import java.awt.Graphics2D;
 import org.scilab.forge.jlatexmath.Box;
 import org.scilab.forge.jlatexmath.DefaultTeXFont;
@@ -14,6 +12,8 @@ import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.TeXEnvironment;
 import org.scilab.forge.jlatexmath.TeXFormula;
 import rene.zirkel.ZirkelCanvas;
+import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D;
+import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D.FontRendering;
 
 /**
  *

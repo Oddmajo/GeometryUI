@@ -20,6 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package eric;
 
 import eric.GUI.palette.JIcon;
+import ui.net.java.dev.colorchooser.ColorChooser;
+import ui.net.java.dev.colorchooser.Palette;
+
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -38,9 +41,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import eric.JEricPanel;
-
-import net.java.dev.colorchooser.ColorChooser;
-import net.java.dev.colorchooser.Palette;
 
 /**
  * 
