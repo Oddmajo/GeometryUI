@@ -13,58 +13,63 @@ package exceptionHandler;
  * @author Drew W
  *
  */
-public class GeometryException extends Exception
+public class TriangleException extends GeometryException
 {
-
     /**
      * Default serialVersionUID
      * @author Drew Whitmire
      */
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 6480239185747556630L;
     
     /**
-     * Default Constructor
-     * Constructs a new GeometryException with null as its detail message
+     * static logger ID
      * @author Drew Whitmire
      */
-    public GeometryException()
+    public static int loggerID = GeometryException.loggerID;
+
+    /**
+     * Default Constructor
+     * Constructs a new TriangleException with null as its detail message
+     * @author Drew Whitmire
+     */
+    public TriangleException()
     {
         super();
     }
 
     /**
-     * Constructs a new GeometryException with the specified detail message.
+     * Constructs a new TriangleException with the specified detail message.
      * @param message   the detail message. Can be retrieved by the Throwable.getMessage() method.
      * @author Drew Whitmire
      */
-    public GeometryException(String message)
+    public TriangleException(String message)
     {
         super(message);
     }
 
     /**
-     * Constructs a new GeometryException with the specified cause.
+     * Constructs a new TriangleException with the specified cause.
      * @param cause     the cause. Can be retrieved by the Throwable.getCause() method.
      * @author Drew Whitmire
      */
-    public GeometryException(Throwable cause)
+    public TriangleException(Throwable cause)
     {
         super(cause);
     }
 
     /**
-     * Constructs a new exception with the specified detail message and cause.
+     * Constructs a new TriangleException with the specified detail message and cause.
      * @param message   the detail message. Can be retrieved by the Throwable.getMessage() method.
      * @param cause     the cause. Can be retrieved by the Throwable.getCause() method.
      * @author Drew Whitmire
      */
-    public GeometryException(String message, Throwable cause)
+    public TriangleException(String message, Throwable cause)
     {
         super(message, cause);
     }
 
     /**
-     * Constructs a new exception with the specified detail message, cause, suppression enabled or disabled, 
+     * Constructs a new TriangleException with the specified detail message, cause, suppression enabled or disabled, 
      * and writable stack trace enabled or disabled.
      * @param message   the detail message. Can be retrieved by the Throwable.getMessage() method.
      * @param cause     the cause. Can be retrieved by the Throwable.getCause() method.
@@ -72,7 +77,7 @@ public class GeometryException extends Exception
      * @param writableStackTrace    whether or not the stack trace should be writable
      * @author Drew Whitmire
      */
-    public GeometryException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
+    public TriangleException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }
