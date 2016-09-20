@@ -419,17 +419,7 @@ public class Simplification extends GenericRule
         return result;
     }
 
-    private static int StructuralIndex(List<GroundedClause> side, GroundedClause term)
-    {
-        for (int r = 0; r < side.Count; r++)
-        {
-            if (side[r].StructurallyEquals(term))
-            {
-                return r;
-            }
-        }
-        return -1;
-    }
+
 
 
 
