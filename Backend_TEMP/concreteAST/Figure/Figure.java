@@ -5,10 +5,10 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-/**
- * @author Nick Celiberti
-    Commented Methods need AtomicRegion, Area_Based_Analyses, Utilities, superFigures, ShapeHiearchy, 
-*/
+package PolyID;
+
+// Commented Methods need AtomicRegion, Area_Based_Analyses, Utilities, superFigures, ShapeHiearchy, 
+
 import java.util.ArrayList;
 
 public abstract class Figure extends GroundedClause
@@ -61,9 +61,8 @@ public abstract class Figure extends GroundedClause
         ////public boolean Covers(AtomicRegion a) { throw new NotImplementedException(); }
 
         // An ORDERED ArrayList of collinear points.
-        private ArrayList<Point> collinear; 
+        protected ArrayList<Point> collinear; 
             public ArrayList<Point> getCollinear() { return collinear; } 
-            protected void setCollinear( ArrayList<Point> col) { this.collinear = col; }
         public void AddCollinearPoint(Point newPt) throws ArgumentException { throw new ArgumentException("Only segments or arcs have 'collinearity'"); }
         public void AddCollinearPoints(ArrayList<Point> pts) throws ArgumentException
         { 
@@ -90,9 +89,9 @@ public abstract class Figure extends GroundedClause
         //
         // Shape hierarchy for shaded region solution / problem synthesis.
         //
-        /* -------------------------- Requires Atomic Region, Area_Based_Analyses, and shapeHierarchy --------------------
+       
         protected ShapeAtomicRegion thisAtomicRegion;
-        
+        /* -------------------------- Requires Atomic Region, Area_Based_Analyses, and shapeHierarchy --------------------
         public ShapeAtomicRegion GetFigureAsAtomicRegion()
         {
             if (thisAtomicRegion == null) thisAtomicRegion = new ShapeAtomicRegion(this);
