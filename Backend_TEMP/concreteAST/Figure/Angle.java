@@ -3,7 +3,8 @@
  * @author Nick Celiberti
  * Partial translation for PolygonCalculator
  */
-package PolyID;
+package concreteAST.Figure;
+import utilities.Utilities;
 
 public class Angle extends Figure
 {

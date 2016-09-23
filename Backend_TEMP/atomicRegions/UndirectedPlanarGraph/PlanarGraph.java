@@ -6,15 +6,19 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package facetIdentification;
+package atomicRegions.UndirectedPlanarGraph;
 
 /**
- * I do not know what the class is supposed to do, the copy from Dr. Alvin
- * was empty.
+ * This class still needs to be translated
  * @author Drew W
  *
  */
-public abstract class Primitive
+public class PlanarGraph
 {
-    // empty
+
+    public PlanarGraph()
+    {
+        // TODO Auto-generated constructor stub
+    }
+
 }

@@ -11,6 +11,8 @@ package utilities;
 import java.util.ArrayList;
 import java.util.List;
 
+import concreteAST.Figure.Figure;
+
 /**
  * The Utilities class from the GeometryTutor project, converted from C#
  * <p>
@@ -258,17 +260,21 @@ public class Utilities
         return indices;
     }
     
+
+    */
     
     // Ensure uniqueness of additions
-    public static void AddUniqueStructurally(List<GeometryTutorLib.ConcreteAST.Figure> figures, GeometryTutorLib.ConcreteAST.Figure f)
+    public static void AddUniqueStructurally(ArrayList<Figure> figures, Figure f)
     {
-        for (GeometryTutorLib.ConcreteAST.Figure figure : figures)
+        for (Figure figure : figures)
         {
             if (figure.StructurallyEquals(f)) return;
         }
-        figures.Add(f);
+        figures.add(f);
+        
     }
 
+    /*
     // -1 is an error
     public static int IntegerRatio(double x, double y)
     {
@@ -326,9 +332,9 @@ public class Utilities
     */
 
     // Makes a list containing a single element
-    public static <T> List<T> MakeList(T obj)
+    public static <T> ArrayList<T> MakeList(T obj)
     {
-        List<T> l = new ArrayList<T>();
+        ArrayList<T> l = new ArrayList<T>();
 
         l.add(obj);
 
@@ -551,28 +557,35 @@ public class Utilities
     {
         return b == 0 ? a : GCD(b, a % b);
     }
-
+    
+    */
+    
     public static final double EPSILON = 0.000001;
 
-    public static bool CompareValues(double a, double b)
+    public static boolean CompareValues(double a, double b)
     {
-        return Math.Abs(a - b) < EPSILON;
+        return Math.abs(a - b) < EPSILON;
     }
+    
+    /*
     public static bool LooseCompareValues(double a, double b)
     {
         return Math.Abs(a - b) < 0.0001;
     }
-    public static bool LessThan(double a, double b)
+    
+    */
+    
+    public static boolean LessThan(double x, int i)
     {
-        if (CompareValues(a, b)) return false;
-        else return a - b - EPSILON < 0;
+        return x < i;
     }
-    public static bool GreaterThan(double a, double b)
+    
+    public static boolean GreaterThan(double x, int i)
     {
-        if (CompareValues(a, b)) return false;
-        return a - b + EPSILON > 0;
+        return x > i;
     }
 
+    /*
     private static long[] memoizedFactorials = new long[30];
     public static long Factorial(long x)
     {

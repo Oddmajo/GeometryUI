@@ -1,6 +1,9 @@
-package PolyID;
+package concreteAST.Figure;
 
 import java.util.ArrayList;
+
+import concreteAST.GroundedClause;
+import utilities.Utilities;
 
 public class Point extends Figure
 {

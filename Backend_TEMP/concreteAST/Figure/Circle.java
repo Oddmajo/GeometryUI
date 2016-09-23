@@ -6,21 +6,20 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package facetIdentification;
+package concreteAST.Figure;
 
-public class IsolatedPoint extends Primitive
+/**
+ * I created the shell of this class to stop errors in the AtomicRegionCalculator.
+ * This class still needs to be translated
+ * @author Drew W
+ *
+ */
+public class Circle extends Figure
 {
-    
-    public Point thePoint;
-    
-    public IsolatedPoint()
+
+    public Circle()
     {
-        thePoint = null;
-    }
-    
-    public String toString()
-    {
-        return "Point { " + thePoint.toString() + " }";
+        // TODO Auto-generated constructor stub
     }
 
 }

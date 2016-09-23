@@ -93,7 +93,7 @@ public abstract class GroundedClause
         if (gc.clauseId == -1)
         {
             //Debug.WriteLine("ERROR: id is -1: " + gc.ToString());
-            exceptionHandler.ExceptionHandler.throwException(new ConcreteASTException("ERROR: id is -1: " + gc.ToString()));
+            exceptionHandler.ExceptionHandler.throwException(new ConcreteASTException("ERROR: id is -1: " + gc.toPrettyString()));
         }
         utilities.Utilities.AddUnique(relationPredecessors, gc.clauseId);
     }
@@ -101,7 +101,7 @@ public abstract class GroundedClause
     {
         if (gc.clauseId == -1)
         {
-            exceptionHandler.ExceptionHandler.throwException(new ConcreteASTException("ERROR: id is -1: " + gc.ToString()));
+            exceptionHandler.ExceptionHandler.throwException(new ConcreteASTException("ERROR: id is -1: " + gc.toPrettyString()));
         }
         utilities.Utilities.AddUnique(generalPredecessors, gc.clauseId);
     }
@@ -182,8 +182,8 @@ public abstract class GroundedClause
 
     public int GetHashCode() { return super.hashCode(); }
 
-    public abstract String ToString();
+    public abstract String toString();
 
-    public String ToPrettyString() { return ToString(); }
+    public String toPrettyString() { return Integer.toString(clauseId); }
 
 }

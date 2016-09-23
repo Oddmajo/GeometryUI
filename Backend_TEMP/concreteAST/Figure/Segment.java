@@ -1,6 +1,7 @@
-package PolyID;
+package concreteAST.Figure;
 
 import java.util.ArrayList;
+import utilities.Utilities;
 
 public class Segment extends Figure
 {
@@ -48,7 +49,7 @@ public class Segment extends Figure
 
     public boolean HasPoint(Point p)
     {
-        return Point1.Equals(p) || Point2.Equals(p);
+        return Point1.equals(p) || Point2.equals(p);
     }
 
     public Point FindIntersection(Segment thatSegment)
@@ -157,10 +158,10 @@ public class Segment extends Figure
 
     public Point SharedVertex(Segment s)
     {
-        if (Point1.Equals(s.Point1)) return Point1;
-        if (Point1.Equals(s.Point2)) return Point1;
-        if (Point2.Equals(s.Point1)) return Point2;
-        if (Point2.Equals(s.Point2)) return Point2;
+        if (Point1.equals(s.Point1)) return Point1;
+        if (Point1.equals(s.Point2)) return Point1;
+        if (Point2.equals(s.Point1)) return Point2;
+        if (Point2.equals(s.Point2)) return Point2;
         return null;
     }
 
@@ -193,13 +194,14 @@ public class Segment extends Figure
 
     public Point OtherPoint(Point p)
     {
-        if (p.Equals(Point1)) return Point2;
-        if (p.Equals(Point2)) return Point1;
+        if (p.equals(Point1)) return Point2;
+        if (p.equals(Point2)) return Point1;
 
         return null;
     }
 
     @Override
     public String toString() { return "Segment(" + Point1.toString() + ", " + Point2.toString() + ")"; }
+
 
 }

@@ -1,4 +1,4 @@
-package PolyID;
+package concreteAST.Figure;
 
 public class NotImplementedException extends Exception
 {
