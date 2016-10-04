@@ -74,4 +74,22 @@ public class SetTargetsTool extends ObjectConstructor {
     public boolean useSmartBoard() {
         return false;
     }
+    
+    @Override
+    public void setConstructionObject(ConstructionObject o, ZirkelCanvas zc) {
+        if (o==null||!o.isFlag()) {
+            return;
+        }
+        if (o.isTarget()) {
+            o.setTarget(false);
+            o.setSelected(false);
+            zc.getConstruction().removeTarget(o);
+        }else{
+            o.setTarget(true);
+            o.setSelected(true);
+            zc.getConstruction().addTarget(o);
+        }
+        zc.repaint();
+        CreateMacroPanel.setTargetsComments();
+    }
 }

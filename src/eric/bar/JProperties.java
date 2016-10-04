@@ -13,11 +13,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package eric.bar;
 
-import eric.GUI.palette.PaletteManager;
-import eric.JColorPicker;
-import eric.JEricPanel;
-import eric.JZirkelCanvas;
-import eric.textfieldpopup.JTextFieldPopup;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -43,6 +38,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Vector;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -65,17 +61,26 @@ import javax.swing.plaf.ComboBoxUI;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalComboBoxUI;
 import javax.swing.text.JTextComponent;
+
+import eric.JColorPicker;
+import eric.JEricPanel;
+import eric.JZirkelCanvas;
+import eric.GUI.palette.PaletteManager;
+import eric.textfieldpopup.JTextFieldPopup;
 import rene.gui.Global;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.ZirkelFrame;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.construction.ConstructionException;
 import rene.zirkel.expression.Expression;
+import rene.zirkel.objects.AngleObject;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.EquationXYObject;
+import rene.zirkel.objects.FixedAngleObject;
 import rene.zirkel.objects.FunctionObject;
 import rene.zirkel.objects.InsideObject;
 import rene.zirkel.objects.IntersectionObject;
+import rene.zirkel.objects.MidpointObject;
 import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.PrimitiveCircleObject;
 import rene.zirkel.objects.SegmentObject;
@@ -85,7 +90,7 @@ import rene.zirkel.objects.VectorObject;
 
 /**
  *
- * @author erichake
+ * @author erichake with addons by Dibs for 3D
  */
 public class JProperties extends JTabPanel {
 
@@ -123,13 +128,20 @@ public class JProperties extends JTabPanel {
     myJConditional czvalue; //Layer num
     private static myJX X;
     private static myJY Y;
+    private static myJX3D X3D;
+    private static myJY3D Y3D;
+    private static myJZ3D Z3D;
     myXYlink XYlink;
+    myXYZlink XYZlink;
     myJAbsolutePos AbsPos;
     myJFx Fx;
+    myJFx3D Fx3D;
     myJGrid Grid;
     myJInside Inside;
     private static myJR ray;
+    private static myJR3D ray3D;
     myJRFx RFx;
+    myJRFx3D RFx3D;
     private static myJA angle;
     myJAFx aFx;
     myJTextArea text;
@@ -208,11 +220,19 @@ public class JProperties extends JTabPanel {
 
         X=new myJX("X :", "", 25, 300, TextFieldHeight);
         Y=new myJY("Y :", "", 25, 300, TextFieldHeight);
+        
+        X3D=new myJX3D("X :", "", 25, 300, TextFieldHeight);
+        Y3D=new myJY3D("Y :", "", 25, 300, TextFieldHeight);
+        Z3D=new myJZ3D("Z :", "", 25, 300, TextFieldHeight);
         XYlink=new myXYlink();
+        XYZlink=new myXYZlink();
         Fx=new myJFx(Loc("fix"), false, 130, TextFieldHeight);
+        Fx3D=new myJFx3D(Loc("fix"), false, 130, TextFieldHeight);
         AbsPos=new myJAbsolutePos(Loc("fixedinwindow"), false, 150, TextFieldHeight);
         ray=new myJR(Loc("fixedray"), "", 75, 300+XYlink.W, TextFieldHeight);
+        ray3D=new myJR3D(Loc("fixedray"), "", 80, 300+XYlink.W, TextFieldHeight);
         RFx=new myJRFx(Loc("fix"), false, 300+XYlink.W, TextFieldHeight);
+        RFx3D=new myJRFx3D(Loc("fix"), false, 300+XYlink.W, TextFieldHeight);
         angle=new myJA(Loc("fixedangle"), "", 75, 300+XYlink.W, TextFieldHeight);
         aFx=new myJAFx(Loc("fix"), false, 300+XYlink.W, TextFieldHeight);
 
@@ -443,6 +463,16 @@ public class JProperties extends JTabPanel {
 //        addToNum(new myRubSep());
 
         addCoords();
+        if (O instanceof VectorObject &&((VectorObject) O).is3D()) {
+        	JEricPanel rub=new myRub();
+            rub.add(margintop(2));
+            Fx3D.init();
+            rub.add(Fx3D);
+            rub.add(margintop(Fx3D.H+2));
+            addToNum(rub);
+            rub.add(margintop(2*Fx3D.H+4));
+            addToNum(new myRubSep());
+        }
         addPointsGoodies();
         addRadius();
         addAngle();
@@ -480,6 +510,8 @@ public class JProperties extends JTabPanel {
                 FocusAndSelect(ray.JTF, forcevisible);
             } else if ((ASegment.indexOf(typecode)!=-1)) {
                 FocusAndSelect(ray.JTF, forcevisible);
+            } else if ((ASegment.indexOf(typecode)!=-1)&&((SegmentObject)O).is3D()) {
+                FocusAndSelect(ray3D.JTF, forcevisible);
             } else if ((AAngle.indexOf(typecode)!=-1)) {
                 FocusAndSelect(angle.JTF, forcevisible);
             } else {
@@ -570,6 +602,10 @@ public class JProperties extends JTabPanel {
         rub.add(alias);
 
         addMain(rub);
+        if (JZirkelCanvas.getCurrentZC().is3D()&&(O.getName().equals("O")||O.getName().equals("X")||O.getName().equals("Y")||O.getName().equals("Z")||O.getName().equals("s6")||O.getName().equals("s7")||O.getName().equals("s8"))) { // Dibs
+                name.setEditable(false);
+                alias.setEditable(false);
+            }
     }
 
     public static void refreshCoords(){
@@ -578,10 +614,16 @@ public class JProperties extends JTabPanel {
 	if(!isNotObjectWithCoords()){
 	    X.init();
 	    Y.init();
-	    if(ASegment.indexOf(typecode)==14)
-		ray.init();
+	    X3D.init();
+	    Y3D.init();
+	    Z3D.init();
+	    if(ASegment.indexOf(typecode)==14) {
+		if (((SegmentObject) O).is3D())   ray3D.init();
+		else ray.init();
+	    }
 	} else if(ASegment.indexOf(typecode)!=-1 || ACircle.indexOf(typecode)!=-1){
-	    ray.init();
+		if (O instanceof SegmentObject&&((SegmentObject) O).is3D())   ray3D.init();
+		else ray.init();
 	} else if(AAngle.indexOf(typecode)!=-1){
 	    angle.init();
 	}
@@ -595,82 +637,113 @@ public class JProperties extends JTabPanel {
         }
 	if(O instanceof SegmentObject && !((SegmentObject) O).isArrow())
 	    return;
-        X.init();
-        Y.init();
-        rub.add(margintop(2));
-        JEricPanel coordsCOL=new JEricPanel();
+	rub.add(margintop(2));
+    if (((APoint.indexOf(typecode)!=-1)&&((PointObject) O).is3D())&&O!=ZC.getConstruction().find("O")||(O instanceof VectorObject &&((VectorObject) O).is3D())) {
+    	X3D.init();
+        Y3D.init();
+        Z3D.init();
+        if (O instanceof PointObject&&((PointObject) O).isPointOn()){
+            X3D.setEditable(false);
+            Y3D.setEditable(false);
+            Z3D.setEditable(false);
+        }
+        else {
+            X3D.setEditable(true);
+            Y3D.setEditable(true);
+            Z3D.setEditable(true);
+        }
+    	JEricPanel coordsCOL=new JEricPanel();
         coordsCOL.setOpaque(false);
         coordsCOL.setLayout(new BoxLayout(coordsCOL, BoxLayout.Y_AXIS));
         JEricPanel coordsLNE=new JEricPanel();
         coordsLNE.setOpaque(false);
         coordsLNE.setLayout(new BoxLayout(coordsLNE, BoxLayout.X_AXIS));
         coordsLNE.setAlignmentX(0F);
-        coordsCOL.add(X);
+        coordsCOL.add(X3D);
         coordsCOL.add(margintop(1));
-        coordsCOL.add(Y);
+        coordsCOL.add(Y3D);
+        coordsCOL.add(margintop(1));
+        coordsCOL.add(Z3D);
         coordsLNE.add(coordsCOL);
-        coordsLNE.add(XYlink);
-        rub.add(coordsLNE);
-//        rub.add(margintop(1));
-//        rub.add(AbsPos);
-        rub.add(margintop(1));
+        coordsLNE.add(XYZlink);
+        rub.add(coordsLNE);     
+    }
+    else {
+    X.init();
+    Y.init();
+    JEricPanel coordsCOL=new JEricPanel();
+    coordsCOL.setOpaque(false);
+    coordsCOL.setLayout(new BoxLayout(coordsCOL, BoxLayout.Y_AXIS));
+    JEricPanel coordsLNE=new JEricPanel();
+    coordsLNE.setOpaque(false);
+    coordsLNE.setLayout(new BoxLayout(coordsLNE, BoxLayout.X_AXIS));
+    coordsLNE.setAlignmentX(0F);
+    coordsCOL.add(X);
+    coordsCOL.add(margintop(1));
+    coordsCOL.add(Y);
+    coordsLNE.add(coordsCOL);
+    coordsLNE.add(XYlink);
+    rub.add(coordsLNE);
+ //	rub.add(margintop(1));
+ //	rub.add(AbsPos);
+    rub.add(margintop(1));
 
-        ContentLine myline=new ContentLine(X.W+XYlink.W, Fx.H);
-        rub.add(myline);
+    ContentLine myline=new ContentLine(X.W+XYlink.W, Fx.H);
+    rub.add(myline);
 
-        // if it's a Point : (not moveable) or (a PointOn) or a Vector
-        if (!(O.fixed())) {
-	    if (((APoint.indexOf(typecode)!=-1)&&((!((PointObject) O).moveable())||((PointObject) O).isPointOn()))) {
-		X.setEditable(false);
-                Y.setEditable(false);
-            } else {
-		X.setEditable(true);
-                Y.setEditable(true);
-                Fx.init();
-                myline.add(Fx);
-            }
-        } else {
-            X.setEditable(true);
-            Y.setEditable(true);
-	    //un vecteur ou tout autre objet mais pas un segment
-            if(ASegment.indexOf(typecode)==14 || ASegment.indexOf(typecode)==-1){
-		Fx.init();
-		myline.add(Fx);
-	    }
-        }
-
-        //if it's a point inside a polygon or circle :
-        if (((APoint.indexOf(typecode)!=-1))&&((PointObject) O).isPointOn()) {
-            X.setEditable(false);
+    // if it's a Point : (not moveable) or (a PointOn) or a Vector
+    if (!(O.fixed())) {
+    if (((APoint.indexOf(typecode)!=-1)&&((!((PointObject) O).moveable())||((PointObject) O).isPointOn()))) {
+	X.setEditable(false);
             Y.setEditable(false);
-            if (((PointObject) O).getBound() instanceof InsideObject) {
-                Inside.init();
-                myline.add(Inside);
-            }
-        }
-
-
-        if (((APoint.indexOf(typecode)!=-1))&&((PointObject) O).moveable()&&(!(((PointObject) O).isPointOn()))) {
-            Grid.setEditable(true);
-            X.setEditable(true);
+        } else {
+	X.setEditable(true);
             Y.setEditable(true);
-            Grid.init();
-
-            myline.add(Grid);
+            Fx.init();
+            myline.add(Fx);
         }
-
-        if (((APoint.indexOf(typecode)!=-1))&&(((PointObject) O).isPointOn())) {
-            Grid.setEditable(true);
-            Grid.init();
-//            myline.add(margin(Fx.W));
-            myline.add(Grid);
-        }
-
-
-        addToNum(rub);
-        addToNum(new myRubSep());
+    } else {
+        X.setEditable(true);
+        Y.setEditable(true);
+    //un vecteur ou tout autre objet mais pas un segment
+        if(ASegment.indexOf(typecode)==14 || ASegment.indexOf(typecode)==-1){
+	Fx.init();
+	myline.add(Fx);
+    }
     }
 
+    //if it's a point inside a polygon or circle :
+    if (((APoint.indexOf(typecode)!=-1))&&((PointObject) O).isPointOn()) {
+        X.setEditable(false);
+        Y.setEditable(false);
+        if (((PointObject) O).getBound() instanceof InsideObject) {
+            Inside.init();
+            myline.add(Inside);
+        }
+    }
+
+
+    if (((APoint.indexOf(typecode)!=-1))&&((PointObject) O).moveable()&&(!(((PointObject) O).isPointOn()))) {
+        Grid.setEditable(true);
+        X.setEditable(true);
+        Y.setEditable(true);
+        Grid.init();
+
+        myline.add(Grid);
+    }
+
+    if (((APoint.indexOf(typecode)!=-1))&&(((PointObject) O).isPointOn())) {
+        Grid.setEditable(true);
+        Grid.init();
+//        myline.add(margin(Fx.W));
+        myline.add(Grid);
+    }
+
+    }
+    addToNum(rub);
+    addToNum(new myRubSep());
+    
+}
     private void addPointsGoodies() {
         if ((APoint.indexOf(typecode)==-1)) {
             return;
@@ -678,10 +751,34 @@ public class JProperties extends JTabPanel {
         if ((!O.fixed())&&(!((PointObject) O).moveable())) {
             return;
         }
-
         JEricPanel rub=new myRub();
         rub.add(margintop(2));
-
+        if (((O instanceof PointObject&&((PointObject) O).is3D()&&((PointObject) O).getBound()==null)&&O!=ZC.getConstruction().find("O"))||(O instanceof MidpointObject&&((MidpointObject) O).is3D())) { //Dibs
+        	Fx3D.init();
+            rub.add(Fx3D);
+            rub.add(margintop(Fx3D.H+2));
+          //if it's a point inside a polygon or circle :
+            if (((APoint.indexOf(typecode)!=-1))&&((PointObject) O).isPointOn()) {
+                X.setEditable(false);
+                Y.setEditable(false);
+                if (((PointObject) O).getBound() instanceof InsideObject) {
+                    Inside.init();
+                    rub.add(Inside);
+                }
+            }
+            else {
+            	PointObject p=(PointObject) O;
+            	if (p.moveablePoint()) {
+            	ptbindbtn.init();
+                rub.add(ptbindbtn);
+            	}
+            }
+            addToNum(rub);
+            rub.add(margintop(2*Fx3D.H+4));
+            addToNum(new myRubSep());
+            return;
+        }
+        
         if (!((PointObject) O).isPointOn()) {
             AbsPos.init();
             rub.add(AbsPos);
@@ -705,16 +802,28 @@ public class JProperties extends JTabPanel {
         if ((ACircle.indexOf(typecode)==-1)&&(ASegment.indexOf(typecode)==-1)) {
             return;
         }
-        if (O.canFix()) {
+        if (O instanceof SegmentObject&&((SegmentObject) O).is3D()) {
+            JEricPanel rub=new myRub(200,40);
+        	ray3D.init();
+        	RFx3D.init();
+        	String mytxt=Loc("fixedsegment3D");
+        	ray3D.setLabelTxt(mytxt);
+        	rub.add(ray3D);
+        	//rub.add(margintop(ray3D.H+2));
+        	rub.add(margintop(2));
+        	// rub.add(RFx3D); ! Dibs : à gérer plus tard... déplacement en mode longueur fixe
+        	addToNum(rub);
+            addToNum(new myRubSep());
+        }
+        else if (O.canFix()) {
             JEricPanel rub=new myRub();
-            ray.init();
-            RFx.init();
-            String mytxt=(ACircle.indexOf(typecode)!=-1)?Loc("fixedray"):Loc("fixedsegment");
-            ray.setLabelTxt(mytxt);
-            rub.add(margintop(2));
-            rub.add(ray);
-            rub.add(margintop(ray.H+2));
-            rub.add(RFx);
+    		ray.init();
+    		RFx.init();
+    		String mytxt=(ACircle.indexOf(typecode)!=-1)?Loc("fixedray"):Loc("fixedsegment");
+    		ray.setLabelTxt(mytxt);
+    		rub.add(ray);
+    		rub.add(margintop(ray.H+2));
+    		rub.add(RFx);
             addToNum(rub);
             addToNum(new myRubSep());
         }
@@ -732,7 +841,13 @@ public class JProperties extends JTabPanel {
             rub.add(margintop(2));
             rub.add(angle);
             rub.add(margintop(angle.H+2));
-            rub.add(aFx);
+            if (O instanceof AngleObject && ((AngleObject) O).getP1().is3D()&&((AngleObject) O).getP2().is3D()) {
+                angle.setEditable(false);
+            	}
+            else {
+            	rub.add(aFx);
+            	angle.setEditable(true);
+            	}
             addToNum(rub);
             addToNum(new myRubSep());
         }
@@ -1018,8 +1133,7 @@ public class JProperties extends JTabPanel {
         }
         rub.add(margintop(1));
         track.init();
-        rub.add(track);
-
+    	rub.add(track);
 
 //        if (APoint.indexOf(typecode)!=-1) {
 //            track.init();
@@ -1877,7 +1991,6 @@ public class JProperties extends JTabPanel {
                 myX=myX.replace("x(", "y(");
                 Y.setText(myX);
             }
-
             O.setFixed(X.getText(), Y.getText());
             Fx.setSelected(true);
             current=getText();
@@ -1903,9 +2016,8 @@ public class JProperties extends JTabPanel {
                 if (XYlink.isSelected()) {
                     Y.setText(Y.origin);
                 }
-
-                O.setFixed(X.getText(), Y.getText());
                 Fx.setSelected(true);
+                O.setFixed(X.getText(), Y.getText());
                 O.move(O.getX(), O.getY());
                 ZC.recompute();
                 ZC.validate();
@@ -2012,6 +2124,258 @@ public class JProperties extends JTabPanel {
             origin=current;
         }
     }
+    
+    class myJX3D extends myJLine {
+        String origin="";
+        String current="";
+
+        public myJX3D(String comment, String txt, int comwidth, int width, int height) {
+            super(comment, txt, comwidth, width, height, true);
+            contextHelp="prop_coordinates";
+            carPopup.setDisabled(","+JTextFieldPopup.LATEXMENU+",");
+//            fixsize(this.JTF,this.JTF.getSize().width-18,this.JTF.getSize().height);
+//            fixsize(this,this.getSize().width-30,this.getSize().height);
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (current.equals(getText())) {
+                return;
+            }
+            if (XYZlink.isSelected()) {
+            		String myX3D=X3D.getText();
+            		String myY3D, myZ3D;
+            		myY3D=myX3D.replace("x3D(", "y3D(");
+            		myZ3D=myX3D.replace("x3D(", "z3D(");
+                   Y3D.setText(myY3D);
+                   Z3D.setText(myZ3D);
+            }
+            Fx3D.setSelected(true);
+            O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+            current=getText();
+           // Fx3D.init();
+          //O.move(O.getX(), O.getY());
+            ZC.recompute();
+            ZC.validate();
+            ZC.repaint();
+	    ZC.update_distant(O, 3);
+        }
+
+	@Override
+        public void doQuitMe(Component e) {
+            if (O==null) {
+                return;
+            }
+            if (!(isValidExpression(getText()))) {
+                JOptionPane.showMessageDialog(null, Loc("error"));
+                if (!(isValidExpression(origin))) {
+                    origin="0";
+                }
+                setText(origin);
+                if (XYZlink.isSelected()) {
+                    Y3D.setText(Y3D.origin);
+                    Z3D.setText(Z3D.origin);
+                }
+                O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+	            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+                //O.move(O.getX(), O.getY());
+                Fx3D.setSelected(true);
+                ZC.recompute();
+                ZC.validate();
+                ZC.repaint();
+                this.JTF.requestFocus();
+            } else {
+                origin=getText();
+                if (XYZlink.isSelected()) {
+                    Y3D.origin=Y.getText();
+                    Z3D.origin=Z3D.getText();
+                }
+            }
+        }
+	
+	 public void init() {
+		    boolean fixed3D = (O instanceof VectorObject || O.fixed3D()) && O.fixedCoord3D();
+
+		    if (fixed3D) {
+	                if (isAbsolutePoint()) {
+	                    current=Loc("fixedinwindow");
+	                } else {
+	                    current=(isValidExpression(O.getEX3Dpos()))?O.getEX3Dpos():"????";
+	                }
+	            } else {
+			if(ASegment.indexOf(typecode)==14){
+			    VectorObject v = (VectorObject) O;
+			    current=String.valueOf(v.getDeltaX3D());
+			} else {
+			    current=String.valueOf(O.getX3D());
+			}
+	            }
+	            setText(current);
+	            origin=current;
+	        }
+	 
+ }
+	
+	class myJY3D extends myJLine {
+        String origin="";
+        String current="";
+
+        public myJY3D(String comment, String txt, int comwidth, int width, int height) {
+            super(comment, txt, comwidth, width, height, true);
+            contextHelp="prop_coordinates";
+            carPopup.setDisabled(","+JTextFieldPopup.LATEXMENU+",");
+//            fixsize(this.JTF,this.JTF.getSize().width-18,this.JTF.getSize().height);
+//            fixsize(this,this.getSize().width-30,this.getSize().height);
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (current.equals(getText())) {
+                return;
+            }
+            Fx3D.setSelected(true);
+            O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+            current=getText();
+            //Fx3D.init();
+            //O.move(O.getX(), O.getY());
+            ZC.recompute();
+            ZC.validate();
+            ZC.repaint();
+	    ZC.update_distant(O, 3);
+        }
+
+	@Override
+        public void doQuitMe(Component e) {
+            if (O==null) {
+                return;
+            }
+            if (!(isValidExpression(getText()))) {
+                JOptionPane.showMessageDialog(null, Loc("error"));
+                if (!(isValidExpression(origin))) {
+                    origin="0";
+                }
+                setText(origin);
+                if (XYZlink.isSelected()) {
+                    X3D.setText(X3D.origin);
+                    Z3D.setText(Z3D.origin);
+                }
+                O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+	            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+                //O.move(O.getX(), O.getY());
+                Fx3D.setSelected(true);
+                ZC.recompute();
+                ZC.validate();
+                ZC.repaint();
+                this.JTF.requestFocus();
+            } else {
+                origin=getText();
+            }
+        }
+	
+	public void init() {
+	    boolean fixed3D = (O instanceof VectorObject || O.fixed3D()) && O.fixedCoord3D();
+
+	    if (fixed3D) {
+                if (isAbsolutePoint()) {
+                    current=Loc("fixedinwindow");
+                } else {
+                    current=(isValidExpression(O.getEY3Dpos()))?O.getEY3Dpos():"????";
+                }
+            } else {
+		if(ASegment.indexOf(typecode)==14){
+		    VectorObject v = (VectorObject) O;
+		    current=String.valueOf(v.getDeltaY3D());
+		} else {
+		    current=String.valueOf(O.getY3D());
+		}
+            }
+            setText(current);
+            origin=current;
+        }
+	
+	}
+	
+	class myJZ3D extends myJLine {
+        String origin="";
+        String current="";
+
+        public myJZ3D(String comment, String txt, int comwidth, int width, int height) {
+            super(comment, txt, comwidth, width, height, true);
+            contextHelp="prop_coordinates";
+            carPopup.setDisabled(","+JTextFieldPopup.LATEXMENU+",");
+//            fixsize(this.JTF,this.JTF.getSize().width-18,this.JTF.getSize().height);
+//            fixsize(this,this.getSize().width-30,this.getSize().height);
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (current.equals(getText())) {
+                return;
+            }
+            Fx3D.setSelected(true);
+            O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+            current=getText();
+            //Fx3D.init();
+            //O.move(O.getX(), O.getY());
+            ZC.recompute();
+            ZC.validate();
+            ZC.repaint();
+	    ZC.update_distant(O, 3);
+        }
+
+	@Override
+        public void doQuitMe(Component e) {
+            if (O==null) {
+                return;
+            }
+            if (!(isValidExpression(getText()))) {
+                JOptionPane.showMessageDialog(null, Loc("error"));
+                if (!(isValidExpression(origin))) {
+                    origin="0";
+                }
+                setText(origin);
+                if (XYZlink.isSelected()) {
+                    Y3D.setText(Y3D.origin);
+                    X3D.setText(X3D.origin);
+                }
+                O.setFixed(X3D.getText(), Y3D.getText(), Z3D.getText());
+	            //O.setFixed("x(O)+("+X3D.getText()+")*(x(X)-x(O))+("+Y3D.getText()+")*(x(Y)-x(O))+("+Z3D.getText()+")*(x(Z)-x(O))", "y(O)+("+X3D.getText()+")*(y(X)-y(O))+("+Y3D.getText()+")*(y(Y)-y(O))+("+Z3D.getText()+")*(y(Z)-y(O))");
+                //O.move(O.getX(), O.getY());
+                Fx3D.setSelected(true);
+                ZC.recompute();
+                ZC.validate();
+                ZC.repaint();
+                this.JTF.requestFocus();
+            } else {
+                origin=getText();
+            }
+        }
+	
+	public void init() {
+	    boolean fixed3D = (O instanceof VectorObject || O.fixed3D()) && O.fixedCoord3D();
+
+	    if (fixed3D) {
+                if (isAbsolutePoint()) {
+                    current=Loc("fixedinwindow");
+                } else {
+                    current=(isValidExpression(O.getEZ3Dpos()))?O.getEZ3Dpos():"????";
+                }
+            } else {
+		if(ASegment.indexOf(typecode)==14){
+		    VectorObject v = (VectorObject) O;
+		    current=String.valueOf(v.getDeltaZ3D());
+		} else {
+		    current=String.valueOf(O.getZ3D());
+		}
+            }
+            setText(current);
+            origin=current;
+        }
+	
+	}
 
     class myJR extends myJLine {
 
@@ -2073,6 +2437,70 @@ public class JProperties extends JTabPanel {
             current=O.getStringLength();
             setText(current);
             origin=current;
+        }
+    }
+    
+    class myJR3D extends myJLine {
+
+        String origin="";
+        String current="";
+
+        public myJR3D(String comment, String txt, int comwidth, int width, int height) {
+            super(comment, txt, comwidth, width, height, true);
+            contextHelp="prop_length";
+            carPopup.setDisabled(","+JTextFieldPopup.LATEXMENU+",");
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (current.equals(getText())) {
+                return;
+            }
+            try {
+                O.setFixed3D(true, getText());
+                O.setFixed(getText());
+                O.setDragable(false);
+                RFx3D.setSelected(false);
+                current=getText();
+                ZC.recompute();
+                ZC.validate();
+                ZC.repaint();
+            } catch (Exception ex) {
+            }
+
+        }
+
+	@Override
+        public void doQuitMe(Component e) {
+            if (O==null) {
+                return;
+            }
+            if (!(isValidExpression(getText()))) {
+                JOptionPane.showMessageDialog(null, Loc("error"));
+                if (!(isValidExpression(origin))) {
+                    origin="0";
+                }
+
+                try {
+                    O.setFixed3D(true, origin);
+                    setText(origin);
+                    RFx3D.setSelected(true);
+                    ZC.recompute();
+                    ZC.validate();
+                    ZC.repaint();
+                } catch (Exception ex) {
+                }
+                this.JTF.requestFocus();
+            } else {
+                origin=getText();
+            }
+        }
+
+        public void init() {
+            current=((SegmentObject)O).getStringLength3D();
+            setText(current);
+            origin=current;
+            setEditable(false);
         }
     }
 
@@ -2161,6 +2589,7 @@ public class JProperties extends JTabPanel {
                     ray.setText(val);
                     O.setDragable(true);
                     O.setFixed(false, val);
+                    O.setFixed(false);
                 } catch (Exception ex) {
                 }
 
@@ -2170,7 +2599,7 @@ public class JProperties extends JTabPanel {
                     ray.setText(val);
                     O.setDragable(false);
                     O.setFixed(true, val);
-                    O.setFixed(val);
+                    O.setFixed(true);
 		    if(ASegment.indexOf(typecode)==14 && O.fixedCoord()){
 			O.setFixed(false);
 		    }
@@ -2181,6 +2610,53 @@ public class JProperties extends JTabPanel {
 
         public void init() {
             setSelected((!(O.isDragable()))&&(O.fixed()));
+        }
+    }
+    
+    class myJRFx3D extends myJLine {
+
+        public myJRFx3D(String comment, boolean bool, int width, int height) {
+            super(comment, bool, width, height);
+
+	    JCBX.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+		    if(ASegment.indexOf(typecode)!=-1) {
+			setObject(O, false, false);
+		    }
+                }
+            });
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (isSelected()) {
+                try {
+                    String val=String.valueOf(ValueOf(O.getStringLength3D()));
+                    O.setFixed3D(false, val);
+                    O.setFixed3D(false);
+                    ray3D.setText(val);
+                    O.setDragable(true);   
+                } catch (Exception ex) {
+                }
+
+            } else {
+                try {
+                    String val=String.valueOf(ValueOf(O.getStringLength3D()));
+                    ray3D.setText(val);
+                    O.setDragable(false);
+                    O.setFixed3D(true, val);
+                    O.setFixed3D(true);
+		    if(ASegment.indexOf(typecode)==14 && O.fixedCoord3D()){
+			O.setFixed3D(false);
+		    }
+                } catch (Exception ex) {
+                }
+            }
+        }
+
+        public void init() {
+            setSelected((!(O.isDragable()))&&(O.fixed3D()));
         }
     }
 
@@ -2267,6 +2743,42 @@ public class JProperties extends JTabPanel {
 //        ImageIcon myimage;
 
         public myXYlink() {
+            this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+            this.setOpaque(false);
+            btn=new JButton();
+            ImageIcon imgOFF=new ImageIcon(getClass().getResource("/eric/GUI/icons/palette/chaineOFF.png"));
+            btn.setIcon(imgOFF);
+            btn.setSelectedIcon(new ImageIcon(getClass().getResource("/eric/GUI/icons/palette/chaine.png")));
+            btn.setSelected(true);
+            btn.addMouseListener(new java.awt.event.MouseAdapter() {
+
+		@Override
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    btn.setSelected(!btn.isSelected());
+                }
+            });
+            btn.setOpaque(false);
+            btn.setContentAreaFilled(false);
+            btn.setFocusable(false);
+            W=imgOFF.getIconWidth();
+            H=imgOFF.getIconHeight();
+            fixsize(btn, W, H);
+            btn.setBorder(BorderFactory.createEmptyBorder());
+            this.add(btn);
+        }
+
+        public boolean isSelected() {
+            return btn.isSelected();
+        }
+    }
+    
+    class myXYZlink extends JEricPanel {
+
+        int H, W;
+        JButton btn;
+//        ImageIcon myimage;
+
+        public myXYZlink() {
             this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
             this.setOpaque(false);
             btn=new JButton();
@@ -2394,6 +2906,51 @@ public class JProperties extends JTabPanel {
 	    boolean fixed = (O instanceof VectorObject || O.fixed()) && O.fixedCoord();
             setSelected(fixed);
 
+        }
+    }
+    
+    class myJFx3D extends myJLine {
+
+        public myJFx3D(String comment, boolean bool, int width, int height) {
+            super(comment, bool, width, height);
+
+	    JCBX.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    setObject(O, false, false);
+                }
+            });
+        }
+
+	@Override
+        public void doAction(Component e) {
+            if (isSelected()) {
+                if (O instanceof PointObject) ((PointObject) O).setFixed3D(false);
+		if(ASegment.indexOf(typecode)==14){
+		    VectorObject o = (VectorObject) O;
+		    X3D.setText(String.valueOf(o.getDeltaX3D()));
+		    Y3D.setText(String.valueOf(o.getDeltaY3D()));
+		    Z3D.setText(String.valueOf(o.getDeltaZ3D()));
+		} else {
+		    X3D.setText(String.valueOf(((PointObject)O).getX3D()));
+		    Y3D.setText(String.valueOf(((PointObject)O).getY3D()));
+		    Z3D.setText(String.valueOf(((PointObject)O).getZ3D()));
+		}
+            } else {
+		if(ASegment.indexOf(typecode)==14){
+		    VectorObject o = (VectorObject) O;
+		    ((VectorObject)O).setFixed(String.valueOf(o.getDeltaX3D()), String.valueOf(o.getDeltaY3D()), String.valueOf(o.getDeltaZ3D()));
+		} else {
+		   ((PointObject) O).setFixed(String.valueOf(((PointObject)O).getX3D()), String.valueOf(((PointObject)O).getY3D()),String.valueOf(((PointObject)O).getZ3D()));
+		   setSelected(true);
+		}
+            }
+        }
+
+        public void init() {
+            JCBX.setEnabled(true);
+	    boolean fixed = (O instanceof VectorObject || (O instanceof PointObject&&((PointObject)O).fixed3D())) && O.fixedCoord3D();
+            setSelected(fixed);
         }
     }
 

@@ -437,10 +437,74 @@ public class JZirkelCanvas extends JEricPanel {
             newstatus=newstatus.substring(index);
             newstatus=newstatus.replaceAll("\\Q@builtin@/3Dtetra\\E",
                     Global.Loc("palette.info.bi_3Dtetra"));
+        } else if ((index=status.indexOf("@builtin@/3Docta"))>0) {
+            newstatus=newstatus.substring(index);
+            newstatus=newstatus.replaceAll("\\Q@builtin@/3Docta\\E",
+                    Global.Loc("palette.info.bi_3Docta"));
+        } else if ((index=status.indexOf("@builtin@/3Disoc"))>0) {
+            newstatus=newstatus.substring(index);
+            newstatus=newstatus.replaceAll("\\Q@builtin@/3Disoc\\E",
+                    Global.Loc("palette.info.bi_3Disoc"));
         } else if ((index=status.indexOf("@builtin@/3Ddode"))>0) {
             newstatus=newstatus.substring(index);
             newstatus=newstatus.replaceAll("\\Q@builtin@/3Ddode\\E",
                     Global.Loc("palette.info.bi_3Ddode"));
+        } else if ((index=status.indexOf("@builtin@/3Dsymp"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dsymp\\E",
+        			Global.Loc("palette.info.bi_3Dsymp"));
+        } else if ((index=status.indexOf("@builtin@/3Dproj"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dproj\\E",
+        			Global.Loc("palette.info.bi_3Dproj"));
+        } else if ((index=status.indexOf("@builtin@/3Dsymc"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dsymc\\E",
+        			Global.Loc("palette.info.bi_3Dsymc"));
+        } else if ((index=status.indexOf("@builtin@/3Dtrans"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dtrans\\E",
+        			Global.Loc("palette.info.bi_3Dtrans"));
+        } else if ((index=status.indexOf("@builtin@/3Dcircle1"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dcircle1\\E",
+        			Global.Loc("palette.info.bi_3Dcircle1"));
+        } else if ((index=status.indexOf("@builtin@/3Dcircle2"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dcircle2\\E",
+        			Global.Loc("palette.info.bi_3Dcircle2"));
+        } else if ((index=status.indexOf("@builtin@/3Dcircle3pts"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dcircle3pts\\E",
+        			Global.Loc("palette.info.bi_3Dcircle3pts"));
+        } else if ((index=status.indexOf("@builtin@/3Dplandroite"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dplandroite\\E",
+        			Global.Loc("palette.info.bi_3Dplandroite"));
+        } else if ((index=status.indexOf("@builtin@/3Dplanplan"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dplanplan\\E",
+        			Global.Loc("palette.info.bi_3Dplanplan"));
+        } else if ((index=status.indexOf("@builtin@/3Dsphererayon"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dsphererayon\\E",
+        			Global.Loc("palette.info.bi_3Dsphererayon"));
+        } else if ((index=status.indexOf("@builtin@/3Dspherepoint"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dspherepoint\\E",
+        			Global.Loc("palette.info.bi_3Dspherepoint"));
+        } else if ((index=status.indexOf("@builtin@/3Dspheredroite"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dspheredroite\\E",
+        			Global.Loc("palette.info.bi_3Dspheredroite"));
+        } else if ((index=status.indexOf("@builtin@/3Dsphereplan"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dsphereplan\\E",
+        			Global.Loc("palette.info.bi_3Dsphereplan"));
+        } else if ((index=status.indexOf("@builtin@/3Dspheresphere"))>0) {
+        	newstatus=newstatus.substring(index);
+        	newstatus=newstatus.replaceAll("\\Q@builtin@/3Dspheresphere\\E",
+        			Global.Loc("palette.info.bi_3Dspheresphere"));
         }
 
         return newstatus;
@@ -461,7 +525,7 @@ public class JZirkelCanvas extends JEricPanel {
     }
 
     public static void setFactoryProperties(){
-        Global.setParameter("colorbackground", new Color(245,245,245));
+        //Global.setParameter("colorbackground", new Color(245,245,245));
         Global.setParameter("colorbackgroundx", 139);
         Global.setParameter("colorbackgroundy", 9);
         Global.setParameter("colorbackgroundPal", 4);
@@ -475,6 +539,9 @@ public class JZirkelCanvas extends JEricPanel {
         boolean b=getCurrentJZF().close();
         if (b) {
             if (tab_main_panel.getBTNSsize()==1) {
+                if (getCurrentDPMode()) {
+                Global.setParameter("colorbackground", new Color(245,245,245));
+                 }
                 setFactoryProperties();
                 Global.saveProperties("CaR Properties");
                 MacroTools.saveLibraryToDisk();
@@ -500,7 +567,9 @@ public class JZirkelCanvas extends JEricPanel {
                     FileTools.saveWorkBook(getWorkBookFileName());
                 }
             }
-
+            if (getCurrentDPMode()) {
+                Global.setParameter("colorbackground", new Color(245,245,245));
+            }
             setFactoryProperties();
             Global.saveProperties("CaR Properties");
             MacroTools.saveLibraryToDisk();

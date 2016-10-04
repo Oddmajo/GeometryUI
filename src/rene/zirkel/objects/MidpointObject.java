@@ -81,6 +81,10 @@ public class MidpointObject extends PointObject {
 		else {
 			Valid = true;
 			setXY((P1.getX() + P2.getX()) / 2, (P1.getY() + P2.getY()) / 2);
+			if (P1.is3D()&&P2.is3D()) {
+				setXYZ((P1.getX3D() + P2.getX3D()) / 2, (P1.getY3D() + P2.getY3D()) / 2, (P1.getZ3D() + P2.getZ3D()) / 2);
+				setIs3D(true);
+			}
 		}
 	}
 

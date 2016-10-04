@@ -38,7 +38,6 @@ import rene.zirkel.expression.InvalidException;
 
 public class FixedCircleObject extends PrimitiveCircleObject implements
 MoveableObject, SimulationObject {
-
 	Expression E;
 	boolean EditAborted = false;
 	boolean Dragable = false;
@@ -68,7 +67,9 @@ MoveableObject, SimulationObject {
 		if (E == null || !E.isValid()) {
 			return;
 		}
-		setText(text2(Global.name("text.fixedcircle"), M.getName(), ""
+		if (M.is3D()) setText(text2(Global.name("text.sphere"), M.getName(), ""
+				+ E.toString()));
+		else setText(text2(Global.name("text.fixedcircle"), M.getName(), ""
 				+ E.toString()));
 	}
 

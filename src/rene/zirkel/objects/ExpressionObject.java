@@ -77,6 +77,7 @@ public class ExpressionObject extends ConstructionObject implements
         setLarge(Cn.LargeFont);
         setBold(Cn.BoldFont);
         setPartial(Cn.Partial);
+        setPrompt(this.getName()); // Dibs
     }
 
     @Override
@@ -435,7 +436,7 @@ public class ExpressionObject extends ConstructionObject implements
 
     @Override
     public String getPrompt() {
-        return Prompt;
+       return Prompt;
     }
 
     @Override
@@ -534,7 +535,7 @@ public class ExpressionObject extends ConstructionObject implements
             o.setName();
             o.updateText();
             o.setBreak(false);
-            o.setTarget(false);
+//            o.setTarget(false);
             return o;
         } catch (final Exception e) {
             return null;

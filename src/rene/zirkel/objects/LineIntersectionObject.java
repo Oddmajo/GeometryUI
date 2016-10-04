@@ -60,5 +60,42 @@ public class LineIntersectionObject extends IntersectionObject {
 			else if (!((PrimitiveLineObject) P2).contains(X, Y))
 				Valid = false;
 		}
+		if ((P1 instanceof TwoPointLineObject&&((TwoPointLineObject) P1).getP1().is3D())||(P1 instanceof TwoPointLineObject&&((TwoPointLineObject) P1).getP2().is3D())||(P2 instanceof TwoPointLineObject&&((TwoPointLineObject) P2).getP1().is3D())||(P2 instanceof TwoPointLineObject&&((TwoPointLineObject) P2).getP2().is3D())) {
+        	try {	// Dibs intersection 3D
+            	double a1=((TwoPointLineObject) P1).getP1().getX3D();
+            	double b1=((TwoPointLineObject) P1).getP1().getY3D();
+            	double c1=((TwoPointLineObject) P1).getP1().getZ3D();
+            	double a2=((TwoPointLineObject) P1).getP2().getX3D();
+            	double b2=((TwoPointLineObject) P1).getP2().getY3D();
+            	double c2=((TwoPointLineObject) P1).getP2().getZ3D();
+            	double a3=((TwoPointLineObject) P2).getP1().getX3D();
+            	double b3=((TwoPointLineObject) P2).getP1().getY3D();
+            	double c3=((TwoPointLineObject) P2).getP1().getZ3D();
+            	double a4=((TwoPointLineObject) P2).getP2().getX3D();
+            	double b4=((TwoPointLineObject) P2).getP2().getY3D();
+            	double c4=((TwoPointLineObject) P2).getP2().getZ3D();
+            	double det =(a2-a1)*(b3-b4)+(b2-b1)*(a4-a3);
+            	double dets=(b3-b1)*(a4-a3)-(a3-a1)*(b4-b3);
+            	double dett=(a2-a1)*(b3-b1)-(b2-b1)*(a3-a1);
+            	double s=0.0;
+            	double t=0.0;
+            	if (Math.abs(det)<1e-12) {
+            		det =(b2-b1)*(c3-c4)+(c2-c1)*(b4-b3);
+            		dets=(c3-c1)*(b4-b3)-(b3-b1)*(c4-c3);
+            		dett=(b2-b1)*(c3-c1)-(c2-c1)*(b3-b1);
+            	}
+            	s=dets/det;
+        		t=dett/det;
+            	if (Math.abs((c2-c1)*s-(c4-c3)*t-c3+c1)<1e-12) {
+            		setX3D(a1+s*(a2-a1));
+            		setY3D(b1+s*(b2-b1));
+            		setZ3D(c1+s*(c2-c1));
+    				setIs3D(true);
+    				setSuperHidden(false);
+            	}
+            	else setSuperHidden(true);
+        	} catch (final Exception ex) {
+            }	
+        }
 	}
 }

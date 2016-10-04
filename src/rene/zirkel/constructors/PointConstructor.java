@@ -20,7 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package rene.zirkel.constructors;
 
 // file: PointConstructor.java
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import eric.JSelectPopup;
+import eric.GUI.palette.PaletteManager;
 import eric.bar.JPropertiesBar;
 import java.awt.event.MouseEvent;
 
@@ -32,6 +36,7 @@ import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.construction.ConstructionException;
 import rene.zirkel.expression.Expression;
+import rene.zirkel.objects.AreaObject;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.PointonObject;
@@ -150,6 +155,7 @@ public class PointConstructor extends ObjectConstructor {
             throw new ConstructionException("Point coordinates missing!");
         }
         double x=0, y=0;
+        double x3D=0, y3D=0, z3D=0;
         try {
             if (tag.hasParam("actx")) {
                 x=new Double(tag.getValue("actx")).doubleValue();
@@ -170,6 +176,16 @@ public class PointConstructor extends ObjectConstructor {
             p.move(x, y);
         } catch (final Exception e) {
         }
+        if (tag.hasParam("is3D")) {
+        	p.setIs3D(true);
+        	try {
+                x3D=new Expression(tag.getValue("x3D"), c, p).getValue();
+                y3D=new Expression(tag.getValue("y3D"), c, p).getValue();
+                z3D=new Expression(tag.getValue("z3D"), c, p).getValue();
+                p.move3D(x3D, y3D, z3D);
+            } catch (final Exception e) {
+            }
+        }
         setType(tag, p);
         setName(tag, p);
         set(tree, p);
@@ -179,6 +195,12 @@ public class PointConstructor extends ObjectConstructor {
         if (tag.hasParam("fixed")) {
             p.setFixed(tag.getValue("x"), tag.getValue("y"));
         }
+        
+        if (tag.hasParam("fixed3D")) {
+            p.setFixed(tag.getValue("x3D"), tag.getValue("y3D"), tag.getValue("z3D"));
+        }
+
+        
         if (tag.hasParam("increment")) {
             try {
                 p.setIncrement(new Double(tag.getValue("increment")).doubleValue());

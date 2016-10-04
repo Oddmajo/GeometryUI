@@ -30,8 +30,8 @@ import rene.zirkel.construction.Construction;
 
 public class TwoPointLineObject extends PrimitiveLineObject implements
 MoveableObject {
-	protected PointObject P2;
-	double X2, Y2, R;
+	protected PointObject P2, P1;
+	double X2, Y2, R, R3D;
 
 	public TwoPointLineObject(final Construction c, final PointObject p1,
 			final PointObject p2) {
@@ -48,7 +48,11 @@ MoveableObject {
 	public PointObject getP2() {
 		return P2;
 	}
-
+	
+	public PointObject getP1() {
+		return P1;
+	}
+	
         @Override
 	public Enumeration secondaryParams() {
 		DL.reset();
@@ -63,6 +67,10 @@ MoveableObject {
 
 	public double getLength() {
 		return R;
+	}
+	
+	public double getLength3D() {
+		return R3D;
 	}
 
 	@Override

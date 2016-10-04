@@ -610,7 +610,16 @@ public class ZirkelFrame implements StatusListener,
      */
     public void settool(final int i) {
         CurrentTool=i;
-        ZC.setTool(ObjectConstructors[i]);
+        /*
+         * The if condition is necessary to make the macros run
+         * when selected form the menu bar because
+         * ZC is NOT the CurrentZC ???
+         */
+        if(JZirkelCanvas.getCurrentZC()!=null) {
+            JZirkelCanvas.getCurrentZC().setTool(ObjectConstructors[i]);
+        } else {
+            ZC.setTool(ObjectConstructors[i]);
+        }
         ObjectConstructors[i].resetFirstTime(ZC);
     }
 

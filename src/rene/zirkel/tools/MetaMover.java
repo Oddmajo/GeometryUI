@@ -21,6 +21,10 @@ package rene.zirkel.tools;
 
 // file: MetaMover.java
 
+import java.util.ArrayList;
+import java.util.Enumeration;
+
+import eric.GUI.palette.PaletteManager;
 import eric.bar.JPropertiesBar;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
@@ -28,6 +32,7 @@ import java.awt.event.MouseEvent;
 import rene.gui.Global;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.constructors.ObjectConstructor;
+import rene.zirkel.objects.AreaObject;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.FixedAngleObject;
 import rene.zirkel.objects.FixedCircleObject;

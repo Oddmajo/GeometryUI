@@ -594,7 +594,8 @@ PointonObject, HeavyObject, DriverObject, Evaluator {
 		y = zc.row(coord0.Y) - zc.pointSize() - zc.getOne();
 		g.fillOval(x, y, w, w, this.getColor());
 	    } else if(isMinOpen) {
-		final Coordinates coord1 = (Coordinates) V.elementAt(Math.min(0, V.size()));
+		//final Coordinates coord1 = (Coordinates) V.elementAt(Math.min(0, V.size()));
+                final Coordinates coord1 = (Coordinates) V.elementAt(V.size()==1?0:1);
 		double dx = zc.col(coord0.X) - zc.col(coord1.X);
 		double dy = zc.row(coord0.Y) - zc.row(coord1.Y);
 		x = w/2*dx/(Math.sqrt(dx*dx+dy*dy)) + zc.col(coord0.X) - zc.pointSize() - zc.getOne();
@@ -614,7 +615,7 @@ PointonObject, HeavyObject, DriverObject, Evaluator {
 		g.fillOval(x, y, w, w, this.getColor());
 	    } else if(isMaxOpen) {
 		final Coordinates coord1 = (Coordinates) V.elementAt(Math.max(V.size()-2,0));
-		double dx = zc.col(coord0.X) - zc.col(coord1.X);
+                double dx = zc.col(coord0.X) - zc.col(coord1.X);
 		double dy = zc.row(coord0.Y) - zc.row(coord1.Y);
 		x = w/2*dx/(Math.sqrt(dx*dx+dy*dy)) + zc.col(coord0.X) - zc.pointSize() - zc.getOne();
 		y = w/2*dy/(Math.sqrt(dx*dx+dy*dy)) + zc.row(coord0.Y) - zc.pointSize() - zc.getOne();

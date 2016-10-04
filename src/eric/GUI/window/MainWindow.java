@@ -73,18 +73,22 @@ public class MainWindow extends JFrame implements MainContainer, WindowListener 
     /**
      *
      */
+    @Override
     public void setComponents() {
         CONTENT.setComponents();
     }
 
+    @Override
     public ContentPane getContent() {
         return CONTENT;
     }
 
+    @Override
     public Point getMouseLoc() {
         return MouseInfo.getPointerInfo().getLocation();
     }
 
+    @Override
     public Image getImage(String s) {
         ImageIcon myicon;
         try {
@@ -99,6 +103,7 @@ public class MainWindow extends JFrame implements MainContainer, WindowListener 
         return myicon.getImage();
     }
 
+    @Override
     public Image getPaletteImage(String s) {
         ImageIcon myicon;
         try {
@@ -121,28 +126,36 @@ public class MainWindow extends JFrame implements MainContainer, WindowListener 
         return myicon.getImage();
     }
 
+    @Override
     public boolean isApplet() {
         return false;
     }
 
+    @Override
     public void windowOpened(WindowEvent e) {
     }
 
+    @Override
     public void windowClosing(WindowEvent e) {
     }
 
+    @Override
     public void windowClosed(WindowEvent e) {
     }
 
+    @Override
     public void windowIconified(WindowEvent e) {
     }
 
+    @Override
     public void windowDeiconified(WindowEvent e) {
     }
 
+    @Override
     public void windowActivated(WindowEvent e) {
     }
 
+    @Override
     public void windowDeactivated(WindowEvent e) {
         tab_main_panel.hidePopups();
     }

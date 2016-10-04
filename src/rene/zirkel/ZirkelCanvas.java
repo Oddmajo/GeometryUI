@@ -30,6 +30,7 @@ import eric.JSprogram.ScriptPanel;
 import eric.JSprogram.ScriptThread;
 import eric.JZirkelCanvas;
 import eric.animations.AnimationPanel;
+import eric.bar.JProperties;
 import eric.bar.JPropertiesBar;
 import eric.controls.JCanvasPanel;
 import eric.controls.JControlsManager;
@@ -74,10 +75,12 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import static java.lang.Double.NaN;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
 import javax.swing.SwingUtilities;
+
 import rene.dialogs.Warning;
 import rene.gui.Global;
 import rene.gui.MyCheckboxMenuItem;
@@ -168,6 +171,8 @@ import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D;
  *         This canvas handles mouse and keyboard input, displays the
  *         construction and has tools to save and load constructions.
  */
+// with addons by Dibs (patdeb) for 3D
+
 public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
         MouseMotionListener, ItemListener, AddEventListener, ActionListener,
         ChangedListener, MouseWheelListener // the canvas to do the construction
@@ -317,13 +322,13 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
          * Every new Canvas :
          */
         Global.setParameter("axis_show", false);
-        Global.setParameter("colorbackground", getColor("245,245,245"));
+        //Global.setParameter("colorbackground", getColor("245,245,245"));
         Global.setParameter("colorbackgroundx", 139);
         Global.setParameter("colorbackgroundy", 9);
         Global.setParameter("colorbackgroundPal", 4);
 
         axis_show=false;
-        colorbackground="245,245,245";
+        //colorbackground="245,245,245";
         colorbackgroundx=139;
         colorbackgroundy=9;
         colorbackgroundPal=4;
@@ -392,7 +397,7 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
         Global.setParameter("digits.lengths", digits_lengths);
         Global.setParameter("digits.edit", digits_edit);
         Global.setParameter("digits.angles", digits_angles);
-        Global.setParameter("colorbackground", getColor(colorbackground));
+        Global.setParameter("colorbackground", colorbackground);
         Global.setParameter("colorbackgroundx", colorbackgroundx);
         Global.setParameter("colorbackgroundy", colorbackgroundy);
         Global.setParameter("colorbackgroundPal", colorbackgroundPal);
@@ -419,7 +424,7 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
         xml.printArg("digits.lengths", ""+(int) digits_lengths);
         xml.printArg("digits.edit", ""+(int) digits_edit);
         xml.printArg("digits.angles", ""+(int) digits_angles);
-        xml.printArg("colorbackground", ""+colorbackground);
+        xml.printArg("colorbackground", ""+ colorbackground);
         xml.printArg("colorbackgroundx", ""+(int) colorbackgroundx);
         xml.printArg("colorbackgroundy", ""+(int) colorbackgroundy);
         xml.printArg("colorbackgroundPal", ""+(int) colorbackgroundPal);
@@ -2458,14 +2463,22 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
             }
         }
         NewPoint=false;
-        if (Preview) {
-            final PointObject p=new PointObject(C, x(x), y(y));
-            addObject(p);
-            p.setSuperHidden(true);
-            PreviewObject=p;
-            return p;
+        if (Preview&&!is3D()) { // modified by Dibs for 3D 	
+        	final PointObject p=new PointObject(C, x(x), y(y));
+        	addObject(p);
+        	p.setSuperHidden(true);
+        	PreviewObject=p;
+        	return p;
         }
-
+        if (Preview&&(PaletteManager.isSelected("segment3D")||PaletteManager.isSelected("line3D")||PaletteManager.isSelected("ray3D")||PaletteManager.isSelected("midpoint3D")||PaletteManager.isSelected("vector3D"))) {
+        	final PointObject p=new PointObject(C, x(x), y(y));
+                p.setIs3D(true);
+                p.setXYZ(NaN,NaN,NaN);
+        	addObject(p);
+        	p.setSuperHidden(true);
+        	PreviewObject=p;
+        	return p;
+        }
         // User selects a known point:
         final Enumeration e=C.elements();
         V.removeAllElements();
@@ -2486,7 +2499,7 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
             }
             return null;
         }
-
+        if (Preview) return null;
         // User creates a new point:
         ConstructionObject oc=tryCreateIntersection(x, y, true);
         if (oc!=null) {
@@ -2509,6 +2522,79 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
                 return null;
             }
             final PointObject o=new PointObject(C, x(x), y(y), oc);
+            if (is3D()&&o instanceof PointObject&&((PointObject) o).getBound()!=null) { // Dibs : 2D -> 3D
+            	validate();
+            	if (((PointObject) o).getBound() instanceof TwoPointLineObject) {
+        		TwoPointLineObject ligne= (TwoPointLineObject) ((PointObject) o).getBound();
+    			if (((PointObject) ligne.getP1()).is3D()&&((PointObject) ligne.getP2()).is3D()) {
+    				try {
+    					double x1=((PointObject) ligne.getP1()).getX3D();
+    					double y1=((PointObject) ligne.getP1()).getY3D();
+        				double z1=((PointObject) ligne.getP1()).getZ3D();
+        				double x2=((PointObject) ligne.getP2()).getX3D();
+        				double y2=((PointObject) ligne.getP2()).getY3D();
+        				double z2=((PointObject) ligne.getP2 ()).getZ3D();
+        				double x_O=getConstruction().find("O").getX();
+        				double x_X=getConstruction().find("X").getX();
+        				double x_Y=getConstruction().find("Y").getX();
+        				double x_Z=getConstruction().find("Z").getX();
+        				double alpha1=(o.getX()-x_O-x1*(x_X-x_O)-y1*(x_Y-x_O)-z1*(x_Z-x_O))/((x2-x1)*(x_X-x_O)+(y2-y1)*(x_Y-x_O)+(z2-z1)*(x_Z-x_O));
+        				if (x1==x2&&y1==y2) {
+        					double y_O=getConstruction().find("O").getY();
+            				double y_X=getConstruction().find("X").getY();
+            				double y_Y=getConstruction().find("Y").getY();
+            				double y_Z=getConstruction().find("Z").getY();
+        					alpha1=(getY()-y_O-x1*(y_X-y_O)-y1*(y_Y-y_O)-z1*(y_Z-y_O))/((x2-x1)*(y_X-y_O)+(y2-y1)*(y_Y-y_O)+(z2-z1)*(y_Z-y_O));
+        				}
+        				((PointObject) o).setX3D(x1+alpha1*(x2-x1));
+        				((PointObject) o).setY3D(y1+alpha1*(y2-y1));
+        				((PointObject) o).setZ3D(z1+alpha1*(z2-z1));
+        				((PointObject) o).setIs3D(true);
+        				o.validate();
+    	            	} catch (final Exception eBary) {
+    	            		}
+    					}
+    			}
+            	else if (((PointObject) o).getBound() instanceof QuadricObject) {
+            		QuadricObject quadrique= (QuadricObject) ((PointObject) o).getBound();
+            		if (quadrique.getP()[0].is3D()&&quadrique.getP()[1].is3D()&&quadrique.getP()[2].is3D()&&quadrique.getP()[3].is3D()&&quadrique.getP()[4].is3D()) {
+            			try {
+        					double x0=quadrique.getP()[0].getX3D();
+            				double y0=quadrique.getP()[0].getY3D();
+            				double z0=quadrique.getP()[0].getZ3D();
+            				double x1=quadrique.getP()[1].getX3D();
+            				double y1=quadrique.getP()[1].getY3D();
+            				double z1=quadrique.getP()[1].getZ3D();
+            				double x2=quadrique.getP()[2].getX3D();
+            				double y2=quadrique.getP()[2].getY3D();
+            				double z2=quadrique.getP()[2].getZ3D();
+            				double x_O=getConstruction().find("O").getX();
+            				double x_X=getConstruction().find("X").getX();
+            				double x_Y=getConstruction().find("Y").getX();
+            				double x_Z=getConstruction().find("Z").getX();
+            				double y_O=getConstruction().find("O").getY();
+            				double y_X=getConstruction().find("X").getY();
+            				double y_Y=getConstruction().find("Y").getY();
+            				double y_Z=getConstruction().find("Z").getY();
+            				double coeffa=(x1-x0)*(x_X-x_O)+(y1-y0)*(x_Y-x_O)+(z1-z0)*(x_Z-x_O);
+            				double coeffb=(x2-x0)*(x_X-x_O)+(y2-y0)*(x_Y-x_O)+(z2-z0)*(x_Z-x_O);
+            				double coeffc=(x1-x0)*(y_X-y_O)+(y1-y0)*(y_Y-y_O)+(z1-z0)*(y_Z-y_O);
+            				double coeffd=(x2-x0)*(y_X-y_O)+(y2-y0)*(y_Y-y_O)+(z2-z0)*(y_Z-y_O);
+            				double coeffe=getX()-x_O-x0*(x_X-x_O)-y0*(x_Y-x_O)-z0*(x_Z-x_O);
+            				double coefff=getY()-y_O-x0*(y_X-y_O)-y0*(y_Y-y_O)-z0*(y_Z-y_O);
+            				double alpha1=(coeffe*coeffd-coefff*coeffb)/(coeffa*coeffd-coeffb*coeffc);
+            				double beta1=(coeffa*coefff-coeffc*coeffe)/(coeffa*coeffd-coeffb*coeffc);
+            				((PointObject) o).setX3D(x0+alpha1*(x1-x0)+beta1*(x2-x0));
+            				((PointObject) o).setY3D(y0+alpha1*(y1-y0)+beta1*(y2-y0));
+            				((PointObject) o).setZ3D(z0+alpha1*(z1-z0)+beta1*(z2-z0));
+            				((PointObject) o).setIs3D(true);
+            				o.validate();
+        	            	} catch (final Exception eBary) {
+        	            }
+            			
+            		}
+            	}
+            }
             o.edit(this, false, false);
             // if (ShowGrid&&!Global.getParameter("grid.leftsnap",
             // false)) {
@@ -2523,7 +2609,41 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
             return o;
         }
         final PointObject p=new PointObject(C, x(x), y(y));
-
+        boolean macroIs3D=false;   // Dibs : si la macro de menu est dans le dossier 3D, elle créera un point 3D à la volée
+        if (OC instanceof MacroRunner) {
+        	try {
+        		macroIs3D=((MacroRunner) OC).getM().getName().substring(0,3).equals("3D/");
+        	}
+        	catch (final Exception f) {}
+        }
+        if (PaletteManager.isSelected("bi_3Dcoords")||PaletteManager.isSelected("vector3D")||PaletteManager.isSelected("midpoint3D")||PaletteManager.isSelected("bi_3Dsymc")||PaletteManager.isSelected("bi_3Dproj")||PaletteManager.isSelected("bi_3Dsymp")||PaletteManager.isSelected("bi_3Dtrans")||PaletteManager.isSelected("area3D")||PaletteManager.isSelected("segment3D")||PaletteManager.isSelected("line3D")||PaletteManager.isSelected("ray3D")||PaletteManager.isSelected("bi_3Dsphererayon")
+        	||PaletteManager.isSelected("bi_3Dspherepoint")||PaletteManager.isSelected("bi_3Dplandroite")||PaletteManager.isSelected("bi_3Dplanplan")||PaletteManager.isSelected("bi_3Dspheredroite")||PaletteManager.isSelected("bi_3Dsphereplan")||PaletteManager.isSelected("bi_3Dcube")||PaletteManager.isSelected("bi_3Dtetra")||PaletteManager.isSelected("bi_3Docta")||PaletteManager.isSelected("bi_3Disoc")||PaletteManager.isSelected("bi_3Ddode")||PaletteManager.isSelected("bi_3Dcircle1")||PaletteManager.isSelected("bi_3Dcircle2")||PaletteManager.isSelected("bi_3Dcircle3pts")||PaletteManager.isSelected("angle3D")
+        	||macroIs3D) {// création d'un point 3D.
+        	p.setIs3D(is3D());
+        	try {
+        		double xO=C.find("O").getX(), yO = C.find("O").getY();
+        		double x3DO=getConstruction().find("O").getX();
+        		double y3DO=getConstruction().find("O").getY();
+        		double xx3D = Math.sin(Math.toRadians(getConstruction().find("E10").getValue()))*(p.getX()-xO)-Math.sin(Math.toRadians(getConstruction().find("E11").getValue()))*Math.cos(Math.toRadians(getConstruction().find("E10").getValue()))*(p.getY()-yO);
+    			double yy3D = Math.cos(Math.toRadians(getConstruction().find("E10").getValue()))*(p.getX()-xO)+Math.sin(Math.toRadians(getConstruction().find("E11").getValue()))*Math.sin(Math.toRadians(getConstruction().find("E10").getValue()))*(p.getY()-yO);
+    			double zz3D = Math.cos(Math.toRadians(getConstruction().find("E11").getValue()))*(p.getY()-yO);
+                        if (Math.abs(xx3D)<1e-16) {
+                            xx3D=0;
+                        }
+                        if (Math.abs(yy3D)<1e-16) {
+                            yy3D=0;
+                        }
+                        if (Math.abs(zz3D)<1e-16) {
+                            zz3D=0;
+                        }
+    			p.setX3D(xx3D);
+    			p.setY3D(yy3D);
+    			p.setZ3D(zz3D);
+    			p.setFixed("x(O)+("+xx3D+")*(x(X)-x(O))+("+yy3D+")*(x(Y)-x(O))+("+zz3D+")*(x(Z)-x(O))", "y(O)+("+xx3D+")*(y(X)-y(O))+("+yy3D+")*(y(Y)-y(O))+("+zz3D+")*(y(Z)-y(O))");
+        	}
+        	catch (final Exception f) {}
+        	
+        }
         if (altdown&&getAxis_show()) {
             p.setHalfIncrement(this);
         }
@@ -2614,6 +2734,44 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
                     oc=o[3];
                 }
             }
+            if ((P1 instanceof TwoPointLineObject&&((TwoPointLineObject) P1).getP1().is3D())||(P1 instanceof TwoPointLineObject&&((TwoPointLineObject) P1).getP2().is3D())||(P2 instanceof TwoPointLineObject&&((TwoPointLineObject) P2).getP1().is3D())||(P2 instanceof TwoPointLineObject&&((TwoPointLineObject) P2).getP2().is3D())) {
+            	try {	// Dibs intersection 3D
+                	double a1=((TwoPointLineObject) P1).getP1().getX3D();
+                	double b1=((TwoPointLineObject) P1).getP1().getY3D();
+                	double c1=((TwoPointLineObject) P1).getP1().getZ3D();
+                	double a2=((TwoPointLineObject) P1).getP2().getX3D();
+                	double b2=((TwoPointLineObject) P1).getP2().getY3D();
+                	double c2=((TwoPointLineObject) P1).getP2().getZ3D();
+                	double a3=((TwoPointLineObject) P2).getP1().getX3D();
+                	double b3=((TwoPointLineObject) P2).getP1().getY3D();
+                	double c3=((TwoPointLineObject) P2).getP1().getZ3D();
+                	double a4=((TwoPointLineObject) P2).getP2().getX3D();
+                	double b4=((TwoPointLineObject) P2).getP2().getY3D();
+                	double c4=((TwoPointLineObject) P2).getP2().getZ3D();
+                	double det =(a2-a1)*(b3-b4)+(b2-b1)*(a4-a3);
+                	double dets=(b3-b1)*(a4-a3)-(a3-a1)*(b4-b3);
+                	double dett=(a2-a1)*(b3-b1)-(b2-b1)*(a3-a1);
+                	double s=0.0;
+                	double t=0.0;
+                	if (Math.abs(det)<1e-12) {
+                		det =(b2-b1)*(c3-c4)+(c2-c1)*(b4-b3);
+                		dets=(c3-c1)*(b4-b3)-(b3-b1)*(c4-c3);
+                		dett=(b2-b1)*(c3-c1)-(c2-c1)*(b3-b1);
+                	}
+                	s=dets/det;
+            		t=dett/det;
+                	//System.out.println(Math.abs((c2-c1)*s-(c4-c3)*t-c3+c1));
+                	if (Math.abs((c2-c1)*s-(c4-c3)*t-c3+c1)<1e-12) {
+                		oc.setX3D(a1+s*(a2-a1));
+                		oc.setY3D(b1+s*(b2-b1));
+                		oc.setZ3D(c1+s*(c2-c1));
+        				oc.setIs3D(true);
+                	}
+                	else return null;
+            	} catch (final Exception ex) {
+            		return null;
+                }	
+            }
             addObject(oc);
             oc.autoAway();
             oc.validate(x(x), y(y));
@@ -2621,7 +2779,6 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
             oc.setDefaults();
             oc.setRestricted(getRestricted());
             NewPoint=true;
-
             return oc;
 
         } else {

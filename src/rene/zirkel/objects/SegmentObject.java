@@ -45,8 +45,12 @@ import rene.zirkel.graphics.MyGraphics;
 public class SegmentObject extends TwoPointLineObject {
 
 	static Count N = new Count();
+	protected boolean Is3D; //Dibs : 3D ?
+	protected double X3D1, Y3D1, Z3D1, X3D2, Y3D2, Z3D2, DX3D, DY3D, DZ3D; //Dibs
 	protected boolean Fixed = false; // fixed length?
+	protected boolean Fixed3D = false; // fixed length?
 	Expression E; // expression to fix the length.
+	Expression E3D;
 	boolean ExpressionFailed; // invalid expression?
 	public boolean Arrow; // draw as arrow.
 	int code_symbol = 0;
@@ -54,6 +58,7 @@ public class SegmentObject extends TwoPointLineObject {
 	public SegmentObject(final Construction c, final PointObject p1,
 			final PointObject p2) {
 		super(c, p1, p2);
+		if (p1.is3D()&&p2.is3D()) Is3D=true;
 		Arrow = false;
 		validate();
 		updateText();
@@ -62,7 +67,7 @@ public class SegmentObject extends TwoPointLineObject {
 
 	@Override
         public String getCDPDisplayValue(){
-	    return Global.getLocaleNumber(R, "lengths");
+	    	return Global.getLocaleNumber(R, "lengths");
         }
 
 	@Override
@@ -133,15 +138,27 @@ public class SegmentObject extends TwoPointLineObject {
 			Y1 = P1.getY();
 			X2 = P2.getX();
 			Y2 = P2.getY();
-
 			// compute normalized vector in the direction of the line:
 			DX = X2 - X1;
 			DY = Y2 - Y1;
 			R = Math.sqrt(DX * DX + DY * DY);
 			// System.out.println("X1="+X1+" Y1="+Y1+" | X2="+X2+" Y2="+Y2+" R="+R);
+			if (P1.is3D()&&P2.is3D()) Is3D=true; // Dibs last updated
+			if (Is3D) {					//Dibs
+				X3D1 = P1.getX3D();
+				Y3D1 = P1.getY3D();
+				Z3D1 = P1.getZ3D();
+				X3D2 = P2.getX3D();
+				Y3D2 = P2.getY3D();
+				Z3D2 = P2.getZ3D();
+				DX3D = X3D2-X3D1;
+				DY3D = Y3D2-Y3D1;
+				DZ3D = Z3D2-Z3D1;
+				R3D = Math.sqrt(DX3D * DX3D + DY3D * DY3D + DZ3D * DZ3D);
+			}
 
 			// if fixed, move the moveable endpoint.
-			if (Fixed && E != null) {
+			if (Fixed && E != null&&!is3D()) {
 				try {
 					final double FixedR = E.getValue();
 					// System.out.println(R+" "+FixedR);
@@ -203,6 +220,75 @@ public class SegmentObject extends TwoPointLineObject {
 					ExpressionFailed = true;
 					Valid = false;
 					R = 0;
+					R3D=0;
+					return;
+				}
+			}
+			else if (Fixed3D && E3D != null) { // pour plus tard...
+				try {
+					final double FixedR3D = E3D.getValue();
+					if (FixedR3D < 1e-8) {
+						R3D = 0;
+						ExpressionFailed = true;
+						Valid = false;
+						return;
+					}
+					boolean movefirst = P1.moveableBy(this), movesecond = P2
+					.moveableBy(this);
+					if (P2.getBound() != null) {
+						final ConstructionObject bound = P2.getBound();
+						if (bound instanceof RayObject) {
+							if (((RayObject) bound).getP1() == P1) {
+								movesecond = true;
+							}
+						}
+					} else if (P1.getBound() != null) {
+						final ConstructionObject bound = P1.getBound();
+						if (bound instanceof RayObject) {
+							if (((RayObject) bound).getP1() == P2) {
+								movefirst = true;
+								movesecond = false;
+							}
+						}
+					}
+					if (movesecond) {
+						if (R3D < 1e-10) {
+							P2.move3D(X3D1 + FixedR3D, Y3D1, Z3D1);
+						} else {
+							P2.move3D(X3D1 + FixedR3D * DX3D / R3D, Y3D1 + FixedR3D * DY3D / R3D, Z3D1 + FixedR3D * DZ3D / R3D);
+						}
+						P1.setUseAlpha(false);
+						// System.out.println("Move "+P2.getName());
+					} else if (movefirst) {
+						if (R < 1e-10) {
+							P1.move3D(X3D2 - FixedR3D, Y3D2, Z3D2);
+						} else {
+							P1.move3D(X3D2 - FixedR3D * DX3D / R3D, Y3D2 - FixedR3D * DY3D / R3D, Z3D2 - FixedR3D * DZ3D / R3D);
+						}
+						P2.setUseAlpha(false);
+						// System.out.println("Move "+P1.getName());
+					} else {
+						Fixed3D = false; // no moveable endpoint!
+					}
+					if (Fixed3D) {
+						X3D1 = P1.getX3D();
+						Y3D1 = P1.getY3D();
+						Z3D1 = P1.getZ3D();
+						X3D2 = P2.getX3D();
+						Y3D2 = P2.getY3D();
+						Z3D2 = P2.getZ3D();
+						DX3D = X3D2-X3D1;
+						DY3D = Y3D2-Y3D1;
+						DZ3D = Z3D2-Z3D1;
+						R3D = Math.sqrt(DX3D * DX3D + DY3D * DY3D + DZ3D * DZ3D);
+						P2.movedBy(this);
+						P1.movedBy(this);
+					}
+				} catch (final Exception e) {
+					ExpressionFailed = true;
+					Valid = false;
+					R = 0;
+					R3D=0;
 					return;
 				}
 			}
@@ -214,6 +300,15 @@ public class SegmentObject extends TwoPointLineObject {
 			} else {
 				DX /= R;
 				DY /= R;
+			}
+			if (R3D < 1e-10) {
+				R3D = 0;
+				DX3D = 1;
+				DY3D = 0;
+				DZ3D=0;
+			} else {
+				DX3D /= R3D;
+				DY3D /= R3D;
 			}
 		}
 	}
@@ -339,10 +434,12 @@ public class SegmentObject extends TwoPointLineObject {
 	// { return
 	// eric.JGlobals.fixDecimal(""+round(R,ZirkelCanvas.LengthsFactor));
 	// }
+	
 	@Override
 	public String getDisplayValue() {
 		// return ""+round(R,ZirkelCanvas.LengthsFactor);
-		return Global.getLocaleNumber(R, "lengths");
+		if (!Is3D) return Global.getLocaleNumber(R, "lengths");
+	    else return Global.getLocaleNumber(R3D, "lengths");
 	}
 
         @Override
@@ -402,6 +499,9 @@ public class SegmentObject extends TwoPointLineObject {
 	public void printArgs(final XmlWriter xml) {
 		xml.printArg("from", P1.getName());
 		xml.printArg("to", P2.getName());
+		if (Is3D) {
+			xml.printArg("is3D", "true");
+		}
 		if (Fixed && E != null) {
 			xml.printArg("fixed", E.toString());
 		}
@@ -418,11 +518,25 @@ public class SegmentObject extends TwoPointLineObject {
 	public double getLength() {
 		return R;
 	}
+	
+	@Override
+	public double getLength3D() {
+		return R3D;
+	}
+	
+	public boolean is3D() {
+    	return Is3D;
+    }
 
 
 	@Override
 	public boolean fixed() {
 		return Fixed;
+	}
+	
+	@Override
+	public boolean fixed3D() {
+		return Fixed3D;
 	}
 
 	@Override
@@ -440,6 +554,23 @@ public class SegmentObject extends TwoPointLineObject {
 		}
 		updateText();
 	}
+	
+	@Override
+	public void setFixed3D(final boolean flag, final String s)
+	throws ConstructionException {
+		if (!flag || s.equals("")) {
+			Fixed3D = false;
+			E3D = null;
+		} else {
+			E3D = new Expression(s, getConstruction(), this);
+			if (!E3D.isValid()) {
+				throw new ConstructionException(E.getErrorText());
+			}
+			Fixed3D = true;
+		}
+		updateText();
+	}
+	
 
 	@Override
 	public void round() {
@@ -508,6 +639,14 @@ public class SegmentObject extends TwoPointLineObject {
 			return "" + round(R);
 		}
 	}
+	
+	public String getStringLength3D() {
+		if (E3D != null) {
+			return E3D.toString();
+		} else {
+			return "" + round(R3D);
+		}
+	}
 
 	public int getSegmentCode() {
 		return code_symbol;
@@ -522,7 +661,16 @@ public class SegmentObject extends TwoPointLineObject {
 		if (!Valid) {
 			throw new InvalidException("exception.invalid");
 		} else {
-			return R;
+			if (!P1.is3D()||!P2.is3D()) return R;
+			else return R3D;
+		}
+	}
+	
+	public double getValue3D() throws ConstructionException {
+		if (!Valid) {
+			throw new InvalidException("exception.invalid");
+		} else {
+			return R3D;
 		}
 	}
 
@@ -539,17 +687,26 @@ public class SegmentObject extends TwoPointLineObject {
 
 	@Override
 	public Enumeration depending() {
-		if (!Fixed || E == null) {
+		if (!Fixed &&!Fixed3D) {
 			return super.depending();
 		} else {
+			if (E!= null)  {
 			super.depending();
 			final Enumeration e = E.getDepList().elements();
 			while (e.hasMoreElements()) {
 				DL.add((ConstructionObject) e.nextElement());
+				}
 			}
+			if (E3D!=null) {
+					final Enumeration f = E3D.getDepList().elements();
+					while (f.hasMoreElements()) {
+						DL.add((ConstructionObject) f.nextElement());
+					}
+				}
 			return DL.elements();
 		}
 	}
+
 
 	public void setArrow(final boolean arrow) {
 		Arrow = arrow;
@@ -579,4 +736,12 @@ public class SegmentObject extends TwoPointLineObject {
 		}
 		return false;
 	}
+        
+        @Override
+        public void setFixed(final boolean bool) {
+            if (bool) {
+                E = new Expression(this.getStringLength(), getConstruction(), this);
+            }
+            Fixed=bool;
+        }
 }

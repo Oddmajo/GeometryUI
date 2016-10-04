@@ -17,11 +17,15 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
  */
+// with addons by Dibs for 3D
 package rene.zirkel.objects;
 
 // file: PointObject.java
 import eric.GUI.pipe_tools;
+import eric.GUI.palette.PaletteManager;
 import eric.JPointName;
+import eric.JZirkelCanvas;
+
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.Enumeration;
@@ -40,6 +44,8 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         DriverObject {
 
     protected double X, Y;
+    protected double X3D, Y3D, Z3D;
+    protected boolean Is3D; //Dibs : the point is 3D
     protected boolean BarycentricCoordsInitialzed=false;
     protected double Gx=0, Gy=0; // Barycentric coords, if it's inside a
     // polygon.
@@ -47,6 +53,7 @@ public class PointObject extends ConstructionObject implements MoveableObject,
     protected boolean AlphaValid=false; // Alpha is valid
     protected boolean UseAlpha=false; // Use Alpha at all
     protected boolean Moveable, Fixed;
+    protected boolean Fixed3D;         //Dibs
     // private static Count N=new Count();
     private static JPointName PointLabel=new JPointName();
     protected int Type=0;
@@ -55,6 +62,7 @@ public class PointObject extends ConstructionObject implements MoveableObject,
             CROSS=4, DCROSS=5;
     public static int MaxType=3;
     protected Expression EX, EY;
+    protected Expression EX3D, EY3D, EZ3D;
     // private ConstructionObject Bound=null; // point is on a line etc.
     private boolean Later; // bound is later in construction
     private String LaterBind="";
@@ -77,8 +85,13 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         super(c);
         X=x;
         Y=y;
+        Is3D=false;
+        X3D=0;
+        Y3D=0;
+        Z3D=0;
         Moveable=true;
         Fixed=false;
+        Fixed3D=false;
         setColor(ColorIndex, SpecialColor);
         setShowName(false);
         updateText();
@@ -99,8 +112,13 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         super(c, name);
         X=0;
         Y=0;
+        Is3D=false;
+        X3D=0;
+        Y3D=0;
+        Z3D=0;
         Moveable=true;
         Fixed=false;
+        Fixed3D=false;
         setColor(ColorIndex, SpecialColor);
         updateText();
         Type=0;
@@ -226,6 +244,46 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         MovedBy=null;
         Delta=0.0;
         Valid=true;
+        if (Fixed3D&&EX3D!=null&&EX3D.isValid()) {
+            try {
+                X3D=EX3D.getValue();
+            } catch (final Exception e) {
+                Valid=false;
+                return;
+            }
+        }
+        if (Fixed3D&&EY3D!=null&&EY3D.isValid()) {
+            try {
+                Y3D=EY3D.getValue();
+            } catch (final Exception e) {
+                Valid=false;
+                return;
+            }
+        }
+        if (Fixed3D&&EZ3D!=null&&EZ3D.isValid()) {
+            try {
+                Z3D=EZ3D.getValue();
+            } catch (final Exception e) {
+                Valid=false;
+                return;
+            }
+        }
+        if (Fixed&&EX!=null&&EX.isValid()) {
+            try {
+                X=EX.getValue();
+            } catch (final Exception e) {
+                Valid=false;
+                return;
+            }
+        }
+        if (Fixed&&EY!=null&&EY.isValid()) {
+            try {
+                Y=EY.getValue();
+            } catch (final Exception e) {
+                Valid=false;
+                return;
+            }
+        }
         if (Bound!=null&&!Bound.isInConstruction()) {
             Bound=null;
         }
@@ -252,29 +310,129 @@ public class PointObject extends ConstructionObject implements MoveableObject,
                 Delta=Math.sqrt((x-X)*(x-X)+(y-Y)*(y-Y));
             }
         }
+        if (getConstruction().is3D()&&getBound()!=null) { // Dibs : 2D -> 3D
+        	if (getBound() instanceof AreaObject) {
+        			AreaObject surface= (AreaObject) getBound();
+        			if (((AreaObject)surface).V.size()>2&&((PointObject) surface.V.get(0)).is3D()&&((PointObject) surface.V.get(1)).is3D()&&((PointObject) surface.V.get(2)).is3D()) {
+        				try {
+        					double x0=((PointObject) surface.V.get(0)).getX3D();
+            				double y0=((PointObject) surface.V.get(0)).getY3D();
+            				double z0=((PointObject) surface.V.get(0)).getZ3D();
+            				double x1=((PointObject) surface.V.get(1)).getX3D();
+            				double y1=((PointObject) surface.V.get(1)).getY3D();
+            				double z1=((PointObject) surface.V.get(1)).getZ3D();
+            				double x2=((PointObject) surface.V.get(2)).getX3D();
+            				double y2=((PointObject) surface.V.get(2)).getY3D();
+            				double z2=((PointObject) surface.V.get(2)).getZ3D();
+            				double x_O=getConstruction().find("O").getX();
+            				double x_X=getConstruction().find("X").getX();
+            				double x_Y=getConstruction().find("Y").getX();
+            				double x_Z=getConstruction().find("Z").getX();
+            				double y_O=getConstruction().find("O").getY();
+            				double y_X=getConstruction().find("X").getY();
+            				double y_Y=getConstruction().find("Y").getY();
+            				double y_Z=getConstruction().find("Z").getY();
+            				double coeffa=(x1-x0)*(x_X-x_O)+(y1-y0)*(x_Y-x_O)+(z1-z0)*(x_Z-x_O);
+            				double coeffb=(x2-x0)*(x_X-x_O)+(y2-y0)*(x_Y-x_O)+(z2-z0)*(x_Z-x_O);
+            				double coeffc=(x1-x0)*(y_X-y_O)+(y1-y0)*(y_Y-y_O)+(z1-z0)*(y_Z-y_O);
+            				double coeffd=(x2-x0)*(y_X-y_O)+(y2-y0)*(y_Y-y_O)+(z2-z0)*(y_Z-y_O);
+            				double coeffe=getX()-x_O-x0*(x_X-x_O)-y0*(x_Y-x_O)-z0*(x_Z-x_O);
+            				double coefff=getY()-y_O-x0*(y_X-y_O)-y0*(y_Y-y_O)-z0*(y_Z-y_O);
+            				double alpha1=(coeffe*coeffd-coefff*coeffb)/(coeffa*coeffd-coeffb*coeffc);
+            				double beta1=(coeffa*coefff-coeffc*coeffe)/(coeffa*coeffd-coeffb*coeffc);
+            				setX3D(x0+alpha1*(x1-x0)+beta1*(x2-x0));
+            				setY3D(y0+alpha1*(y1-y0)+beta1*(y2-y0));
+            				setZ3D(z0+alpha1*(z1-z0)+beta1*(z2-z0));
+            				setFixed("x(O)+("+X3D+")*(x(X)-x(O))+("+Y3D+")*(x(Y)-x(O))+("+Z3D+")*(x(Z)-x(O))", "y(O)+("+X3D+")*(y(X)-y(O))+("+Y3D+")*(y(Y)-y(O))+("+Z3D+")*(y(Z)-y(O))");
+            				AlphaValid=false;
+            				setIs3D(true);
+        	            	} catch (final Exception eBary) {
+        	            }
+        			}
+        		}
+        	
+        else if (getBound() instanceof TwoPointLineObject) {
+    		TwoPointLineObject ligne= (TwoPointLineObject) getBound();
+			if (((PointObject) ligne.getP1()).is3D()&&((PointObject) ligne.getP2()).is3D()) {
+				try {
+					double x1=((PointObject) ligne.getP1()).getX3D();
+					double y1=((PointObject) ligne.getP1()).getY3D();
+    				double z1=((PointObject) ligne.getP1()).getZ3D();
+    				double x2=((PointObject) ligne.getP2()).getX3D();
+    				double y2=((PointObject) ligne.getP2()).getY3D();
+    				double z2=((PointObject) ligne.getP2 ()).getZ3D();
+    				double x_O=getConstruction().find("O").getX();
+    				double x_X=getConstruction().find("X").getX();
+    				double x_Y=getConstruction().find("Y").getX();
+    				double x_Z=getConstruction().find("Z").getX();
+    				double alpha1=(getX()-x_O-x1*(x_X-x_O)-y1*(x_Y-x_O)-z1*(x_Z-x_O))/((x2-x1)*(x_X-x_O)+(y2-y1)*(x_Y-x_O)+(z2-z1)*(x_Z-x_O));
+    				if (x1==x2&&y1==y2) {
+    					double y_O=getConstruction().find("O").getY();
+        				double y_X=getConstruction().find("X").getY();
+        				double y_Y=getConstruction().find("Y").getY();
+        				double y_Z=getConstruction().find("Z").getY();
+    					alpha1=(getY()-y_O-x1*(y_X-y_O)-y1*(y_Y-y_O)-z1*(y_Z-y_O))/((x2-x1)*(y_X-y_O)+(y2-y1)*(y_Y-y_O)+(z2-z1)*(y_Z-y_O));
+    				}
+    				setX3D(x1+alpha1*(x2-x1));
+    				setY3D(y1+alpha1*(y2-y1));
+    				setZ3D(z1+alpha1*(z2-z1));
+    				setFixed("x(O)+("+X3D+")*(x(X)-x(O))+("+Y3D+")*(x(Y)-x(O))+("+Z3D+")*(x(Z)-x(O))", "y(O)+("+X3D+")*(y(X)-y(O))+("+Y3D+")*(y(Y)-y(O))+("+Z3D+")*(y(Z)-y(O))");
+    				//setMoveable(true);
+                                //AlphaValid=false;
+    				setIs3D(true);
+	            	} catch (final Exception eBary) {
+	            		}
 
-        if (Fixed&&EX!=null&&EX.isValid()) {
-            try {
-                X=EX.getValue();
-            } catch (final Exception e) {
-                Valid=false;
-                return;
-            }
+					}
+			}
+        else if (getBound() instanceof QuadricObject) {
+    		QuadricObject quadrique= (QuadricObject) getBound();
+    		if (quadrique.getP()[0].is3D()&&quadrique.getP()[1].is3D()&&quadrique.getP()[2].is3D()&&quadrique.getP()[3].is3D()&&quadrique.getP()[4].is3D()) {
+    			try {
+					double x0=quadrique.getP()[0].getX3D();
+    				double y0=quadrique.getP()[0].getY3D();
+    				double z0=quadrique.getP()[0].getZ3D();
+    				double x1=quadrique.getP()[1].getX3D();
+    				double y1=quadrique.getP()[1].getY3D();
+    				double z1=quadrique.getP()[1].getZ3D();
+    				double x2=quadrique.getP()[2].getX3D();
+    				double y2=quadrique.getP()[2].getY3D();
+    				double z2=quadrique.getP()[2].getZ3D();
+    				double x_O=getConstruction().find("O").getX();
+    				double x_X=getConstruction().find("X").getX();
+    				double x_Y=getConstruction().find("Y").getX();
+    				double x_Z=getConstruction().find("Z").getX();
+    				double y_O=getConstruction().find("O").getY();
+    				double y_X=getConstruction().find("X").getY();
+    				double y_Y=getConstruction().find("Y").getY();
+    				double y_Z=getConstruction().find("Z").getY();
+    				double coeffa=(x1-x0)*(x_X-x_O)+(y1-y0)*(x_Y-x_O)+(z1-z0)*(x_Z-x_O);
+    				double coeffb=(x2-x0)*(x_X-x_O)+(y2-y0)*(x_Y-x_O)+(z2-z0)*(x_Z-x_O);
+    				double coeffc=(x1-x0)*(y_X-y_O)+(y1-y0)*(y_Y-y_O)+(z1-z0)*(y_Z-y_O);
+    				double coeffd=(x2-x0)*(y_X-y_O)+(y2-y0)*(y_Y-y_O)+(z2-z0)*(y_Z-y_O);
+    				double coeffe=getX()-x_O-x0*(x_X-x_O)-y0*(x_Y-x_O)-z0*(x_Z-x_O);
+    				double coefff=getY()-y_O-x0*(y_X-y_O)-y0*(y_Y-y_O)-z0*(y_Z-y_O);
+    				double alpha1=(coeffe*coeffd-coefff*coeffb)/(coeffa*coeffd-coeffb*coeffc);
+    				double beta1=(coeffa*coefff-coeffc*coeffe)/(coeffa*coeffd-coeffb*coeffc);
+    				setX3D(x0+alpha1*(x1-x0)+beta1*(x2-x0));
+    				setY3D(y0+alpha1*(y1-y0)+beta1*(y2-y0));
+    				setZ3D(z0+alpha1*(z1-z0)+beta1*(z2-z0));
+    				setFixed("x(O)+("+X3D+")*(x(X)-x(O))+("+Y3D+")*(x(Y)-x(O))+("+Z3D+")*(x(Z)-x(O))", "y(O)+("+X3D+")*(y(X)-y(O))+("+Y3D+")*(y(Y)-y(O))+("+Z3D+")*(y(Z)-y(O))");
+    				//AlphaValid=false;
+    				setIs3D(true);
+	            	} catch (final Exception eBary) {
+	            }
+    			
+    		}
+    	}
         }
-        if (Fixed&&EY!=null&&EY.isValid()) {
-            try {
-                Y=EY.getValue();
-            } catch (final Exception e) {
-                Valid=false;
-                return;
-            }
-        }
+        
     }
 
 
     @Override
     public Boolean is2DObject(){
-        return true;
+        return !Is3D;
     }
 
     @Override
@@ -401,7 +559,10 @@ public class PointObject extends ConstructionObject implements MoveableObject,
 
     @Override
     public String getDisplayValue() {
-        return "("+Global.getLocaleNumber(X, "lengths")+(Global.getParameter("options.germanpoints", false)?"|"
+    	if (is3D()||PaletteManager.isSelected("boundedpoint")) return "("+Global.getLocaleNumber(X3D, "lengths")+(Global.getParameter("options.germanpoints", false)?"|"
+                :";")+Global.getLocaleNumber(Y3D, "lengths")+(Global.getParameter("options.germanpoints", false)?"|"
+                        :";")+Global.getLocaleNumber(Z3D, "lengths")+")";
+    	else return "("+Global.getLocaleNumber(X, "lengths")+(Global.getParameter("options.germanpoints", false)?"|"
                 :";")+Global.getLocaleNumber(Y, "lengths")+")";
     }
 
@@ -428,6 +589,18 @@ public class PointObject extends ConstructionObject implements MoveableObject,
     }
 
     public boolean nearto(final PointObject p) {
+    	try {
+            X=EX.getValue();
+        } catch (final Exception e) {
+            Valid=false;
+            return false;
+        }
+    	try {
+            Y=EY.getValue();
+        } catch (final Exception e) {
+            Valid=false;
+            return false;
+        }
         if (!Valid) {
             return false;
         }
@@ -449,14 +622,51 @@ public class PointObject extends ConstructionObject implements MoveableObject,
     public double getY() {
         return Y;
     }
+    
+    @Override
+    public double getX3D() {
+    	return X3D;
+    }
+    
+    @Override
+    public double getY3D() {
+    	return Y3D;
+    }
+    
+    @Override
+    public double getZ3D() {
+    	return Z3D;
+    }
+    
+    public void setX3D(double x) {
+    	X3D = x;
+    }
+    
+    public void setY3D(double y) {
+    	Y3D = y;
+    }
+    
+    public void setZ3D(double z) {
+    	Z3D = z;
+    }
+    
+    public boolean is3D() {
+    	return Is3D;
+    }
+    
+    public void setIs3D(boolean u) {
+    	Is3D = u;
+    }
 
     @Override
     public boolean moveable() {
         boolean fixed=Fixed;
+        boolean fixed3D=Fixed3D;
         if (dependsOnItselfOnly()) {
             fixed=false;
         }
-        return Moveable&&!fixed&&!Keep;
+        if (Is3D) return Moveable&&!fixed3D&&!Keep;
+        else return Moveable&&!fixed&&!Keep;
     }
 
     /**
@@ -515,6 +725,7 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         if (name.equals("")) {
             Bound=null;
             setFixed(false);
+            setFixed3D(false);
             Later=false;
             return true;
         }
@@ -525,11 +736,13 @@ public class PointObject extends ConstructionObject implements MoveableObject,
                 Bound=o;
                 Moveable=true;
                 Fixed=false;
+                Fixed3D=false;
                 KeepInside=false;
             } else if (o instanceof InsideObject) {
                 Bound=o;
                 Moveable=true;
                 Fixed=false;
+                Fixed3D=false;
                 KeepInside=true;
             } else {
                 return false;
@@ -587,6 +800,22 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         }
         updateText();
     }
+    
+    public boolean fixed3D() {
+        return Fixed3D;
+    }
+
+    @Override
+    public void setFixed3D(final boolean flag) {
+        Fixed3D=flag;
+        if (!Fixed3D) {
+            EX3D=null;
+            EY3D=null;
+            EZ3D=null;
+        }
+        updateText();
+    }
+
 
     @Override
     public void setFixed(final String x, final String y) {
@@ -595,9 +824,27 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         EY=new Expression(y, getConstruction(), this);
         updateText();
     }
+    
+    @Override
+    public void setFixed(final String x3D, final String y3D, final String z3D) {
+        Fixed3D=true;
+        EX3D=new Expression(x3D, getConstruction(), this);
+        EY3D=new Expression(y3D, getConstruction(), this);
+        EZ3D=new Expression(z3D, getConstruction(), this);
+    	setFixed("x(O)+("+EX3D+")*(x(X)-x(O))+("+EY3D+")*(x(Y)-x(O))+("+EZ3D+")*(x(Z)-x(O))", "y(O)+("+EX3D+")*(y(X)-y(O))+("+EY3D+")*(y(Y)-y(O))+("+EZ3D+")*(y(Z)-y(O))");	
+
+        updateText();
+    }
 
     public void validCoordinates() throws Exception {
         boolean val=(EX.isValid())&&(EY.isValid());
+        if (!val) {
+            throw new Exception("");
+        }
+    }
+    
+    public void validCoordinates3D() throws Exception {
+        boolean val=(EX3D.isValid())&&(EY3D.isValid())&&(EZ3D.isValid());
         if (!val) {
             throw new Exception("");
         }
@@ -678,6 +925,21 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         AlphaValid=false;
         computeBarycentricCoords();
     }
+    
+    @Override
+    public void move3D(final double x3D, final double y3D, final double z3D) {
+        if ((X3D==x3D)&&(Y3D==y3D)&&(Z3D==z3D)) {
+            return;
+        }
+        // System.out.println(getName()+" : move !");
+        X3D=x3D;
+        Y3D=y3D;
+        Z3D=z3D;
+        AlphaValid=false;
+        setFixed("x(O)+("+X3D+")*(x(X)-x(O))+("+Y3D+")*(x(Y)-x(O))+("+Z3D+")*(x(Z)-x(O))", "y(O)+("+X3D+")*(y(X)-y(O))+("+Y3D+")*(y(Y)-y(O))+("+Z3D+")*(y(Z)-y(O))");
+        setFixed3D(false);
+        //computeBarycentricCoords();
+    }
 
     public void setXY(final double x, final double y) {
         if ((X==x)&&(Y==y)) {
@@ -686,6 +948,18 @@ public class PointObject extends ConstructionObject implements MoveableObject,
         // System.out.println(getName()+" : setXY !");
         X=x;
         Y=y;
+    }
+    
+    public void setXYZ(final double x3D, final double y3D, final double z3D) {
+        if ((X3D==x3D)&&(Y3D==y3D)&&(Z3D==z3D)) {
+            return;
+        }
+        // System.out.println(getName()+" : setXY !");
+        X3D=x3D;
+        Y3D=y3D;
+        Z3D=z3D;
+        setFixed("x(O)+("+X3D+")*(x(X)-x(O))+("+Y3D+")*(x(Y)-x(O))+("+Z3D+")*(x(Z)-x(O))", "y(O)+("+X3D+")*(y(X)-y(O))+("+Y3D+")*(y(Y)-y(O))+("+Z3D+")*(y(Z)-y(O))");
+
     }
 
     public void setXYaway(final double x, final double y, final int r) {
@@ -1036,8 +1310,33 @@ public class PointObject extends ConstructionObject implements MoveableObject,
             xml.printArg("y", ""+Y);
         }
         printType(xml);
+        if (Is3D) {
+            xml.printArg("is3D", "true");
+        
+	        if (Fixed3D&&EX3D!=null) {
+	            xml.printArg("x3D", EX3D.toString());
+	            xml.printArg("actx3D", ""+X3D);
+	        } else {
+	            xml.printArg("x3D", ""+X3D);
+	        }
+	        if (Fixed3D&&EY3D!=null) {
+	            xml.printArg("y3D", EY3D.toString());
+	            xml.printArg("acty3D", ""+Y3D);
+	        } else {
+	            xml.printArg("y3D", ""+Y3D);
+	        }
+	        if (Fixed3D&&EZ3D!=null) {
+	            xml.printArg("z3D", EZ3D.toString());
+	            xml.printArg("actz3D", ""+Z3D);
+	        } else {
+	            xml.printArg("z3D", ""+Z3D);
+	        }
+        }
         if (Fixed) {
             xml.printArg("fixed", "true");
+        }
+        if (Fixed3D) {
+            xml.printArg("fixed3D", "true");
         }
         if (Increment>1e-4) {
             xml.printArg("increment", ""+getIncrement());
@@ -1107,6 +1406,33 @@ public class PointObject extends ConstructionObject implements MoveableObject,
             return ""+round(Y);
         }
     }
+    
+    @Override
+    public String getEX3D() {
+        if (EX3D!=null) {
+            return EX3D.toString();
+        } else {
+            return ""+round(X3D);
+        }
+    }
+
+    @Override
+    public String getEY3D() {
+        if (EY3D!=null) {
+            return EY3D.toString();
+        } else {
+            return ""+round(Y3D);
+        }
+    }
+    
+    @Override
+    public String getEZ3D() {
+        if (EZ3D!=null) {
+            return EZ3D.toString();
+        } else {
+            return ""+round(Z3D);
+        }
+    }
 
     public boolean isOn(final ConstructionObject o) {
         if (Bound!=null) {
@@ -1119,13 +1445,24 @@ public class PointObject extends ConstructionObject implements MoveableObject,
     public void translate() {
         if (Bound!=null) {
             Bound=Bound.getTranslation();
-        } else if (Fixed) {
+        } 
+        else if (Is3D&Fixed3D) { 
+            try {
+            	setFixed(EX3D.toString(), EY3D.toString(), EZ3D.toString());
+            	EX3D.translate();
+                EY3D.translate();
+                EZ3D.translate();
+            	}
+            	catch (final Exception e) {}
+        }
+        
+        else if (Fixed) {
             try {
                 setFixed(EX.toString(), EY.toString());
                 EX.translate();
                 EY.translate();
             } catch (final Exception e) {
-            }
+                }
         }
         magnetRayExp.translate();
         translateMagnetObjects();
@@ -1143,6 +1480,17 @@ public class PointObject extends ConstructionObject implements MoveableObject,
             }
             if (EY!=null) {
                 EY.addDep(this);
+            }
+        }
+        if (Is3D&&Fixed3D) {
+            if (EX3D!=null) {
+                EX3D.addDep(this);
+            }
+            if (EY3D!=null) {
+                EY3D.addDep(this);
+            }
+            if (EZ3D!=null) {
+                EZ3D.addDep(this);
             }
         }
         return DL.elements();
@@ -1392,5 +1740,9 @@ public class PointObject extends ConstructionObject implements MoveableObject,
     public void clearChanges() {
         LASTX=getX();
         LASTY=getY();
+    }
+    
+    public void setEX3D(String s) {
+        EX3D=new Expression(s, JZirkelCanvas.getCurrentZC().getConstruction(), this);
     }
 }

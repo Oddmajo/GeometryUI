@@ -711,6 +711,22 @@ public class Global {
                 "options.circle.large", false));
         setParameter("options.circle.bold", getParameter(
                 "options.circle.bold", false));
+        setParameter("options.quadric.color", getParameter(
+                "options.quadric.color", 4));
+        setParameter("options.quadric.colortype", getParameter(
+                "options.quadric.colortype", 0));
+        setParameter("options.quadric.shownames", getParameter(
+                "options.quadric.shownames", false));
+        setParameter("options.quadric.showvalues", getParameter(
+                "options.quadric.showvalues", false));
+        setParameter("options.quadric.filled", getParameter(
+                "options.quadric.filled", false));
+        setParameter("options.quadric.solid", getParameter(
+                "options.quadric.solid", false));
+        setParameter("options.quadric.large", getParameter(
+                "options.quadric.large", false));
+        setParameter("options.quadric.bold", getParameter(
+                "options.quadric.bold", false));
         setParameter("options.angle.color", getParameter(
                 "options.angle.color", 1));
         setParameter("options.angle.colortype", getParameter(
@@ -989,38 +1005,41 @@ public class Global {
     }
 
     public static void DetectDesktopSize() {
-        if (OS.isUnix()) {
-//             Very dirty trick to solve a very dirty bug on linux java :
-            final JFrame myframe=new JFrame();
-            myframe.setUndecorated(true);
-            myframe.pack();
-            final int s=JFrame.ICONIFIED;
-            myframe.setExtendedState(s);
-            myframe.setVisible(true);
-            myframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-            while (myframe.getExtendedState()==s) {
-            }
-            try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-
-                    public void run() {
-                        SCREEN.x=myframe.getBounds().x+5;
-                        SCREEN.y=myframe.getBounds().y+5;
-                        SCREEN.width=myframe.getBounds().width-10;
-                        SCREEN.height=myframe.getBounds().height-10;
-                        if (SCREEN.x<0) {
-                            SCREEN.x=0;
-                        }
-                        myframe.dispose();
-                    }
-                });
-            } catch (Exception ex) {
-            }
-        } else {
-            // this is much better on mac and windows :
-            GraphicsEnvironment GE=GraphicsEnvironment.getLocalGraphicsEnvironment();
-            SCREEN=GE.getMaximumWindowBounds();
-        }
+//        if (OS.isUnix()) {
+//            // Very dirty trick to solve a very dirty bug on linux java :
+//            final JFrame myframe=new JFrame();
+//            myframe.setUndecorated(true);
+//            myframe.pack();
+//            final int s=JFrame.ICONIFIED;
+//            myframe.setExtendedState(s);
+//            myframe.setVisible(true);
+//            myframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//            while (myframe.getExtendedState()==s) {
+//            }
+//            try {
+//                SwingUtilities.invokeAndWait(new Runnable() {
+//
+//                    public void run() {
+//                        SCREEN.x=myframe.getBounds().x+5;
+//                        SCREEN.y=myframe.getBounds().y+5;
+//                        SCREEN.width=myframe.getBounds().width-10;
+//                        SCREEN.height=myframe.getBounds().height-10;
+//                        if (SCREEN.x<0) {
+//                            SCREEN.x=0;
+//                        }
+//                        myframe.dispose();
+//                    }
+//                });
+//            } catch (Exception ex) {
+//            }
+//        } else {
+//            // this is much better on mac and windows :
+//            GraphicsEnvironment GE=GraphicsEnvironment.getLocalGraphicsEnvironment();
+//            SCREEN=GE.getMaximumWindowBounds();
+//        }
+        // It seems now that all new jre's can handle this (8 octobre 2015) :
+        GraphicsEnvironment GE=GraphicsEnvironment.getLocalGraphicsEnvironment();
+        SCREEN=GE.getMaximumWindowBounds();
     }
 
     public static void setLanguage(final String lang, final String country) {

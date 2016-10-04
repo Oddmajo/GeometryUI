@@ -122,7 +122,7 @@ public class Replay extends CloseDialog implements IconBarListener {
 				.elementAt(Last);
 				ob.setBreak(!ob.isBreak());
 				if (ob.isBreak() )
-					ob.setHideBreak(true);
+					ob.setBreak(true);
 			}
 			HaveBreaks = haveBreaks();
 		} else if (o.equals("oneback")) {

@@ -50,6 +50,9 @@ public class PrimitiveLineObject extends ConstructionObject implements
 PointonObject {
 
 	protected double X1, Y1, DX, DY;
+	protected double DX3D=0;
+	protected double DY3D=0;
+	protected double DZ3D=0;
 	protected PointObject P1;
 	PointObject Dep[];
 	int NDep;
@@ -308,6 +311,18 @@ PointonObject {
 
 	public double getDY() {
 		return DY;
+	}
+	
+	public double getDX3D() {
+		return DX3D;
+	}
+
+	public double getDY3D() {
+		return DY3D;
+	}
+	
+	public double getDZ3D() {
+		return DZ3D;
 	}
 
 	@Override

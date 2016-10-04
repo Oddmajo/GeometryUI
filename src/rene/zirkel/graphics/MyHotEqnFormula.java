@@ -5,6 +5,7 @@
 package rene.zirkel.graphics;
 
 import java.awt.Graphics2D;
+
 import rene.zirkel.ZirkelCanvas;
 import ui.atp.sHotEqn;
 

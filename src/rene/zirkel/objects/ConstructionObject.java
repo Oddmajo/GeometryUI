@@ -1047,53 +1047,56 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
         // and ends with a number, then place this number in subscript
         // and use the $-character around to send the string to HotEqn
         String name=Name.replaceAll("^([a-zA-Z]+)([0-9]+)$", "$1_{$2}");
-        name="$"+name+"$";
+        
         if (AliasES!=null) {
             name=AliasES.evaluate();
         } else if (name.indexOf("~")>0) {
             name=name.substring(0, name.indexOf("~"));
         }
+        
+        if(!name.startsWith("$")) {
+            name="$"+name;
+        }
+        
         if (showName()) {
             if (showValue()) {
                 final String value=getDisplayValue();
                 if (value.equals("")) {
-                    return name;
+                    return name+"$";
                 }
-                if (name.endsWith("$")) {
+                
+                if (name.endsWith("$") && name.length()!=1) {
                     name=name.substring(0, name.length()-1);
                 }
+                
                 if (name.endsWith("_")&&name.length()>1) {
                     name=name.substring(0, name.length()-1);
-                } else {
-                    if (!this.is2DObject()){
-                        name=name+" = ";
-                    } else {
-                        if (this.isTellsSon()&&AliasES==null){
-                            name="$\\vec{"+name.substring(1,name.length())+"}";
-                    } else {
-                            name=name+" ";
-                        }
-                    }
+                //} else if (!this.is2DObject()) {
+                //   name=name+" = ";
+                } else if (this.isTellsSon() && AliasES==null && name.length()!=1){
+                    name="$\\overrightarrow{"+name.substring(1,name.length())+"}";
                 }
+                
                 if (Unit.equals("")) {
-                    return name+getDisplayValue();
+                    return name+value+"$";
                 } else {
-                    return name+getDisplayValue()+Unit;
+                    return name+value+Unit+"$";
                 }
             } else {
                 if (name.indexOf("~")>0&&AliasES==null) {
                     name=name.substring(0, name.indexOf("~"));
                 }
-                if (this.isTellsSon()&&AliasES==null){
-                        name="$\\vec{"+name.substring(1,name.length()-1)+"}";
+                if (this.isTellsSon() && AliasES==null && name.length()!=1) {
+                    //System.out.println(name.length());
+                    name="$\\overrightarrow{"+name.substring(1,name.length())+"}";
                 }
-                return name;
+                return name+"$";
             }
         } else if (showValue()) {
             if (Unit.equals("")) {
-                return getDisplayValue();
+                return "$"+getDisplayValue()+"$";
             } else {
-                return getDisplayValue()+Unit;
+                return "$"+getDisplayValue()+Unit+"$";
             }
         }
         return "";
@@ -2106,8 +2109,24 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
     public double getY() {
         return 0.0;
     }
+    
+    public double getX3D() {
+        return 0.0;
+    }
+
+    public double getY3D() {
+        return 0.0;
+    }
+    
+    public double getZ3D() {
+        return 0.0;
+    }
 
     public double getR() {
+        return 0.0;
+    }
+    
+    public double getR3D() {
         return 0.0;
     }
 
@@ -2143,16 +2162,36 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
     public boolean fixed() {
         return true;
     }
+    
+    public boolean fixed3D() {
+        return true;
+    }
 
     public boolean fixedCoord(){
 	return true;
     }
+    
+    public boolean fixedCoord3D(){
+    	return true;
+        }
 
     public String getEX() {
         return "";
     }
 
     public String getEY() {
+        return "";
+    }
+    
+    public String getEX3D() {
+        return "";
+    }
+
+    public String getEY3D() {
+        return "";
+    }
+    
+    public String getEZ3D() {
         return "";
     }
 
@@ -2163,8 +2202,23 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
     public String getEYpos() {
         return getEY();
     }
+    
+    public String getEX3Dpos() {
+        return getEX3D();
+    }
+
+    public String getEY3Dpos() {
+        return getEY3D();
+    }
+    
+    public String getEZ3Dpos() {
+        return getEZ3D();
+    }
 
     public void setFixed(final boolean bool) {
+    }
+    
+    public void setFixed3D(final boolean bool) {
     }
 
     public void setFixed(final String x, final String y) {
@@ -2173,8 +2227,18 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
     public void setFixed(final boolean bool, final String r)
             throws ConstructionException {
     }
+    
+    public void setFixed3D(final boolean bool, final String r)
+            throws ConstructionException {
+    }
+    
+    public void setFixed(final String x3D, final String y3D, final String z3D) {
+    }
 
     public void move(final double x, final double y) {
+    }
+    
+    public void move3D(final double x, final double y, final double z) {
     }
 
     public String getPrompt() {
@@ -2207,6 +2271,10 @@ public class ConstructionObject implements Cloneable, SortObject, Element {
     }
 
     public String getStringLength() {
+        return "";
+    }
+    
+    public String getStringLength3D() {
         return "";
     }
 

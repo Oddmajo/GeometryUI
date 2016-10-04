@@ -5,15 +5,16 @@
 package rene.zirkel.graphics;
 
 import java.awt.Graphics2D;
-import org.scilab.forge.jlatexmath.Box;
-import org.scilab.forge.jlatexmath.DefaultTeXFont;
-import org.scilab.forge.jlatexmath.StrutBox;
-import org.scilab.forge.jlatexmath.TeXConstants;
-import org.scilab.forge.jlatexmath.TeXEnvironment;
-import org.scilab.forge.jlatexmath.TeXFormula;
+
 import rene.zirkel.ZirkelCanvas;
 import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D;
 import ui.de.erichseifert.vectorgraphics2d.VectorGraphics2D.FontRendering;
+import ui.latex.Box;
+import ui.latex.DefaultTeXFont;
+import ui.latex.StrutBox;
+import ui.latex.TeXConstants;
+import ui.latex.TeXEnvironment;
+import ui.latex.TeXFormula;
 
 /**
  *
@@ -92,7 +93,7 @@ public class MyTeXFormula extends MyFormula {
         float col=(float) c;
         float row=(float) r;
         JTeX.setColor(g.getColor());
-        MyTeXIcon icon=createTeXIcon(org.scilab.forge.jlatexmath.TeXConstants.STYLE_DISPLAY, (float) ZC.fontSize());
+        MyTeXIcon icon=createTeXIcon(ui.latex.TeXConstants.STYLE_DISPLAY, (float) ZC.fontSize());
         if (g instanceof VectorGraphics2D) {
             VectorGraphics2D vg2d=(VectorGraphics2D) g;
             FontRendering oldFontRendering=vg2d.getFontRendering();

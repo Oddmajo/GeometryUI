@@ -69,7 +69,6 @@ public class PaletteZone extends windowComponent {
             element.init();
         }
         zone_content.init();
-
     }
 
     public void setHideContent(boolean b) {

@@ -106,7 +106,6 @@ public class PointonObjectIntersectionObject extends IntersectionObject {
 //            System.out.println(this.getName());
 //        }
 
-
 		if (!P1.valid() || !P2.valid()) {
 			Valid = false;
 		} else {

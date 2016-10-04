@@ -299,13 +299,40 @@ public class JIcon extends windowComponent {
         } else if (o.equals("vector")) {
             //ZF.setVectors(true);
             ZF.settool("vector");
+        } else if (o.equals("vector3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("vector");
+        } else if (o.equals("inter3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("intersection");
+        } else if (o.equals("midpoint3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("midpoint");
+        } else if (o.equals("segment3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("segment");
+        } else if (o.equals("line3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("line");
+        } else if (o.equals("ray3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("ray");
+        } else if (o.equals("area3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("area");
         } else if (o.equals("segment")) {
             //ZF.setVectors(false);
             ZF.settool("segment");
+        } else if (o.equals("quadric")) {
+            //ZF.setVectors(false);
+            ZF.settool("quadric");
         } else if (o.equals("fixedsegment")) {
 
             ZF.setVectors(false);
             ZF.settool("fixedsegment");
+        } else if (o.equals("angle3D")) {
+            //ZF.setVectors(true);
+            ZF.settool("angle");
         } else if (o.equals("image3")) {
 
             ZF.settool("image");
@@ -473,7 +500,7 @@ public class JIcon extends windowComponent {
     }
 
     private static boolean isIconWithProperties(final String name) {
-        final String acceptedIcons=",expression,locus,bi_function_u,text,area,ray,segment,"+"line,point,parallel,plumb,intersection,midpoint,bi_syma,"+"bi_symc,bi_trans,bi_med,bi_biss,vector,fixedsegment,circle,"+"circle3,fixedcircle,bi_arc,bi_circ,angle,fixedangle,quadric,"+"boundedpoint,";
+        final String acceptedIcons=",expression,locus,bi_function_u,text,area,area3D,ray,ray3D,segment,segment3D,"+"line,line3D,point,bi_3Dcoords,parallel,plumb,intersection,inter3D,midpoint,midpoint3D,bi_syma,bi_3Dsymp,bi_3Dproj"+"bi_symc,bi_3Dsymc,bi_trans,bi_3Dtrans,bi_3Dcircle1,bi_3Dcircle2,bi_3Dcircle3pts,bi_3Dplandroite,bi_3Dplanplan,bi_3Dsphererayon,bi_3Dspherepoint,bi_3Dspheredroite,bi_3Dsphereplan,bi_3Dspheresphere,bi_med,bi_biss,vector,vector3D,fixedsegment,circle,"+"circle3,fixedcircle,bi_arc,bi_circ,angle,angle3D,fixedangle,quadric,"+"boundedpoint,";
         return (acceptedIcons.indexOf(","+name+",")!=-1);
     }
 

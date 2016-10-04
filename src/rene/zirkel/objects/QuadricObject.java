@@ -51,25 +51,25 @@ public class QuadricObject extends ConstructionObject implements PointonObject,
 
     @Override
     public void setDefaults() {
-        setShowName(Global.getParameter("options.circle.shownames", false));
-        setShowValue(Global.getParameter("options.circle.showvalues", false));
-        setColor(Global.getParameter("options.circle.color", 0), Global.getParameter("options.circle.pcolor", (ExpressionColor) null, this));
+    	setShowName(Global.getParameter("options.quadric.shownames", false));
+        setShowValue(Global.getParameter("options.quadric.showvalues", false));
+        setColor(Global.getParameter("options.quadric.color", 0), Global.getParameter("options.circle.pcolor", (ExpressionColor) null, this));
 
-        setColorType(Global.getParameter("options.circle.colortype", 0));
+        setColorType(Global.getParameter("options.quadric.colortype", 0));
         setHidden(Cn.Hidden);
-        setObtuse(Cn.Obtuse);
-        setSolid(Cn.Solid);
+        //setObtuse(Cn.Obtuse);
+        //setSolid(Cn.Solid);
         setLarge(Cn.LargeFont);
         setBold(Cn.BoldFont);
-        setPartial(Cn.Partial);
+        //setPartial(Cn.Partial);
     }
 
     @Override
     public void setTargetDefaults() {
-        setShowName(Global.getParameter("options.circle.shownames", false));
-        setShowValue(Global.getParameter("options.circle.showvalues", false));
-        setColor(Global.getParameter("options.circle.color", 0), Global.getParameter("options.circle.pcolor", (ExpressionColor) null, this));
-        setColorType(Global.getParameter("options.circle.colortype", 0));
+    	setShowName(Global.getParameter("options.quadric.shownames", false));
+        setShowValue(Global.getParameter("options.quadric.showvalues", false));
+        setColor(Global.getParameter("options.quadric.color", 0), Global.getParameter("options.circle.pcolor", (ExpressionColor) null, this));
+        setColorType(Global.getParameter("options.quadric.colortype", 0));
     }
 
     @Override
@@ -89,7 +89,8 @@ public class QuadricObject extends ConstructionObject implements PointonObject,
             for (int i=0; i<P.length; i++) {
                 Names[i]=P[i].getName();
             }
-            setText(textAny(Global.name("text.quadric"), Names));
+            if (P[0].is3D()&&P[1].is3D()&&P[2].is3D()&&P[3].is3D()&&P[4].is3D()) setText(Global.name("text.circle3D"));
+            else setText(textAny(Global.name("text.quadric"), Names));
         } catch (final Exception e) {
         }
     }
@@ -582,7 +583,7 @@ public class QuadricObject extends ConstructionObject implements PointonObject,
             o.setName();
             o.updateText();
             o.setBreak(false);
-            o.setTarget(false);
+           // o.setTarget(false); Dibs
             return o;
         } catch (final Exception e) {
             return null;
@@ -820,5 +821,9 @@ public class QuadricObject extends ConstructionObject implements PointonObject,
 
     public void repulse(final PointObject P) {
         project(P);
+    }
+    
+    public PointObject[] getP() {
+        return P;
     }
 }

@@ -796,7 +796,7 @@ public class Interpreter {
 		new FunctionConstructor() };
 
 	static public String ONs[] = { "point", "segment", "line", "ray", "circle",
-		"intersection", "parallel", "plumb", "midpoint", "angle", "area",
+		"intersection", "parallel", "plumb", "angle", "area",
 		"quadric", "expression", "function","text" };
 
 	static public int findFunction(final String function, final ZirkelCanvas zc) {

@@ -1,7 +1,6 @@
 package mainUI;
 
 
-
 import eric.FileTools;
 import eric.GUI.palette.PaletteManager;
 import eric.GUI.window.MainApplet;

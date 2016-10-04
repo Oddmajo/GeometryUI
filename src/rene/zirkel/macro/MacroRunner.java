@@ -22,7 +22,10 @@ package rene.zirkel.macro;
 /**
  * This is an ObjectConstructor, which can run a macro.
  */
+// with addons by Dibs for 3D
 import eric.JSelectPopup;
+import eric.GUI.palette.PaletteManager;
+
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -52,6 +55,7 @@ import rene.zirkel.objects.PrimitiveLineObject;
 import rene.zirkel.objects.QuadricObject;
 import rene.zirkel.objects.RayObject;
 import rene.zirkel.objects.SegmentObject;
+import rene.zirkel.objects.TextObject;
 import rene.zirkel.objects.TwoPointLineObject;
 import rene.zirkel.objects.UserFunctionObject;
 import rene.zirkel.objects.VectorObject;
@@ -1028,7 +1032,7 @@ public class MacroRunner extends ObjectConstructor implements Selector {
                     o.setTranslation(oc);
                     oc.validate();
                     c.added(oc);
-		    zc.update_distant(oc, 1);
+                    zc.update_distant(oc, 1);
                     // For the target objects, use default values instead
                     // of values stored in the macro (point style etc.)
                     if (o.isTarget()) {
@@ -1037,11 +1041,12 @@ public class MacroRunner extends ObjectConstructor implements Selector {
                         }
                         oc.setTargetDefaults();
                         TargetsNameList.add(oc.getName());
-                    }
+                        }
                     // else if (o.isHidden()) {
                     // if (o.isSuperHidden()) oc.setSuperHidden(true);
                     // else oc.setHidden(true);
                     // }
+                    if (oc instanceof PointObject&&((PointObject) oc).is3D()) oc.setFixed("x(O)+("+oc.getEX3D()+")*(x(X)-x(O))+("+oc.getEY3D()+")*(x(Y)-x(O))+("+oc.getEZ3D()+")*(x(Z)-x(O))", "y(O)+("+oc.getEX3D()+")*(y(X)-y(O))+("+oc.getEY3D()+")*(y(Y)-y(O))+("+oc.getEZ3D()+")*(y(Z)-y(O))"); //Dibs !important 
 
                     if ((oc instanceof FixedCircleObject
                             ||oc instanceof FixedAngleObject||oc instanceof ExpressionObject)
@@ -1203,6 +1208,7 @@ public class MacroRunner extends ObjectConstructor implements Selector {
                             oc.setDPMode(M.createDPObjects);
                         }
                         oc.setTargetDefaults();
+                        if (oc instanceof PointObject&&((PointObject) oc).is3D()) oc.setFixed("x(O)+("+oc.getEX3D()+")*(x(X)-x(O))+("+oc.getEY3D()+")*(x(Y)-x(O))+("+oc.getEZ3D()+")*(x(Z)-x(O))", "y(O)+("+oc.getEX3D()+")*(y(X)-y(O))+("+oc.getEY3D()+")*(y(Y)-y(O))+("+oc.getEZ3D()+")*(y(Z)-y(O))");
                     }
                     if (o.isHidden()) {
                         oc.setHidden(true);
@@ -1283,32 +1289,45 @@ public class MacroRunner extends ObjectConstructor implements Selector {
             }
             if (p[Param] instanceof PointObject) {
                 if (!(o instanceof PointObject)) {
-                    throw new ConstructionException(Global.name("exception.type"));
-                } else if (p[Param] instanceof SegmentObject) {
+                    	throw new ConstructionException(Global.name("exception.type"));
+                    	}
+            } else if (p[Param] instanceof SegmentObject) {
                     if (!(o instanceof SegmentObject)) {
                         throw new ConstructionException(Global.name("exception.type"));
-                    } else if (p[Param] instanceof LineObject) {
-                        if (!(o instanceof LineObject)) {
-                            throw new ConstructionException(Global.name("exception.type"));
-                        } else if (p[Param] instanceof RayObject) {
-                            if (!(o instanceof RayObject)) {
-                                throw new ConstructionException(Global.name("exception.type"));
-                            } else if (p[Param] instanceof PrimitiveLineObject) {
-                                if (!(o instanceof PrimitiveLineObject)) {
-                                    throw new ConstructionException(Global.name("exception.type"));
-                                } else if (p[Param] instanceof PrimitiveCircleObject) {
-                                    if (!(o instanceof PrimitiveCircleObject)) {
-                                        throw new ConstructionException(Global.name("exception.type"));
-                                    } else {
-                                        throw new ConstructionException(Global.name("exception.type"));
-                                    }
-                                }
-                            }
                         }
+            } else if (p[Param] instanceof LineObject) {
+                    if (!(o instanceof LineObject)) {
+                            throw new ConstructionException(Global.name("exception.type"));
                     }
-                }
-            }
+            } else if (p[Param] instanceof RayObject) {
+                    if (!(o instanceof RayObject)) {
+                                throw new ConstructionException(Global.name("exception.type"));
+                    }
+            } else if (p[Param] instanceof PrimitiveLineObject) {
+                    if (!(o instanceof PrimitiveLineObject)) {
+                                    throw new ConstructionException(Global.name("exception.type"));
+                    }
+            } else if (p[Param] instanceof PrimitiveCircleObject) {
+                    if (!(o instanceof PrimitiveCircleObject)) {
+                                    throw new ConstructionException(Global.name("exception.type"));
+                    }
+            } else if (p[Param] instanceof QuadricObject) {
+                    if (!(o instanceof QuadricObject)) {
+                                     throw new ConstructionException(Global.name("exception.type"));
+                    }
+            } else if (p[Param] instanceof ExpressionObject) {
+                    if (!(o instanceof ExpressionObject)) {
+                                      throw new ConstructionException(Global.name("exception.type"));
+                     }
+            } else if (p[Param] instanceof TextObject) {
+                    if (!(o instanceof TextObject)) {
+                                     throw new ConstructionException(Global.name("exception.type"));
+                     }
+            } else {
+                                    throw new ConstructionException(Global.name("exception.type"));
+                     }                 
             Params[i]=o;
+            Param++;
         }
         runMacro(zc, c, value);
         final StringTokenizer t=new StringTokenizer(name, ",");
@@ -1319,4 +1338,7 @@ public class MacroRunner extends ObjectConstructor implements Selector {
         }
         zc.repaint();
     }
+    public Macro getM() {
+		return M;
+	}
 }

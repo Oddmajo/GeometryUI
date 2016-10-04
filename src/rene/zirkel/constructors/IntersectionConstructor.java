@@ -21,6 +21,8 @@ package rene.zirkel.constructors;
 
 import java.awt.event.MouseEvent;
 
+import eric.JZirkelCanvas;
+
 import rene.util.MyVector;
 import rene.util.xml.XmlTag;
 import rene.util.xml.XmlTree;
@@ -34,6 +36,7 @@ import rene.zirkel.objects.IntersectionObject;
 import rene.zirkel.objects.LineCircleIntersectionObject;
 import rene.zirkel.objects.LineIntersectionObject;
 import rene.zirkel.objects.LineQuadricIntersectionObject;
+import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.PointonObjectIntersectionObject;
 import rene.zirkel.objects.PrimitiveCircleObject;
 import rene.zirkel.objects.PrimitiveLineObject;
@@ -164,6 +167,13 @@ public class IntersectionConstructor extends ObjectConstructor {
                         (PrimitiveLineObject) P2, (QuadricObject) P1, false);
 
             } else if (P2 instanceof QuadricObject) {
+            	if (((QuadricObject) P1).getP()[0].is3D()||((QuadricObject) P1).getP()[1].is3D()||((QuadricObject) P1).getP()[2].is3D()||((QuadricObject) P1).getP()[3].is3D()||((QuadricObject) P1).getP()[4].is3D()||
+                        ((QuadricObject) P2).getP()[0].is3D()||((QuadricObject) P2).getP()[1].is3D()||((QuadricObject) P2).getP()[2].is3D()||((QuadricObject) P2).getP()[3].is3D()||((QuadricObject) P2).getP()[4].is3D()) {// Dibs : truc de givré pour régler un bug avec l'intersection de cercles 3D
+            		final PointObject p1=((QuadricObject) P1).getP()[1];
+            		p1.setEX3D(p1.getEX3D().toString()+"+0.00001");
+            		p1.setFixed("x(O)+("+p1.getEX3D()+")*(x(X)-x(O))+("+p1.getEY3D()+")*(x(Y)-x(O))+("+p1.getEZ3D()+")*(x(Z)-x(O))", "y(O)+("+p1.getEX3D()+")*(y(X)-y(O))+("+p1.getEY3D()+")*(y(Y)-y(O))+("+p1.getEZ3D()+")*(y(Z)-y(O))");
+            	}
+            	
                 o=new IntersectionObject[4];
                 o[0]=new QuadricQuadricIntersectionObject(c,
                         (QuadricObject) P2, (QuadricObject) P1, 0);

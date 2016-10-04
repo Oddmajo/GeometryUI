@@ -48,11 +48,14 @@ public class SetParameterTool extends ObjectConstructor implements Selector {
     @Override
     public void mousePressed(final MouseEvent e, final ZirkelCanvas zc) {
         zc.y(e.getY());
+        
         final ConstructionObject o=zc.selectWithSelector(e.getX(), e.getY(),
                 this);
         if (o==null) {
             return;
         }
+        
+        
 
         if (o.isMainParameter()) {
             o.setMainParameter(false);
@@ -101,5 +104,24 @@ public class SetParameterTool extends ObjectConstructor implements Selector {
     public void showStatus(final ZirkelCanvas zc) {
         zc.showStatus(Global.name("message.parameters",
                 "Macro Parameters: Select the Parameters!"));
+    }
+    
+    @Override
+    public void setConstructionObject(ConstructionObject o, ZirkelCanvas zc) {
+        if (o==null) {
+            return;
+        }
+        if (o.isMainParameter()) {
+            o.setMainParameter(false);
+            o.setSelected(false);
+            zc.getConstruction().removeParameter(o);
+            zc.repaint();
+        } else {
+            o.setMainParameter(true);
+            o.setSelected(true);
+            zc.getConstruction().addParameter(o);
+            zc.repaint();
+        }
+        CreateMacroPanel.setParametersComments();
     }
 }

@@ -85,9 +85,12 @@ public class JSEditor extends javax.swing.JFrame {
     private String filename=""; // script in file
     private String scriptname=""; // script in figure
     private ScriptItem ITEM;
+    private boolean FlagSimp=false; // Dibs : drapeau interface simplifiée
+    boolean infrench = true; // Dibs
 
     /** Creates new form JConsole2 */
     public JSEditor(ScriptItem item) {
+    	infrench = Global.getParameter("language", "").equals("fr");
         ITEM=item;
         initComponents();
         doc=script_area.getStyledDocument();
@@ -228,8 +231,8 @@ public class JSEditor extends javax.swing.JFrame {
     }
 
     public void syntaxColoring() {
-        String[] keynames={"for", "while", "if", "else", "do", "new", "function",
-            "true", "false", "var", "return", "switch", "case", "break", "default", "try",
+        String[] keynames={"for", "from", "allant de", "to", "à", "until", "jusqu'à", "pour", "while", "tant que", "if", "si", "else", "sinon", "do", "faire", "new", "function", "fonction",
+            "true", "false", "vrai", "faux", "var", "return", "renvoyer", "switch", "obliquer", "case", "cas", "break", "rompre", "default", "par défaut", "try",
             "catch", "++", "--", "valueOf", "length", "{", "}"};
         String[] mathkeynames={"Math.PI", "Math.sin", "Math.cos", "Math.tan", "Math.asin", "Math.acos", "Math.atan",
             "Math.abs", "Math.ceil", "Math.round", "Math.min", "Math.max", "Math.floor",
@@ -533,63 +536,199 @@ public class JSEditor extends javax.swing.JFrame {
     }
 
     public void initCaRMetalBtns() {
-
+    	infrench = System.getProperty("user.language").equals("fr");
 //        "point", "intersection", "midpoint", "bi_syma",
 //				"bi_symc", "bi_trans", "line", "ray", "parallel", "plumb",
 //				"bi_med", "bi_biss", "segment", "fixedsegment", "vector",
 //				"area", "angle", "fixedangle", "circle", "fixedcircle",
 //				"circle3", "bi_circ", "bi_arc", "quadric"
-
-        addCMicon("point", "<var,null>=Point(<null,name>,<nb,var,exp>,<nb,var,exp>);");
-        addCMicon("intersection", "<var,null>=Intersection(<null,name>,<name,var>,<name,var>);");
-        addCMicon("midpoint", "<var,null>=MidPoint(<null,name>,<name,var>,<name,var>);");
-        addCMicon("bi_syma", "<var,null>=Reflection(<null,name>,<name,var>,<name,var>);");
-        addCMicon("bi_symc", "<var,null>=Symmetry(<null,name>,<name,var>,<name,var>);");
-        addCMicon("bi_trans", "<var,null>=Translation(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("line", "<var,null>=Line(<null,name>,<name,var>,<name,var>);");
-        addCMicon("ray", "<var,null>=Ray(<null,name>,<name,var>,<name,var>);");
-        addCMicon("parallel", "<var,null>=Parallel(<null,name>,<name,var>,<name,var>);");
-        addCMicon("plumb", "<var,null>=Perpendicular(<null,name>,<name,var>,<name,var>);");
-        addCMicon("bi_med", "<var,null>=PerpendicularBisector(<null,name>,<name,var>,<name,var>);");
-        addCMicon("bi_biss", "<var,null>=AngleBisector(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("segment", "<var,null>=Segment(<null,name>,<name,var>,<name,var>);");
-        addCMicon("fixedsegment", "<var,null>=FixedSegment(<null,name>,<name,var>,<nb,var>);");
-        addCMicon("vector", "<var,null>=Vector(<null,name>,<name,var>,<name,var>);");
-        addCMicon("area", "<var,null>=Polygon(<null,name>,<objs>);");
-        addCMicon("angle", "<var,null>=Angle(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("fixedangle", "<var,null>=FixedAngle(<null,name>,<name,var>,<name,var>,<nb,var,exp>);");
-        addCMicon("circle", "<var,null>=Circle(<null,name>,<name,var>,<name,var>);");
-        addCMicon("fixedcircle", "<var,null>=FixedCircle(<null,name>,<name,var>,<nb,exp>);");
-        addCMicon("circle3", "<var,null>=Circle3(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("bi_circ", "<var,null>=Circle3pts(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("bi_arc", "<var,null>=Arc3pts(<null,name>,<name,var>,<name,var>,<name,var>);");
-        addCMicon("quadric", "<var,null>=Quadric(<null,name>,<name,var>,<name,var>,<name,var>,<name,var>,<name,var>);");
+    	if (FlagSimp&&infrench) {
+        addCMicon("point", "Point(<name,null>,<nb,var,exp>,<nb,var,exp>);");
+        addCMicon("intersection", "Intersection(<name,null>,<name,var>,<name,var>);");
+        addCMicon("midpoint", "Milieu(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_syma", "SymétrieAxiale(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_symc", "SymétrieCentrale(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_trans", "Translation(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("line", "Droite(<name,null>,<name,var>,<name,var>);");
+        addCMicon("ray", "DemiDroite(<name,null>,<name,var>,<name,var>);");
+        addCMicon("parallel", "Parallèle(<name,null>,<name,var>,<name,var>);");
+        addCMicon("plumb", "Perpendiculaire(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_med", "Médiatrice(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_biss", "Bissectrice(<name,var>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("segment", "Segment(<name,null>,<name,var>,<name,var>);");
+        addCMicon("fixedsegment", "SegmentFixe(<name,null>,<name,var>,<nb,var>);");
+        addCMicon("vector", "Vecteur(<name,null>,<name,var>,<name,var>);");
+        addCMicon("area", "Polygone(<name,null>,<objs>);");
+        addCMicon("angle", "Angle(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("fixedangle", "AngleFixe(<name,null>,<name,var>,<name,var>,<nb,var,exp>);");
+        addCMicon("circle", "Cercle(<name,null>,<name,var>,<name,var>);");
+        addCMicon("fixedcircle", "CercleRayon(<name,null>,<name,var>,<nb,exp>);");
+        addCMicon("circle3", "Cercle3(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("bi_circ", "Cercle3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("bi_arc", "Arc3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("quadric", "Quadrique(<name,null>,<name,var>,<name,var>,<name,var>,<name,var>,<name,var>);");
 //        addCMicon("text", "");
-        addCMicon("expression", "<var,null>=Expression(<null,name>,\"Votre expression\",<nb>,<nb>);");
-        addCMicon("text", "<var,null>=Text(<null,name>,\"Votre message\",<nb>,<nb>);");
+        addCMicon("expression", "Expression(<name,null>,\"Votre expression\",<nb>,<nb>);");
+        addCMicon("text", "Texte(<name,null>,\"Votre message\",<nb>,<nb>);");
 //        addCMicon("image3", "");
 //        addBlankIcon(3);
-        addCMicon("function", "<var,null>=CartesianFunction(<null,name>,-5,5,\"x^2-2*x+1\");");
-        addCMicon("parametricfunction", "<var,null>=ParametricFunction(<null,name>,-3.14,3.14,\"3*rcos(t)^3\",\"3*rsin(t)^3\");");
-        addCMicon("equationxy", "<var,null>=ImplicitPlot(<null,name>,\"x^3-2*x-y^2+1\");");
-        addCMicon("bi_3Dcoords", "<var,null>=Point(<null,name>,"
-                +"\"x(O)+abs*(x(X)-x(O))+ord*(x(Y)-x(O))+alt*(x(Z)-x(O))\","
-                +"\"y(O)+abs*(y(X)-y(O))+ord*(y(Y)-y(O))+alt*(y(Z)-y(O))\");");
-
+        addCMicon("function", "FonctionCartésienne(<name,null>,-5,5,\"x^2-2*x+1\");");
+        addCMicon("parametricfunction", "FonctionParamétrique(<name,null>,-3.14,3.14,\"3*rcos(t)^3\",\"3*rsin(t)^3\");");
+        addCMicon("equationxy", "tracéImplicite(<name,null>,\"x^3-2*x-y^2+1\");");
+        addCMicon("macro", "ExécuterMacro(<name,null>,\"_x,_y,_z\");");
+        
         addSeparator(1);
-        addCMicon("interactiveinput", "<var>=InteractiveInput(\"Message\",<\"Point,Segment,Line,Circle\">);");
-        addCMicon("aimant", "SetMagneticObjects(<name,var>,<objs,var>);");
-        addCMicon("hide", "SetHide(<objs,var>,<\"true,false\">);");
-        addCMicon("type2", "SetPointType(<objs,var>,<\"square,circle,diamond,point,cross,dcross\">);");
-        addCMicon("color4", "SetColor(<objs,var>,<\"green,blue,brown,cyan,red,black\">);");
-        addCMicon("thickness1", "SetThickness(<objs,var>,<\"thick,normal,thin\">);");
-        addCMicon("partial", "SetPartial(<objs,var>,<\"true,false\">);");
-        addCMicon("showvalue", "SetShowValue(<objs,var>,<\"true,false\">);");
-        addCMicon("showname", "SetShowName(<objs,var>,<\"true,false\">);");
-        addCMicon("filled", "SetFilled(<objs,var>,<\"true,false\">);");
-        addCMicon("monkey", "Move(<name,var>,<nb,var,exp>,<nb,var,exp>);");
-        addCMicon("nail", "SetFixed(<name,var>,<\"true,false\">);");
+        addCMicon("bi_3Dcoords", "Point3D(<name,null>,<nb,var,exp>,<nb,var,exp>,<nb,var,exp>);");
+        addCMicon("bi_3Dproj", "Projection3D(<name,null>,\"C,D,E\",<name,var>);");
+        addCMicon("bi_3Dsymc", "SymétrieCentrale3D(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_3Dsymp", "Symétrie3DPlan(<name,null>,\"C,D,E\",<name,var>);");
+        addCMicon("bi_3Dtrans", "Translation3D(<name,null>,<name,var>,<name,var>,<name,var>);");
+        addCMicon("bi_3Dsphererayon", "SphèreRayon(<name,null>,<name,var>,<nb,var,exp>);");
+        addCMicon("bi_3Dspherepoint", "Sphère(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_3Dcircle1", "Cercle3D(<name,null>,<name,var>,<name,var>);");
+        addCMicon("bi_3Dcircle2", "CercleRayon3D(<name,null>,<name,var>,<name,var>,\"E7\");");
+        addCMicon("bi_3Dcircle3pts", "Cercle3D3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+        
+        addSeparator(1);
+        addCMicon("interactiveinput", "<var>=EntréeInteractive(\"Message\",<\"Point,Segment,Line,Circle\">);");
+        addCMicon("aimant", "MettreObjetsMagnétiques(<name,var>,<objs,var>);");
+        addCMicon("hide", "MettreCaché(<objs,var>,<\"vrai,faux\">);");
+        addCMicon("type2", "MettreTypePoint(<objs,var>,<\"square,circle,diamond,point,cross,dcross\">);");
+        addCMicon("color4", "MettreCouleur(<objs,var>,<\"green,blue,brown,cyan,red,black\">);");
+        addCMicon("thickness1", "MettreEpaisseur(<objs,var>,<\"thick,normal,thin\">);");
+        addCMicon("partial", "MettrePartiel(<objs,var>,<\"vrai,faux\">);");
+        addCMicon("showvalue", "MettreMontrerValeur(<objs,var>,<\"vrai,faux\">);");
+        addCMicon("showname", "MettreMontrerNom(<objs,var>,<\"vrai,faux\">);");
+        addCMicon("filled", "MettreRempli(<objs,var>,<\"vrai,faux\">);");
+        addCMicon("monkey", "Déplacer(<name,var>,<nb,var,exp>,<nb,var,exp>);");
+        addCMicon("nail", "MettreFixe(<name,var>,<\"vrai,faux\">);");
 //        addCMicon("dice", "<var,null>=Math.ceil(Math.random()*6);");
+    	}
+    	else if (FlagSimp) {
+    		addCMicon("point", "Point(<name,null>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("intersection", "Intersection(<name,null>,<name,var>,<name,var>);");
+            addCMicon("midpoint", "MidPoint(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_syma", "Reflection(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_symc", "Symmetry(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_trans", "Translation(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("line", "Line(<name,null>,<name,var>,<name,var>);");
+            addCMicon("ray", "Ray(<name,null>,<name,var>,<name,var>);");
+            addCMicon("parallel", "Parallel(<name,null>,<name,var>,<name,var>);");
+            addCMicon("plumb", "Perpendicular(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_med", "PerpendicularBisector(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_biss", "AngleBisector(,<name,var>,<name,var>,<name,var>);");
+            addCMicon("segment", "Segment(<name,null>,<name,var>,<name,var>);");
+            addCMicon("fixedsegment", "FixedSegment(<name,null>,<name,var>,<nb,var>);");
+            addCMicon("vector", "Vector(<name,null>,<name,var>,<name,var>);");
+            addCMicon("area", "Polygon(<name,null>,<objs>);");
+            addCMicon("angle", "Angle(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("fixedangle", "FixedAngle(<name,null>,<name,var>,<name,var>,<nb,var,exp>);");
+            addCMicon("circle", "Circle(<name,null>,<name,var>,<name,var>);");
+            addCMicon("fixedcircle", "FixedCircle(<name,null>,<name,var>,<nb,exp>);");
+            addCMicon("circle3", "Circle3(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_circ", "Circle3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_arc", "Arc3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("quadric", "Quadric(<name,null>,<name,var>,<name,var>,<name,var>,<name,var>,<name,var>);");
+//            addCMicon("text", "");
+            addCMicon("expression", "Expression(<name,null>,\"Votre expression\",<nb>,<nb>);");
+            addCMicon("text", "Text(<name,null>,\"Votre message\",<nb>,<nb>);");
+//            addCMicon("image3", "");
+//            addBlankIcon(3);
+            addCMicon("function", "CartesianFunction(<name,null>,-5,5,\"x^2-2*x+1\");");
+            addCMicon("parametricfunction", "ParametricFunction(<name,null>,-3.14,3.14,\"3*rcos(t)^3\",\"3*rsin(t)^3\");");
+            addCMicon("equationxy", "ImplicitPlot(<name,null>,\"x^3-2*x-y^2+1\");");
+            addCMicon("macro", "ExecuteMacro(<name,null>,\"_x,_y,_z\");");
+            addSeparator(1);
+            
+            addCMicon("bi_3Dcoords", "Point3D(<name,null>,<nb,var,exp>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("bi_3Dproj", "Projection3D(<name,null>,\"C,D,E\",<name,var>);");
+            addCMicon("bi_3Dsymc", "Symmetry3D(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dsymp", "Reflection3D(<name,null>,\"C,D,E\",<name,var>);");
+            addCMicon("bi_3Dtrans", "Translation3D(<name,null>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dsphererayon", "FixedSphere(<name,null>,<name,var>,<nb,var,exp>);");
+            addCMicon("bi_3Dspherepoint", "Sphere(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dcircle1", "Circle3D(<name,null>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dcircle2", "FixedCircle3D(<name,null>,<name,var>,<name,var>,\"E7\");");
+            addCMicon("bi_3Dcircle3pts", "Circle3D3pts(<name,null>,<name,var>,<name,var>,<name,var>);");
+            
+            addSeparator(1);
+            addCMicon("interactiveinput", "<var>=InteractiveInput(\"Message\",<\"Point,Segment,Line,Circle\">);");
+            addCMicon("aimant", "SetMagneticObjects(<name,var>,<objs,var>);");
+            addCMicon("hide", "SetHide(<objs,var>,<\"true,false\">);");
+            addCMicon("type2", "SetPointType(<objs,var>,<\"square,circle,diamond,point,cross,dcross\">);");
+            addCMicon("color4", "SetColor(<objs,var>,<\"green,blue,brown,cyan,red,black\">);");
+            addCMicon("thickness1", "SetThickness(<objs,var>,<\"thick,normal,thin\">);");
+            addCMicon("partial", "SetPartial(<objs,var>,<\"true,false\">);");
+            addCMicon("showvalue", "SetShowValue(<objs,var>,<\"true,false\">);");
+            addCMicon("showname", "SetShowName(<objs,var>,<\"true,false\">);");
+            addCMicon("filled", "SetFilled(<objs,var>,<\"true,false\">);");
+            addCMicon("monkey", "Move(<name,var>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("nail", "SetFixed(<name,var>,<\"true,false\">);");
+//            addCMicon("dice", "<var,null>=Math.ceil(Math.random()*6);");
+            
+    	}
+    	else {
+    		addCMicon("point", "<var,null>=Point(<null,name>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("intersection", "<var,null>=Intersection(<null,name>,<name,var>,<name,var>);");
+            addCMicon("midpoint", "<var,null>=MidPoint(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_syma", "<var,null>=Reflection(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_symc", "<var,null>=Symmetry(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_trans", "<var,null>=Translation(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("line", "<var,null>=Line(<null,name>,<name,var>,<name,var>);");
+            addCMicon("ray", "<var,null>=Ray(<null,name>,<name,var>,<name,var>);");
+            addCMicon("parallel", "<var,null>=Parallel(<null,name>,<name,var>,<name,var>);");
+            addCMicon("plumb", "<var,null>=Perpendicular(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_med", "<var,null>=PerpendicularBisector(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_biss", "<var,null>=AngleBisector(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("segment", "<var,null>=Segment(<null,name>,<name,var>,<name,var>);");
+            addCMicon("fixedsegment", "<var,null>=FixedSegment(<null,name>,<name,var>,<nb,var>);");
+            addCMicon("vector", "<var,null>=Vector(<null,name>,<name,var>,<name,var>);");
+            addCMicon("area", "<var,null>=Polygon(<null,name>,<objs>);");
+            addCMicon("angle", "<var,null>=Angle(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("fixedangle", "<var,null>=FixedAngle(<null,name>,<name,var>,<name,var>,<nb,var,exp>);");
+            addCMicon("circle", "<var,null>=Circle(<null,name>,<name,var>,<name,var>);");
+            addCMicon("fixedcircle", "<var,null>=FixedCircle(<null,name>,<name,var>,<nb,exp>);");
+            addCMicon("circle3", "<var,null>=Circle3(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_circ", "<var,null>=Circle3pts(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_arc", "<var,null>=Arc3pts(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("quadric", "<var,null>=Quadric(<null,name>,<name,var>,<name,var>,<name,var>,<name,var>,<name,var>);");
+//            addCMicon("text", "");
+            addCMicon("expression", "<var,null>=Expression(<null,name>,\"Votre expression\",<nb>,<nb>);");
+            addCMicon("text", "<var,null>=Text(<null,name>,\"Votre message\",<nb>,<nb>);");
+//            addCMicon("image3", "");
+//            addBlankIcon(3);
+            addCMicon("function", "<var,null>=CartesianFunction(<null,name>,-5,5,\"x^2-2*x+1\");");
+            addCMicon("parametricfunction", "<var,null>=ParametricFunction(<null,name>,-3.14,3.14,\"3*rcos(t)^3\",\"3*rsin(t)^3\");");
+            addCMicon("equationxy", "<var,null>=ImplicitPlot(<null,name>,\"x^3-2*x-y^2+1\");");
+            addCMicon("macro", "<var,null>=ExecuteMacro(\"macroName\",\"_x,_y,_z\");");
+            
+            addSeparator(1);
+            addCMicon("bi_3Dcoords", "<var,null>=Point3D(<null,name>,<nb,var,exp>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("bi_3Dproj", "<var,null>=Projection3D(<null,name>,\"_f,_g,_h\",<name,var>);");
+            addCMicon("bi_3Dsymc", "<var,null>=Symmetry3D(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dsymp", "<var,null>=Reflection3D(<null,name>,\"_f,_g,_h\",<name,var>);");
+            addCMicon("bi_3Dtrans", "<var,null>=Translation3D(<null,name>,<name,var>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dsphererayon", "<var,null>=FixedSphere(<null,name>,<name,var>,<nb,var,exp>);");
+            addCMicon("bi_3Dspherepoint", "<var,null>=Sphere(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dcircle1", "<var,null>=Circle3D(<null,name>,<name,var>,<name,var>);");
+            addCMicon("bi_3Dcircle2", "<var,null>=FixedCircle3D(<null,name>,<name,var>,<name,var>,\"E7\");");
+            addCMicon("bi_3Dcircle3pts", "<var,null>=Circle3D3pts(<null,name>,<name,var>,<name,var>,<name,var>);");
+            
+            addSeparator(1);
+            addCMicon("interactiveinput", "<var>=InteractiveInput(\"Message\",<\"Point,Segment,Line,Circle\">);");
+            addCMicon("aimant", "SetMagneticObjects(<name,var>,<objs,var>);");
+            addCMicon("hide", "SetHide(<objs,var>,<\"true,false\">);");
+            addCMicon("type2", "SetPointType(<objs,var>,<\"square,circle,diamond,point,cross,dcross\">);");
+            addCMicon("color4", "SetColor(<objs,var>,<\"green,blue,brown,cyan,red,black\">);");
+            addCMicon("thickness1", "SetThickness(<objs,var>,<\"thick,normal,thin\">);");
+            addCMicon("partial", "SetPartial(<objs,var>,<\"true,false\">);");
+            addCMicon("showvalue", "SetShowValue(<objs,var>,<\"true,false\">);");
+            addCMicon("showname", "SetShowName(<objs,var>,<\"true,false\">);");
+            addCMicon("filled", "SetFilled(<objs,var>,<\"true,false\">);");
+            addCMicon("monkey", "Move(<name,var>,<nb,var,exp>,<nb,var,exp>);");
+            addCMicon("nail", "SetFixed(<name,var>,<\"true,false\">);");
+//            addCMicon("dice", "<var,null>=Math.ceil(Math.random()*6);");
+    	}
 
 
         addJSIcon("js_cos", "Math.cos(x)");
@@ -891,6 +1030,7 @@ public class JSEditor extends javax.swing.JFrame {
         action_buttons = new javax.swing.JPanel();
         jTextHeight = new javax.swing.JSlider();
         jPanel18 = new javax.swing.JPanel();
+        openbtnSimp = new javax.swing.JButton();
         openbtn5 = new javax.swing.JButton();
         jPanel16 = new javax.swing.JPanel();
         openbtn2 = new javax.swing.JButton();
@@ -1189,6 +1329,27 @@ public class JSEditor extends javax.swing.JFrame {
         jPanel12.setPreferredSize(new java.awt.Dimension(35, 1));
         action_buttons.add(jPanel12);
 
+        openbtnSimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eric/GUI/icons/jswindow/js.png"))); // NOI18N
+        openbtnSimp.setToolTipText(Loc("JSeditor.choseGenerator"));
+        openbtnSimp.setBorder(null);
+        openbtnSimp.setContentAreaFilled(false);
+        openbtnSimp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openbtnSimpActionPerformed(evt);
+            }
+        });
+        openbtnSimp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                openbtnSimpKeyPressed(evt);
+            }
+        });
+        openbtnSimp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                openbtnSimpMouseClicked(evt);
+            }
+        });
+        action_buttons.add(openbtnSimp);
+        
         openbtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eric/GUI/icons/jswindow/help.png"))); // NOI18N
         openbtn4.setToolTipText(Loc("JSeditor.help"));
         openbtn4.setBorder(null);
@@ -1279,15 +1440,15 @@ public class JSEditor extends javax.swing.JFrame {
         commands.add(jLabel1);
 
         c_carmetal.setBackground(new java.awt.Color(117, 112, 104));
-        c_carmetal.setMaximumSize(new java.awt.Dimension(182, 230));
-        c_carmetal.setMinimumSize(new java.awt.Dimension(182, 100));
+        c_carmetal.setMaximumSize(new java.awt.Dimension(182, 260));
+        c_carmetal.setMinimumSize(new java.awt.Dimension(182, 250));
         c_carmetal.setOpaque(false);
-        c_carmetal.setPreferredSize(new java.awt.Dimension(182, 230));
+        c_carmetal.setPreferredSize(new java.awt.Dimension(182, 250));
         c_carmetal.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 3, 3));
         commands.add(c_carmetal);
 
         c_js.setBackground(new java.awt.Color(117, 112, 104));
-        c_js.setMaximumSize(new java.awt.Dimension(182, 360));
+        c_js.setMaximumSize(new java.awt.Dimension(182, 374));
         c_js.setMinimumSize(new java.awt.Dimension(182, 260));
         c_js.setOpaque(false);
         c_js.setPreferredSize(new java.awt.Dimension(182, 260));
@@ -1325,7 +1486,7 @@ public class JSEditor extends javax.swing.JFrame {
         JSlist.setFont(new java.awt.Font("DejaVu Sans", 2, 16)); // NOI18N
         JSlist.setForeground(new java.awt.Color(150, 50, 50));
         JSlist.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { Global.Loc("JSFonctions.Input"), Global.Loc("JSFonctions.Print"), Global.Loc("JSFonctions.Println"), Global.Loc("JSFonctions.Alert"), Global.Loc("JSFonctions.ifelse"), Global.Loc("JSFonctions.switchcase"), Global.Loc("JSFonctions.for"), Global.Loc("JSFonctions.while"), Global.Loc("JSFonctions.dowhile"), Global.Loc("JSFonctions.function") };
+            String[] strings = { Global.Loc("JSFonctions.Input"), Global.Loc("JSFonctions.Print"), Global.Loc("JSFonctions.Println"), Global.Loc("JSFonctions.Alert"), Global.Loc("JSFonctions.ifelse"), Global.Loc("JSFonctions.switchcase"), Global.Loc("JSFonctions.for"), Global.Loc("JSFonctions.while"), Global.Loc("JSFonctions.dowhile"), Global.Loc("JSFonctions.dountil"), Global.Loc("JSFonctions.function") };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -1335,7 +1496,7 @@ public class JSEditor extends javax.swing.JFrame {
         JSlist.setFixedCellHeight(20);
         JSlist.setMaximumSize(new java.awt.Dimension(160, 415));
         JSlist.setMinimumSize(new java.awt.Dimension(160, 20));
-        JSlist.setPreferredSize(new java.awt.Dimension(160, 200));
+        JSlist.setPreferredSize(new java.awt.Dimension(160, 220));
         JSlist.setRequestFocusEnabled(false);
         JSlist.setVisibleRowCount(-1);
         JSlist.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -1537,34 +1698,62 @@ public class JSEditor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2MouseDragged
 
     private void JSlistValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_JSlistValueChanged
-
+    	infrench = System.getProperty("user.language").equals("fr");
         if (evt.getValueIsAdjusting()==false) {
             int sel=JSlist.getSelectedIndex();
             JSlist.removeSelectionInterval(sel, sel);
-            if (sel==0) {
-                script_area.replaceSelection("a=Input(\""+Loc("JScmd.inputmessage")+"\");");
+            if (sel==0&&FlagSimp&&infrench) {
+                script_area.replaceSelection("a:=Entrée(\""+Loc("JScmd.inputmessage")+"\");");
+            } else if (sel==0) {
+            	script_area.replaceSelection("a=Input(\""+Loc("JScmd.inputmessage")+"\");");
+            } else if (sel==1&&FlagSimp&&infrench) {
+                script_area.replaceSelection("Afficher(\""+Loc("JScmd.promptmessage")+"\");");
             } else if (sel==1) {
-                script_area.replaceSelection("Print(\""+Loc("JScmd.promptmessage")+"\");");
+            	script_area.replaceSelection("Print(\""+Loc("JScmd.promptmessage")+"\");");
+            } else if (sel==2&&FlagSimp&&infrench) {
+                script_area.replaceSelection("Afficherligne(\""+Loc("JScmd.promptmessage")+"\");");
             } else if (sel==2) {
-                script_area.replaceSelection("Println(\""+Loc("JScmd.promptmessage")+"\");");
+            	script_area.replaceSelection("Println(\""+Loc("JScmd.promptmessage")+"\");");
+            } else if (sel==3&&FlagSimp&&infrench) {
+            	script_area.replaceSelection("Alerte(\""+Loc("JScmd.promptmessage")+"\");");
             } else if (sel==3) {
                 script_area.replaceSelection("Alert(\""+Loc("JScmd.promptmessage")+"\");");
 //            } else if (sel == 4) {
 //                script_area.replaceSelection("Pause(1000);");
+            } else if (sel==4&&FlagSimp&&infrench) {
+                script_area.replaceSelection("si (i<20){\n\n} sinon {\n\n}");
             } else if (sel==4) {
-                script_area.replaceSelection("if (i<20){\n\n} else {\n\n}");
+            	script_area.replaceSelection("if (i<20){\n\n} else {\n\n}");
+            } else if (sel==5&&FlagSimp&&infrench) {
+                script_area.replaceSelection("obliquer (d){\n "
+                        +"cas 1 : {\n\n rompre; }\n cas 2 : {\n\n rompre; }\n"
+                        +"cas 3 : {\n\n rompre;} \n par défaut : {\n\n } \n} ");
             } else if (sel==5) {
-                script_area.replaceSelection("switch (d){\n "
+            	script_area.replaceSelection("switch (d){\n "
                         +"case 1 : {\n\n break; }\n case 2 : {\n\n break; }\n"
-                        +"case 3 : {\n\n break;} \n default : {\n\n } \n} ");
+                        +"case 3 : {\n\n break;} \n par default : {\n\n } \n} ");
+            } else if (sel==6&&FlagSimp&&infrench) {
+                script_area.replaceSelection("pour i allant de 1 à 20 {\n\n}");
+            } else if (sel==6&&FlagSimp) {
+                script_area.replaceSelection("for i from 1 to 20 {\n\n}");
             } else if (sel==6) {
-                script_area.replaceSelection("for (i=0; i<20; i=i+1){\n\n}");
+            	script_area.replaceSelection("for (i=0; i<20; i++){\n\n}");
+            } else if (sel==7&&FlagSimp&&infrench) {
+                script_area.replaceSelection("tant que (i<20){\ni=i+1;\n}\n");
             } else if (sel==7) {
-                script_area.replaceSelection("while (i<20){\ni=i+1;\n}\n");
+            	script_area.replaceSelection("while (i<20){\ni=i+1;\n}\n");
+            } else if(sel==8&&FlagSimp&&infrench) {
+            	script_area.replaceSelection("faire{\ni=i+1;\n\n}tant que (i<20)\n");
             } else if (sel==8) {
                 script_area.replaceSelection("do{\ni=i+1;\n\n}while (i<20)\n");
+            } else if(sel==9&&FlagSimp&&infrench) {
+            	script_area.replaceSelection("faire{\ni=i+1;\n\n}jusqu'à (i>20);\n");
             } else if (sel==9) {
-                script_area.replaceSelection("function myfunction(x){\n\n}");
+                script_area.replaceSelection("do{\ni=i+1;\n\n}until (i>20);\n");
+            } else if (sel==10&&FlagSimp&&infrench) {
+                script_area.replaceSelection("fonction myfunction(x){\n\n}");
+            } else if (sel==10) {
+            	script_area.replaceSelection("function myfunction(x){\n\n}");
             }
             Format();
             script_area.requestFocus();
@@ -1642,7 +1831,7 @@ public class JSEditor extends javax.swing.JFrame {
     private void openbtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openbtn4MouseClicked
         // TODO add your handling code here:
 //        setAlwaysOnTop(true);
-        JBrowserLauncher.openURL("http://db-maths.nuxit.net/CaRMetal/carJSdoc/index.html");
+        JBrowserLauncher.openURL("http://carmetal.org/index.php/fr/tutoriels/les-scripts/syntaxe");
 //setAlwaysOnTop(false);
         toFront();
 
@@ -1652,17 +1841,38 @@ public class JSEditor extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowClosing
 
-    private void openbtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openbtn5ActionPerformed
+    private void openbtn5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:
+    }                                        
+
+    private void openbtn5KeyPressed(java.awt.event.KeyEvent evt) {                                    
+        // TODO add your handling code here:
+    }                                   
+
+    private void openbtn5MouseClicked(java.awt.event.MouseEvent evt) {                                      
+        // TODO add your handling code here:
+        commentSelection();
+    }                                     
+
+    private void openbtnSimpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openbtn5ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_openbtn5ActionPerformed
 
-    private void openbtn5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_openbtn5KeyPressed
+    private void openbtnSimpKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_openbtn5KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_openbtn5KeyPressed
 
-    private void openbtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openbtn5MouseClicked
+    private void openbtnSimpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_openbtn5MouseClicked
         // TODO add your handling code here:
-        commentSelection();
+    	FlagSimp=!FlagSimp;
+    	if (FlagSimp) openbtnSimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eric/GUI/icons/jswindow/js2.png")));
+    	else openbtnSimp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eric/GUI/icons/jswindow/js.png")));
+    	openbtnSimp.setBorder(null);
+    	openbtnSimp.setContentAreaFilled(false);
+    	c_carmetal.removeAll();
+    	initCaRMetalBtns();
+    	openbtnSimp.revalidate();
+    	c_carmetal.revalidate();
     }//GEN-LAST:event_openbtn5MouseClicked
 
     private void jTextHeightStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTextHeightStateChanged
@@ -1713,6 +1923,7 @@ public class JSEditor extends javax.swing.JFrame {
     private javax.swing.JButton openbtn3;
     private javax.swing.JButton openbtn4;
     private javax.swing.JButton openbtn5;
+    private javax.swing.JButton openbtnSimp;
     private javax.swing.JTextPane script_area;
     private javax.swing.JLabel title_lbl;
     private javax.swing.JPanel winpanel;

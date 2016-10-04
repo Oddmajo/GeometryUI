@@ -886,6 +886,11 @@ public class JGeneralMenuBar extends JEricPanel {
                     }
                 }
                 ZF.clear(false);
+                final ScriptPanel panel = JZirkelCanvas.getCurrentZC().getScriptsPanel();
+                panel.removeScript(Global.Loc("aerialview"));
+                panel.removeScript(Global.Loc("frontview"));
+                panel.removeScript(Global.Loc("rightview"));
+                panel.removeScript(Global.Loc("backview"));
                 ZF.Filename = "";
             }
         });
@@ -1179,6 +1184,23 @@ public class JGeneralMenuBar extends JEricPanel {
          ***************************
          */
 	menu = new myJMenu(Loc("network"));
+	menu.addI(Global.Loc("network.menu.connect"), "", 0, 0, new myJMenuItem(){
+
+	    @Override
+	    void action(){
+                cnt = JZirkelCanvas.getCurrentZC().get_cnt();
+                if(cnt==null) { //then display the ConnectionControlPanel
+                    ui.pm.Client.ConnectionControlPanel client = new ui.pm.Client.ConnectionControlPanel();
+                    JZirkelCanvas.getCurrentZC().add(client);
+                    JZirkelCanvas.getCurrentZC().repaint();
+                    client.init();
+                    PaletteManager.deselectgeomgroup();
+                    JZirkelCanvas.getCurrentZC().showStatus("");
+                } else { //cut the connection
+                    cnt.doClose();
+                }
+	    }
+	});
         menu.addI(Global.Loc("network.menu.launch"), "", 0, 0, new myJMenuItem(){
 
             @Override
@@ -1199,23 +1221,6 @@ public class JGeneralMenuBar extends JEricPanel {
                 }
             }
         });
-	menu.addI(Global.Loc("network.menu.connect"), "", 0, 0, new myJMenuItem(){
-
-	    @Override
-	    void action(){
-                cnt = JZirkelCanvas.getCurrentZC().get_cnt();
-                if(cnt==null) { //then display the ConnectionControlPanel
-                    ui.pm.Client.ConnectionControlPanel client = new ui.pm.Client.ConnectionControlPanel();
-                    JZirkelCanvas.getCurrentZC().add(client);
-                    JZirkelCanvas.getCurrentZC().repaint();
-                    client.init();
-                    PaletteManager.deselectgeomgroup();
-                    JZirkelCanvas.getCurrentZC().showStatus("");
-                } else { //cut the connection
-                    cnt.doClose();
-                }
-	    }
-	});
 
 	menubar.add(menu);
 
@@ -1253,21 +1258,21 @@ public class JGeneralMenuBar extends JEricPanel {
 
             @Override
             void action() {
-                JBrowserLauncher.openURL("http://db-maths.nuxit.net/CaRMetal/");
+                JBrowserLauncher.openURL("http://carmetal.org/index.php/fr/");
             }
         });
         menu.addI("help.url1", "", 0, 0, new myJMenuItem() {
 
             @Override
             void action() {
-                JBrowserLauncher.openURL("http://db-maths.nuxit.net/CARzine/");
+                JBrowserLauncher.openURL("http://carmetal.org/index.php/fr/tutoriels/carzine");
             }
         });
         menu.addI("help.url2", "", 0, 0, new myJMenuItem() {
 
             @Override
             void action() {
-                JBrowserLauncher.openURL("http://zirkel.sourceforge.net/doc_en/index.html");
+                JBrowserLauncher.openURL("http://car.rene-grothmann.de/doc_en/");
             }
         });
         menu.addSep();

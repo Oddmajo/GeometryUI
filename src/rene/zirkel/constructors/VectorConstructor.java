@@ -61,11 +61,24 @@ public class VectorConstructor extends SegmentConstructor{
 		if(tag.hasParam("x") && tag.hasParam("y")){
 		    o.setEXY(tag.getValue("x"), tag.getValue("y"));
 		}
+		if (tag.hasParam("is3D")) {
+			o.setIs3D(true);
+		}
+		if(tag.hasParam("x3D") && tag.hasParam("y3D")&& tag.hasParam("z3D")){
+		    o.setEXYZ(tag.getValue("x3D"), tag.getValue("y3D"), tag.getValue("z3D"));
+		}
 		if (tag.hasParam("fixed")) {
 		    try {
 			o.setFixed(true, tag.getValue("fixed"));
 		    } catch (final Exception e) {
 			throw new ConstructionException("Fixed value illegal!");
+		    }
+		}
+		if (tag.hasParam("fixed3D")) {
+		    try {
+		    	o.setFixed(true, tag.getValue("fixed3D"));
+		    } catch (final Exception e) {
+			throw new ConstructionException("Fixed 3D value illegal!");
 		    }
 		}
 		if (tag.hasParam("code_symbol"))

@@ -755,4 +755,10 @@ MoveableObject, SimulationObject, InsideObject {
 		P.move(xmin, ymin);
 		return false;
 	}
+	public PointObject getP1() {
+		return P1;
+	}
+	public PointObject getP2() {
+		return P2;
+	}
 }

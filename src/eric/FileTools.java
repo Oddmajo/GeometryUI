@@ -59,6 +59,7 @@ import java.util.zip.ZipOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 import rene.dialogs.Warning;
 import rene.gui.Global;
 import rene.util.FileName;
@@ -412,6 +413,36 @@ public class FileTools {
             });
         }
     }
+    
+    public static void doLoadNew3D(final String filename, final InputStream in, final int mode) {
+        JZirkelCanvas JZF=JZirkelCanvas.getCurrentJZF();
+        ZirkelFrame ZF=JZirkelCanvas.getCurrentZF();
+        final ZirkelCanvas ZC=JZirkelCanvas.getCurrentZC();
+        if (ZC!=null) {
+            ZC.setMode(mode);
+            ZF.setinfo("save");
+            ZC.getConstruction().BackgroundFile=null;
+            ZF.Background="";
+            ZC.grab(false);
+            rene.zirkel.construction.Count.resetAll();
+            ZF.doload(filename, in);
+            PaletteManager.initPaletteConsideringMode();
+//            PaletteManager.fixDPpalette();
+            ZC.getLocalPreferences();
+            rene.zirkel.construction.Count.resetAll();
+
+            pipe_tools.setWindowComponents();
+            SwingUtilities.invokeLater(new Runnable() {
+
+                public void run() {
+                    ZC.JCM.readXmlTags();
+                    PaletteManager.refresh();
+                    PaletteManager.setSelected_with_clic("bi_3Dcoords", true);
+                    ZC.runOnLoadScripts();
+                }
+            });
+        }
+    }
 
     public static void openMacro(final String filename) {
         try {
@@ -458,20 +489,31 @@ public class FileTools {
     }
 
     public static void New3DWindow() {
-        final InputStream o=FileTools.class.getResourceAsStream("/base3D.zir");
-        final String Filename="base3D.zir";
+    	InputStream o;
+    	String Filename;
+    	if (System.getProperty("user.language").equals("fr")) {
+    		o=FileTools.class.getResourceAsStream("/base3D-fr.zir");
+    		Filename="base3D-fr.zir";
+    	}
+    	else if (System.getProperty("user.language").equals("es")) {
+    		o=FileTools.class.getResourceAsStream("/base3D-es.zir");
+    		Filename="base3D-es.zir";
+    	}
+    	else {
+    		o=FileTools.class.getResourceAsStream("/base3D.zir");
+    		Filename="base3D.zir";
+    	}
         final ZirkelCanvas zc=JZirkelCanvas.getCurrentZC();
         if (!zc.isEmpty()) {
             tab_main_panel.newTabBtn();
-
         }
-        doLoad(Filename, o, Construction.MODE_3D);
+        doLoadNew3D(Filename, o, Construction.MODE_3D);
         ZirkelFrame zf=JZirkelCanvas.getCurrentZF();
         if (zf!=null) {
             zf.Filename="";
         }
         SwingUtilities.invokeLater(new Runnable() {
-
+            @Override
             public void run() {
                 if (zc!=null) {
                     zc.JCM.fix3Dcomments();

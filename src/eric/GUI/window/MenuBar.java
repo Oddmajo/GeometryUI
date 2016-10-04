@@ -13,7 +13,6 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 
 /**
  *
@@ -26,6 +25,7 @@ public class MenuBar extends windowComponent {
     private Point current;
     private static MenuBar me;
 
+    @Override
     public void paintComponent(Graphics g) {
         Dimension d=getSize();
         g.drawImage(themes.getImage("menubar.gif"), 0, 0, d.width, d.height,
@@ -59,11 +59,13 @@ public class MenuBar extends windowComponent {
         me.revalidate();
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         origin=MouseInfo.getPointerInfo().getLocation();
         winloc=pipe_tools.getWindowLocation();
     }
 
+    @Override
     public void mouseDragged(MouseEvent arg0) {
         current=MouseInfo.getPointerInfo().getLocation();
         pipe_tools.setWindowLocation(winloc.x+current.x-origin.x, winloc.y+current.y-origin.y);

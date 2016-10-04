@@ -355,9 +355,69 @@ public class MacroTools {
                     m.Prompts[3]=Global.Loc("macro.bi_3Darete.3");
                 } else if (m.getName().equals("@builtin@/3Dtetra")) {
                     m.Prompts[4]=Global.Loc("macro.bi_3Dtetra.0");
+                } else if (m.getName().equals("@builtin@/3Docta")) {
+                    m.Prompts[4]=Global.Loc("macro.bi_3Docta.0");
+                } else if (m.getName().equals("@builtin@/3Disoc")) {
+                    m.Prompts[4]=Global.Loc("macro.bi_3Disoc.0");
                 } else if (m.getName().equals("@builtin@/3Ddode")) {
                     m.Prompts[4]=Global.Loc("macro.bi_3Ddode.0");
-                }
+                } else if (m.getName().equals("@builtin@/3Dsymp")) {
+                	m.Prompts[4]=Global.Loc("macro.bi_3Dsymp.0");
+                	m.Prompts[5]=Global.Loc("macro.bi_3Dsymp.1");
+                	m.Prompts[6]=Global.Loc("macro.bi_3Dsymp.2");
+                	m.Prompts[7]=Global.Loc("macro.bi_3Dsymp.3");
+            	} else if (m.getName().equals("@builtin@/3Dproj")) {
+                	m.Prompts[4]=Global.Loc("macro.bi_3Dproj.0");
+                	m.Prompts[5]=Global.Loc("macro.bi_3Dproj.1");
+                	m.Prompts[6]=Global.Loc("macro.bi_3Dproj.2");
+                	m.Prompts[7]=Global.Loc("macro.bi_3Dproj.3");
+            	} else if (m.getName().equals("@builtin@/3Dsymc")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dsymc.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dsymc.1");
+            	} else if (m.getName().equals("@builtin@/3Dtrans")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dtrans.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dtrans.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dtrans.2");
+            	} else if (m.getName().equals("@builtin@/3Dcircle1")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dcircle1.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dcircle1.1");
+            	} else if (m.getName().equals("@builtin@/3Dcircle2")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dcircle2.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dcircle2.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dcircle2.2");
+            	} else if (m.getName().equals("@builtin@/3Dcircle3pts")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dcircle3pts.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dcircle3pts.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dcircle3pts.2");
+            	} else if (m.getName().equals("@builtin@/3Dplandroite")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dplandroite.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dplandroite.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dplandroite.2");
+            		m.Prompts[7]=Global.Loc("macro.bi_3Dplandroite.3");
+            	} else if (m.getName().equals("@builtin@/3Dplanplan")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dplanplan.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dplanplan.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dplanplan.2");
+            		m.Prompts[7]=Global.Loc("macro.bi_3Dplanplan.3");
+            		m.Prompts[8]=Global.Loc("macro.bi_3Dplanplan.4");
+            		m.Prompts[9]=Global.Loc("macro.bi_3Dplanplan.5");
+            	} else if (m.getName().equals("@builtin@/3Dsphererayon")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dsphererayon.0");
+            	} else if (m.getName().equals("@builtin@/3Dspherepoint")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dspherepoint.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dspherepoint.1");
+            	} else if (m.getName().equals("@builtin@/3Dspheredroite")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dspheredroite.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dspheredroite.1");
+            	} else if (m.getName().equals("@builtin@/3Dsphereplan")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dsphereplan.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dsphereplan.1");
+            		m.Prompts[6]=Global.Loc("macro.bi_3Dsphereplan.2");
+            		m.Prompts[7]=Global.Loc("macro.bi_3Dsphereplan.3");
+            	} else if (m.getName().equals("@builtin@/3Dspheresphere")) {
+            		m.Prompts[4]=Global.Loc("macro.bi_3Dspheresphere.0");
+            		m.Prompts[5]=Global.Loc("macro.bi_3Dspheresphere.1");
+            	}
                 ZF.runMacro(m);
             }
         }

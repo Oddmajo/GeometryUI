@@ -20,7 +20,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package rene.zirkel.constructors;
 
 // file: PointConstructor.java
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import java.awt.event.MouseEvent;
+
+import eric.GUI.palette.PaletteManager;
 
 import rene.util.xml.XmlTag;
 import rene.util.xml.XmlTree;
@@ -29,16 +34,17 @@ import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.construction.ConstructionException;
 import rene.zirkel.construction.Selector;
+import rene.zirkel.objects.AreaObject;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.InsideObject;
 import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.PointonObject;
+import rene.zirkel.objects.TwoPointLineObject;
 
 public class BoundedPointConstructor extends ObjectConstructor implements
         Selector {
 
     boolean Control;
-
 
 
     @Override
@@ -61,7 +67,48 @@ public class BoundedPointConstructor extends ObjectConstructor implements
         if (o instanceof InsideObject) {
             p.setInside(true);
         }
-        zc.addObject(p);
+        if (zc.is3D()) { //Dibs : 2D -> 3D.
+        	zc.validate(); //Dibs	
+        	if (((PointObject) p).getBound() instanceof AreaObject) {
+        			AreaObject surface= (AreaObject) ((PointObject) p).getBound();
+        			if (((AreaObject)surface).V.size()>2&&((PointObject) surface.V.get(0)).is3D()&&((PointObject) surface.V.get(1)).is3D()&&((PointObject) surface.V.get(2)).is3D()) {
+        				try {
+        					double x0=((PointObject) surface.V.get(0)).getX3D();
+            				double y0=((PointObject) surface.V.get(0)).getY3D();
+            				double z0=((PointObject) surface.V.get(0)).getZ3D();
+            				double x1=((PointObject) surface.V.get(1)).getX3D();
+            				double y1=((PointObject) surface.V.get(1)).getY3D();
+            				double z1=((PointObject) surface.V.get(1)).getZ3D();
+            				double x2=((PointObject) surface.V.get(2)).getX3D();
+            				double y2=((PointObject) surface.V.get(2)).getY3D();
+            				double z2=((PointObject) surface.V.get(2)).getZ3D();
+            				double x_O=zc.getConstruction().find("O").getX();
+            				double x_X=zc.getConstruction().find("X").getX();
+            				double x_Y=zc.getConstruction().find("Y").getX();
+            				double x_Z=zc.getConstruction().find("Z").getX();
+            				double y_O=zc.getConstruction().find("O").getY();
+            				double y_X=zc.getConstruction().find("X").getY();
+            				double y_Y=zc.getConstruction().find("Y").getY();
+            				double y_Z=zc.getConstruction().find("Z").getY();
+            				double coeffa=(x1-x0)*(x_X-x_O)+(y1-y0)*(x_Y-x_O)+(z1-z0)*(x_Z-x_O);
+            				double coeffb=(x2-x0)*(x_X-x_O)+(y2-y0)*(x_Y-x_O)+(z2-z0)*(x_Z-x_O);
+            				double coeffc=(x1-x0)*(y_X-y_O)+(y1-y0)*(y_Y-y_O)+(z1-z0)*(y_Z-y_O);
+            				double coeffd=(x2-x0)*(y_X-y_O)+(y2-y0)*(y_Y-y_O)+(z2-z0)*(y_Z-y_O);
+            				double coeffe=p.getX()-x_O-x0*(x_X-x_O)-y0*(x_Y-x_O)-z0*(x_Z-x_O);
+            				double coefff=p.getY()-y_O-x0*(y_X-y_O)-y0*(y_Y-y_O)-z0*(y_Z-y_O);
+            				double alpha1=(coeffe*coeffd-coefff*coeffb)/(coeffa*coeffd-coeffb*coeffc);
+            				double beta1=(coeffa*coefff-coeffc*coeffe)/(coeffa*coeffd-coeffb*coeffc);
+            				((PointObject) p).setX3D(x0+alpha1*(x1-x0)+beta1*(x2-x0));
+            				((PointObject) p).setY3D(y0+alpha1*(y1-y0)+beta1*(y2-y0));
+            				((PointObject) p).setZ3D(z0+alpha1*(z1-z0)+beta1*(z2-z0));
+            				((PointObject) p).setIs3D(true);
+            				p.validate();
+        	            	} catch (final Exception eBary) {
+        	            }
+        			}
+        		}
+        	}
+        zc.addObject(p); 
         p.validate();
         p.setDefaults();
     }
@@ -107,9 +154,16 @@ public class BoundedPointConstructor extends ObjectConstructor implements
                 throw new ConstructionException("");
             }
             double x=0, y=0;
+            double x3D=0, y3D=0, z3D=0;
             try {
                 x=new Double(tag.getValue("x")).doubleValue();
                 y=new Double(tag.getValue("y")).doubleValue();
+            } catch (final Exception e) {
+            }
+            try {
+                x3D=new Double(tag.getValue("x3D")).doubleValue();
+                y3D=new Double(tag.getValue("y3D")).doubleValue();
+                z3D=new Double(tag.getValue("z3D")).doubleValue();
             } catch (final Exception e) {
             }
             PointObject p;
@@ -156,6 +210,11 @@ public class BoundedPointConstructor extends ObjectConstructor implements
             if (tag.hasParam("boundorder")) {
                 p.setBoundOrder(Double.valueOf(tag.getValue("boundorder")).doubleValue());
             }
+            if (tag.hasParam("is3D")) {
+            	p.setIs3D(true);
+            	p.move3D(x3D,y3D,z3D);
+            	p.move(c.find("O").getX()+x3D*(c.find("X").getX()-c.find("O").getX())+y3D*(c.find("Y").getX()-c.find("O").getX())+z3D*(c.find("Z").getX()-c.find("O").getX()), c.find("O").getY()+x3D*(c.find("X").getY()-c.find("O").getY())+y3D*(c.find("Y").getY()-c.find("O").getY())+z3D*(c.find("Z").getY()-c.find("O").getY()));
+            }
             setName(tag, p);
             set(tree, p);
             c.add(p);
@@ -169,6 +228,7 @@ public class BoundedPointConstructor extends ObjectConstructor implements
                 } catch (final Exception e) {
                 }
             }
+            
         } catch (final Exception e) {
             e.printStackTrace();
             throw new ConstructionException("Illegal point bound!");

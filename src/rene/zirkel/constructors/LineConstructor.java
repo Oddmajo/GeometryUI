@@ -163,6 +163,10 @@ public class LineConstructor extends ObjectConstructor {
         zc.repaint();
         if (Fix&&!Moved) {
             setFixed(zc, O);
+        } else {
+            try {
+                O.setFixed(false, O.getStringLength());
+            } catch (Exception ex) {}
         }
         reset(zc);
     }

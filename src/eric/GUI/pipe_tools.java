@@ -14,6 +14,7 @@ import eric.bar.JPropertiesBar;
 import eric.macros.CreateMacroDialog;
 import eric.macros.CreateMacroPanel;
 import eric.monkey.monkey;
+
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Point;

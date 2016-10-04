@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaR>
+<Script Name="vue d&apos;avion" onload="false">
+phi=GetExpressionValue(&quot;E10&quot;);
+theta=GetExpressionValue(&quot;E11&quot;);
+dphi=(90-phi)/200;
+dtheta=(90-theta)/200;
+for (i=0;i&lt;200;i++){
+	phi=phi+dphi;
+	SetExpressionValue(&quot;E10&quot;,phi);
+	theta=theta+dtheta;
+	SetExpressionValue(&quot;E11&quot;,theta);
+}
+SetExpressionValue(&quot;E10&quot;,90);
+SetExpressionValue(&quot;E11&quot;,90);
+</Script>
+<Script Name="vue de face" onload="false">
+phi=GetExpressionValue(&quot;E10&quot;);
+theta=GetExpressionValue(&quot;E11&quot;);
+dphi=-phi/200;
+dtheta=-theta/200;
+for (i=0;i&lt;200;i++){
+	phi=phi+dphi;
+	SetExpressionValue(&quot;E10&quot;,phi);
+	theta=theta+dtheta;
+	SetExpressionValue(&quot;E11&quot;,theta);
+}
+SetExpressionValue(&quot;E10&quot;,0);
+SetExpressionValue(&quot;E11&quot;,0);
+</Script>
+<Script Name="vue de droite" onload="false">
+phi=GetExpressionValue(&quot;E10&quot;);
+theta=GetExpressionValue(&quot;E11&quot;);
+dphi=(-90-phi)/200;
+dtheta=-theta/200;
+for (i=0;i&lt;200;i++){
+	phi=phi+dphi;
+	theta=theta+dtheta;
+	SetExpressionValue(&quot;E10&quot;,phi);
+	SetExpressionValue(&quot;E11&quot;,theta);
+}
+SetExpressionValue(&quot;E10&quot;,-90);
+SetExpressionValue(&quot;E11&quot;,0);
+</Script>
+<Script Name="vue de gauche" onload="false">
+phi=GetExpressionValue(&quot;E10&quot;);
+theta=GetExpressionValue(&quot;E11&quot;);
+dphi=(90-phi)/200;
+dtheta=-theta/200;
+for (i=0;i&lt;200;i++){
+	phi=phi+dphi;
+	theta=theta+dtheta;
+	SetExpressionValue(&quot;E10&quot;,phi);
+	SetExpressionValue(&quot;E11&quot;,theta);
+}
+SetExpressionValue(&quot;E10&quot;,90);
+SetExpressionValue(&quot;E11&quot;,0);
+</Script>
+<Script Name="retour en vue mobile" onload="false">
+SetExpressionValue(&quot;E10&quot;,&quot;-100*windowcx&quot;);
+SetExpressionValue(&quot;E11&quot;,&quot;100*windowcy&quot;);
+</Script>
+<Construction>
+<Window x="0.42325882781637736" y="0.2640459857446189" w="4.489848193237493"/>
+<Windowdim w="1280" h="800"/>
+<Preferences minfontsize="13" minpointsize="3" minlinesize="1" arrowsize="15" selectionsize="5" monkeyspeed="10" gridopacity="13" digits.lengths="5" digits.edit="5" digits.angles="0" colorbackground="245,245,245" colorbackgroundx="139" colorbackgroundy="9" colorbackgroundPal="4" fig3D="true" figDP="false"/>
+<CTRLcheckbox Ename="sol" x="79" y="0" w="30" h="22" showC="true" showU="false" showV="false" hidden="false" C="Sol" U="°" V="0"/>
+<CTRLcheckbox Ename="repere" x="79" y="25" w="30" h="22" showC="true" showU="false" showV="false" hidden="false" C="Repère" U="°" V="1"/>
+<Objects>
+<Expression name="E10" n="0" color="1" type="thick" hidden="true" showname="true" showvalue="true" ctag0="superhidden" cexpr0="@b==0" x="windowcx-windoww+3/pixel" y="windowcy+windowh/2-60/pixel" value="-100*windowcx" prompt="phi" fixed="true">Expression &quot;-100*windowcx&quot; à -4.02299, 4.3912</Expression>
+<Expression name="E11" n="1" color="1" type="thick" hidden="true" showname="true" showvalue="true" ctag0="superhidden" cexpr0="@b==0" x="windowcx-windoww+3/pixel" y="windowcy+windowh/2-90/pixel" value="100*windowcy" prompt="theta" fixed="true">Expression &quot;100*windowcy&quot; à -4.02299, 3.95524</Expression>
+<Expression name="sol" n="2" color="1" type="thick" hidden="super" showname="true" showvalue="true" x="0.21596738144686745" y="0.1250337471534495" value="0" prompt="Valeur">Expression &quot;0&quot; à 0.21597, 0.12503</Expression>
+<Expression name="repere" n="3" color="1" type="thick" hidden="super" showname="true" showvalue="true" x="-0.011366704286676745" y="0.06820022572006312" value="1" prompt="Valeur">Expression &quot;1&quot; à -0.01137, 0.0682</Expression>
+<Expression name="grid" n="11" color="4" type="thick" hidden="true" showname="true" showvalue="true" ctag0="superhidden" cexpr0="sol==0" x="windowcx-windoww+3/pixel" y="windowcy+windowh/2-120/pixel" value="3" prompt="grid" fixed="true">Expression &quot;3&quot; à -4.02299, 3.51927</Expression>
+<Text name="Text2" n="22" type="thin" x="windowcx-windoww+3/pixel" y="windowcy-windowh/2+25/pixel" fixed="true">Utiliser le clic-droit glisser pour faire pivoter</Text>
+<Point name="O" n="4" type="thick" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" x="(windoww/(windoww-d(windoww)))*(x(O)-windowcx)+windowcx+d(windowcx)" actx="0.46872564496308566" y="(windoww/(windoww-d(windoww)))*(y(O)-windowcy)+windowcy+d(windowcy)" acty="0.2810960421746347" shape="circle" is3D="true" x3D="0.0" y3D="0.0" z3D="0.0" fixed="true">Point</Point>
+<Point name="X" n="5" color="3" type="thin" showname="true" xcoffset="-0.23757732805165954" ycoffset="-0.07533417064110326" keepclose="true" bold="true" large="true" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" x="x(O)+sin(E10)" actx="-0.2046209206376014" y="y(O)-cos(E10)*sin(E11)" acty="-0.04768789704438847" shape="dot" is3D="true" x3D="1.0" y3D="0.0" z3D="0.0" fixed="true">Point</Point>
+<Point name="Y" n="6" color="5" type="thin" showname="true" xcoffset="0.05190351386152203" ycoffset="-0.01168034001854501" keepclose="true" bold="true" large="true" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" x="x(O)+cos(E10)" actx="1.2080526379734584" y="y(O)+sin(E10)*sin(E11)" acty="-0.01834593463776646" shape="dot" is3D="true" x3D="0.0" y3D="1.0" z3D="0.0" fixed="true">Point</Point>
+<Point name="Z" n="7" color="2" type="thin" showname="true" xcoffset="-0.01669997779258381" ycoffset="0.3527600362915684" keepclose="true" bold="true" large="true" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" x="x(O)" actx="0.46872564496308566" y="y(O)+cos(E11)" acty="1.1767721129917037" shape="dot" is3D="true" x3D="0.0" y3D="0.0" z3D="1.0" fixed="true">Point</Point>
+<Segment name="i" n="8" color="3" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" from="O" to="X" is3D="true" arrow="true">Vecteur de O à X</Segment>
+<Segment name="j" n="9" color="5" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" from="O" to="Y" is3D="true" arrow="true">Vecteur de O à Y</Segment>
+<Segment name="k" n="10" color="2" ctag0="z" cexpr0="7" ctag1="superhidden" cexpr1="repere==0" from="O" to="Z" is3D="true" arrow="true">Vecteur de O à Z</Segment>
+<Point name="p1" n="12" color="2" hidden="super" showname="true" bold="true" x="x(Y)+x(X)-x(O)" actx="0.5347060723727712" y="y(Y)+y(X)-y(O)" acty="-0.3471298738567896" shape="circle" fixed="true">Point</Point>
+<Circle name="c1" n="13" color="1" hidden="super" large="true" fixed="grid*d(O,p1)" midpoint="O" acute="true">Cercle de centre O de rayon grid*d(O,p1)</Circle>
+<Line name="l1" n="14" color="2" hidden="super" large="true" from="O" to="p1">Droite passant par O et p1</Line>
+<Intersection name="i1" n="15" color="2" type="thick" hidden="super" showname="true" large="true" first="l1" second="c1" shape="circle" which="second">Intersection entre l1 et c1</Intersection>
+<Point name="p2" n="16" color="1" hidden="super" showname="true" bold="true" x="x(i1)+x(Y)-x(O)" actx="1.0101113557444017" y="y(i1)+y(Y)-y(O)" acty="1.8663318134565063" shape="circle" fixed="true">Point</Point>
+<Point name="p3" n="17" color="1" hidden="super" showname="true" bold="true" x="x(i1)+2*grid*(x(X)-x(O))" actx="-3.769295030870093" y="y(i1)+2*grid*(y(X)-y(O))" acty="0.19307015495476842" shape="circle" fixed="true">Point</Point>
+<Point name="p4" n="18" color="1" hidden="super" showname="true" bold="true" x="x(i1)+2*grid*(x(Y)-x(O))" actx="4.706746320796265" y="y(i1)+2*grid*(y(Y)-y(O))" acty="0.3691219293945005" shape="circle" fixed="true">Point</Point>
+<Point name="p5" n="20" color="1" hidden="super" showname="true" bold="true" x="x(i1)+x(X)-x(O)" actx="-0.4025622028666581" y="y(i1)+y(X)-y(O)" acty="1.8369898510498843" shape="circle" fixed="true">Point</Point>
+<Point name="p6" n="23" color="1" hidden="super" showname="true" bold="true" x="2*x(O)-x(i1)" actx="0.6666669271921424" y="2*y(O)-y(i1)" acty="-1.603581705919638" shape="circle" fixed="true">Point</Point>
+<Function name="g1" n="19" color="1" type="thin" large="true" ctag0="z" cexpr0="9" ctag1="superhidden" cexpr1="sol==0" x="if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),x(i1)+(t/2)*(x(p2)-x(i1)),x(p3)+(t/2)*(x(p2)-x(i1))),if(floor((t-1)/4)==(t-1)/4,x(i1)+((t+1)/2)*(x(p2)-x(i1)),x(p3)+((t+1)/2)*(x(p2)-x(i1))))" y="if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),y(i1)+(t/2)*(y(p2)-y(i1)),y(p3)+(t/2)*(y(p2)-y(i1))),if(floor((t-1)/4)==(t-1)/4,y(i1)+((t+1)/2)*(y(p2)-y(i1)),y(p3)+((t+1)/2)*(y(p2)-y(i1))))" var="t" min="0" max="floor(((y(p4)-y(i1))/(y(p2)-y(i1)))*2)-1" d="1" shape="cross" color="1">Fonction ( if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),x(i1)+(t/2)*(x(p2)-x(i1)),x(p3)+(t/2)*(x(p2)-x(i1))),if(floor((t-1)/4)==(t-1)/4,x(i1)+((t+1)/2)*(x(p2)-x(i1)),x(p3)+((t+1)/2)*(x(p2)-x(i1)))) , if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),y(i1)+(t/2)*(y(p2)-y(i1)),y(p3)+(t/2)*(y(p2)-y(i1))),if(floor((t-1)/4)==(t-1)/4,y(i1)+((t+1)/2)*(y(p2)-y(i1)),y(p3)+((t+1)/2)*(y(p2)-y(i1)))) )</Function>
+<Function name="g2" n="21" color="1" type="thin" large="true" ctag0="z" cexpr0="9" ctag1="superhidden" cexpr1="sol==0" x="if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),x(i1)+(t/2)*(x(p5)-x(i1)),x(p4)+(t/2)*(x(p5)-x(i1))),if(floor((t-1)/4)==(t-1)/4,x(i1)+((t+1)/2)*(x(p5)-x(i1)),x(p4)+((t+1)/2)*(x(p5)-x(i1))))" y="if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),y(i1)+(t/2)*(y(p5)-y(i1)),y(p4)+(t/2)*(y(p5)-y(i1))),if(floor((t-1)/4)==(t-1)/4,y(i1)+((t+1)/2)*(y(p5)-y(i1)),y(p4)+((t+1)/2)*(y(p5)-y(i1))))" var="t" min="0" max="floor(((x(p3)-x(i1))/(x(p5)-x(i1)))*2)-1" d="1" shape="cross" color="1">Fonction ( if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),x(i1)+(t/2)*(x(p5)-x(i1)),x(p4)+(t/2)*(x(p5)-x(i1))),if(floor((t-1)/4)==(t-1)/4,x(i1)+((t+1)/2)*(x(p5)-x(i1)),x(p4)+((t+1)/2)*(x(p5)-x(i1)))) , if(floor(t/2)==(t/2),if(floor(t/4)==(t/4),y(i1)+(t/2)*(y(p5)-y(i1)),y(p4)+(t/2)*(y(p5)-y(i1))),if(floor((t-1)/4)==(t-1)/4,y(i1)+((t+1)/2)*(y(p5)-y(i1)),y(p4)+((t+1)/2)*(y(p5)-y(i1)))) )</Function>
+<Polygon name="polysol" n="24" color="4" background="true" ctag0="brown" cexpr0="polysol&lt;0" ctag1="solid" cexpr1="polysol&lt;0" ctag2="z" cexpr2="if(polysol&lt;0,5,10)" ctag3="superhidden" cexpr3="sol==0" point1="i1" point2="p4" point3="p6" point4="p3">Polygone i1, p4, p6, p3</Polygon>
+<Segment name="b1" n="25" color="2" large="true" ctag0="superhidden" cexpr0="sol==0" from="i1" to="p3">Segment de i1 à p3</Segment>
+<Segment name="b2" n="26" color="2" large="true" ctag0="superhidden" cexpr0="sol==0" from="p3" to="p6">Segment de p3 à p6</Segment>
+<Segment name="b3" n="27" color="2" large="true" ctag0="superhidden" cexpr0="sol==0" from="p6" to="p4">Segment de p6 à p4</Segment>
+<Segment name="b4" n="28" color="2" large="true" ctag0="superhidden" cexpr0="sol==0" from="p4" to="i1">Segment de p4 à i1</Segment>
+</Objects>
+</Construction>
+</CaR>

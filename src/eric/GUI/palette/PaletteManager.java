@@ -44,6 +44,10 @@ public class PaletteManager {
     private static PaletteZone_Geom JPGeom;
     private static PaletteZone_3D JP3D;
     private static JColorPanel colorpanel;
+    
+    public static ArrayList<JIcon> getAllIcons() {
+        return allIcons;
+    }
 
     public static void fixsize(JComponent jc, int w, int h) {
         Dimension d=new Dimension(w, h);
@@ -74,6 +78,7 @@ public class PaletteManager {
         PaletteWithIconOnly=new ArrayList<PaletteZone>();
         PaletteWithIconOnly.add(JPDisk);
         PaletteWithIconOnly.add(JPEdit);
+        PaletteWithIconOnly.add(JP3D);
         PaletteWithIconOnly.add(JPGeom);
         PaletteWithIconOnly.add(JPfunc);
         PaletteWithIconOnly.add(JPTest);
@@ -85,8 +90,8 @@ public class PaletteManager {
             fixRestrictedEnvironment();
             JPDisk.init();
             JPEdit.init();
-            JP3D.init();
 //            JPDP.init();
+            JP3D.init();
             JPGeom.init();
             JPAspect.init();
             JPfunc.init();
@@ -144,6 +149,7 @@ public class PaletteManager {
 
     private static void constructJP3D() {
         JP3D=new PaletteZone_3D();
+        MainPanel.add(JP3D);
     }
 
     private static void constructJPAspect() {
@@ -336,6 +342,27 @@ public class PaletteManager {
         }
         MainPanel.repaint();
     }
+    
+    public static void FixPaletteHeight2(PaletteZone caller) {
+        if (caller!=null) {
+            caller.init();
+        }
+        MainPanel.validate();
+        if (MainPanel.getComponentCount()!=0) {
+            int i=MainPanel.getComponentCount()-1;
+            PaletteZone lastpz=(PaletteZone) MainPanel.getComponent(i);
+            while ((i>=0)&&(lastpz.getBounds().y+lastpz.getBounds().height>MainPanel.getBounds().height)) {
+                PaletteZone pz=(PaletteZone) MainPanel.getComponent(i);
+                if (!pz.equals(caller)&&!pz.equals(JPGeom)&&!pz.equals(JPAspect)&&!pz.equals(JPEdit)) {
+                    pz.setHideContent(true);
+                    pz.init();
+                    MainPanel.validate();
+                }
+                i--;
+            }
+        }
+        MainPanel.repaint();
+    }
 
     public static void registerIcon(JIcon icn) {
         allIcons.add(icn);
@@ -379,29 +406,37 @@ public class PaletteManager {
     }
 
     public static String IconFamily(final String name) {
-        String f=",ray,parallel,plumb,bi_med,bi_biss,";
+        String f=",ray,parallel,plumb,bi_med,bi_biss,ray3D,line3D,bi_3Dplanplan,";
         if (f.indexOf(","+name+",")!=-1) {
             return "line";
         }
-        f=",intersection,midpoint,bi_syma,bi_symc,bi_trans,boundedpoint,";
+        f=",intersection,midpoint,bi_syma,bi_symc,bi_trans,boundedpoint,midpoint3D,bi_3Dcoords,bi_3Dsymp,bi_3Dproj,bi_3Dsymc,bi_3Dtrans,bi_3Dplandroite,bi_3Dspheredroite,inter3D,";
         if (f.indexOf(","+name+",")!=-1) {
             return "point";
         }
-        f=",vector,fixedsegment,";
+        f=",vector,fixedsegment,vector3D,segment3D,";
         if (f.indexOf(","+name+",")!=-1) {
             return "segment";
         }
-        f=",circle3,fixedcircle,bi_arc,bi_circ,quadric,";
+        f=",circle3,fixedcircle,bi_arc,bi_circ,bi_3Dsphererayon,bi_3Dspherepoint,";
         if (f.indexOf(","+name+",")!=-1) {
             return "circle";
+        }
+        f=",bi_3Dcircle1,bi_3Dcircle2,bi_3Dcircle3pts,bi_3Dsphereplan,bi_3Dspheresphere,";
+        if (f.indexOf(","+name+",")!=-1) {
+            return "quadric";
         }
         f=",bi_function_u,expression,text,";
         if (f.indexOf(","+name+",")!=-1) {
             return "text";
         }
-        f=",fixedangle,";
+        f=",fixedangle,angle3D,";
         if (f.indexOf(","+name+",")!=-1) {
             return "angle";
+        }
+        f=",area3D,";
+        if (f.indexOf(","+name+",")!=-1) {
+            return "area";
         }
         f=",image3,";
         if (f.indexOf(","+name+",")!=-1) {
@@ -433,9 +468,10 @@ public class PaletteManager {
     }
 
     public static boolean isGeomGroup(String name) {
+    	name=name.replace("3D",""); //Dibs
         for (int i=0; i<allIcons.size(); i++) {
             JIcon ji=allIcons.get(i);
-            if (allIcons.get(i).getIconName().equals(name)) {
+            if (allIcons.get(i).getIconName().replace("3D","").equals(name)) {// Dibs
                 return GEOM_GROUP.equals(ji.getIconGroup());
             }
         }
@@ -522,12 +558,14 @@ public class PaletteManager {
             setDisabledIcons(
                     " bold large filled thickness0 thickness1 thickness2 color0 color1 color2 color3 color4 color5 obtuse plines partial solid showvalue showname ",
                     true);
+        } else if (familyIcon.equals("quadric")) {
+        	setDisabledIcons(" obtuse plines partial solid filled showvalue ", true);
         } else {
             setDisabledIcons(AspectIcons, true);
         }
-        if (iconname.equals("quadric")) {
-            setDisabledIcons(" partial filled ", true);
-        }
+        //if (iconname.equals("quadric")) {
+        //    setDisabledIcons(" partial filled ", true);
+       // }
         if (iconname.equals("text")) {
             setDisabledIcons(" showname ", true);
         }
@@ -587,6 +625,23 @@ public class PaletteManager {
             }
         }
     }
+    
+    public static boolean setSelected_with_clic2(String iconname, boolean sel) { // Dibs : for CaRScripts
+        JIcon myicon;
+        boolean changed=false;
+        for (int i=0; i<allIcons.size(); i++) {
+            myicon=(JIcon) allIcons.get(i);
+            if (myicon.getIconName().equals(iconname)) {
+                if (myicon.isSelected()!=sel) {
+                    myicon.ClicOnMe();
+                    changed=true;
+                }
+                return changed;
+            }
+        }
+        return false;
+    }
+    
 
     public static String geomSelectedIcon() {
         for (int i=0; i<allIcons.size(); i++) {

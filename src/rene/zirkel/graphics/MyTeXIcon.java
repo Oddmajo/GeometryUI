@@ -11,8 +11,9 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import org.scilab.forge.jlatexmath.Box;
-import org.scilab.forge.jlatexmath.TeXIcon;
+
+import ui.latex.Box;
+import ui.latex.TeXIcon;
 
 /**
  *

@@ -40,6 +40,18 @@ public class DeleteTool extends ObjectConstructor {
     @Override
     public void setConstructionObject(ConstructionObject obj, ZirkelCanvas zc) {
         if (obj!=null) {
+            //to prevent deleting axis in 3D mode
+            // /*A finir
+            if(zc.is3D() &&
+                    (obj.getName().equals("O") || obj.getName().equals("X")
+                                                || obj.getName().equals("Y")
+                                                || obj.getName().equals("Z")
+                                                || obj.getName().equals("s6") || obj.getName().equals("s7") || obj.getName().equals("s8"))){
+                 return;
+                
+            }
+            // */
+            
             zc.delete(obj);
             zc.repaint();
 	    if(JPropertiesBar.isBarVisible() && JProperties.getObject() == obj){

@@ -20,18 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 package eric.controls;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.awt.image.FilteredImageSource;
-import java.awt.image.ImageFilter;
 import java.util.ArrayList;
-
-import javax.swing.GrayFilter;
-import javax.swing.ImageIcon;
-
 import rene.util.xml.XmlTag;
 import rene.util.xml.XmlWriter;
 import rene.zirkel.ZirkelCanvas;
@@ -54,7 +45,7 @@ public class JControlsManager {
     static Color bordercolor3=new Color(255, 25, 25);
     static int MAGNET=10;
     ZirkelCanvas ZC;
-    ArrayList<JCanvasPanel> CPs=new ArrayList();
+    public ArrayList<JCanvasPanel> CPs=new ArrayList();
     Rectangle r=new Rectangle();
     Rectangle r2=new Rectangle();
     ArrayList<XmlTag> XmlTags=new ArrayList();

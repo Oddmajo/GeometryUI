@@ -160,6 +160,7 @@ PopupMenuListener {
                     ZC.clearSelected();
                     eric.bar.JPropertiesBar.EditObject(o, true, false);
 		} else {
+//                    System.out.println(o.getName());
 		    ZC.setConstructionObject(o);
 		}
                 iscaller=false;

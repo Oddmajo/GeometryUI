@@ -747,11 +747,11 @@ class FunctionExpression extends BasicExpression {
 		"diff", "min", "max", "length", "rsin", "rcos", "rtan", "rarcsin",
 		"rarccos", "rarctan", "sinhyp", "coshyp", "z", "simulate",
 		"inside", "random", "old", "ratan2", "atan2", "tanhyp", "Argsinh",
-                "Argcosh", "Argtanh", "div","mod", "gcd", "lcm" };
+                "Argcosh", "Argtanh", "div","mod", "gcd", "lcm", "x3D", "y3D", "z3D", "d3D"};
 	final static int NX = 10, NY = 11, ND = 14, NA = 15, NS = 19, NSUM = 22,
 	NIF = 23, NINT = 26, NZERO = 27, NDIFF = 28, NMIN = 29, NMAX = 30,
 	NLENGTH = 31, NZ = 40, NSIM = 41, NINSIDE = 42, NRANDOM = 43,
-	NOLD = 44, NRATAN2=45, NATAN2=46, NDIV=51, NMOD=52, NGCD=53, NLCM=54;
+	NOLD = 44, NRATAN2=45, NATAN2=46, NDIV=51, NMOD=52, NGCD=53, NLCM=54, NX3D=55, NY3D=56, NZ3D= 57, ND3D=58 ;
 
 	public static BasicExpression scan(final ExpressionText t, final String name)
 	throws ConstructionException {
@@ -820,8 +820,24 @@ class FunctionExpression extends BasicExpression {
 
 				throw new ConstructionException(Global.name("exception.parameter")
 						+ " (" + Functions[f] + ")");
+			}	
+		} 
+		else if (f == NX3D || f == NY3D || f == NZ3D) {
+			if (e instanceof FindObjectExpression) {
+				e = new FunctionExpression(f, e);
+			} else if (e instanceof ObjectExpression
+					&& ((ObjectExpression) e).getObject() instanceof PointObject) {
+				e = new FunctionExpression(f, e);
+			} else if (e instanceof ObjectExpression
+					&& ((ObjectExpression) e).getObject() instanceof PrimitiveLineObject) {
+				e = new FunctionExpression(f, e);
+			} else {
+
+				throw new ConstructionException(Global.name("exception.parameter")
+						+ " (" + Functions[f] + ")");
 			}
-		} else if (f == ND) {
+		} 
+		else if (f == ND) {
 			if (t.next() != ',') {
 				e = new DExpression(e);
 			} else {
@@ -837,7 +853,25 @@ class FunctionExpression extends BasicExpression {
 							+ " (" + Functions[f] + ")");
 				}
 			}
-		} else if (f == NOLD) {
+		} 
+		else if (f == ND3D) {
+			if (t.next() != ',') {
+				e = new D3DExpression(e);
+			} else {
+				t.advance();
+				final BasicExpression ee = TopExpression.scan(t);
+				if (((e instanceof ObjectExpression && ((ObjectExpression) e)
+						.getObject() instanceof PointObject) || e instanceof FindObjectExpression)
+						&& ((ee instanceof ObjectExpression && ((ObjectExpression) ee)
+								.getObject() instanceof PointObject) || ee instanceof FindObjectExpression)) {
+					e = new FunctionExpression(f, e, ee);
+				} else {
+					throw new ConstructionException(Global.name("exception.parameter")
+							+ " (" + Functions[f] + ")");
+				}
+			}
+		}
+		else if (f == NOLD) {
 			if (t.next() != ',') {
 				e = new OldExpression(e);
 			} else {
@@ -1034,6 +1068,15 @@ class FunctionExpression extends BasicExpression {
 		case NY:
 			cc = getPointLineY(0);
 			return cc;
+		case NX3D:
+			cc = getPointLineX3D(0);
+			return cc;
+		case NY3D:
+			cc = getPointLineY3D(0);
+			return cc;
+		case NZ3D:
+			cc = getPointLineZ3D(0);
+			return cc;
 		case NZ:
 			P = getPoint(0);
 			if (!P.valid()) {
@@ -1049,6 +1092,16 @@ class FunctionExpression extends BasicExpression {
 			double dx = P.getX() - PP.getX();
 			double dy = P.getY() - PP.getY();
 			return Math.sqrt(dx * dx + dy * dy);
+		case ND3D:
+			P = getPoint(0);
+			PP = getPoint(1);
+			if (!P.valid() || !PP.valid()) {
+				throw new InvalidException(Global.name("exception.invalid"));
+			}
+			double dx3D = P.getX3D() - PP.getX3D();
+			double dy3D = P.getY3D() - PP.getY3D();
+			double dz3D = P.getZ3D() - PP.getZ3D();
+			return Math.sqrt(dx3D * dx3D + dy3D * dy3D + dz3D * dz3D);
 		case NA:
 			P = getPoint(0);
 			PP = getPoint(1);
@@ -1322,7 +1375,103 @@ class FunctionExpression extends BasicExpression {
 			}
 		}
 	}
+	
+	public double getPointLineX3D(final int n) throws ConstructionException {
+		PointObject p;
+		PrimitiveLineObject l;
+                VectorObject s;
+		try {
+			p = (PointObject) ((ObjectExpression) E[n]).getObject();
+			if (!p.valid()) {
+				throw new ConstructionException("exception.invalid");
+			}
+			return p.getX3D();
+		} catch (final Exception e) {
+                    try{
+                        s=(VectorObject) ((ObjectExpression) E[n]).getObject();
+                        if (!s.valid()){
+                            throw new ConstructionException("exception.invalid");
+                        }
+                        return s.getDeltaX3D();
 
+                        } catch (final Exception eee) {
+                    }
+			try {
+				l = (PrimitiveLineObject) ((ObjectExpression) E[n]).getObject();
+				if (!l.valid()) {
+					throw new ConstructionException("exception.invalid");
+				}
+				return l.getDX3D();
+			} catch (final Exception ee) {
+				throw new ConstructionException("exception.notfound");
+			}
+		}
+	}
+	
+	public double getPointLineY3D(final int n) throws ConstructionException {
+		PointObject p;
+		PrimitiveLineObject l;
+                VectorObject s;
+		try {
+			p = (PointObject) ((ObjectExpression) E[n]).getObject();
+			if (!p.valid()) {
+				throw new ConstructionException("exception.invalid");
+			}
+			return p.getY3D();
+		} catch (final Exception e) {
+                    try{
+                        s=(VectorObject) ((ObjectExpression) E[n]).getObject();
+                        if (!s.valid()){
+                            throw new ConstructionException("exception.invalid");
+                        }
+                        return s.getDeltaY3D();
+
+                        } catch (final Exception eee) {
+                    }
+			try {
+				l = (PrimitiveLineObject) ((ObjectExpression) E[n]).getObject();
+				if (!l.valid()) {
+					throw new ConstructionException("exception.invalid");
+				}
+				return l.getDY3D();
+			} catch (final Exception ee) {
+				throw new ConstructionException("exception.notfound");
+			}
+		}
+	}
+	
+	public double getPointLineZ3D(final int n) throws ConstructionException {
+		PointObject p;
+		PrimitiveLineObject l;
+                VectorObject s;
+		try {
+			p = (PointObject) ((ObjectExpression) E[n]).getObject();
+			if (!p.valid()) {
+				throw new ConstructionException("exception.invalid");
+			}
+			return p.getZ3D();
+		} catch (final Exception e) {
+                    try{
+                        s=(VectorObject) ((ObjectExpression) E[n]).getObject();
+                        if (!s.valid()){
+                            throw new ConstructionException("exception.invalid");
+                        }
+                        return s.getDeltaZ3D();
+
+                        } catch (final Exception eee) {
+                    }
+			try {
+				l = (PrimitiveLineObject) ((ObjectExpression) E[n]).getObject();
+				if (!l.valid()) {
+					throw new ConstructionException("exception.invalid");
+				}
+				return l.getDZ3D();
+			} catch (final Exception ee) {
+				throw new ConstructionException("exception.notfound");
+			}
+		}
+	}
+	
 	public PointObject getPoint(final int n) throws ConstructionException {
 		PointObject p;
 		try {
@@ -1412,7 +1561,7 @@ class DExpression extends FunctionExpression {
 	public DExpression(final BasicExpression e) {
 		super(21, e);
 	}
-
+	
 	@Override
 	public double getValue() throws ConstructionException {
 		if (E[0] instanceof ObjectExpression) {
@@ -1432,6 +1581,77 @@ class DExpression extends FunctionExpression {
 				}
 				Old = x;
 				Old1 = y;
+				start = true;
+				return 0;
+			} else if (o instanceof AngleObject) {
+				final AngleObject a = (AngleObject) o;
+				final double x = a.getValue();
+				if (start) {
+					double res = x - Old;
+					if (res < -180) {
+						res += 180;
+					}
+					if (res > 180) {
+						res -= 180;
+					}
+					Old = x;
+					return res;
+				}
+				Old = x;
+				start = true;
+				return 0;
+			}
+		}
+		final double x = E[0].getValue();
+		double res;
+		if (start) {
+			res = x - Old;
+		} else {
+			res = 0;
+			start = true;
+		}
+		Old = x;
+		return res;
+	}
+
+	@Override
+	public void reset() {
+		start = false;
+		super.reset();
+	}
+}
+
+class D3DExpression extends FunctionExpression {
+	
+	double Old = 0;
+	double Old1 = 0;
+	double Old2 = 0;
+	boolean start = false;
+
+	public D3DExpression(final BasicExpression e) {
+		super(58, e);
+	}
+	
+	@Override
+	public double getValue() throws ConstructionException {
+		if (E[0] instanceof ObjectExpression) {
+			final ConstructionObject o = ((ObjectExpression) E[0]).getObject();
+			if (o instanceof PointObject) {
+				final PointObject p = (PointObject) o;
+				if (p.dontUpdate()) {
+					return 0;
+				}
+				final double x3D = p.getX3D(), y3D = p.getY3D(), z3D = p.getZ3D();
+				if (start) {
+					final double res = (x3D - Old) * (x3D - Old) + (y3D - Old1) * (y3D - Old1) + (z3D - Old2) * (z3D - Old2);
+					Old = x3D;
+					Old1 = y3D;
+					Old2 = y3D;
+					return Math.sqrt(res);
+				}
+				Old = x3D;
+				Old1 = y3D;
+				Old2 = z3D;
 				start = true;
 				return 0;
 			} else if (o instanceof AngleObject) {
@@ -2373,14 +2593,18 @@ class OrExpression extends BasicExpression {
 	}
 
 	@Override
+	//suppression de l'évaluation paresseuse par Patrice pour un ExecuteMacro Expression-compatible
 	public double getValue() throws ConstructionException {
-		if (E1.getValue() != 0.0 || E2.getValue() != 0.0) {
-			return 1.0;
-		} else {
-			return 0.0;
-		}
-	}
-
+		try {
+			if (E1.getValue() == 1.0) return 1.0;
+		} catch (Exception e) {}
+		try {
+			if (E2.getValue() == 1.0) return 1.0;
+		} catch (Exception e) {}
+		if (E1.getValue() != 1.0 && E2.getValue() != 1.0) {return 0.0;} else {return 1.0;}
+	
+                }
+	
 	@Override
 	public void translate() {
 		E1.translate();

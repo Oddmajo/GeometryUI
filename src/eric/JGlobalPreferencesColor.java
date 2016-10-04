@@ -22,6 +22,7 @@ This file is part of C.a.R. software.
  package eric;
 
 import eric.GUI.pipe_tools;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
