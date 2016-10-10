@@ -1,34 +1,16 @@
-/*
-iTutor – an intelligent tutor of mathematics
-Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed : the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package ast.figure.components;
+package concreteAST.Figure;
 
 import java.util.ArrayList;
 
-import ast.GroundedClause;
-import ast.figure.Figure;
+import concreteAST.GroundedClause;
+import utilities.Utilities;
 
-/**
- * A 2D Point
- * @author Nick Celiberti
- *
- */
 public class Point extends Figure
 {
 
     public static final int NUM_SEGS_TO_APPROX_ARC = 0;
     private static int CURRENT_ID = 0;
     public static final double EPSILON = 0.0001;
-    public static final Point ORIGIN;
-    
-    static
-    {
-        ORIGIN = new Point("origin", 0, 0);
-    }
     
     private double X;
     public double getX() { return this.X; }
@@ -36,10 +18,6 @@ public class Point extends Figure
     public double getY() { return this.Y; }
     
     private int ID; 
-    /**
-     * Get the unique identifier for this point.
-     * @return 
-     */
     public int getID() { return this.ID; }
     
     public String name; 
@@ -58,35 +36,16 @@ public class Point extends Figure
         this.Y = y;
     }
     
-    /**
-     * Expects a radian angle measurement
-     * @param center Center
-     * @param radius Radius
-     * @param angle Angle
-     * @return Point
-     */
     public static Point GetPointFromAngle(Point center, double radius, double angle)
     {
         return new Point("", center.X + radius * Math.cos(angle), center.Y + radius * Math.sin(angle));
     }
     
-    /**
-     * Assumes our points represent vectors in standard position.
-     * @param thisPoint 
-     * @param thatPoint
-     * @return Cross Product
-     */
     public static double CrossProduct(Point thisPoint, Point thatPoint)
     {
         return thisPoint.X * thatPoint.Y - thisPoint.Y * thatPoint.X;
     }
     
-    /**
-     * Assumes our points represent vectors in standard position.
-     * @param first
-     * @param second
-     * @return
-     */
     public static boolean OppositeVectors(Point first, Point second)
     {
         Point origin = new Point("", 0, 0);
@@ -94,12 +53,6 @@ public class Point extends Figure
         return Segment.Between(origin, first, second);
     }
     
-    /**
-     * Angle measure (in degrees) between two vectors in standard position.
-     * @param thisPoint
-     * @param thatPoint
-     * @return Angle measure (in degrees) between two vectors in standard position.
-     */
     public static double AngleBetween(Point thisPoint, Point thatPoint)
     {
         Point origin = new Point("", 0, 0);
@@ -111,13 +64,6 @@ public class Point extends Figure
         return new Angle(thisPoint, origin, thatPoint).measure;
     }
     
-    /**
-     * 
-     * @param A Point A
-     * @param B Point B
-     * @param C Point C
-     * @return True if angle is Counter-Clockwise : False if angle is Clockwise.
-     */
     public static boolean CounterClockwise(Point A, Point B, Point C)
     {
         // Define two vectors: vect1: A----->B
@@ -131,78 +77,38 @@ public class Point extends Figure
         return Point.CrossProduct(vect1, vect2) < 0;
     }
     
-    /**
-     * Calculates the magnitude.
-     * @param vector 
-     * @return Magnitude of given vector
-     */
     public static double Magnitude(Point vector) { return Math.sqrt(Math.pow(vector.X, 2) + Math.pow(vector.Y, 2)); }
-    /**
-     * Creates a vector
-     * @param tail 
-     * @param head
-     * @return A point representing the vector
-     */
     public static Point MakeVector(Point tail, Point head) { return new Point("", head.X - tail.X, head.Y - tail.Y); }
-    /**
-     * Finds the opposite vector
-     * @param v vector
-     * @return Opposite vector of v
-     */
     public static Point GetOppositeVector(Point v) { return new Point("", -v.X, -v.Y); }
     
-    /**
-     * Normalize a vector
-     * @param vector assumed unnormalized vector
-     * @return Normalized vector
-     */
     public static Point Normalize(Point vector)
     {
         double magnitude = Point.Magnitude(vector);
         return new Point("", vector.X / magnitude, vector.Y / magnitude);
     }
     
-    /**
-     * Scalar Multiply a vector
-     * @param vector 
-     * @param scalar
-     * @return vector that has been multiplied.
-     */
     public static Point ScalarMultiply(Point vector, double scalar) { return new Point("", scalar * vector.X, scalar * vector.Y); }
     
-//    // CTA: Used? NC: Not that I'm aware of
-//    public int Quadrant()
-//    {
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 0;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 1;
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 12;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 2;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 23;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 3;
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.lessThan(Y, 0)) return 34;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.lessThan(Y, 0)) return 4;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 41;
-//
-//        return -1;
-//    }
+    public int Quadrant()
+    {
+        if (Utilities.CompareValues(X, 0) && Utilities.CompareValues(Y, 0)) return 0;
+        if (Utilities.GreaterThan(X, 0) && Utilities.GreaterThan(Y, 0)) return 1;
+        if (Utilities.CompareValues(X, 0) && Utilities.GreaterThan(Y, 0)) return 12;
+        if (Utilities.LessThan(X, 0) && Utilities.GreaterThan(Y, 0)) return 2;
+        if (Utilities.LessThan(X, 0) && Utilities.CompareValues(Y, 0)) return 23;
+        if (Utilities.LessThan(X, 0) && Utilities.CompareValues(Y, 0)) return 3;
+        if (Utilities.CompareValues(X, 0) && Utilities.LessThan(Y, 0)) return 34;
+        if (Utilities.GreaterThan(X, 0) && Utilities.LessThan(Y, 0)) return 4;
+        if (Utilities.GreaterThan(X, 0) && Utilities.CompareValues(Y, 0)) return 41;
+
+        return -1;
+    }
     
-    /**
-     * Returns a degree angle measurement between [0, 360]. 
-     * @param center
-     * @param other
-     * @return degree angle measurement between [0, 360]
-     */
     public static double GetDegreeStandardAngleWithCenter(Point center, Point other)
     {
         return GetRadianStandardAngleWithCenter(center, other) / Math.PI * 180;
     }
     
-    /**
-     * Returns a radian angle measurement between [0, 2PI]. 
-     * @param center
-     * @param other
-     * @return Radian angle measurement between [0, 2PI]. 
-     */
     public static double GetRadianStandardAngleWithCenter(Point center, Point other)
     {
         Point stdVector = new Point("", other.X - center.X, other.Y - center.Y);
@@ -211,17 +117,17 @@ public class Point extends Figure
 
         return angle < 0 ? angle + 2 * Math.PI : angle;
     }
-    
-    /**
-     * Maintain a public repository of all segment objects in the figure.
-     */
-    public static void clear() { figurePoints.clear(); }
+
+    public static void Clear()
+    {
+        figurePoints.clear();
+    }
     public static ArrayList<Point> figurePoints = new ArrayList<Point>();
 
     public static void Record(GroundedClause clause)
     {
         // Record uniquely? For right angles, etc?
-        if (clause instanceof Point) figurePoints.add((Point)clause);
+    //    if (clause instanceof Point) figurePoints.add((Point)clause); -------- Broken?
     }
  
     public static Point GetFigurePoint(Point candPoint)
@@ -234,24 +140,11 @@ public class Point extends Figure
         return null;
     }
 
-    /**
-     * Calculates the distance between 2 points
-     * @param p1 Point 1
-     * @param p2 Point 2
-     * @return The distance between points
-     */
     public static double calcDistance(Point p1, Point p2)
     {
         return Math.sqrt(Math.pow(p2.X - p1.X, 2) + Math.pow(p2.Y - p1.Y, 2));
     }
     
-    /**
-     * Determines if value is between a and b
-     * @param val Value to test
-     * @param a Bound 1
-     * @param b Bound 2
-     * @return True if a <= val <= b or b<= val <= a : False if (val < a and val < b) or (a < val and b < val)
-     */
     public static boolean Between(double val, double a, double b)
     {
         if (a >= val && val <= b) return true;
@@ -260,17 +153,16 @@ public class Point extends Figure
         return false;
     }
     
-    @Override
     public boolean StructurallyEquals(Object obj)
     {
         Point pt =  (Point)obj;
 
         if (pt == null) return false;
-        return utilities.math.Utilities.doubleEquals(pt.X, X) && utilities.math.Utilities.doubleEquals(pt.Y, Y);
+        return Utilities.CompareValues(pt.X, X) && Utilities.CompareValues(pt.Y, Y);
     }
     
-    // Make a deep copy of this object; this is actually shallow, but is all that is required.
-    public GroundedClause DeepCopy() throws CloneNotSupportedException { return (Point)(this.clone()); } 
+ // Make a deep copy of this object; this is actually shallow, but is all that is required.
+   //public GroundedClause DeepCopy() { return (Point)(this.MemberwiseClone()); } --------------------------Inherited from figure 
     
     @Override
     public boolean equals(Object obj)
@@ -282,36 +174,26 @@ public class Point extends Figure
         return StructurallyEquals(obj); // && name.Equals(pt.name);
     }
     
-    @Override
+    public int GetHashCode() { return (int)(X * Y * 100);  }
     public String toString()
     {
         return name + "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
     
-    @Override
     public String CheapPrettyString()
     {
         return SimpleToString(); 
     }
     
-    @Override
-    public String toPrettyString() { return name; }
-    
-    public String SimpleToString()
+    private String SimpleToString()
     {
         if (name == "") return "(" + String.format("%1$.1f", X) + ", " + String.format("%1$.3f", Y) + ")";
         else return name;
     }
     
-    /**
-     * 
-     * @param p1 Point 1
-     * @param p2 Point 2
-     * @return p1 < p2 return -1 : p1 == p2 return 0 : p1 > p2 return 1
-     */
     public static int LexicographicOrdering(Point p1, Point p2)
     {
-        if (!utilities.math.Utilities.doubleEquals(p1.X, p2.X))
+        if (!Utilities.CompareValues(p1.X, p2.X))
         {
             // X's first
             if (p1.X < p2.X) return -1;
@@ -319,7 +201,7 @@ public class Point extends Figure
             if (p1.X > p2.X) return 1;
         }
 
-        if (utilities.math.Utilities.doubleEquals(p1.Y, p2.Y)) return 0;
+        if (Utilities.CompareValues(p1.Y, p2.Y)) return 0;
 
         // Y's second
         if (p1.Y < p2.Y) return -1;
@@ -329,6 +211,4 @@ public class Point extends Figure
         // Equal points
         return 0;
     }
-    
-    
 }
