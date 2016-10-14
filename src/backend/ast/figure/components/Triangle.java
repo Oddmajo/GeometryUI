@@ -1,4 +1,4 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,20 +73,20 @@ public class Triangle extends Polygon
     
     protected void addSuperFigureToDependencies()
     {
-        backend.utilities.list.Utilities.addUniqueStructurally(SegmentA.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(SegmentB.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(SegmentC.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(Point1.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(Point2.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(Point3.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(AngleA.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(AngleB.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(AngleC.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(SegmentA.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(SegmentB.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(SegmentC.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(Point1.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(Point2.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(Point3.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(AngleA.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(AngleB.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(AngleC.getSuperFigures(), this);
     }
     private boolean IsEquilateral()
     {
-        return backend.utilities.math.Utilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
-                backend.utilities.math.Utilities.doubleEquals(SegmentB.length(), SegmentC.length());
+        return utilities.math.Utilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
+                utilities.math.Utilities.doubleEquals(SegmentB.length(), SegmentC.length());
     }
     
     private boolean IsIsosceles()
@@ -95,7 +95,7 @@ public class Triangle extends Polygon
 
         for (int i = 0; i < segments.length; i++)
         {
-            if (backend.utilities.math.Utilities.doubleEquals(segments[i].length(), segments[(i + 1) % segments.length].length())) return true;
+            if (utilities.math.Utilities.doubleEquals(segments[i].length(), segments[(i + 1) % segments.length].length())) return true;
         }
 
         return false;
@@ -103,8 +103,8 @@ public class Triangle extends Polygon
     
     private boolean isRightTriangle()
     {
-        return backend.utilities.math.Utilities.doubleEquals(AngleA.measure, 90) ||
-               backend.utilities.math.Utilities.doubleEquals(AngleB.measure, 90) ||
-               backend.utilities.math.Utilities.doubleEquals(AngleC.measure, 90);
+        return utilities.math.Utilities.doubleEquals(AngleA.measure, 90) ||
+               utilities.math.Utilities.doubleEquals(AngleB.measure, 90) ||
+               utilities.math.Utilities.doubleEquals(AngleC.measure, 90);
     }
 }

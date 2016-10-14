@@ -1,4 +1,4 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 /**
  * @author Nick Celiberti
  * Needs AtomicRegion
@@ -6,8 +6,8 @@ package backend.ast.figure.components;
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.ast.figure.Figure;
-import backend.utilities.Pair;
+import ast.figure.Figure;
+import utilities.Pair;
 
 public class Polygon extends Figure
 {
@@ -30,9 +30,11 @@ public class Polygon extends Figure
 
     public static int GetPolygonIndex(int numSides) { return numSides - 3; }
 
-    protected List<Point> points;
-    public List<Point> getPoints() { return points; }
-    protected List<Segment> orderedSides;
+    //@modified Drew Whitmire
+    // Changed List<> to ArrayList<>
+    protected ArrayList<Point> points;
+    public ArrayList<Point> getPoints() { return points; }
+    protected ArrayList<Segment> orderedSides;
     public List<Segment> getOrderedSides() { return orderedSides; }
     protected List<Angle> angles;
     public List<Angle> getAngles() { return angles; }

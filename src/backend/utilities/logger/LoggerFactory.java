@@ -1,10 +1,10 @@
-package backend.utilities.logger;
+package utilities.logger;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 
-import backend.utilities.logger.IdFactory;
+import utilities.logger.IdFactory;
 
 //
 // Factory design patter for all logging channels : this project

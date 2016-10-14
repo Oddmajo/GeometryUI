@@ -2,12 +2,12 @@
  * @author Nick Celiberti
  */
 
-package backend.precomputer;
+package precomputer;
 
 import java.util.ArrayList;
 
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Segment;
+import ast.figure.components.Polygon;
+import ast.figure.components.Segment;
 
 public class PolygonCalculator
 {

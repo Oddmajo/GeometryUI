@@ -4,8 +4,8 @@
  * @author Nick Celiberti
  * Partial translation for PolygonCalculator
  */
-package backend.ast.figure.components;
-import backend.ast.figure.Figure;
+package ast.figure.components;
+import ast.figure.Figure;
 
 public class Angle extends Figure
 {
@@ -79,13 +79,13 @@ public class Angle extends Figure
 
         // Avoid minor calculation issues and retarget the given value to specific angles. 
         // 0 or 180 degrees
-        if (backend.utilities.math.Utilities.doubleEquals(Math.abs(cosAngle), 1))
+        if (utilities.math.Utilities.doubleEquals(Math.abs(cosAngle), 1))
         {
             cosAngle = cosAngle < 0 ? -1 : 1;
         }
 
         // 90 degrees
-        if (backend.utilities.math.Utilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
+        if (utilities.math.Utilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
 
         return Math.acos(cosAngle);
     }
@@ -150,7 +150,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj;
 
         // Measures better be the same.
-        if (!backend.utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
 
         if (this.equates(angle)) return true;
 
@@ -167,7 +167,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj;
         
         // Measures better be the same.
-        if (!backend.utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
                (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));

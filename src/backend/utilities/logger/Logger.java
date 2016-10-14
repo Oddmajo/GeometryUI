@@ -1,4 +1,4 @@
-package backend.utilities.logger;
+package utilities.logger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

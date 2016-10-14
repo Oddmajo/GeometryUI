@@ -1,4 +1,4 @@
-package backend.utilities.translation;
+package utilities.translation;
 
 public class OutTriple<F, S, T>
 {

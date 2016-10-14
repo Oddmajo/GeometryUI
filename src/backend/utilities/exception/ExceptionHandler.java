@@ -2,15 +2,15 @@
 iTutor – an intelligent tutor of mathematics
 Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed : the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package backend.utilities.exception;
+package utilities.exception;
 
-import backend.ast.ASTException;
-import backend.utilities.exception.GeometryException;
-import backend.utilities.logger.LoggerFactory;
+import logger.LoggerFactory;
+import utilities.exception.GeometryException;
+import ast.ASTException;
 
 /**
  * The ExceptionHandler Class.
@@ -22,7 +22,7 @@ import backend.utilities.logger.LoggerFactory;
  */
 public class ExceptionHandler
 {
-    private static final int DEFUALT_LOGGER_ID = 3;
+    public static final int DEFAULT_LOGGER_ID = LoggerFactory.EXCEPTION_OUTPUT_ID;
     /////////////////// Constructor //////////////////////////////////////////
 
     /**
@@ -49,11 +49,11 @@ public class ExceptionHandler
 
         // loop through the Stack Trace array, add each to the output string
         // check if any of the classes from the stack trace have loggers, 
-        // starting : and working out
+        // starting in and working out
         for (int i = 1; i < Thread.currentThread().getStackTrace().length; i++)
         {
             // get current stack trace 
-            output += "\n\tat " + Thread.currentThread().getStackTrace()[i];
+            output += "\r\n\tat " + Thread.currentThread().getStackTrace()[i];
 
             // get stack trace class and check if there's a logger for it
             // if a loggerID hasn't already been found
@@ -75,7 +75,8 @@ public class ExceptionHandler
         }
         else // write to the default logger
         {
-            LoggerFactory.getLogger(DEFUALT_LOGGER_ID).writeln(output);
+            loggerID = DEFAULT_LOGGER_ID;
+            LoggerFactory.getLogger(DEFAULT_LOGGER_ID).writeln(output);
         }
         
         return output += "\n\tloggerID = " + loggerID;
@@ -98,11 +99,11 @@ public class ExceptionHandler
         // check if the exception inherits from a packages Exception
         if (new GeometryException().getClass().isInstance(except))
         {
-            loggerID = GeometryException.loggerID;
+            loggerID = GeometryException.getLoggerID();
         }
         else if(new ASTException().getClass().isInstance(except) )
         {
-            loggerID = ASTException.loggerID;
+            loggerID = ASTException.getLoggerID();
         }
         // more checks to come
 
@@ -113,7 +114,7 @@ public class ExceptionHandler
         // loop through the Stack Trace array and print each one
         for (int i = 1; i < Thread.currentThread().getStackTrace().length; i++)
         {
-            output += "\n\tat " + Thread.currentThread().getStackTrace()[i];
+            output += "\r\n\tat " + Thread.currentThread().getStackTrace()[i];
 
             // get stack trace class and check if there's a logger for it
             // if a loggerID hasn't already been found
@@ -139,7 +140,7 @@ public class ExceptionHandler
         }
         else // write to the default logger
         {
-            LoggerFactory.getLogger(DEFUALT_LOGGER_ID).writeln(output);
+            LoggerFactory.getLogger(DEFAULT_LOGGER_ID).writeln(output);
         }
 
         return output += "\n\tloggerID = " + loggerID;

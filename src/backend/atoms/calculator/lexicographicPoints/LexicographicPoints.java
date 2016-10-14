@@ -2,15 +2,14 @@
 iTutor – an intelligent tutor of mathematics
 Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed : the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package backend.atoms.calculator.lexicographicPoints;
+package atoms.calculator.lexicographicPoints;
 
+import ast.figure.components.Point;
 import java.util.ArrayList;
-
-import backend.ast.figure.components.Point;
 
 /**
  * @author Drew W
@@ -22,7 +21,7 @@ public class LexicographicPoints
     ArrayList<Point> ordered = null;
 
     /**
-     * Creates the Min-heap array and places the smallest value possible : array position 0.
+     * Creates the Min-heap array and places the smallest value possible in array position 0.
      */
     public LexicographicPoints()
     {
@@ -38,10 +37,10 @@ public class LexicographicPoints
      * Inserts an element to the list.
      * @param thatNode  the Point to insert into the list
      */
-    private void Insert(Point thatNode)
+    private void insert(Point thatNode)
     {
         // Empty List: add to the beginning.
-        if (ordered.isEmpty() )
+        if (ordered.isEmpty())
         {
             ordered.add(thatNode);
             return;
@@ -58,7 +57,7 @@ public class LexicographicPoints
         }
     }
     
-    public void Add(Point pt)
+    public void add(Point pt)
     {
         Insert(pt);
     }
@@ -67,7 +66,7 @@ public class LexicographicPoints
      * Removes the node at the first position: O(log n) due to Heapify
      * @return the node at the first position
      */
-    public Point ExtractMin()
+    public Point extractMin()
     {
         // return null for an empty list
         if (ordered.isEmpty()) return null;
@@ -82,7 +81,7 @@ public class LexicographicPoints
      * Get the node at the first position
      * @return  the node at the first position
      */
-    public Point PeekMin()
+    public Point peekMin()
     {
         return ordered.get(0);
     }
@@ -91,7 +90,7 @@ public class LexicographicPoints
      * Remove a specific point from the list.
      * @param pt    the point to be removed
      */
-    public void Remove(Point pt)
+    public void remove(Point pt)
     {
         ordered.remove(pt);
     }
@@ -100,7 +99,7 @@ public class LexicographicPoints
      * For debugging purposes: traverse the list and dump (key, data) pairs
      * @return  the list as a String
      */
-    public String ToString()
+    public String toString()
     {
         String retS = "";
         

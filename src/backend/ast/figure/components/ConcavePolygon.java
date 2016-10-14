@@ -1,4 +1,4 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;

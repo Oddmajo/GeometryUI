@@ -6,15 +6,15 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package backend.utilities.sets;
+package utilities.sets;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import backend.ast.Figure.Figure;
-import backend.utilities.Pair;
+import ast.Figure.Figure;
+import utilities.Pair;
 
 /**
  * The Utilities class from the GeometryTutor project, converted from C#
@@ -66,7 +66,7 @@ public class PowersetUtilities
     
     private static List<List<Integer>> ConstructRestrictedPowerSet(int n, int maxCardinality)
     {
-        if (n <= 0) return backend.utilities.list.Utilities.makeList(new ArrayList<Integer>());
+        if (n <= 0) return utilities.list.Utilities.makeList(new ArrayList<Integer>());
 
         List<List<Integer>> powerset = ConstructRestrictedPowerSet(n - 1, maxCardinality);
         List<List<Integer>> newCopies = new ArrayList<List<Integer>>();

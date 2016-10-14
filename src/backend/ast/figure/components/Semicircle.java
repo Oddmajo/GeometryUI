@@ -1,11 +1,11 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.List;
 
-import backend.ast.ASTException;
-import backend.ast.figure.Figure;
-import backend.atoms.components.Connection;
-import backend.utilities.translation.OutTriple;
+import ast.ASTException;
+import ast.figure.Figure;
+import atoms.components.Connection;
+import utilities.translation.OutTriple;
 
 import java.util.ArrayList;
 

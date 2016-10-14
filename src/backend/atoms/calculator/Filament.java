@@ -6,19 +6,29 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package backend.atoms.calculator;
+package atoms.calculator;
 
 import java.util.ArrayList;
 
-import backend.ast.figure.components.Circle;
-import backend.ast.figure.components.Point;
-import backend.atoms.components.AtomicRegion;
+import ast.ASTException;
+import ast.figure.components.Circle;
+import ast.figure.components.MajorArc;
+import ast.figure.components.MinorArc;
+import ast.figure.components.Point;
+import ast.figure.components.Sector;
+import ast.figure.components.Segment;
+import ast.figure.components.Semicircle;
+import atoms.components.AtomicRegion;
+import atoms.components.Connection.ConnectionType;
+import atoms.components.ShapeAtomicRegion;
+import atoms.undirectedPlanarGraph.PlanarGraph;
+import atoms.undirectedPlanarGraph.PlanarGraphEdge;
 
 /**
  * @author Drew W
  *
  */
-public class Filament implements Primitive
+public class Filament extends Primitive
 {
     
     public ArrayList<Point> points = null;
@@ -35,12 +45,12 @@ public class Filament implements Primitive
      * Add a Point to the filament
      * @param pt    the Point to be added
      */
-    public void Add(Point pt)
+    public void add(Point pt)
     {
         points.add(pt);
     }
     
-    public String ToString() 
+    public String toString() 
     {
         String retS = "Filament { ";
         
@@ -64,7 +74,7 @@ public class Filament implements Primitive
     ///////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * A matrix storing the memoized versions of atomic regions found: n x n where n is the number of points : the filament.
+     * A matrix storing the memoized versions of atomic regions found: n x n where n is the number of points in the filament.
      */
     private Agg[][] memoized;
     
@@ -73,19 +83,21 @@ public class Filament implements Primitive
      * @param graph     to extract regions from
      * @param circles   to store regions in
      * @return          the list of atomic regions
+     * @throws ASTException 
      */
-    public ArrayList<AtomicRegion> ExtractAtomicRegions(PlanarGraph graph, ArrayList<Circle> circles)
+    public ArrayList<AtomicRegion> extractAtomicRegions(PlanarGraph graph, ArrayList<Circle> circles) throws ASTException
     {
         memoized = new Agg[points.size()][points.size()];
         
         // recursively construct
-        return MakeRegions(graph, circles, 0, points.size() - 1).atoms;
+        return makeRegions(graph, circles, 0, points.size() - 1).atoms;
     }
     
     
     /**
-     * I need to find out what this class is/does
-     * @author Drew W
+     * Aggregation of variables
+     * @author Chris Alvin
+     * @modified Drew Whitmire
      *
      */
     class Agg
@@ -106,7 +118,7 @@ public class Filament implements Primitive
         }
     }
     
-    private Agg MakeRegions(PlanarGraph graph, ArrayList<Circle> circles, int beginIndex, int endIndex)
+    private Agg makeRegions(PlanarGraph graph, ArrayList<Circle> circles, int beginIndex, int endIndex) throws ASTException
     {
         // if there is already a region stored at the given position
         if (memoized[beginIndex][endIndex] != null) return memoized[beginIndex][endIndex];
@@ -119,13 +131,149 @@ public class Filament implements Primitive
         }
         
         // Base Case: Gap between the given indices is 1
-        // this is where I need to continue
+        if (endIndex - beginIndex == 1)
+        {
+            return new Agg(beginIndex, endIndex, -1, outerCircle, handleConnection(graph, circles, points.get(beginIndex), points.get(endIndex)));
+        }
         
+        // Look at all combinations of indices from beginIndex to endIndex
+        // Start with larger gaps between indices -> small gaps
+        Agg maxLeftCoveredAgg = null;
+        Agg maxRightCoveredAgg = null;
+        int maxCoveredNodes = 0;
+        for (int gap = endIndex - beginIndex - 1; gap > 0; gap--)
+        {
+            for (int index = beginIndex; index < endIndex; index++)
+            {
+                Agg left = makeRegions(graph, circles, index, index + gap);
+                Agg right = makeRegions(graph, circles, index + gap, endIndex);
+                
+                // Check for new maximum coverage
+                if (left.coveredPoints + right.coveredPoints > maxCoveredNodes)
+                {
+                    maxLeftCoveredAgg = left;
+                    maxRightCoveredAgg = right;
+                }
+                
+                // Found complete coverage
+                if (left.coveredPoints + right.coveredPoints == endIndex - beginIndex + 1)
+                {
+                    maxCoveredNodes = endIndex - beginIndex + 1;
+                    break;
+                }
+            }
+        }
+        
+        //
+        // We have the two maximal circles: create the new regions
+        //
+        // The atoms from the left / right
+        ArrayList<AtomicRegion> atoms = new ArrayList<>();
+        atoms.addAll(maxLeftCoveredAgg.atoms);
+        atoms.addAll(maxRightCoveredAgg.atoms);
+        
+        // New regions are based on this outer circle minus the left / right outer circles
+        AtomicRegion newAtomTop = new AtomicRegion();
+        AtomicRegion newAtomBottom = new AtomicRegion();
+        
+        // The outer circle
+        newAtomTop.addConnection(points.get(beginIndex), points.get(endIndex), ConnectionType.ARC, outerCircle);
+        newAtomBottom.addConnection(points.get(beginIndex), points.get(endIndex), ConnectionType.ARC, outerCircle);
+        
+        // The left / right maximal circle
+        // these lines were cut off, I need to talk to Dr. Alvin
+        newAtomTop.addConnection(points.get(maxLeftCoveredAgg.beginPointIndex), points.get(maxLeftCoveredAgg.endPointIndex), ConnectionType.ARC, outerCircle); 
+        newAtomBottom.addConnection(points.get(maxLeftCoveredAgg.beginPointIndex), points.get(maxLeftCoveredAgg.endPointIndex), ConnectionType.ARC, outerCircle);
+        
+        newAtomTop.addConnection(points.get(maxRightCoveredAgg.beginPointIndex), points.get(maxRightCoveredAgg.endPointIndex), ConnectionType.ARC, outerCircle);
+        newAtomBottom.addConnection(points.get(maxRightCoveredAgg.beginPointIndex), points.get(maxRightCoveredAgg.endPointIndex), ConnectionType.ARC, outerCircle);
+        
+        atoms.add(newAtomTop);
+        atoms.add(newAtomBottom);
         
         int maxCoveredNodes = 0;
         ArrayList<AtomicRegion> atoms = null;
         return new Agg(beginIndex, endIndex, maxCoveredNodes, outerCircle, atoms);
     }
+
     
+    /**
+     * Private method for the makeRegion function
+     * @param graph     input graph to handle connections on
+     * @param circles   input circles
+     * @param pt1       point 1 to get the edge from
+     * @param pt2       point 2 to get the edge from
+     * @return          the list of AtomicRegions
+     * @throws ASTException
+     */
+    private ArrayList<AtomicRegion> handleConnection(PlanarGraph graph, ArrayList<Circle> circles, Point pt1, Point pt2) throws ASTException
+    {
+        ArrayList<AtomicRegion> atoms = new ArrayList<>();
+        
+        PlanarGraphEdge edge = graph.getEdge(pt1, pt2);
+        
+        if (edge == null)
+        {
+            return atoms;
+        }
+        
+        // 
+        // Find the one circle that applies to this set of points
+        //
+        Circle theCircle = null;
+        
+        for (Circle circle : circles)
+        {
+            if (circle.PointLiesOn(pt1) && circle.PointLiesOn(pt2))
+            {
+                theCircle = circle;
+            }
+        }
+        
+        switch (edge.edgeType)
+        {
+            case REAL_ARC:
+            case REAL_DUAL:
+                atoms.addAll(createSectors(theCircle, pt1, pt2));
+                break;
+            case EXTENDED_SEGMENT:
+                break;
+            case REAL_SEGMENT:
+                break;
+            default:
+                break;
+        }
+        
+        return atoms;
+    }
+    
+    /**
+     * Private method for the handleConnection method to create Sectors
+     * @param circle        input circle
+     * @param pt1           point to get an edge from
+     * @param pt2           point to get an edge to
+     * @return              the list of AtomicRegions
+     * @throws ASTException
+     */
+    private ArrayList<AtomicRegion> createSectors(Circle circle, Point pt1, Point pt2) throws ASTException
+    {
+        ArrayList<AtomicRegion> atoms = new ArrayList<AtomicRegion>();
+        
+        Segment diameter = new Segment(pt1, pt2);
+        
+        if (circle.DefinesDiameter(diameter))
+        {
+            Point midpt = circle.Midpoint(pt1, pt2);
+            atoms.add(new ShapeAtomicRegion(new Sector(new Semicircle(circle, pt1, pt2, midpt, diameter))));
+            atoms.add(new ShapeAtomicRegion(new Sector(new Semicircle(circle, pt1, pt2, circle.OppositePoint(midpt), diameter))));
+        }
+        else 
+        {
+            atoms.add(new ShapeAtomicRegion(new Sector(new MinorArc(circle, pt1, pt2))));
+            atoms.add(new ShapeAtomicRegion(new Sector(new MajorArc(circle, pt1, pt2))));
+        }
+        
+        return atoms;
+    }
     
 }

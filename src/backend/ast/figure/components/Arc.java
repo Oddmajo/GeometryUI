@@ -1,13 +1,13 @@
-﻿package backend.ast.figure.components;
+﻿package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.ast.ASTException;
-import backend.ast.GroundedClause;
-import backend.ast.figure.Figure;
-import backend.utilities.Pair;
-import backend.utilities.translation.OutPair;
+import ast.ASTException;
+import ast.GroundedClause;
+import ast.figure.Figure;
+import utilities.Pair;
+import utilities.translation.OutPair;
 
 public abstract class Arc extends Figure implements Cloneable
 {
@@ -54,8 +54,8 @@ public abstract class Arc extends Figure implements Cloneable
         arcMinorPoints = new ArrayList<Point>(minorPts);
         arcMajorPoints = new ArrayList<Point>(majorPts);
 
-        backend.utilities.ast_helper.Utilities.addStructurallyUnique(e1.getSuperFigures(), this);
-        backend.utilities.ast_helper.Utilities.addStructurallyUnique(e2.getSuperFigures(), this);
+        utilities.ast_helper.Utilities.addStructurallyUnique(e1.getSuperFigures(), this);
+        utilities.ast_helper.Utilities.addStructurallyUnique(e2.getSuperFigures(), this);
 
         minorMeasure = CalculateArcMinorMeasureDegrees();
         length = CalculateArcMinorLength();
@@ -151,7 +151,7 @@ public abstract class Arc extends Figure implements Cloneable
     @Override
     public void AddCollinearPoint(Point newPt)
     {
-        if (backend.utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
+        if (utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
 
         collinear.add(newPt);
 
@@ -562,7 +562,7 @@ public abstract class Arc extends Figure implements Cloneable
         MinorArc arc1 = new MinorArc(originalArc._theCircle, m, originalArc._endpoint1);
         MinorArc arc2 = new MinorArc(originalArc._theCircle, m, originalArc._endpoint2);
 
-        return backend.utilities.math.Utilities.doubleEquals(arc1.minorMeasure + arc2.minorMeasure, originalArc.minorMeasure);
+        return utilities.math.Utilities.doubleEquals(arc1.minorMeasure + arc2.minorMeasure, originalArc.minorMeasure);
     }
 
     public static boolean StrictlyBetweenMinor(Point m, Arc originalArc)
@@ -620,13 +620,13 @@ public abstract class Arc extends Figure implements Cloneable
     //
     // Is this arc congruent to the given arc : terms of the coordinatization from the UI?
     //
-    public boolean CoordinateCongruent(Arc a) { return backend.utilities.math.Utilities.doubleEquals(this.length, a.length); }
+    public boolean CoordinateCongruent(Arc a) { return utilities.math.Utilities.doubleEquals(this.length, a.length); }
 
     //
     // Is this segment proportional to the given segment : terms of the coordinatization from the UI?
     // We should not report proportional if the ratio between segments instanceof 1
     //
-    public Pair<Integer, Integer> CoordinateProportional(Arc a) { return backend.utilities.math.Utilities.RationalRatio(this.length, a.length); }
+    public Pair<Integer, Integer> CoordinateProportional(Arc a) { return utilities.math.Utilities.RationalRatio(this.length, a.length); }
 
     //
     // Concentric

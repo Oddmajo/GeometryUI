@@ -6,9 +6,9 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package backend.utilities.math;
+package utilities.math;
 
-import backend.utilities.Pair;
+import utilities.Pair;
 
 /**
  * Utilities focused on math-based functionality

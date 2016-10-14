@@ -1,6 +1,6 @@
-package backend.utilities.translation;
+package utilities.translation;
 
-import backend.utilities.Pair;
+import utilities.Pair;
 
 public class OutPair<K, V> extends Pair<K, V>
 {

@@ -6,14 +6,13 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package backend.utilities.list;
+package utilities.list;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import backend.ast.figure.Figure;
-import backend.ast.figure.components.Angle;
-import backend.ast.figure.components.Point;
+import ast.figure.Figure;
+import ast.figure.components.Angle;
+import ast.figure.components.Point;
 
 /**
  * The Utilities class from the GeometryTutor project, converted from C#
@@ -39,7 +38,7 @@ public class Utilities
 	// Given a list, remove duplicates
 	//
 
-	public static <T extends backend.ast.GroundedClause> List<T> RemoveDuplicates(List<T> list)
+	public static <T extends ast.GroundedClause> List<T> RemoveDuplicates(List<T> list)
 	{
 		List<T> cleanList = new ArrayList<T>();
 
@@ -70,7 +69,7 @@ public class Utilities
 
 
 
-	private static <T extends backend.ast.GroundedClause> boolean isDuplicate(T clause1, T clause2)
+	private static <T extends ast.GroundedClause> boolean isDuplicate(T clause1, T clause2)
 	{
 		if (clause1 instanceof Angle)
 		{
@@ -86,7 +85,7 @@ public class Utilities
 	//
 	// Given a list of grounded clauses, add a new value which is structurally unique.
 	//
-	public static <T extends backend.ast.GroundedClause> int StructuralIndex(List<T> list, T t)
+	public static <T extends ast.GroundedClause> int StructuralIndex(List<T> list, T t)
 	{
 		for (int i = 0; i < list.size(); i++)
 		{
@@ -101,7 +100,7 @@ public class Utilities
 	// Given a list of grounded clauses, add a new value which is structurally unique.
 	//
 
-	public static <T extends backend.ast.GroundedClause> boolean HasStructurally(List<T> list, T t)
+	public static <T extends ast.GroundedClause> boolean HasStructurally(List<T> list, T t)
 	{
 		return StructuralIndex(list, t) != -1;
 	}
@@ -110,7 +109,7 @@ public class Utilities
 	//
 	// Given a list of grounded clauses, get the structurally unique.
 	//
-	public static <T extends backend.ast.GroundedClause> T GetStructurally(List<T> list, T t)
+	public static <T extends ast.GroundedClause> T GetStructurally(List<T> list, T t)
 	{
 		for (T oldT : list)
 		{
@@ -124,7 +123,7 @@ public class Utilities
 	//
 	// Given a list of grounded clauses, add a new value which is structurally unique.
 	//
-	public static <T extends backend.ast.GroundedClause> boolean addStructurallyUnique(List<T> list, T t)
+	public static <T extends ast.GroundedClause> boolean addStructurallyUnique(List<T> list, T t)
 	{
 		if (HasStructurally(list, t)) return false;
 

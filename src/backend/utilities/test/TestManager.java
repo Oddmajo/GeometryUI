@@ -26,7 +26,7 @@ details.
  *
  */
 
-package backend.utilities.test;
+package utilities.test;
 
 import org.junit.runner.JUnitCore;
 

@@ -1,16 +1,24 @@
-package backend.atoms.components;
+/*
+iTutor – an intelligent tutor of mathematics
+Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+package atoms.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.ast.figure.Figure;
-import backend.ast.figure.components.Arc;
-import backend.ast.figure.components.MajorArc;
-import backend.ast.figure.components.MinorArc;
-import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Semicircle;
-import backend.utilities.translation.OutPair;
+import ast.figure.Figure;
+import ast.figure.components.Arc;
+import ast.figure.components.MajorArc;
+import ast.figure.components.MinorArc;
+import ast.figure.components.Point;
+import ast.figure.components.Segment;
+import ast.figure.components.Semicircle;
+import utilities.translation.OutPair;
 
 //
 // Aggregation class for each segment of an atomic region.
@@ -70,7 +78,7 @@ public class Connection
     {
         if (this.type == ConnectionType.SEGMENT)
         {
-            return backend.utilities.list.Utilities.makeList(new Segment(this.endpoint1, this.endpoint2));
+            return utilities.list.Utilities.makeList(new Segment(this.endpoint1, this.endpoint2));
         }
 
         return segmentOrArc.Segmentize();
@@ -114,7 +122,7 @@ public class Connection
     //
     // Find the intersection points between this conenction and that; 2 points may result. (2 with arc / segment)
     //
-    public void FindIntersection(List<Point> figurePoints, Connection that, OutPair<Point, Point> out)
+    public void FindIntersection(ArrayList<Point> figurePoints, Connection that, OutPair<Point, Point> out)
     {
         OutPair<Point, Point> localOut = new OutPair<Point, Point>(); 
 
@@ -140,23 +148,23 @@ public class Connection
         Point pt2 = null;
         if (thisSeg != null && thatSeg != null)
         {
-            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatSeg);
-            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatSeg);
+            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatSeg);
+            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatSeg);
         }
         else if (thisSeg != null && thatArc != null)
         {
-            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatArc);
-            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatArc);
+            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatArc);
+            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatArc);
         }
         else if (thisArc != null && thatSeg != null)
         {
-            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thatSeg, thisArc);
-            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thatSeg, thisArc);
+            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thatSeg, thisArc);
+            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thatSeg, thisArc);
         }
         else if (thisArc != null && thatArc != null)
         {
-            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisArc, thatArc);
-            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisArc, thatArc);
+            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisArc, thatArc);
+            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisArc, thatArc);
         }
 
         out.set(pt1,  pt2);

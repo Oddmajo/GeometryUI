@@ -1,15 +1,15 @@
-﻿package backend.ast.figure.components;
+﻿package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-import backend.ast.GroundedClause;
-import backend.ast.figure.Figure;
-import backend.utilities.Pair;
-import backend.utilities.translation.OutPair;
-import backend.utilities.translation.OutSingle;
+import ast.GroundedClause;
+import ast.figure.Figure;
+import utilities.Pair;
+import utilities.translation.OutPair;
+import utilities.translation.OutSingle;
 
 // <summary>
 // A circle is defined by a _center and _radius.
@@ -117,7 +117,7 @@ public class Circle extends Figure
         approxPoints = new ArrayList<Point>();
         approxSegments = new ArrayList<Segment>();
 
-        backend.utilities.list.Utilities.addUniqueStructurally(this._center.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(this._center.getSuperFigures(), this);
 
         //thisAtomicRegion = new ShapeAtomicRegion(this);
 
@@ -166,7 +166,7 @@ public class Circle extends Figure
         if (!(that instanceof Circle)) return false;
         Circle thatCirc = (Circle)that;
 
-        return backend.utilities.math.Utilities.doubleEquals(this._radius, thatCirc._radius);
+        return utilities.math.Utilities.doubleEquals(this._radius, thatCirc._radius);
     }
     
 //    @Override
@@ -262,7 +262,7 @@ public class Circle extends Figure
     {
         if (r == null) return null;
 
-        return backend.utilities.list.Utilities.GetStructurally(radii, r);
+        return utilities.list.Utilities.GetStructurally(radii, r);
     }
 
     @Override
@@ -377,13 +377,13 @@ public class Circle extends Figure
         if (DefinesDiameter(thatSegment))
         {
             // Add radii to the list.
-            backend.utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
-            backend.utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
+            utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
+            utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
         }
 
         if (IsChord(thatSegment))
         {
-            backend.utilities.list.Utilities.addUnique(chords, thatSegment);
+            utilities.list.Utilities.addUnique(chords, thatSegment);
         }
         else
         {
@@ -397,14 +397,14 @@ public class Circle extends Figure
                 _secants.put(thatSegment, chord);
 
                 // Also add to the chord list.
-                backend.utilities.list.Utilities.addUnique(chords, chord);
+                utilities.list.Utilities.addUnique(chords, chord);
             }
         }
 
         // Is a _radius the result of a segment starting at the _center and extending outward?
         // We collect all other types below.
         Segment _radius = IsRadius(thatSegment, figPoints);
-        if (_radius != null) backend.utilities.list.Utilities.addUnique(radii, _radius);
+        if (_radius != null) utilities.list.Utilities.addUnique(radii, _radius);
     }
 
     //
@@ -419,16 +419,16 @@ public class Circle extends Figure
             if (chord.pointLiesOnAndExactlyBetweenEndpoints(this._center))
             {
                 // Add to diameters....
-                backend.utilities.list.Utilities.addUnique(diameters, chord);
+                utilities.list.Utilities.addUnique(diameters, chord);
 
                 // but also collect radii
                 Segment new_radius = Segment.GetFigureSegment(this._center, chord.getPoint1());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint1());
-                backend.utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
+                utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
 
                 new_radius = Segment.GetFigureSegment(this._center, chord.getPoint2());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint2());
-                backend.utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
+                utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
             }
         }
     }
@@ -506,10 +506,10 @@ public class Circle extends Figure
             deltaX = Math.sqrt(Math.pow(distance, 2) / (1 + Math.pow(segment.slope(), 2)));
             deltaY = segment.slope() * deltaX;
         }
-        Point circPt1 = backend.utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", midpt.getX() + deltaX, midpt.getY() + deltaY));
+        Point circPt1 = utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", midpt.getX() + deltaX, midpt.getY() + deltaY));
 
         // intersection is the midpoint of circPt1 and pt2.
-        Point circPt2 = backend.utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", 2 * midpt.getX() - circPt1.getX(), 2 * midpt.getY() - circPt1.getY()));
+        Point circPt2 = utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", 2 * midpt.getX() - circPt1.getX(), 2 * midpt.getY() - circPt1.getY()));
 
         // Create the actual chord
         return new Segment(circPt1, circPt2);
@@ -583,7 +583,7 @@ public class Circle extends Figure
         if (!segment.hasPoint(this._center)) return null;
 
         // The segment must be at least as long as a _radius.
-        if (!backend.utilities.math.Utilities.doubleEquals(segment.length(), this._radius)) return null;
+        if (!utilities.math.Utilities.doubleEquals(segment.length(), this._radius)) return null;
 
         Point non_centerPt = segment.OtherPoint(this._center);
 
@@ -603,8 +603,8 @@ public class Circle extends Figure
         Point inter1 = out.first();
         Point inter2 = out.second();
         
-        Point figPoint = backend.utilities.list.Utilities.GetStructurally(figPoints, inter1);
-        if (figPoint == null) figPoint = backend.utilities.list.Utilities.GetStructurally(figPoints, inter2);
+        Point figPoint = utilities.list.Utilities.GetStructurally(figPoints, inter1);
+        if (figPoint == null) figPoint = utilities.list.Utilities.GetStructurally(figPoints, inter2);
 
         return new Segment(_center, figPoint);
     }
@@ -649,7 +649,7 @@ public class Circle extends Figure
         //
         // Tangent point (E)
         //
-        else if (backend.utilities.math.Utilities.doubleEquals(lengthEC, this._radius))
+        else if (utilities.math.Utilities.doubleEquals(lengthEC, this._radius))
         {
             // First intersection
             inter1 = new Point("", E[0], E[1]);
@@ -744,7 +744,7 @@ public class Circle extends Figure
     @Override
     public boolean PointLiesOn(Point pt)
     {
-        return backend.utilities.math.Utilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
+        return utilities.math.Utilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
     }
 
     //
@@ -752,11 +752,11 @@ public class Circle extends Figure
     //
     public boolean PointIsInterior(Point pt)
     {
-        return backend.utilities.math.Utilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
+        return utilities.math.Utilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
     }
     public boolean PointIsExterior(Point pt)
     {
-        return backend.utilities.math.Utilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
+        return utilities.math.Utilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
     }
 
     //
@@ -764,7 +764,7 @@ public class Circle extends Figure
     //
     public boolean AreConcentric(Circle thatCircle)
     {
-        return this._center.StructurallyEquals(thatCircle._center) && !backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return this._center.StructurallyEquals(thatCircle._center) && !utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     //
@@ -974,7 +974,7 @@ public class Circle extends Figure
 
         double angle1 = new Angle(a, _center, theMidpoint).measure;
         double angle2 = new Angle(b, _center, theMidpoint).measure;
-        if (!backend.utilities.math.Utilities.doubleEquals(angle1, angle2))
+        if (!utilities.math.Utilities.doubleEquals(angle1, angle2))
         {
             throw new IllegalArgumentException("Midpoint is incorrect; angles do not equate: " + angle1 + " " + angle2);
         }
@@ -1038,7 +1038,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.StructurallyEquals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.StructurallyEquals(_center) && utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override
@@ -1048,7 +1048,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.equals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.equals(_center) && utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override

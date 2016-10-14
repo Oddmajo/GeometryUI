@@ -6,20 +6,54 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package backend.atoms.calculator;
+package atoms.calculator;
 
-import backend.ast.figure.components.Point;
+import ast.figure.components.Point;
 
-public class IsolatedPoint implements Primitive
+/**
+ * A class to store isolated Points.
+ * @author Drew W
+ *
+ */
+public class IsolatedPoint extends Primitive
 {
+    // Variables
+    private Point thePoint;
     
-    public Point thePoint;
-    
+    /**
+     * Constructor
+     */
     public IsolatedPoint()
     {
         thePoint = null;
     }
     
+    public IsolatedPoint(Point p)
+    {
+        thePoint = p;
+    }
+    
+    /**
+     * Sets the Point 
+     * @param set
+     */
+    public void setPoint(Point set)
+    {
+        thePoint = set;
+    }
+    
+    /**
+     * Get the Point
+     * @return  the Point
+     */
+    public Point getPoint()
+    {
+        return thePoint;
+    }
+    
+    /* 
+     * Return the IsolatedPoint as a String
+     */
     public String toString()
     {
         return "Point { " + thePoint.toString() + " }";

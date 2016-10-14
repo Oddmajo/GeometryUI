@@ -1,9 +1,9 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.ArrayList;
 
-import backend.ast.GroundedClause;
-import backend.ast.figure.Figure;
+import ast.GroundedClause;
+import ast.figure.Figure;
 
 public class Point extends Figure
 {
@@ -143,7 +143,7 @@ public class Point extends Figure
         Point pt =  (Point)obj;
 
         if (pt == null) return false;
-        return backend.utilities.math.Utilities.doubleEquals(pt.X, X) && backend.utilities.math.Utilities.doubleEquals(pt.Y, Y);
+        return utilities.math.Utilities.doubleEquals(pt.X, X) && utilities.math.Utilities.doubleEquals(pt.Y, Y);
     }
     
  // Make a deep copy of this object; this is actually shallow, but is all that is required.
@@ -177,7 +177,7 @@ public class Point extends Figure
     
     public static int LexicographicOrdering(Point p1, Point p2)
     {
-        if (!backend.utilities.math.Utilities.doubleEquals(p1.X, p2.X))
+        if (!utilities.math.Utilities.doubleEquals(p1.X, p2.X))
         {
             // X's first
             if (p1.X < p2.X) return -1;
@@ -185,7 +185,7 @@ public class Point extends Figure
             if (p1.X > p2.X) return 1;
         }
 
-        if (backend.utilities.math.Utilities.doubleEquals(p1.Y, p2.Y)) return 0;
+        if (utilities.math.Utilities.doubleEquals(p1.Y, p2.Y)) return 0;
 
         // Y's second
         if (p1.Y < p2.Y) return -1;

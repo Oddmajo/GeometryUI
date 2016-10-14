@@ -1,4 +1,4 @@
-package backend.precomputer;
+package precomputer;
 
 import static org.junit.Assert.*;
 
@@ -6,9 +6,9 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Segment;
+import ast.figure.components.Point;
+import ast.figure.components.Polygon;
+import ast.figure.components.Segment;
 
 public class PolygonCalculatorTest
 {
