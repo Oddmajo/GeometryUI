@@ -163,10 +163,10 @@ public class AtomicRegion
 //    // <------- Figure Synthesis (end) --------------------------------------------------------------------------
 //    //
 //
- // A version of this region that is an approximate polygon.
+    // A version of this region that is an approximate polygon.
     protected Polygon polygonalized; //{ get; protected set; }
 
-//    public List<Point> GetApproximatingPoints() { return GetPolygonalized().points; }
+    public ArrayList<Point> GetApproximatingPoints() { return GetPolygonalized().getPoints(); }
 
     public AtomicRegion()
     {
@@ -848,6 +848,7 @@ public class AtomicRegion
 //    //
 //    // Determine the intersection points / connections between this atomic region and another region.
 //    //
+    @SuppressWarnings("unused")
     public ArrayList<IntersectionAgg> GetIntersections(ArrayList<Point> figurePoints, AtomicRegion thatAtom)
     {
         ArrayList<IntersectionAgg> intersections = new ArrayList<IntersectionAgg>();
@@ -856,17 +857,18 @@ public class AtomicRegion
         {
             for (Connection thatConn : thatAtom.connections)
             {
-                OutSingle<Point> inter1 = null;
-                OutSingle<Point> inter2 = null;
-                thisConn.FindIntersection(figurePoints, thatConn, inter1.get(), inter2.get());
-
-                if (inter1 != null)
+                OutPair<Point, Point> inter = new OutPair<>();
+                inter.set(null, null);
+                thisConn.FindIntersection(figurePoints, thatConn, inter);
+                
+                // if intersections are found
+                if (inter.getKey() != null)
                 {
                     IntersectionAgg newAgg = new IntersectionAgg();
                     newAgg.thisConn = thisConn;
                     newAgg.thatConn = thatConn;
-                    newAgg.intersection1 = inter1.get();
-                    newAgg.intersection2 = inter2.get();
+                    newAgg.intersection1 = inter.getKey();
+                    newAgg.intersection2 = inter.getValue();
                     newAgg.overlap = thisConn.Overlap(thatConn);
                     AddIntersection(intersections, newAgg);
                 }
@@ -894,9 +896,9 @@ public class AtomicRegion
         {
             for (Connection thatConn : thatAtom.connections)
             {
-                OutSingle<Point> inter1 = null;
-                OutSingle<Point> inter2 = null;
-                thisConn.FindIntersection(thatConn, inter1, inter2);
+                OutPair<Point, Point> inter = new OutPair<>();
+                inter.set(null, null);
+                thisConn.FindIntersection(thatConn, inter);
 
                 if (thisConn.Overlap(thatConn))
                 {
@@ -908,13 +910,13 @@ public class AtomicRegion
                     newAgg.overlap = true;
                     AddIntersection(intersections, newAgg);
                 }
-                else if (inter1 != null)
+                else if (inter.getKey() != null)
                 {
                     IntersectionAgg newAgg = new IntersectionAgg();
                     newAgg.thisConn = thisConn;
                     newAgg.thatConn = thatConn;
-                    newAgg.intersection1 = inter1.get();
-                    newAgg.intersection2 = inter2.get();
+                    newAgg.intersection1 = inter.getKey();
+                    newAgg.intersection2 = inter.getValue();
                     newAgg.overlap = thisConn.Overlap(thatConn);
                     AddIntersection(intersections, newAgg);
                 }

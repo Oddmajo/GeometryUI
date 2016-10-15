@@ -9,6 +9,7 @@ import atoms.undirectedPlanarGraph.PlanarGraph;
 import atoms.undirectedPlanarGraph.PlanarGraphEdge;
 import utilities.ast_helper.Utilities;
 import utilities.exception.ExceptionHandler;
+import utilities.exception.NotImplementedException;
 
 public class FacetCalculator
 {
@@ -20,7 +21,7 @@ public class FacetCalculator
     private ArrayList<Primitive> primitives;
     public ArrayList<Primitive> GetPrimitives() { return primitives; }
 
-    public FacetCalculator(PlanarGraph g) throws AtomicRegionException
+    public FacetCalculator(PlanarGraph g)
     {
         graph = g;
 
@@ -66,6 +67,9 @@ public class FacetCalculator
 
             // if (GeometryTutorLib.Utilities.GreaterThan(crossProduct, 0)) angleMeasure = angleMeasure;
             if (Utilities.CompareValues(crossProduct, 0)) angleMeasure = 180;
+            
+            // this should be crossProduct > 0
+            // why not just use angle measure itself?
             else if (crossProduct < 0) angleMeasure = 360 - angleMeasure;
 
             // If there are have the same angle, choose the one farther away (it is due to two connections)
@@ -95,7 +99,7 @@ public class FacetCalculator
     //
     // With respect to the given vector (based on prevPt and currentPt), return the tightest counter-clockwise neighbor.
     //
-    private Point GetTightestCounterClockwiseNeighbor(Point prevPt, Point currentPt) throws AtomicRegionException
+    private Point GetTightestCounterClockwiseNeighbor(Point prevPt, Point currentPt)
     {
         Point prevCurrVector = Point.MakeVector(prevPt, currentPt);
 
@@ -131,13 +135,14 @@ public class FacetCalculator
                     // Circles create a legitimate situation where we want to walk back in the same 'collinear' path.
                     if (Point.OppositeVectors(prevCurrVector, currentNeighborVector))
                     {
-                        throw new AtomicRegionException("FacetCalculator has collinear points in graph, but a cycle in the edges.");
+                        ExceptionHandler.throwException(new NotImplementedException());
                     }
                     else 
                     {
                         angleMeasure = 180;
                     }
                 }
+                // why not just angle measure? why subtract from 360?
                 else if (crossProduct < 0) angleMeasure = 360 - angleMeasure;
 
                 // If there are have the same angle, choose the one farther away (it is due to two connections)
@@ -154,6 +159,7 @@ public class FacetCalculator
                         currentNextPoint = neighbor;
                     }
                 }
+                // should this be else if?
                 if (angleMeasure < currentAngle)
                 {
                     currentAngle = angleMeasure;
@@ -165,7 +171,7 @@ public class FacetCalculator
         return currentNextPoint;
     }
 
-    private void ExtractPrimitives() throws AtomicRegionException
+    private void ExtractPrimitives()
     {
         //
         // Lexicographically sorted heap of all points in the graph.
@@ -237,6 +243,7 @@ public class FacetCalculator
                 graph.removeEdge(v0, v1);
                 v0 = v1;
                 v0Index = graph.indexOf(v0);
+                // redundant?
                 if (graph.getNodes().get(v0Index).nodeDegree() == 1)
                 {
                     v1 = graph.getNodes().get(v0Index).getEdges().get(0).getTarget();
@@ -315,7 +322,7 @@ public class FacetCalculator
     //
     // Extract a minimal cycle or a filament
     //
-    void ExtractPrimitive(Point v0, LexicographicPoints heap) throws AtomicRegionException
+    void ExtractPrimitive(Point v0, LexicographicPoints heap)
     {
         ArrayList<Point> visited = new ArrayList<Point>();
         ArrayList<Point> sequence = new ArrayList<Point>();
@@ -402,7 +409,7 @@ public class FacetCalculator
             // A cycle has been found, but is not guaranteed to be a minimal
             // cycle. This implies v0 is part of a filament. Locate the
             // starting point for the filament by traversing from v0 away
-            // from the initial v1.
+            // from the initial v1. 
             while (graph.getNodes().get(v0Index).nodeDegree() == 2)
             {
                 // Choose between the the two neighbors

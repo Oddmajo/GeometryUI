@@ -1,40 +1,50 @@
 package utilities.exception;
 
+import logger.Logger;
+
 public class ArgumentException extends Exception
 {
 
     /**
      * 
      */
-    private static final long serialVersionUID = -4649268196121832322L;
-
-    public ArgumentException()
+    private static final long serialVersionUID = -6239694773154636856L;
+    
+    /**
+     * static logger ID
+     * @author Drew Whitmire
+     */
+    public static int loggerID; 
+    
+    /**
+     * @return the loggerID
+     */
+    public static int getLoggerID()
     {
-        // TODO Auto-generated constructor stub
+        return loggerID;
     }
 
-    public ArgumentException(String arg0)
+    /**
+     * @param id    set the loggerID to the given int
+     */
+    public static boolean setLoggerID(int id)
     {
-        super(arg0);
-        // TODO Auto-generated constructor stub
+        if (id > ExceptionHandler.DEFAULT_LOGGER_ID)
+        {
+            loggerID = id;
+            return true;
+        }
+        return false;
     }
 
-    public ArgumentException(Throwable arg0)
+    public static void setLoggerID(Logger logger)
     {
-        super(arg0);
-        // TODO Auto-generated constructor stub
+        loggerID = logger.getLoggerId();
     }
 
-    public ArgumentException(String arg0, Throwable arg1)
+    public ArgumentException(String message)
     {
-        super(arg0, arg1);
-        // TODO Auto-generated constructor stub
-    }
-
-    public ArgumentException(String arg0, Throwable arg1, boolean arg2, boolean arg3)
-    {
-        super(arg0, arg1, arg2, arg3);
-        // TODO Auto-generated constructor stub
+        super(message);
     }
 
 }

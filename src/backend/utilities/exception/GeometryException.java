@@ -8,12 +8,14 @@ You should have received a copy of the GNU Affero General Public License along w
 
 package utilities.exception;
 
+import logger.Logger;
+
 /**
  * A GeometryException class that inherits from Exception.
  * @author Drew W
  *
  */
-public class GeometryException extends LoggableException
+public class GeometryException extends Exception
 {
     
     /**
@@ -26,7 +28,31 @@ public class GeometryException extends LoggableException
      * static logger ID
      * @author Drew Whitmire
      */
-    public static int loggerID; // this is a placeholder
+    public static int loggerID; 
+    
+    /**
+     * @return the loggerID
+     */
+    public static int getLoggerID()
+    {
+        return loggerID;
+    }
+
+    /**
+     * @param id    set the loggerID to the given int
+     */
+    public static void setLoggerID(int id)
+    {
+        if (id > ExceptionHandler.DEFAULT_LOGGER_ID)
+        {
+            loggerID = id;
+        }
+    }
+
+    public static void setLoggerID(Logger logger)
+    {
+        loggerID = logger.getLoggerId();
+    }
     
     /**
      * Default Constructor
@@ -82,5 +108,5 @@ public class GeometryException extends LoggableException
     {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
+    
 }

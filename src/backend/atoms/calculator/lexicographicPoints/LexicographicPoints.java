@@ -59,7 +59,7 @@ public class LexicographicPoints
     
     public void add(Point pt)
     {
-        Insert(pt);
+        insert(pt);
     }
     
     /**
