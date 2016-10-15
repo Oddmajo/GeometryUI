@@ -5,21 +5,21 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed : the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ast.figure;
+package backend.ast.figure;
 
 // Commented Methods need AtomicRegion, Area_Based_Analyses, Utilities, superFigures, ShapeHiearchy, 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.figure.components.Arc;
-import ast.figure.components.Point;
-import ast.figure.components.Polygon;
-import ast.figure.components.Segment;
-import atoms.components.Connection;
-import atoms.components.ShapeAtomicRegion;
-import utilities.translation.OutPair;
-import ast.GroundedClause;
+import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.Segment;
+import backend.atoms.components.Connection;
+import backend.atoms.components.ShapeAtomicRegion;
+import backend.utilities.translation.OutPair;
+import backend.ast.GroundedClause;
 
 public abstract class Figure extends GroundedClause
 {
@@ -83,8 +83,8 @@ public abstract class Figure extends GroundedClause
 
     protected ArrayList<Figure> superFigures;
     protected ArrayList<Figure> subFigures;
-    public void addSuperFigure(Figure f) { if (!utilities.ast_helper.Utilities.hasStructurally(superFigures, f)) superFigures.add(f); }
-    public void addSubFigure(Figure f) { if (!utilities.ast_helper.Utilities.hasStructurally(subFigures, f)) subFigures.add(f); }
+    public void addSuperFigure(Figure f) { if (!backend.utilities.ast_helper.Utilities.hasStructurally(superFigures, f)) superFigures.add(f); }
+    public void addSubFigure(Figure f) { if (!backend.utilities.ast_helper.Utilities.hasStructurally(subFigures, f)) subFigures.add(f); }
     public boolean isShared() { return superFigures.size() > 1; }
     public ArrayList<Figure> getSuperFigures() { return superFigures; }
 

@@ -1,4 +1,4 @@
-package utilities;
+package backend.utilities;
 
 public class Pair<K, V>
 {

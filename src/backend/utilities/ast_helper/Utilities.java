@@ -6,17 +6,17 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package utilities.ast_helper;
+package backend.utilities.ast_helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.GroundedClause;
-import ast.figure.Figure;
-import ast.figure.components.Arc;
-import ast.figure.components.Point;
-import ast.figure.components.Segment;
-import utilities.PointFactory;
+import backend.ast.GroundedClause;
+import backend.ast.figure.Figure;
+import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.utilities.PointFactory;
 
 /**
  * The Utilities class from the GeometryTutor project, converted from C#

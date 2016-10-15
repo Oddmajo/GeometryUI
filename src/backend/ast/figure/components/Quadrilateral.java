@@ -1,11 +1,11 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.GroundedClause;
-import utilities.Pair;
-import utilities.translation.OutPair;
+import backend.ast.GroundedClause;
+import backend.utilities.Pair;
+import backend.utilities.translation.OutPair;
 
 
 /// <summary>

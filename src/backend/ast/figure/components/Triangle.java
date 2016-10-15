@@ -1,7 +1,9 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import backend.utilities.ast_helper.Utilities;
 
 public class Triangle extends Polygon
 {
@@ -85,7 +87,7 @@ public class Triangle extends Polygon
     }
     private boolean IsEquilateral()
     {
-        return utilities.math.Utilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
+        return Utilities.math.Utilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
                 utilities.math.Utilities.doubleEquals(SegmentB.length(), SegmentC.length());
     }
     

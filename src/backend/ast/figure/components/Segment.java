@@ -1,13 +1,13 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.ASTException;
-import ast.GroundedClause;
-import ast.figure.Figure;
-import utilities.translation.OutPair;
-import utilities.translation.OutTriple;
+import backend.ast.ASTException;
+import backend.ast.GroundedClause;
+import backend.ast.figure.Figure;
+import backend.utilities.translation.OutPair;
+import backend.utilities.translation.OutTriple;
 
 public class Segment extends Figure
 {

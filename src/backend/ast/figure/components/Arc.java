@@ -1,13 +1,14 @@
-﻿package ast.figure.components;
+﻿package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.ASTException;
-import ast.GroundedClause;
-import ast.figure.Figure;
-import utilities.Pair;
-import utilities.translation.OutPair;
+import ast.figure.components.Circle;
+import backend.ast.ASTException;
+import backend.ast.GroundedClause;
+import backend.ast.figure.Figure;
+import backend.utilities.Pair;
+import backend.utilities.translation.OutPair;
 
 public abstract class Arc extends Figure implements Cloneable
 {
