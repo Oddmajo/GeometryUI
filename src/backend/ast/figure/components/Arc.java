@@ -16,29 +16,29 @@ public abstract class Arc extends Figure implements Cloneable
     public abstract Point Midpoint();
 
     protected Circle _theCircle;
-    protected Circle getCircle() { return _theCircle; }
+    public Circle getCircle() { return _theCircle; }
 
     protected Point _endpoint1;
     protected Point _endpoint2;
     public Point getEndpoint1() { return _endpoint1; }
     public Point getEndpoint2() { return _endpoint2; }
 
-    protected List<Point> getArcMinorPoints() { return arcMinorPoints; }
-    protected List<Point> getArcMajorPoints() { return arcMajorPoints; }
-    protected List<Point> getApproxPoints() { return approxPoints; }
-    protected List<Segment> getApproxSegments() { return approxSegments; }
+    public ArrayList<Point> getArcMinorPoints() { return arcMinorPoints; }
+    public ArrayList<Point> getArcMajorPoints() { return arcMajorPoints; }
+    public ArrayList<Point> getApproxPoints() { return approxPoints; }
+    public ArrayList<Segment> getApproxSegments() { return approxSegments; }
 
-    protected List<Point> arcMinorPoints;
-    public List<Point> getArcMinorPoint() { return arcMinorPoints; }
-    protected List<Point> arcMajorPoints;
-    public List<Point> getArcMajorPoint() { return arcMajorPoints; }
+    protected ArrayList<Point> arcMinorPoints;
+    public ArrayList<Point> getArcMinorPoint() { return arcMinorPoints; }
+    protected ArrayList<Point> arcMajorPoints;
+    public ArrayList<Point> getArcMajorPoint() { return arcMajorPoints; }
 
     protected double minorMeasure;
     public double getMinorMeasure() { return minorMeasure; }
     protected double length;
     public double getLength() { return length; }
 
-    public List<Point> approxPoints;
+    public ArrayList<Point> approxPoints;
     public ArrayList<Segment> approxSegments;
 
     public Arc(Circle circle, Point e1, Point e2)

@@ -6,14 +6,15 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.undirectedPlanarGraph;
+package backend.atoms.undirectedPlanarGraph;
 
 import java.util.ArrayList;
-import ast.figure.components.Point;
-import utilities.exception.ArgumentException;
+import backend.ast.figure.components.Point;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 /**
- * This class still needs to be translated
+ * A class for Planar Graphs
  * @author Drew W
  *
  */
@@ -52,10 +53,12 @@ public class PlanarGraph
      */
     public void addNode(Point value) // , NodePointType type)
     {
+        // make PlanarGraphNode
+        PlanarGraphNode node = new PlanarGraphNode(value);
         // Avoid redundant additions.
         if (indexOf(value) != -1) return;
 
-        addNode(new PlanarGraphNode(value)); // , type));
+        addNode(node); // , type));
     }
 
     /**
@@ -69,12 +72,23 @@ public class PlanarGraph
 
     /**
      * Get the index of the given Point
+     * Return -1 if the node is not in the graph
      * @param pt    the given point
      * @return      the index of the point
      */
     public int indexOf(Point pt)
     {
-        return nodes.indexOf(new PlanarGraphNode(pt)); // , NodePointType.REAL));
+        //return nodes.indexOf(new PlanarGraphNode(pt)); // , NodePointType.REAL));
+        PlanarGraphNode node = new PlanarGraphNode(pt);
+        for (int i = 0; i < nodes.size(); i++)
+        {
+            if (node.getPoint().getX() == nodes.get(i).getPoint().getX() &&
+                    node.getPoint().getY() == nodes.get(i).getPoint().getY())
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
@@ -128,17 +142,17 @@ public class PlanarGraph
      * @param eType                 the edge type
      * @throws ArgumentException    
      */
-    public void addUndirectedEdge(Point from, Point to, double cost, EdgeType eType) throws ArgumentException
+    public void addUndirectedEdge(Point from, Point to, double cost, EdgeType eType)
     {
         //
         // Are these nodes in the graph?
         //
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
-        int toNodeIndex = nodes.indexOf(new PlanarGraphNode(to));
-
+        int fromNodeIndex = indexOf(from);
+        int toNodeIndex = indexOf(to);
+        
         if (fromNodeIndex == -1 || toNodeIndex == -1)
         {
-            throw new ArgumentException("Edge uses undefined nodes: " + from + " " + to);
+            ExceptionHandler.throwException(new ArgumentException("Edge uses undefined nodes: " + from + " " + to));
         }
 
         //
@@ -176,7 +190,12 @@ public class PlanarGraph
      */
     public boolean contains(Point value)
     {
-        return nodes.contains(new PlanarGraphNode(value));
+        //return nodes.contains(new PlanarGraphNode(value));
+        if (indexOf(value) == -1)
+        {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -186,8 +205,16 @@ public class PlanarGraph
      */
     public boolean removeNode(Point value)
     {
-        if (!nodes.remove(new PlanarGraphNode(value))) return false;
-
+        //if (!nodes.remove(new PlanarGraphNode(value))) return false;
+        // get the node index
+        int index = indexOf(value);
+        
+        // if index = -1, node is not in the graph
+        if (index == -1) return false;
+        
+        // remove the edge
+        nodes.remove(index);
+        
         // enumerate through each node in the nodes, removing edges to this node
         for (PlanarGraphNode node : nodes)
         {
@@ -206,11 +233,11 @@ public class PlanarGraph
     public boolean removeEdge(Point from, Point to)
     {
         // Does this edge exist already?
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
+        int fromNodeIndex = indexOf(from);
         if (fromNodeIndex == -1) return false;
         nodes.get(fromNodeIndex).removeEdge(to);
 
-        int toNodeIndex = nodes.indexOf(new PlanarGraphNode(to));
+        int toNodeIndex = indexOf(to);
         if (toNodeIndex == -1) return false;
         nodes.get(toNodeIndex).removeEdge(from);
 
@@ -226,10 +253,10 @@ public class PlanarGraph
     public PlanarGraphEdge getEdge(Point from, Point to)
     {
         // Does this edge exist already?
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
+        int fromNodeIndex = indexOf(from);
         if (fromNodeIndex == -1) return null;
 
-        int toNodeIndex = nodes.indexOf(new PlanarGraphNode(to));
+        int toNodeIndex = indexOf(to);
         if (toNodeIndex == -1) return null;
 
         return nodes.get(fromNodeIndex).GetEdge(to);
@@ -243,7 +270,7 @@ public class PlanarGraph
      */
     public EdgeType getEdgeType(Point from, Point to)
     {
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
+        int fromNodeIndex = indexOf(from);
 
         return nodes.get(fromNodeIndex).GetEdge(to).edgeType;
     }
@@ -255,11 +282,11 @@ public class PlanarGraph
      */
     public void markCycleEdge(Point from, Point to)
     {
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
+        int fromNodeIndex = indexOf(from);
         if (fromNodeIndex == -1) return;
         nodes.get(fromNodeIndex).markEdge(to);
 
-        int toNodeIndex = nodes.indexOf(new PlanarGraphNode(to));
+        int toNodeIndex = indexOf(to);
         if (toNodeIndex == -1) return;
         nodes.get(toNodeIndex).markEdge(from);
     }
@@ -273,7 +300,7 @@ public class PlanarGraph
     public boolean isCycleEdge(Point from, Point to)
     {
         // Does this edge exist already?
-        int fromNodeIndex = nodes.indexOf(new PlanarGraphNode(from));
+        int fromNodeIndex = indexOf(from);
 
         if (fromNodeIndex == -1) return false;
 

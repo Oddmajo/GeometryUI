@@ -123,14 +123,14 @@ public class Utilities
 //    }
 //    
 //
-//    //
-//    // Given a list of grounded clauses, add a new value which is structurally unique.
-//    //
-//    
-//    public static <T extends concreteAST.GroundedClause> boolean HasStructurally(List<T> list, T t)
-//    {
-//        return Utilities.StructuralIndex<T>(list, t) != -1;
-//    }
+    //
+    // Given a list of grounded clauses, add a new value which is structurally unique.
+    //
+    
+    public static <T extends GroundedClause> boolean HasStructurally(ArrayList<T> list, T t)
+    {
+        return Utilities.StructuralIndex(list, t) != -1;
+    }
     
 
     //
@@ -147,32 +147,32 @@ public class Utilities
     }
     
 
-//    //
-//    // Given a list of grounded clauses, add a new value which is structurally unique.
-//    //
-//    public static <T extends concreteAST.GroundedClause> boolean AddStructurallyUnique(List<T> list, T t)
-//    {
-//        if (HasStructurally<T>(list, t)) return false;
-//
-//        list.add(t);
-//
-//        return true;
-//    }
-//
-//    //
-//    // Given a list of grounded clauses, add a new value which is structurally unique.
-//    // This has been commented out because it is handled by a previous method
-//    //
-//    
-//    public static <T extends concreteAST.GroundedClause> int StructuralIndex(List<Pair<T, A>> list, T t) 
-//    {
-//        for (int i = 0; i < list.Count; i++)
-//        {
-//            if (list.get[i].StructurallyEquals(t)) return i;
-//        }
-//
-//        return -1;
-//    }
+    //
+    // Given a list of grounded clauses, add a new value which is structurally unique.
+    //
+    public static <T extends GroundedClause> boolean AddStructurallyUnique(ArrayList<T> list, T t)
+    {
+        if (HasStructurally(list, t)) return false;
+
+        list.add(t);
+
+        return true;
+    }
+
+    //
+    // Given a list of grounded clauses, add a new value which is structurally unique.
+    // This has been commented out because it is handled by a previous method
+    //
+    
+    public static <T extends GroundedClause> int StructuralIndex(ArrayList<T> list, T t) 
+    {
+        for (int i = 0; i < list.size(); i++)
+        {
+            if (list.get(i).StructurallyEquals(t)) return i;
+        }
+
+        return -1;
+    }
 //    
 //
 //    // Given a sorted list, insert the element from the front to the back.
@@ -260,16 +260,16 @@ public class Utilities
 //        return indices;
 //    }
 //    
-//    // Ensure uniqueness of additions
-//    public static void AddUniqueStructurally(ArrayList<Figure> figures, Figure f)
-//    {
-//        for (Figure figure : figures)
-//        {
-//            if (figure.StructurallyEquals(f)) return;
-//        }
-//        figures.add(f);
-//        
-//    }
+    // Ensure uniqueness of additions
+    public static void AddUniqueStructurally(ArrayList<Figure> figures, Figure f)
+    {
+        for (Figure figure : figures)
+        {
+            if (figure.StructurallyEquals(f)) return;
+        }
+        figures.add(f);
+        
+    }
 //    
 //    // -1 is an error
 //    public static int IntegerRatio(double x, double y)

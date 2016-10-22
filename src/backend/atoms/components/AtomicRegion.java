@@ -6,19 +6,18 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.components;
+package backend.atoms.components;
 
 import java.util.ArrayList;
 
-import utilities.exception.ArgumentException;
-import utilities.exception.NotImplementedException;
-import ast.figure.Figure;
-import ast.figure.components.Point;
-import ast.figure.components.Polygon;
-import ast.figure.components.Segment;
-import atoms.components.Connection.ConnectionType;
-import utilities.translation.OutPair;
-import utilities.translation.OutSingle;
+import backend.ast.figure.Figure;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.Segment;
+import backend.atoms.components.Connection.ConnectionType;
+import backend.utilities.exception.NotImplementedException;
+import backend.utilities.translation.OutPair;
+import backend.utilities.translation.OutSingle;
 
 /**
  * This class needs a lot of translating and looking over.
@@ -27,13 +26,11 @@ import utilities.translation.OutSingle;
  */
 public class AtomicRegion
 {
-    @SuppressWarnings("unused")
     private boolean ordered; // Are the connections ordered?
     protected ArrayList<Connection> connections;
     public ArrayList<Connection> getConnections() { return connections; } 
     protected ArrayList<Figure> owners;
     public ArrayList<Figure> getOwners() { return owners; } 
-    @SuppressWarnings("unused")
     private Figure topOwner;
 
     //
@@ -219,7 +216,7 @@ public class AtomicRegion
     //
     // Can the area of this region be calculated?
     //
-    public double GetArea(KnownMeasurementsAggregator known) { return thisArea; }
+//    public double GetArea(KnownMeasurementsAggregator known) { return thisArea; }
     protected double thisArea;
 
     // Can the area of this region be calculated?
@@ -848,7 +845,6 @@ public class AtomicRegion
 //    //
 //    // Determine the intersection points / connections between this atomic region and another region.
 //    //
-    @SuppressWarnings("unused")
     public ArrayList<IntersectionAgg> GetIntersections(ArrayList<Point> figurePoints, AtomicRegion thatAtom)
     {
         ArrayList<IntersectionAgg> intersections = new ArrayList<IntersectionAgg>();

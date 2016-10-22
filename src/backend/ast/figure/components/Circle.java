@@ -377,8 +377,8 @@ public class Circle extends Figure
         if (DefinesDiameter(thatSegment))
         {
             // Add radii to the list.
-            backend.utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
-            backend.utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
+            backend.utilities.list.Utilities.AddStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
+            backend.utilities.list.Utilities.AddStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
         }
 
         if (IsChord(thatSegment))
@@ -424,11 +424,11 @@ public class Circle extends Figure
                 // but also collect radii
                 Segment new_radius = Segment.GetFigureSegment(this._center, chord.getPoint1());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint1());
-                backend.utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
+                backend.utilities.list.Utilities.AddStructurallyUnique(radii, new_radius);
 
                 new_radius = Segment.GetFigureSegment(this._center, chord.getPoint2());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint2());
-                backend.utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
+                backend.utilities.list.Utilities.AddStructurallyUnique(radii, new_radius);
             }
         }
     }

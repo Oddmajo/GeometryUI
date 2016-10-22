@@ -1,6 +1,6 @@
-package utilities.exception;
+package backend.utilities.exception;
 
-import logger.Logger;
+import backend.utilities.logger.Logger;
 
 public class ExampleException extends Loggable
 {

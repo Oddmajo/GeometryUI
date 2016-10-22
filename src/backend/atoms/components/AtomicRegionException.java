@@ -1,7 +1,7 @@
-package atoms.components;
+package backend.atoms.components;
 
-import logger.Logger;
-import utilities.exception.ExceptionHandler;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.logger.Logger;
 
 public class AtomicRegionException extends Exception
 {

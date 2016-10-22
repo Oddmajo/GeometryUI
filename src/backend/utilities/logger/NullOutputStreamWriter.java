@@ -1,4 +1,4 @@
-package utilities.logger;
+package backend.utilities.logger;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;

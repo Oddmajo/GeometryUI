@@ -1,13 +1,12 @@
-package utilities.logger;
+package backend.utilities.logger;
 
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-
-import utilities.logger.IdFactory;
+//import utilities.IdFactory;
 
 //
-// Factory design patter for all logging channels : this project
+// Factory design patter for all logging channels in this project
 //
 public class LoggerFactory
 {
@@ -15,7 +14,8 @@ public class LoggerFactory
 
     public static final int DEBUG_OUTPUT_ID = 0;
     public static final int MATLAB_RECORDER_OUTPUT_ID = 1;
-    public static final int EXCEPTION_OUTPUT_ID = 2;
+    public static final int DEFAULT_OUTPUT_ID = 2; // added by Drew Whitmire
+    public static final int EXCEPTION_OUTPUT_ID = 3;
 
     // The set of loggers
     protected static ArrayList<Logger> _loggers;
@@ -29,14 +29,21 @@ public class LoggerFactory
     /*A constructor of sorts
      * @author Chris Alvin
      * <modified by> Ryan Billingsly 9/6/2016
-     * Made this a static declaration : place of initialize(Logger debug)
+     * Made this a static declaration in place of initialize(Logger debug)
+     * <p>
+     * @modified Drew Whitmire
+     * added default logger and made default exception logger a child of the default logger
+     * I added file paths just to test.  They need to be updated in the future to be generic to
+     * work for anybody.
      */
     static 
     {
         _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
         _loggers = new ArrayList<Logger>();
-        _loggers.add(new Logger());                     //Will this replace debug?
-
+        buildLogger(new Logger());                     // debug logger
+        buildLogger(new Logger());                     // matlab logger
+        _loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"));                     // default logger
+        _loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID)));                     // exception default logger
         // Initializing the null output stream
         _deathLogger = new Logger(new NullOutputStreamWriter());
     }
@@ -56,11 +63,18 @@ public class LoggerFactory
         return _loggers.get(id);
     }
 
+    /**
+     * @modified Drew Whitmire
+     * @param logger
+     * @return the position of the logger in the array
+     */
     protected static int addLogger(Logger logger)
     {
         _loggers.add(logger);
 
-        return _ids.getNextId();
+        _ids.getNextId();
+        
+        return _loggers.indexOf(logger);
     }
 
     // A constructor of sorts
@@ -77,12 +91,15 @@ public class LoggerFactory
      * This DOES NOT check any circularity with other nodes.
      * THINKING OUT LOUD - Does it need to?  When we add a logger, it must pass a logger
      * as a parentId, but that logger must either a) currently exist on the tree; or
-     * b) the logger must have been created : the addLogger function call
+     * b) the logger must have been created in the addLogger function call
      * (i.e. addLogger(someLogger, new Logger());).  In either case, the parent logger
-     * would exist : the tree and therefore could not generate circularity at all.
+     * would exist in the tree and therefore could not generate circularity at all.
      * @author Ryan Billingsly
      * @param The logger being added to the list, and the ID of the parent
-     * @return the next available id for a new logger
+     * 
+     * @modified Drew Whitmire
+     * @date 9/24/2016
+     * @return the logger id for a new logger
      */
     protected static int addLogger(Logger logger, Logger parentId)
     {
@@ -90,8 +107,14 @@ public class LoggerFactory
         {
             logger._parentId = null;
         }
+        else 
+        {
+            logger._parentId = parentId;
+        }
         _loggers.add(logger);
-        return _ids.getCurrentId();
+        _ids.getNextId();
+        
+        return _loggers.indexOf(logger);
     }
 
     /*
@@ -100,18 +123,22 @@ public class LoggerFactory
      * @modified Ryan Billingsly
      * @date 9-6-2016
      * Modified so that the method will now add the logger to the list automatically
+     * 
+     * @modified Drew Whitmire
+     * @date 9/24/2016
+     * Sets the loggerId
      */
     public static Logger buildLogger()
     {
         Logger logger = new Logger(_loggers.get(0));
-        addLogger(logger);
+        logger.setLoggerId(addLogger(logger));
         return logger;
     }
     
     public static Logger buildLogger(Logger parentId)
     {
         Logger logger = new Logger(parentId);
-        addLogger(logger);
+        logger.setLoggerId(addLogger(logger));
         return logger;
     }
     
@@ -126,7 +153,7 @@ public class LoggerFactory
     public static Logger buildLogger(String filePath)
     {
         Logger logger = new Logger(filePath);
-        addLogger(logger);
+        logger.setLoggerId(addLogger(logger));
         return logger;
     }
 
@@ -140,7 +167,7 @@ public class LoggerFactory
     public static Logger buildLogger(String filePath, Logger parentId)
     {
         Logger logger = new Logger(filePath, parentId);
-        addLogger(logger, parentId);
+        logger.setLoggerId(addLogger(logger));
         return logger;
     }
 

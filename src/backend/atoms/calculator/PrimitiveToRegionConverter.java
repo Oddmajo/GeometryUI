@@ -1,14 +1,14 @@
-package atoms.calculator;
+package backend.atoms.calculator;
 
 import java.util.ArrayList;
-import ast.ASTException;
-import ast.figure.components.Circle;
-import ast.figure.components.Segment;
-import atoms.components.AtomicRegion;
-import atoms.components.AtomicRegionException;
-import atoms.undirectedPlanarGraph.PlanarGraph;
-import utilities.ast_helper.Utilities;
-import utilities.exception.ExceptionHandler;
+import backend.ast.ASTException;
+import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.Segment;
+import backend.atoms.components.AtomicRegion;
+import backend.atoms.components.AtomicRegionException;
+import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ExceptionHandler;
 
 public class PrimitiveToRegionConverter
 {

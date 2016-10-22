@@ -1,9 +1,9 @@
-package utilities;
+package backend.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.figure.components.Point;
+import backend.ast.figure.components.Point;
 
 //
 // Given a pair of coordinates; generate a unique name for it; return that point object.
@@ -15,7 +15,7 @@ public class PointFactory
     private static String currentName = "A";
     private static int numLetters = 1;
 
-    private static List<Point> database = new ArrayList<Point>();
+    private static ArrayList<Point> database = new ArrayList<Point>();
 
     public static void initialize(List<Point> initPoints)
     {
@@ -37,7 +37,7 @@ public class PointFactory
         if (index != -1) return database.get(index);
 
         Point newPt = new Point(getCurrentName(), x, y);
-        Point oldPt = utilities.ast_helper.Utilities.getStructurally(database, newPt);
+        Point oldPt = backend.utilities.ast_helper.Utilities.GetStructurally(database, newPt);
 
         if (oldPt != null) return oldPt;
 

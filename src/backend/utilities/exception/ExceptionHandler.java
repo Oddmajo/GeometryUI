@@ -6,12 +6,12 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package utilities.exception;
+package backend.utilities.exception;
 
-import logger.LoggerFactory;
-import utilities.exception.GeometryException;
-import ast.ASTException;
-import atoms.components.AtomicRegionException;
+import backend.ast.ASTException;
+import backend.atoms.components.AtomicRegionException;
+import backend.utilities.exception.GeometryException;
+import backend.utilities.logger.LoggerFactory;
 
 /**
  * The ExceptionHandler Class.

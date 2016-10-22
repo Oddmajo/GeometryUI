@@ -6,23 +6,23 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.calculator;
+package backend.atoms.calculator;
 
 import java.util.ArrayList;
 
-import ast.ASTException;
-import ast.figure.components.Circle;
-import ast.figure.components.MajorArc;
-import ast.figure.components.MinorArc;
-import ast.figure.components.Point;
-import ast.figure.components.Sector;
-import ast.figure.components.Segment;
-import ast.figure.components.Semicircle;
-import atoms.components.AtomicRegion;
-import atoms.components.Connection.ConnectionType;
-import atoms.components.ShapeAtomicRegion;
-import atoms.undirectedPlanarGraph.PlanarGraph;
-import atoms.undirectedPlanarGraph.PlanarGraphEdge;
+import backend.ast.ASTException;
+import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.MajorArc;
+import backend.ast.figure.components.MinorArc;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Sector;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.Semicircle;
+import backend.atoms.components.AtomicRegion;
+import backend.atoms.components.Connection.ConnectionType;
+import backend.atoms.components.ShapeAtomicRegion;
+import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.atoms.undirectedPlanarGraph.PlanarGraphEdge;
 
 /**
  * @author Drew W

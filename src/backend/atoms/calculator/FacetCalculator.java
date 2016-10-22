@@ -1,15 +1,15 @@
-package atoms.calculator;
+package backend.atoms.calculator;
 
 import java.util.ArrayList;
 
-import ast.figure.components.Point;
-import atoms.calculator.lexicographicPoints.LexicographicPoints;
-import atoms.components.AtomicRegionException;
-import atoms.undirectedPlanarGraph.PlanarGraph;
-import atoms.undirectedPlanarGraph.PlanarGraphEdge;
-import utilities.ast_helper.Utilities;
-import utilities.exception.ExceptionHandler;
-import utilities.exception.NotImplementedException;
+import backend.ast.figure.components.Point;
+import backend.atoms.calculator.lexicographicPoints.LexicographicPoints;
+import backend.atoms.components.AtomicRegionException;
+import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.atoms.undirectedPlanarGraph.PlanarGraphEdge;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.exception.NotImplementedException;
 
 public class FacetCalculator
 {
@@ -40,6 +40,8 @@ public class FacetCalculator
     //
     private Point GetFirstNeighbor(Point currentPt)
     {
+        System.out.println("Begin get first neighbor");
+        
         Point imaginaryPrevPt = new Point("", currentPt.getX(), currentPt.getY() + 1);
         Point prevCurrVector = Point.MakeVector(imaginaryPrevPt, currentPt);
 
@@ -190,8 +192,11 @@ public class FacetCalculator
         //
         // Exhaustively analyze all points in the graph.
         //
+        int count = 0;
         while (!heap.isEmpty())
         {
+            System.out.println("Extract primitives node: " + count);
+            count++;
             Point v0 = heap.peekMin();
             int v0Index = graph.indexOf(v0);
 
@@ -199,16 +204,19 @@ public class FacetCalculator
             {
                 case 0:
                     // Isolated point
+                    System.out.println("Isolated Point: " + count);
                     ExtractIsolatedPoint(v0, heap);
                     break;
 
                 case 1:
                     // Filament: start at this node and indicate the next point is its only neighbor
+                    System.out.println("Filament: " + count);
                     ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
                     break;
 
                 default:
                     // filament or minimal cycle
+                    System.out.println("filament or minimal cycle: " + count);
                     ExtractPrimitive(v0, heap);
                     break;
             }
@@ -333,18 +341,30 @@ public class FacetCalculator
         Point v1 = GetFirstNeighbor(v0); //  GetClockwiseMost(new Point("", v0.X, v0.Y + 1), v0);
         Point vPrev = v0;
         Point vCurr = v1;
+        
+        // test prints:
+        System.out.println("v0: " + v0);
+        System.out.println("vPrev: " + vPrev);
+        System.out.println("vCurr: " + vCurr);
 
         int v0Index = graph.indexOf(v0);
         int v1Index = graph.indexOf(v1);
 
         // Loop until we have a cycle or we have a null (filament)
-        while (vCurr != null && !vCurr.Equals(v0) && !visited.contains(vCurr))
+        while (vCurr != null && !vCurr.equals(v0) && !visited.contains(vCurr))
         {
             sequence.add(vCurr);
             visited.add(vCurr);
             Point vNext = GetTightestCounterClockwiseNeighbor(vPrev, vCurr);
+            System.out.println("vNext: " + vNext);
             vPrev = vCurr;
             vCurr = vNext;
+            
+            // test prints:
+            System.out.println("vPrev: " + vPrev);
+            System.out.println("vCurr: " + vCurr + " end of cycle");
+            System.out.println("vCurr != null: " + (vCurr != null));
+            if (vCurr != null) break;
         }
 
         //
@@ -352,14 +372,16 @@ public class FacetCalculator
         //
         if (vCurr == null)
         {
+            System.out.println("Filament");
             // Filament found, not necessarily rooted at v0.
             ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
         }
         //
         // Minimal cycle found.
         //
-        else if (vCurr.Equals(v0))
+        else if (vCurr.equals(v0))
         {
+            System.out.println("Minimal Cycle");
             MinimalCycle primitive = new MinimalCycle();
 
             primitive.AddAll(sequence);
@@ -374,6 +396,7 @@ public class FacetCalculator
             // Mark that these edges are a part of a cycle
             for (int p = 0; p < sequence.size(); p++)
             {
+                System.out.println("Marking cycle edge");
                 graph.markCycleEdge(sequence.get(p), sequence.get(p+1 < sequence.size() ? p+1 : 0));
             }
 
@@ -384,6 +407,7 @@ public class FacetCalculator
             //
             if (graph.getNodes().get(v0Index).nodeDegree() == 1)
             {
+                System.out.println("Extracting Filament");
                 // Remove the filament rooted at v0.
                 ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
             }
@@ -396,6 +420,7 @@ public class FacetCalculator
             {
                 if (graph.getNodes().get(v1Index).nodeDegree() == 1)
                 {
+                    System.out.println("Extracting Filament fom v1");
                     // Remove the filament rooted at v1.
                     ExtractFilament(v1, graph.getNodes().get(v1Index).getEdges().get(0).getTarget(), heap);
                 }
@@ -410,10 +435,11 @@ public class FacetCalculator
             // cycle. This implies v0 is part of a filament. Locate the
             // starting point for the filament by traversing from v0 away
             // from the initial v1. 
+            System.out.println("vCurr already visited");
             while (graph.getNodes().get(v0Index).nodeDegree() == 2)
             {
                 // Choose between the the two neighbors
-                if (graph.getNodes().get(v0Index).getEdges().get(0).getTarget().Equals(v1))
+                if (graph.getNodes().get(v0Index).getEdges().get(0).getTarget().equals(v1))
                 {
                     v1 = v0;
                     v0 = graph.getNodes().get(v0Index).getEdges().get(1).getTarget();

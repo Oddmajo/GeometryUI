@@ -6,9 +6,9 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.calculator;
+package backend.atoms.calculator;
 
-import ast.figure.components.Point;
+import backend.ast.figure.components.Point;
 
 /**
  * A class to store isolated Points.

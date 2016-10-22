@@ -1,4 +1,4 @@
-package utilities.exception;
+package backend.utilities.exception;
 
 public class NotImplementedException extends Exception
 {

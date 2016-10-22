@@ -6,11 +6,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.components;
+package backend.atoms.components;
 
-import ast.figure.Figure;
-import ast.figure.components.Point;
-import ast.figure.components.Polygon;
+import backend.ast.figure.Figure;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Polygon;
 
 /**
  * @author Drew W
@@ -167,5 +167,4 @@ public class ShapeAtomicRegion extends AtomicRegion
             return super.Contains(that);
         }
     }
-
 }

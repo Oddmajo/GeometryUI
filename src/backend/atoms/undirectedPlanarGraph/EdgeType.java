@@ -1,4 +1,4 @@
-package atoms.undirectedPlanarGraph;
+package backend.atoms.undirectedPlanarGraph;
 
 /**
  * For atomic region identification

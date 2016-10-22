@@ -166,9 +166,12 @@ public abstract class GroundedClause
     
     public boolean Equals(Object obj)
     {
-        GroundedClause that = (GroundedClause) obj;
-        if (that == null) return false;
-        return multiplier == that.multiplier; // && clauseId == that.clauseId;
+        if (obj != null && obj instanceof GroundedClause)
+        {
+            GroundedClause that = (GroundedClause) obj;
+            return multiplier == that.multiplier; // && clauseId == that.clauseId;
+        }
+        return false;
     }
 
     public boolean StructurallyEquals(Object obj) { return false; }

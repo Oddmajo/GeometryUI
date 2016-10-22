@@ -1,27 +1,28 @@
-package atoms.calculator;
+package backend.atoms.calculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import ast.ASTException;
-import ast.figure.components.Arc;
-import ast.figure.components.Circle;
-import ast.figure.components.MajorArc;
-import ast.figure.components.MinorArc;
-import ast.figure.components.Point;
-import ast.figure.components.Polygon;
-import ast.figure.components.Sector;
-import ast.figure.components.Segment;
-import ast.figure.components.Semicircle;
-import atoms.undirectedPlanarGraph.PlanarGraph;
-import atoms.undirectedPlanarGraph.PlanarGraphEdge;
-import utilities.ast_helper.Utilities;
-import utilities.exception.ArgumentException;
-import utilities.translation.OutSingle;
-import atoms.components.AtomicRegion;
-import atoms.components.Connection;
-import atoms.components.Connection.ConnectionType;
-import atoms.components.ShapeAtomicRegion;
-import atoms.undirectedPlanarGraph.EdgeType;
+import backend.ast.ASTException;
+import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.MajorArc;
+import backend.ast.figure.components.MinorArc;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.Sector;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.Semicircle;
+import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.atoms.undirectedPlanarGraph.PlanarGraphEdge;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.translation.OutSingle;
+import backend.atoms.components.AtomicRegion;
+import backend.atoms.components.Connection;
+import backend.atoms.components.Connection.ConnectionType;
+import backend.atoms.components.ShapeAtomicRegion;
+import backend.atoms.undirectedPlanarGraph.EdgeType;
 
 public class MinimalCycle extends Primitive
 {
@@ -561,7 +562,7 @@ public class MinimalCycle extends Primitive
         return new Segment(segments.get(0).getPoint1(), segments.get(segments.size() - 1).getPoint2());
     }
 
-    private Arc ComposeArcsIntoArc(ArrayList<MinorArc> minors) throws ASTException
+    private Arc ComposeArcsIntoArc(ArrayList<MinorArc> minors)
     {
         // if (minors.Count == 1) return minors[0];
 
@@ -669,9 +670,9 @@ public class MinimalCycle extends Primitive
                             ArrayList<Circle> circles = GetAllApplicableCircles(thatCircles, actualSeg.getPoint1(), actualSeg.getPoint2());
 
                             // Get the exact outer circles for this segment (and create any embedded regions).
-                            OutSingle<Circle> leftOuterCircleCurrCount; 
+                            OutSingle<Circle> leftOuterCircleCurrCount = new OutSingle<Circle>(); 
                             leftOuterCircleCurrCount.set(leftOuterCircles[currCounter]);
-                            OutSingle<Circle> rightOuterCircleCurrCount;
+                            OutSingle<Circle> rightOuterCircleCurrCount = new OutSingle<Circle>();
                             rightOuterCircleCurrCount.set(rightOuterCircles[currCounter]);
                             regions.addAll(ConvertToCircleCircle(actualSeg, circles, leftOuterCircleCurrCount, rightOuterCircleCurrCount));
                         }
@@ -692,9 +693,9 @@ public class MinimalCycle extends Primitive
                 ArrayList<Circle> circles = GetAllApplicableCircles(thatCircles, points.get(p), points.get((p + 1) % points.size()));
 
                 // Get the exact outer circles for this segment (and create any embedded regions).
-                OutSingle<Circle> leftOuterCircleCurrCount; 
+                OutSingle<Circle> leftOuterCircleCurrCount = new OutSingle<Circle>(); 
                 leftOuterCircleCurrCount.set(leftOuterCircles[currCounter]);
-                OutSingle<Circle> rightOuterCircleCurrCount;
+                OutSingle<Circle> rightOuterCircleCurrCount = new OutSingle<Circle>(); ;
                 rightOuterCircleCurrCount.set(rightOuterCircles[currCounter]);
                 regions.addAll(ConvertToCircleCircle(chord, circles, leftOuterCircleCurrCount, rightOuterCircleCurrCount));
 
@@ -709,7 +710,8 @@ public class MinimalCycle extends Primitive
                 //
                 ArrayList<Circle> circles = GetAllApplicableCircles(thatCircles, points.get(p), points.get((p + 1) % points.size()));
 
-                if (circles.size() != 1) throw new Exception("Need ONLY 1 circle for REAL_ARC atom id; found (" + circles.size() + ")");
+                if (circles.size() != 1) 
+                    ExceptionHandler.throwException( new Exception("Need ONLY 1 circle for REAL_ARC atom id; found (" + circles.size() + ")") );
 
                 arcSegments[currCounter++] = new MinorArc(circles.get(0), points.get(p), points.get((p + 1) % points.size()));
 
@@ -833,7 +835,7 @@ public class MinimalCycle extends Primitive
     //
     // Determine if this is a true polygon situation or if it is a sequence of segments and arcs.
     //
-    private ArrayList<AtomicRegion> GeneralAtomicRegion(Segment[] segments, Arc[] arcs) throws ASTException
+    private ArrayList<AtomicRegion> GeneralAtomicRegion(Segment[] segments, Arc[] arcs)
     {
         ArrayList<AtomicRegion> regions = new ArrayList<AtomicRegion>();
 
@@ -968,7 +970,7 @@ public class MinimalCycle extends Primitive
     private ArrayList<AtomicRegion> ConvertToCircleCircle(Segment chord,
                                                               ArrayList<Circle> circles,
                                                               OutSingle<Circle> leftOuterCircle,
-                                                              OutSingle<Circle> rightOuterCircle) throws ASTException
+                                                              OutSingle<Circle> rightOuterCircle)
     {
         ArrayList<AtomicRegion> regions = new ArrayList<AtomicRegion>();
         leftOuterCircle = null;
@@ -1062,7 +1064,7 @@ public class MinimalCycle extends Primitive
     //   ( |
     //    (|
     //
-    private ArrayList<AtomicRegion> ConstructBasicLineCircleRegion(Segment chord, Circle circle) throws ASTException
+    private ArrayList<AtomicRegion> ConstructBasicLineCircleRegion(Segment chord, Circle circle)
     {
         //
         // Standard
@@ -1107,7 +1109,7 @@ public class MinimalCycle extends Primitive
     //   ( ( 
     //    ( (
     //     --
-    private AtomicRegion ConstructBasicCircleCircleRegion(Segment chord, Circle smaller, Circle larger) throws ASTException
+    private AtomicRegion ConstructBasicCircleCircleRegion(Segment chord, Circle smaller, Circle larger)
     {
         AtomicRegion region = new AtomicRegion();
 

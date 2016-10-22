@@ -1,4 +1,4 @@
-package utilities.logger;
+package backend.utilities.logger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,6 +15,7 @@ public class Logger
     /*@author Ryan Billingsly
      */
     protected Logger _parentId;
+    protected int _loggerId;
 
     /*
      *@author Chris Alvin
@@ -28,6 +29,7 @@ public class Logger
     {
         _theFilePath = null;
         _parentId = null;
+        _loggerId = -1;
         open(new OutputStreamWriter(System.out));
     }
 
@@ -42,6 +44,7 @@ public class Logger
     {
         _theFilePath = f;
         _parentId = null;
+        _loggerId = -1;
         //
         // Create a Writer
         //
@@ -76,13 +79,14 @@ public class Logger
      *@author Ryan Billingsly
      *@param The string that represents the filepath, and the id of the parent logger 
      *@return Creates a logger that will be associated as a pre-existing logger's child, if
-     * the id for the parent currently exists : _loggers
+     * the id for the parent currently exists in _loggers
      */
 
     public Logger(String f, Logger id)
     {
         this(f);
         _parentId = id;
+        
     }
     /*
      *@author Chris Alvin
@@ -95,6 +99,7 @@ public class Logger
     {
         _theFilePath = null;
         _parentId = null;
+        _loggerId = -1;
         open(writer);
     }
 
@@ -126,7 +131,7 @@ public class Logger
         }
         catch (IOException ioe)
         {
-            System.err.println("Logging problem: " + ioe.getMessage());
+            System.err.println("Logging problem: " + ioe.getMessage() + " for logger: " + _loggerId);
             return false;
         }
 
@@ -138,7 +143,7 @@ public class Logger
     //
     public boolean writeln(String str)
     {
-        return write(str + "\n");
+        return write(str + "\r\n");
     }
 
     //
@@ -148,4 +153,23 @@ public class Logger
     {
         _writer.close();
     }
+    
+    /**
+     * @param id
+     * @author Drew Whitmire
+     */
+    public void setLoggerId(int id)
+    {
+        _loggerId = id;
+    }
+    
+    /**
+     * @return the loggerId
+     * @author Drew Whitmire
+     */
+    public int getLoggerId()
+    {
+        return _loggerId;
+    }
+    
 }

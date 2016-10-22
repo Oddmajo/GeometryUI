@@ -6,19 +6,19 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package atoms.components;
+package backend.atoms.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.figure.Figure;
-import ast.figure.components.Arc;
-import ast.figure.components.MajorArc;
-import ast.figure.components.MinorArc;
-import ast.figure.components.Point;
-import ast.figure.components.Segment;
-import ast.figure.components.Semicircle;
-import utilities.translation.OutPair;
+import backend.ast.figure.Figure;
+import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.MajorArc;
+import backend.ast.figure.components.MinorArc;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.Semicircle;
+import backend.utilities.translation.OutPair;
 
 //
 // Aggregation class for each segment of an atomic region.
@@ -78,7 +78,7 @@ public class Connection
     {
         if (this.type == ConnectionType.SEGMENT)
         {
-            return utilities.list.Utilities.makeList(new Segment(this.endpoint1, this.endpoint2));
+            return backend.utilities.list.Utilities.makeList(new Segment(this.endpoint1, this.endpoint2));
         }
 
         return segmentOrArc.Segmentize();
@@ -148,23 +148,23 @@ public class Connection
         Point pt2 = null;
         if (thisSeg != null && thatSeg != null)
         {
-            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatSeg);
-            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatSeg);
+            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatSeg);
+            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatSeg);
         }
         else if (thisSeg != null && thatArc != null)
         {
-            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatArc);
-            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatArc);
+            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisSeg, thatArc);
+            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisSeg, thatArc);
         }
         else if (thisArc != null && thatSeg != null)
         {
-            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thatSeg, thisArc);
-            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thatSeg, thisArc);
+            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thatSeg, thisArc);
+            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thatSeg, thisArc);
         }
         else if (thisArc != null && thatArc != null)
         {
-            pt1 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisArc, thatArc);
-            pt2 = utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisArc, thatArc);
+            pt1 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt1, thisArc, thatArc);
+            pt2 = backend.utilities.ast_helper.Utilities.AcquireRestrictedPoint(figurePoints, pt2, thisArc, thatArc);
         }
 
         out.set(pt1,  pt2);

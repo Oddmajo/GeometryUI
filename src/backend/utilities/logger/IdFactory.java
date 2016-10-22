@@ -1,4 +1,4 @@
-package utilities.logger;
+package backend.utilities.logger;
 
 //
 // A factory model to generate unique identifiers (default starts at 0)

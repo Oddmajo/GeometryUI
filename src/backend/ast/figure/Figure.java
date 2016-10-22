@@ -95,12 +95,12 @@ public abstract class Figure extends GroundedClause
     public ArrayList<Figure> getSuperFigures() { return superFigures; }
 
     protected Polygon polygonalized;
-    public Polygon getPolygonalized() { return polygonalized; }
+    public Polygon GetPolygonalized() { return polygonalized; }
     protected void setPolygonalized(Polygon poly) { this.polygonalized = poly; }
     public ArrayList<AtomicRegion> atoms;
     public ArrayList<AtomicRegion> getAtoms() { return atoms; }
     protected void setAtoms(ArrayList<AtomicRegion> atoms) { this.atoms = atoms; } 
-    public Polygon GetPolygonalized() throws Exception { return null; }
+//    public Polygon GetPolygonalized() throws Exception { return null; }
     public String CheapPrettyString() { return "TBD"; }
 
     public boolean CoordinateCongruent(Figure that) { return false; }
