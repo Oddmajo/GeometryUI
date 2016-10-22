@@ -1,4 +1,4 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 public class FigureException extends Exception
 {

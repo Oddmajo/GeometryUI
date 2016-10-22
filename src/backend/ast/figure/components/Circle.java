@@ -317,7 +317,7 @@ public class Circle extends Figure
 
     // Make the circle into a regular n-gon that approximates it.
     @Override
-    public Polygon GetPolygonalized() throws Exception
+    public Polygon GetPolygonalized()
     {
         if (polygonalized != null) return polygonalized;
 
@@ -1124,7 +1124,7 @@ public class Circle extends Figure
 //                    _radius.addCollinearPoint(inter);
 //
 //                    // if (!Utilities.HasStructurally<Point>(figurePoints, inter)) imagPoints.add(inter);
-//                    utilities.list.Utilities.addUnique(imagPoints, inter);
+//                    backend.utilities.list.Utilities.addUnique(imagPoints, inter);
 //                }
 //            }
 //        }
@@ -1141,7 +1141,7 @@ public class Circle extends Figure
 //                    constructedChords[c2].addCollinearPoint(inter);
 //
 //                    //if (!Utilities.HasStructurally<Point>(figurePoints, inter)) imagPoints.add(inter);
-//                    utilities.list.Utilities.addUnique(imagPoints, inter);
+//                    backend.utilities.list.Utilities.addUnique(imagPoints, inter);
 //                }
 //            }
 //        }
@@ -1149,7 +1149,7 @@ public class Circle extends Figure
 //        //
 //        // Add all imaginary points to the list of figure points.
 //        //
-//        utilities.list.Utilities.addUniqueList(figurePoints, imagPoints);
+//        backend.utilities.list.Utilities.addUniqueList(figurePoints, imagPoints);
 //
 //        //
 //        // Construct the Planar graph for atomic region identification.

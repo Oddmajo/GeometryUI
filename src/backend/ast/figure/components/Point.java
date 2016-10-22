@@ -173,15 +173,15 @@ public class Point extends Figure
 //    // CTA: Used? NC: Not that I'm aware of
 //    public int Quadrant()
 //    {
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 0;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 1;
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 12;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.greaterThan(Y, 0)) return 2;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 23;
-//        if (utilities.math.Utilities.lessThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 3;
-//        if (utilities.math.Utilities.doubleEquals(X, 0) && utilities.math.Utilities.lessThan(Y, 0)) return 34;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.lessThan(Y, 0)) return 4;
-//        if (utilities.math.Utilities.greaterThan(X, 0) && utilities.math.Utilities.doubleEquals(Y, 0)) return 41;
+//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 0;
+//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 1;
+//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 12;
+//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 2;
+//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 23;
+//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 3;
+//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 34;
+//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 4;
+//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 41;
 //
 //        return -1;
 //    }
@@ -266,7 +266,7 @@ public class Point extends Figure
         Point pt =  (Point)obj;
 
         if (pt == null) return false;
-        return utilities.math.Utilities.doubleEquals(pt.X, X) && utilities.math.Utilities.doubleEquals(pt.Y, Y);
+        return backend.utilities.math.Utilities.doubleEquals(pt.X, X) && backend.utilities.math.Utilities.doubleEquals(pt.Y, Y);
     }
     
     // Make a deep copy of this object; this is actually shallow, but is all that is required.
@@ -311,7 +311,7 @@ public class Point extends Figure
      */
     public static int LexicographicOrdering(Point p1, Point p2)
     {
-        if (!utilities.math.Utilities.doubleEquals(p1.X, p2.X))
+        if (!backend.utilities.math.Utilities.doubleEquals(p1.X, p2.X))
         {
             // X's first
             if (p1.X < p2.X) return -1;
@@ -319,7 +319,7 @@ public class Point extends Figure
             if (p1.X > p2.X) return 1;
         }
 
-        if (utilities.math.Utilities.doubleEquals(p1.Y, p2.Y)) return 0;
+        if (backend.utilities.math.Utilities.doubleEquals(p1.Y, p2.Y)) return 0;
 
         // Y's second
         if (p1.Y < p2.Y) return -1;

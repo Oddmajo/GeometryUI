@@ -140,13 +140,13 @@ public class Angle extends Figure
 
         // Avoid minor calculation issues and retarget the given value to specific angles. 
         // 0 or 180 degrees
-        if (utilities.math.Utilities.doubleEquals(Math.abs(cosAngle), 1))
+        if (backend.utilities.math.Utilities.doubleEquals(Math.abs(cosAngle), 1))
         {
             cosAngle = cosAngle < 0 ? -1 : 1;
         }
 
         // 90 degrees
-        if (utilities.math.Utilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
+        if (backend.utilities.math.Utilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
 
         return Math.acos(cosAngle);
     }
@@ -211,7 +211,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj;
 
         // Measures better be the same.
-        if (!utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
                 (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
@@ -541,7 +541,7 @@ public class Angle extends Figure
 //        // This is an 'obvious' notion so it should be intrinsic to any figure
 //        gcas.MakeIntrinsic();
 //
-//        return new GenericInstantiator.EdgeAggregator(utilities.list.Utilities.makeList(Angle.AcquireFigureAngle(angle)), gcas, reflexAnnotation);
+//        return new GenericInstantiator.EdgeAggregator(backend.utilities.list.Utilities.makeList(Angle.AcquireFigureAngle(angle)), gcas, reflexAnnotation);
 //    }
 
     public boolean IsComplementaryTo(Angle thatAngle)
@@ -619,7 +619,7 @@ public class Angle extends Figure
     // Is this angle proportional to the given segment in terms of the coordinatization from the UI?
     // We should not report proportional if the ratio between segments is 1
     //
-    public utilities.Pair<Integer, Integer> CoordinateProportional(Angle a)
+    public backend.utilities.Pair<Integer, Integer> CoordinateProportional(Angle a)
     {
         return Utilities.RationalRatio(a.measure, this.measure);
     }

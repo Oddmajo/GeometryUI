@@ -105,7 +105,7 @@ public class Polygon extends Figure
 
     public boolean HasSegment(Segment thatSegment)
     {
-        return utilities.ast_helper.Utilities.hasStructurally(orderedSides, thatSegment);
+        return backend.utilities.ast_helper.Utilities.HasStructurally(orderedSides, thatSegment);
     }
 
     @Override
@@ -157,11 +157,11 @@ public class Polygon extends Figure
         {
             if (side.IsCollinearWith(that))
             {
-                if (that.PointLiesOnAndBetweenEndpoints(side.getPoint1())) Utilities.addStructurallyUnique(intersections, side.getPoint1());
-                if (that.PointLiesOnAndBetweenEndpoints(side.getPoint2())) Utilities.addStructurallyUnique(intersections, side.getPoint2());
+                if (that.PointLiesOnAndBetweenEndpoints(side.getPoint1())) Utilities.AddStructurallyUnique(intersections, side.getPoint1());
+                if (that.PointLiesOnAndBetweenEndpoints(side.getPoint2())) Utilities.AddStructurallyUnique(intersections, side.getPoint2());
 
-                if (side.PointLiesOnAndBetweenEndpoints(that.getPoint1())) Utilities.addStructurallyUnique(intersections, that.getPoint1());
-                if (side.PointLiesOnAndBetweenEndpoints(that.getPoint2())) Utilities.addStructurallyUnique(intersections, that.getPoint2());
+                if (side.PointLiesOnAndBetweenEndpoints(that.getPoint1())) Utilities.AddStructurallyUnique(intersections, that.getPoint1());
+                if (side.PointLiesOnAndBetweenEndpoints(that.getPoint2())) Utilities.AddStructurallyUnique(intersections, that.getPoint2());
             }
             else
             {
@@ -171,7 +171,7 @@ public class Polygon extends Figure
                 if (side.PointLiesOnAndBetweenEndpoints(foundInter) && that.PointLiesOnAndBetweenEndpoints(foundInter))
                 {
                     // A segment may intersect a polygon through up to 2 vertices creating 4 intersections.
-                    if (!Utilities.hasStructurally(intersections, foundInter)) intersections.add(foundInter);
+                    if (!Utilities.HasStructurally(intersections, foundInter)) intersections.add(foundInter);
                 }
             }
         }
@@ -623,8 +623,8 @@ public class Polygon extends Figure
             that.FindIntersection(thatSide, out );
             pt1 = out.getKey();
             pt2 = out.getValue();
-            if (pt1 != null) Utilities.addStructurallyUnique(intersections, pt1);
-            if (pt2 != null) Utilities.addStructurallyUnique(intersections, pt2);
+            if (pt1 != null) Utilities.AddStructurallyUnique(intersections, pt1);
+            if (pt2 != null) Utilities.AddStructurallyUnique(intersections, pt2);
         }
 
         return intersections;
@@ -647,8 +647,8 @@ public class Polygon extends Figure
             pt1 = out.getKey();
             pt2 = out.getValue();
 
-            if (pt1 != null && side.PointLiesOnAndBetweenEndpoints(pt1)) Utilities.addStructurallyUnique(intersections, pt1);
-            if (pt2 != null && side.PointLiesOnAndBetweenEndpoints(pt2)) Utilities.addStructurallyUnique(intersections, pt2);
+            if (pt1 != null && side.PointLiesOnAndBetweenEndpoints(pt1)) Utilities.AddStructurallyUnique(intersections, pt1);
+            if (pt2 != null && side.PointLiesOnAndBetweenEndpoints(pt2)) Utilities.AddStructurallyUnique(intersections, pt2);
         }
 
         return intersections;
@@ -677,7 +677,7 @@ public class Polygon extends Figure
 
         for (Point pt : thatPoly.points)
         {
-            if (!Utilities.hasStructurally(this.points, pt)) return false; 
+            if (!Utilities.HasStructurally(this.points, pt)) return false; 
         }
 
         return true;
