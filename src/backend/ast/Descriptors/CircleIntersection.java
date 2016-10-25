@@ -25,10 +25,10 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
-import ast.figure.components.Circle;
-import ast.figure.components.Point;
+import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.Point;
 
 public class CircleIntersection extends Descriptor
 {

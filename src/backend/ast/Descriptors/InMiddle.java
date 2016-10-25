@@ -25,10 +25,10 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
-import ast.figure.components.Point;
-import ast.figure.components.Segment;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 
 public class InMiddle extends Descriptor
 {

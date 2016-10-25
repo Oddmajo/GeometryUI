@@ -25,10 +25,10 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
 import java.util.ArrayList;
-import ast.figure.components.Point;
+import backend.ast.figure.components.Point;
 
 public class Collinear extends Descriptor
 {

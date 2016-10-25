@@ -26,11 +26,11 @@
 // *
 // */
 
-package ast.Descriptors.Arcs_and_Circles;
+package backend.ast.Descriptors.Arcs_and_Circles;
 
-import ast.Descriptors.Descriptor;
-import ast.figure.components.Arc;
-import ast.figure.components.Point;
+import backend.ast.Descriptors.Descriptor;
+import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.Point;
 
 public class ArcInMiddle extends Descriptor
 {

@@ -25,9 +25,9 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
-import ast.GroundedClause;
+import backend.ast.GroundedClause;
 
 public abstract class Descriptor extends GroundedClause
 {

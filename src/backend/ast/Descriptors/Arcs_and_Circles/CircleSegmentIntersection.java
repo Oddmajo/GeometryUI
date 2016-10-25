@@ -25,11 +25,11 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors.Arcs_and_Circles;
+package backend.ast.Descriptors.Arcs_and_Circles;
 
-import ast.Descriptors.CircleIntersection;
+import backend.ast.Descriptors.CircleIntersection;
 
 public class CircleSegmentIntersection extends CircleIntersection
 {
-
+	
 }

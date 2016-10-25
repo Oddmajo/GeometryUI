@@ -25,7 +25,7 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
 public class Perpendicular extends Intersection
 {
@@ -38,5 +38,58 @@ public class Perpendicular extends Intersection
     
     public Perpendicular(Intersection inter)
     {   
+    	super(inter.intersect, inter.lhs, inter.rhs);
+    	
+    	//check if truly perpendicular
+    	if(lhs.CoordinatePerpendicular(rhs) == null)
+    	{
+    		
+    	}
+    	
+    	originalInter = inter;
+    }
+    
+    @Override
+    public int GetHashCode()
+    {
+    	return super.GetHashCode();
+    }
+    
+    @Override
+    public boolean StructurallyEquals(Object obj)
+    {
+    	if(obj != null && obj instanceof Perpendicular)
+    	{
+    		Perpendicular perp = (Perpendicular)obj;
+    		// inner null check was in original, we shouldn't need but left for safety until tested
+    		//if(perp == null)
+    		//{
+    		// return false;
+    		//}
+    		return intersect.Equals(perp.intersect) && ((lhs.StructurallyEquals(perp.lhs) && rhs.StructurallyEquals(perp.rhs)) ||
+    													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs)));
+    	}
+    }
+    
+    @Override
+    public boolean Equals(Object obj)
+    {
+    	if(obj != null && obj instanceof PerpendicularBisector)
+    	{
+    		return (PerpendicularBisector)obj.equals(this);
+    	}
+    	
+    	if(obj != null && obj instanceof Perpendicular)
+    	{
+    		Perpendicular p = (Perpendicular)obj;
+    	}
+    	
+    	return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
+    }
+    
+    @Override
+    public String toString()
+    {
+    	return "Perpendicular(" + intersect.toString() + ", " + lhs.toString() + ", " + rhs.toString() + ") " + justification;
     }
 }

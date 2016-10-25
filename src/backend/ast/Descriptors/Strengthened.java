@@ -25,9 +25,9 @@
 //  @author Tom_Nielsen
 // 
 // 
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
-import ast.GroundedClause;
+import backend.ast.GroundedClause;
 
 /// <summary>
 /// Describes a figure being strengthened.
@@ -67,10 +67,11 @@ public class Strengthened extends Descriptor
         if(obj != null && obj instanceof Strengthened)
         {
             Strengthened s = (Strengthened)obj;
-            if(s == null)
-            {
-                return false;
-            }
+         // should be uneeded but left it in since it was in the original
+//            if(s == null)
+//            {
+//                return false;
+//            }
             return this.getOriginal().StructurallyEquals(s.getOriginal()) && this.getStrengthened().StructurallyEquals(s.getStrengthened());
         }
         else

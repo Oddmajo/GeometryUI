@@ -25,10 +25,14 @@
 // * @author Tom_Nielsen
 // *
 // */
-package ast.Descriptors;
+package backend.ast.Descriptors;
 
-import ast.figure.components.Segment;
-import utilities.exception.ExceptionHandler;
+import java.util.ArrayList;
+
+import backend.ast.GroundedClause;
+import backend.ast.figure.components.Segment;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.exception.ArgumentException;
 
 /// <summary>
 /// Describes a point that lies on a segment.
@@ -127,10 +131,11 @@ public class Parallel extends Descriptor
         if(obj != null)
         {
             Parallel p = (Parallel)obj;
-            if (p == null)
-            {
-                return false;
-            }
+            // should be uneeded but left it in since it was in the original
+//            if (p == null)
+//            {
+//                return false;
+//            }
             return (segment1.StructurallyEquals(p.segment1) && segment2.StructurallyEquals(p.segment2)) ||
                    (segment1.StructurallyEquals(p.segment2) && segment2.StructurallyEquals(p.segment1));
         }
@@ -143,13 +148,14 @@ public class Parallel extends Descriptor
     @Override
     public boolean Equals(Object obj)
     {
-        if(obj != null)
+        if(obj != null && obj instanceof Parallel)
         {
             Parallel p = (Parallel)obj;
-            if(p == null)
-            {
-                return false;
-            }
+         // should be uneeded but left it in since it was in the original
+//            if(p == null)
+//            {
+//                return false;
+//            }
             return (segment1.Equals(p.segment1) && segment2.Equals(p.segment2)) ||
                     (segment1.Equals(p.segment2) && segment2.Equals(p.segment1)) && super.Equals(obj);
         }
@@ -165,5 +171,29 @@ public class Parallel extends Descriptor
         return "Parallel(" + segment1.toString() + ", " + segment2.toString() + ") " + justification;
     }
     
-    private static final String NAME = ""9;
+    private static final String NAME = "Transitivity";
+    private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBrdige.JustificationSwitch.TRANSITIVE_PARALLEL);
+    
+    public static ArrayList<GenericInstatiator.EdgeAggregator> CreateTransitiveParallel(Parallel parallel1, Parallel parallel2)
+    {
+    	annotation.active = EngineUIBridge.JustificationSwitch.TRANSITIVE_PARALLEL;
+    	ArrayList<GenericInstatiator.EdgeAggregator> newGrounded = new ArrayList<GenericInstatiator.EdgeAggregator>();
+    	
+    	//
+        // Create the antecedent clauses
+        //
+    	ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+    	antecedent.add(parallel1);
+    	antecedent.add(parallel2);
+    	
+    	//
+    	// Create the consequent clause
+    	//
+    	Segment shared = parallel1.SharedSegment(parallel2);
+    	AlgebraicParallel newAP = new AlgebraicParallel(parallel1.OtherSegment(shared), parallel2.OtherSegment(shared));
+    	
+    	newGrounded.add(new GenericInstantiator.EdgeAggregator(antecedent, newAP, annotation));
+    	
+    	return newGrounded;
+    }
 }
