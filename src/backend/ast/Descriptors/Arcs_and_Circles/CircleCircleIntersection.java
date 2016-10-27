@@ -50,14 +50,14 @@ public class CircleCircleIntersection extends CircleIntersection
         //Find the intersection points
         Point pt1, pt2;
         
-        /////////////////////////////////////////////////////////////////////////theCircle.FindIntersection(otherCircle, out pt1, out pt2);
+        theCircle.FindIntersection(otherCircle, pt1, pt2);
         intersection1 = pt1;
         intersection2 = pt2;
     }
     
     //If the arcs intersect at a single point
     @Override
-    public boolean isTangent()
+    public boolean IsTangent()
     {
     	return intersection1 != null && intersection2 == null;
     }

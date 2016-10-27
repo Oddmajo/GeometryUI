@@ -27,6 +27,7 @@
 package backend.ast.Descriptors;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
@@ -117,7 +118,7 @@ public class Intersection extends Descriptor
         }
         
         //Restrict to desired combination
-        if(this.StandsOnEndPoint() && thatInter.StandsOnEndpoint())
+        if(this.StandsOnEndpoint() && thatInter.StandsOnEndpoint())
         {
         	return nullPair;
         }
@@ -170,7 +171,7 @@ public class Intersection extends Descriptor
         //Determine S shape
         Point offStands = standsInter.CreatesTShape();
         
-        Segment parallelEndpoint = endpointInter.otherSegment(transversal);
+        Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
         Point offEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect);
         
         Segment crossingTester = new Segment(offStands, offEndpoint);
@@ -225,7 +226,7 @@ public class Intersection extends Descriptor
     	}
     	
     	Segment transversal = this.AcquireTransversal(thatInter);
-    	Segment transversalStands - standsOn.getCollinearSegment(transversal);
+    	Segment transversalStands = standsOn.GetCollinearSegment(transversal);
     	
     	//Determine Top and bottom to avoid PI shape
     	Point top = null;
@@ -259,7 +260,7 @@ public class Intersection extends Descriptor
     	Segment parallelStands = standsOn.OtherSegment(transversal);
     	
     	Point offEnd = transversal.PointLiesOn(parallelEndPt.getPoint1()) ? parallelEndPt.getPoint2() : parallelEndPt.getPoint1();
-    	Point offStands = transversal.PointLiesOn(ParallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
+    	Point offStands = transversal.PointLiesOn(parallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
     	
     	// Check this is not a crazy F
         //        _____
@@ -368,7 +369,7 @@ public class Intersection extends Descriptor
     //   Order of non-collinear points is order of intersections: <this, that>
     public Pair<Point, Point> CreatesPIShape(Intersection thatInter)
     {
-    	Pair<Point, Point> nullPair = new Pair<Point, POint>(null,null);
+    	Pair<Point, Point> nullPair = new Pair<Point, Point>(null,null);
     	
     	//A valid transversal is required for this shape
     	if(!this.CreatesAValidTransversalWith(thatInter))
@@ -470,7 +471,7 @@ public class Intersection extends Descriptor
     //   Returns <tipEndpoint, tipStands>
     public Pair<Point, Point> CreatesLeanerShape(Intersection thatInter)
     {
-    	Pair<Point, Point> nullPair - new Pair<Point, Point>(null, null);
+    	Pair<Point, Point> nullPair = new Pair<Point, Point>(null, null);
     	
     	// A valid transversal is required for this shape
     	if(!this.CreatesAValidTransversalWith(thatInter))
@@ -507,7 +508,7 @@ public class Intersection extends Descriptor
     	Segment transversal = this.AcquireTransversal(thatInter);
     	Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
     	
-    	Point tipEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect;
+    	Point tipEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect);
     	
     	//Determine sides
     	Segment crossingTester = new Segment(tipEndpoint, tipStands);
@@ -537,7 +538,7 @@ public class Intersection extends Descriptor
     	Pair<Point, Point> nullPair = new Pair<Point, Point>(null,null);
     	
     	//A valid transversal is required for this shape
-    	if(!this.CreatesAValidTransversalWIth(thatInter))
+    	if(!this.CreatesAValidTransversalWith(thatInter))
     	{
     		return nullPair;
     	}
@@ -555,7 +556,7 @@ public class Intersection extends Descriptor
         //
         // The transversal should be valid
     	Segment transversal = this.AcquireTransversal(thatInter);
-    	Point intersection = transversal.FindIntersection(new Segment(thisNonCOllinear, thatNonCOllinear));
+    	Point intersection = transversal.FindIntersection(new Segment(thisNonCollinear, thatNonCollinear));
     	
     	//PI-Shape
     	if(!transversal.PointLiesOnAndBetweenEndpoints(intersection))
@@ -564,7 +565,7 @@ public class Intersection extends Descriptor
     	}
     	
     	//S-Shape
-    	return new Pair<Point,Point>(thisNonCollinear, thatNonCOllinear);
+    	return new Pair<Point,Point>(thisNonCollinear, thatNonCollinear);
     }
     
     //
@@ -752,10 +753,10 @@ public class Intersection extends Descriptor
     	
     	//Returns the bottom of the legs of the chair
     	Segment ParallelLeft = leftInter.OtherSegment(transversal);
-    	Segment crossingTester = new Segment(parallelLeft.getPoint1(), bottomTip);
+    	Segment crossingTester = new Segment(ParallelLeft.getPoint1(), bottomTip);
     	Point intersection = transversal.FindIntersection(crossingTester);
     	
-    	Point off = transversal.PointLiesOnAndBetweenEndpoints(intersection) ? parallelLeft.getPoint2() : parallelLeft.getPoint1();
+    	Point off = transversal.PointLiesOnAndBetweenEndpoints(intersection) ? ParallelLeft.getPoint2() : ParallelLeft.getPoint1();
     	
     	return new Pair<Point, Point>(off, bottomTip);
     }
@@ -838,7 +839,7 @@ public class Intersection extends Descriptor
     	Point thisTipOfT = this.CreatesTShape();
     	Point thatTipOfT = thatInter.CreatesTShape();
     	
-    	Segment transversal = this.Acquiretransversal(thatInter);
+    	Segment transversal = this.AcquireTransversal(thatInter);
     	
     	//we have an H-Shape if the tips of the intersections are at the endpoints of the transversal
     	if(transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT) && transversal.PointLiesOnAndBetweenEndpoints(thatTipOfT))
@@ -846,7 +847,7 @@ public class Intersection extends Descriptor
     		return nullPair;
     	}
     	
-    	Interseciont retInter = null;
+    	Intersection retInter = null;
     	Point off = null;
     	if(transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT))
     	{
@@ -1196,7 +1197,7 @@ public class Intersection extends Descriptor
     }
     
     //If a common segment exists (a transversal that cuts across both intersections), return that common segment
-    public boolean InduscesNonStraightAngle(Angle thatAngle)
+    public boolean InducesNonStraightAngle(Angle thatAngle)
     {
     	// The given vertex must match the intersection point of the two lines intersection
     	if(!intersect.Equals(thatAngle.GetVertex()))
@@ -1260,13 +1261,13 @@ public class Intersection extends Descriptor
     //
     public Angle GetInducedNonStraightAngle(CongruentAngles congAngles)
     {
-    	if(this.InduscesNonStraightAngle(congAngles.getCa1()))
+    	if(this.InducesNonStraightAngle(congAngles.GetFirstAngle()))
     	{
-    		return conAngles.getCa1();
+    		return congAngles.GetFirstAngle();
     	}
-    	if(this.InduscesNonStraightAngle(congAngles))
+    	if(this.InducesNonStraightAngle(congAngles.GetSecondAngle()))
     	{
-    		return conAngles.getCa2();
+    		return congAngles.GetSecondAngle();
     	}
     	return null;
     }
@@ -1289,7 +1290,7 @@ public class Intersection extends Descriptor
     //
     public boolean InducesBothAngles(CongruentAngles conAngles)
     {
-    	return this.InduscesNonStraightAngle(conAngles.getCa1()) && this.InduscesNonStraightAngle(conAngles.getCa2());
+    	return this.InducesNonStraightAngle(conAngles.GetFirstAngle()) && this.InducesNonStraightAngle(conAngles.GetSecondAngle());
     }
     
     public Segment OtherSegment(Segment thatSegment)
@@ -1323,8 +1324,12 @@ public class Intersection extends Descriptor
     		Perpendicular perp = (Perpendicular)gc;
     		
     		return intersect.Equals(perp.intersect) && ((lhs.StructurallyEquals(perp.lhs) && rhs.StructurallyEquals(perp.rhs)) ||
-    													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs));
+    													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs)));
     	}
+    	
+    	//WARNING
+    	//This has not been test but I believe this should be okay since if the check does not hit then it cannot be strengthened
+    	return false;
     }
     
     //
@@ -1445,7 +1450,7 @@ public class Intersection extends Descriptor
     	if(obj != null && obj instanceof PerpendicularBisector)
     	{
     		PerpendicularBisector perpBi = (PerpendicularBisector)obj;
-    		return obj.Equals(this);
+    		return obj.equals(this);
     	}
     	if(obj != null && obj instanceof Perpendicular)
     	{

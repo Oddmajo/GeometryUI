@@ -27,8 +27,13 @@
 // */
 package backend.ast.Descriptors;
 
+import java.util.ArrayList;
+
+import backend.ast.GroundedClause;
 import backend.ast.figure.components.Point;
+import backend.ast.Descriptors.MidPoint;
 import backend.ast.figure.components.Segment;
+import backend.utilities.ast_helper.Utilities;
 
 public class InMiddle extends Descriptor
 {
@@ -47,10 +52,10 @@ public class InMiddle extends Descriptor
     }
     
     @Override
-    public void DumpXML(Action<String, List<GroundedClause>> write)
+    public void DumpXML(Action<String, ArrayList<GroundedClause>> write)
     {
-        GroundedClause[] children = ;
-        write("InMiddle", new List<GroundedClause>(children));
+        GroundedClause[] children = {point, segment};
+        write("InMiddle", new ArrayList<GroundedClause>(children));
     }
     
     //
@@ -58,7 +63,47 @@ public class InMiddle extends Descriptor
     //
     public Strengthened canBeStrengthened()
     {
-        
+    	if (Utilities.CompareValues(Point.calcDistance(point, segment.getPoint1()), Point.calcDistance(point, segment.getPoint2())))
+        {
+            return new Strengthened(this, new MidPoint(this));
+        }
+    	
+    	return null;
+    }
+    
+    @Override	
+    public boolean CanBeStrengthenedTo(GroundedClause gc)
+    {
+    	if(gc != null && gc instanceof MidPoint)
+    	{
+    		MidPoint midpoint = (MidPoint)gc;
+    		return this.point.StructurallyEquals(midpoint.point) && this.segment.StructurallyEquals(midpoint.segment);
+    	}
+    	
+    	//this is untested but if the if statement isn't hit then it probably should return false anyways
+    	return false;
+    }
+    
+    @Override
+    public boolean Equals(Object obj)
+    {
+    	//Causes infinite recursion -> if (obj is Midpoint) return (obj as Midpoint).Equals(this);
+    	
+    	if(obj != null && obj instanceof InMiddle)
+    	{
+    		InMiddle im = (InMiddle)obj;
+    		
+    		return im.point.Equals(point) && im.segment.Equals(segment);
+    	}
+    	
+    	//this is untested but if the if statement isn't hit then it probably should return false anyways
+    	return false;
+    }
+    
+    @Override
+    public String toString()
+    {
+    	return "InMiddle(" + point.toString() + ", " + segment.toString() + ") " + justification;
     }
     
 }

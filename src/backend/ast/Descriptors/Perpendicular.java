@@ -27,6 +27,7 @@
 // */
 package backend.ast.Descriptors;
 
+
 public class Perpendicular extends Intersection
 {
     private Intersection originalInter;
@@ -69,6 +70,8 @@ public class Perpendicular extends Intersection
     		return intersect.Equals(perp.intersect) && ((lhs.StructurallyEquals(perp.lhs) && rhs.StructurallyEquals(perp.rhs)) ||
     													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs)));
     	}
+    	//This is untested but should be correct. IF the if isn't hit then it should never be equal
+    	return false;
     }
     
     @Override
@@ -76,15 +79,18 @@ public class Perpendicular extends Intersection
     {
     	if(obj != null && obj instanceof PerpendicularBisector)
     	{
-    		return (PerpendicularBisector)obj.equals(this);
+    		return ((PerpendicularBisector)obj).Equals(this);
     	}
     	
     	if(obj != null && obj instanceof Perpendicular)
     	{
     		Perpendicular p = (Perpendicular)obj;
+    		return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
     	}
     	
-    	return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
+    	//This is untested but should be correct. IF the if isn't hit then it should never be equal
+    	return false;
+    	
     }
     
     @Override

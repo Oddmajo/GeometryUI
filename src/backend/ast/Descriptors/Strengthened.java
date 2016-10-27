@@ -67,7 +67,7 @@ public class Strengthened extends Descriptor
         if(obj != null && obj instanceof Strengthened)
         {
             Strengthened s = (Strengthened)obj;
-         // should be uneeded but left it in since it was in the original
+         // should be unneeded but left it in since it was in the original
 //            if(s == null)
 //            {
 //                return false;
@@ -82,20 +82,25 @@ public class Strengthened extends Descriptor
     }
     
     
-    /// this still needs the function getType defined which is not currently defines
-    /// please remove when this comment when this is completed
     @Override
     public boolean Equals(Object obj)
     {
         if(obj != null)
         {
             Strengthened thatS = (Strengthened)obj;
-            if(thatS == null)
-            {
-                return false;
-            }
-            return this.getOriginal().Equals(thatS.getOriginal()) && this.getStrengthened().getType() == thatS.getStrengthened().getType();
+         // should be unneeded but left it in since it was in the original
+//            if(thatS == null)
+//            {
+//                return false;
+//            }
+//            
+            
+            //HEAVILY UNTESTED ATM
+            //THIS IS UNTESTED BUT SHOULD WORK FINE changed from getType() to .getClass().getCanonicalName() 
+            return this.getOriginal().Equals(thatS.getOriginal()) && this.getStrengthened().getClass().getCanonicalName() == thatS.getStrengthened().getClass().getCanonicalName();
         }
+      //This is untested but should be correct. IF the if isn't hit then it should never be equal
+    	return false;
     }
     
     @Override

@@ -25,21 +25,27 @@
 // * @author Tom_Nielsen
 // *
 // */
-package backend.ast.Descriptors;
+package backend.ast.Descriptors.Relations.Congruences;
 
 import backend.ast.figure.components.Segment;
 
-public class AlgebraicParallel extends Parallel
+//
+// This class has two roles:
+// 1) Congruent Pair of segments
+// 2) To avoid redundancy and bloat in the hypergraph, it also mimics a basic Algebraic equation
+// So AB \cong CD also means AB = CD (as a Algebraic equation)
+//
+public class AlgebraicCongruentSegments extends CongruentSegments
 {
-	public AlgebraicParallel(Segment segment1, Segment segment2)
+	public AlgebraicCongruentSegments(Segment s1, Segment s2)
 	{
-		super(segment1,segment2);
+		super(s1,s2);
 	}
 	
 	@Override
 	public int GetHashCode()
 	{
-		//change this if the object is no longer immutable!!
+		//change this if the object is no longer immutable
 		return super.GetHashCode();
 	}
 	
@@ -48,32 +54,14 @@ public class AlgebraicParallel extends Parallel
 	{
 		return true;
 	}
-	
 	@Override
 	public boolean IsGeometric()
 	{
 		return false;
 	}
-	
-	@Override
-	public boolean Equals(Object obj)
-	{
-		if(obj != null && obj instanceof AlgebraicParallel)
-		{
-			AlgebraicParallel gp = (AlgebraicParallel)obj;
-			
-			
-			//I believe this is a bug but this is how it was originally written
-			return super.Equals(obj);
-		}
-		
-		//This is untested but should be correct. IF the if isn't hit then it should never be equal
-    	return false;
-	}
-	
 	@Override
 	public String toString()
 	{
-		return "AlgebraicParallel(" + segment1.toString() + ", " + segment2.toString() + ") " + justification;
+		return "AlgebraicCongruent(" + cs1.toString() + ", " + cs2.toString() + ") " + justification;
 	}
 }

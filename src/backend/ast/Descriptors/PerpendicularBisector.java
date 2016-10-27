@@ -29,51 +29,50 @@ package backend.ast.Descriptors;
 
 import backend.ast.figure.components.Segment;
 
-public class AlgebraicParallel extends Parallel
+public class PerpendicularBisector extends Perpendicular
 {
-	public AlgebraicParallel(Segment segment1, Segment segment2)
+	private Segment bisector;
+	
+	
+	public Segment getBisector()
 	{
-		super(segment1,segment2);
+		return bisector;
+	}
+	
+	//public PerpendicularBisector(Point i, Segment l, Segment bisector, string just) : base(i, l, bisector, just)
+    //{
+    //    this.bisector = bisector;
+    //}
+	public PerpendicularBisector(Intersection inter, Segment bisector)
+	{
+		super(inter);
+		this.bisector = bisector;
 	}
 	
 	@Override
 	public int GetHashCode()
 	{
-		//change this if the object is no longer immutable!!
 		return super.GetHashCode();
-	}
-	
-	@Override
-	public boolean IsAlgebraic()
-	{
-		return true;
-	}
-	
-	@Override
-	public boolean IsGeometric()
-	{
-		return false;
 	}
 	
 	@Override
 	public boolean Equals(Object obj)
 	{
-		if(obj != null && obj instanceof AlgebraicParallel)
+		if(obj != null && obj instanceof PerpendicularBisector)
 		{
-			AlgebraicParallel gp = (AlgebraicParallel)obj;
+			PerpendicularBisector p = (PerpendicularBisector)obj;
 			
-			
-			//I believe this is a bug but this is how it was originally written
-			return super.Equals(obj);
+			return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
 		}
 		
-		//This is untested but should be correct. IF the if isn't hit then it should never be equal
-    	return false;
+		
+		//This is untested but should work since if the if statement fails then it wasn't an obj to begin with
+		return false;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "AlgebraicParallel(" + segment1.toString() + ", " + segment2.toString() + ") " + justification;
+		return "PerpendicularBisector(" + bisector.toString() + " Bisects(" + this.OtherSegment(bisector) + ") at " + this.intersect + ")";
 	}
 }
