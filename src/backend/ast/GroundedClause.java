@@ -2,11 +2,11 @@
 iTutor – an intelligent tutor of mathematics
 Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-This program is distributed : the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package ast;
+package backend.ast;
 
 import java.util.ArrayList;
 
@@ -53,8 +53,8 @@ public abstract class GroundedClause
     // Contains all figure fact predecessor / components (e.g. a triangle has 3 segments, 3 angles, and 3 points, etc) 
     private ArrayList<Integer> figureComponents;
     public ArrayList<Integer> GetFigureComponents() { return figureComponents; }
-    public void addComponent(int component) { utilities.list.Utilities.addUnique(figureComponents, component); }
-    public void addComponentList(ArrayList<Integer> componentList) { utilities.list.Utilities.AddUniqueList(figureComponents, componentList); }
+    public void AddComponent(int component) { backend.utilities.ast_helper.Utilities.AddUnique(figureComponents, component); }
+    public void AddComponentList(ArrayList<Integer> componentList) { backend.utilities.ast_helper.Utilities.AddUniqueList(figureComponents, componentList); }
 
 
     // Can this node be strengthened to the given node?
@@ -92,18 +92,18 @@ public abstract class GroundedClause
     {
         if (gc.clauseId == -1)
         {
-            //Debug.WriteLine("ERROR: id is -1: " + gc.toString());
-            utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + gc.toPrettyString()));
+            //Debug.WriteLine("ERROR: id is -1: " + gc.ToString());
+            backend.utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + gc.toPrettyString()));
         }
-        utilities.list.Utilities.addUnique(relationPredecessors, gc.clauseId);
+        backend.utilities.ast_helper.Utilities.AddUnique(relationPredecessors, gc.clauseId);
     }
     public void AddGeneralPredecessor(GroundedClause gc)
     {
         if (gc.clauseId == -1)
         {
-            utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + gc.toPrettyString()));
+            backend.utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + gc.toPrettyString()));
         }
-        utilities.list.Utilities.addUnique(generalPredecessors, gc.clauseId);
+        backend.utilities.ast_helper.Utilities.AddUnique(generalPredecessors, gc.clauseId);
     }
     public void AddRelationPredecessors(ArrayList<Integer> preds)
     {
@@ -111,9 +111,9 @@ public abstract class GroundedClause
         {
             if (pred == -1)
             {
-                utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + pred));
+                backend.utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + pred));
             }
-            utilities.list.Utilities.addUnique(relationPredecessors, pred);
+            backend.utilities.ast_helper.Utilities.AddUnique(relationPredecessors, pred);
         }
     }
     public void AddGeneralPredecessors(ArrayList<Integer> preds)
@@ -122,9 +122,9 @@ public abstract class GroundedClause
         {
             if (pred == -1)
             {
-                utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + pred));
+                backend.utilities.exception.ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + pred));
             }
-            utilities.list.Utilities.addUnique(generalPredecessors, pred);
+            backend.utilities.ast_helper.Utilities.AddUnique(generalPredecessors, pred);
         }
     }
 
@@ -157,19 +157,21 @@ public abstract class GroundedClause
     //
     private int multiplier;
     public int getMulitplier() { return multiplier; }
-    public void setMultiplier(int x) { multiplier = x; }
     
     public ArrayList<GroundedClause> CollectTerms()
     {
-        return new ArrayList<GroundedClause>(utilities.list.Utilities.makeList(this));
+        return new ArrayList<GroundedClause>(backend.utilities.ast_helper.Utilities.MakeList(this));
     }
     
     
     public boolean Equals(Object obj)
     {
-        GroundedClause that = (GroundedClause) obj;
-        if (that == null) return false;
-        return multiplier == that.multiplier; // && clauseId == that.clauseId;
+        if (obj != null && obj instanceof GroundedClause)
+        {
+            GroundedClause that = (GroundedClause) obj;
+            return multiplier == that.multiplier; // && clauseId == that.clauseId;
+        }
+        return false;
     }
 
     public boolean StructurallyEquals(Object obj) { return false; }
