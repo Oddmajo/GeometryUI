@@ -1,13 +1,14 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.ASTException;
-import ast.GroundedClause;
-import ast.figure.Figure;
-import utilities.translation.OutPair;
-import utilities.translation.OutTriple;
+import backend.ast.ASTException;
+import backend.ast.GroundedClause;
+import backend.ast.figure.Figure;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.translation.OutPair;
+import backend.utilities.translation.OutTriple;
 
 public class Segment extends Figure
 {
@@ -30,8 +31,8 @@ public class Segment extends Figure
         _length = Point.calcDistance(p1, p2);
         _slope = (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
 
-        utilities.list.Utilities.addUniqueStructurally(_point1.getSuperFigures(), this);
-        utilities.list.Utilities.addUniqueStructurally(_point2.getSuperFigures(), this);
+        backend.utilities.list.Utilities.addUniqueStructurally(_point1.getSuperFigures(), this);
+        backend.utilities.list.Utilities.addUniqueStructurally(_point2.getSuperFigures(), this);
 
 
         collinear = new ArrayList<Point>();
@@ -65,12 +66,12 @@ public class Segment extends Figure
 
     public boolean IsHorizontal()
     {
-        return utilities.math.Utilities.doubleEquals(this._point1.getY(), this._point2.getY());
+        return backend.utilities.math.Utilities.doubleEquals(this._point1.getY(), this._point2.getY());
     }
 
     public boolean IsVertical()
     {
-        return utilities.math.Utilities.doubleEquals(this._point1.getX(), this._point2.getX());
+        return backend.utilities.math.Utilities.doubleEquals(this._point1.getX(), this._point2.getX());
     }
 
     public boolean IsCollinearWith(Segment otherSegment)
@@ -78,16 +79,16 @@ public class Segment extends Figure
      // If the segments are vertical, just compare the X values of one point of each
         if (this.IsVertical() && otherSegment.IsVertical())
         {
-            return utilities.math.Utilities.doubleEquals(this._point1.getX(), otherSegment._point1.getX());
+            return backend.utilities.math.Utilities.doubleEquals(this._point1.getX(), otherSegment._point1.getX());
         }
 
         // If the segments are horizontal, just compare the Y values of one point of each; this is redundant
         if (this.IsHorizontal() && otherSegment.IsHorizontal())
         {
-            return utilities.math.Utilities.doubleEquals(this._point1.getY(), otherSegment._point1.getY());
+            return backend.utilities.math.Utilities.doubleEquals(this._point1.getY(), otherSegment._point1.getY());
         }
 
-        return utilities.math.Utilities.doubleEquals(this._slope, otherSegment._slope) &&
+        return backend.utilities.math.Utilities.doubleEquals(this._slope, otherSegment._slope) &&
                this.PointLiesOn(otherSegment._point1) && this.PointLiesOn(otherSegment._point2); // Check both endpoints just to be sure
     }
 
@@ -123,7 +124,7 @@ public class Segment extends Figure
 
     public static boolean Between(Point M, Point A, Point B)
     {
-        return utilities.math.Utilities.doubleEquals(Point.calcDistance(A, M) + Point.calcDistance(M, B),
+        return backend.utilities.math.Utilities.doubleEquals(Point.calcDistance(A, M) + Point.calcDistance(M, B),
                 Point.calcDistance(A, B));
     }
 
@@ -356,7 +357,7 @@ public class Segment extends Figure
     //     |
     //     PointB
     //
-    public Point SameSidePoint(Segment otherSegment, Point pt) throws ASTException
+    public Point SameSidePoint(Segment otherSegment, Point pt)
     {
         // Is the given point on other? If so, we cannot make a determination.
         if (otherSegment.PointLiesOn(pt)) return null;
@@ -375,7 +376,7 @@ public class Segment extends Figure
 
         if (this.PointLiesOn(projectedEndpoint))
         {
-            throw new ASTException("Unexpected: Projection does not lie on this line. " + this + " " + projectedEndpoint);
+            ExceptionHandler.throwException(new ASTException("Unexpected: Projection does not lie on this line. " + this + " " + projectedEndpoint));
         }
 
         // The endpoint of the projection is on this vector. Therefore, we can judge which side of the given segment the given pt lies on.
@@ -392,7 +393,7 @@ public class Segment extends Figure
     
     public static boolean LooseBetween(Point M, Point A, Point B)
     {
-        return utilities.math.Utilities.looseDoubleEquals(Point.calcDistance(A, M) + Point.calcDistance(M, B),
+        return backend.utilities.math.Utilities.looseDoubleEquals(Point.calcDistance(A, M) + Point.calcDistance(M, B),
                                                           Point.calcDistance(A, B));
     }
     
@@ -492,8 +493,8 @@ public class Segment extends Figure
 
         private boolean HasSameOriginPoint(Vector thatVector)
         {
-            return utilities.math.Utilities.doubleEquals(originX, thatVector.originX) &&
-                   utilities.math.Utilities.doubleEquals(originY, thatVector.originY);
+            return backend.utilities.math.Utilities.doubleEquals(originX, thatVector.originX) &&
+                   backend.utilities.math.Utilities.doubleEquals(originY, thatVector.originY);
         }
 
         @Override
@@ -693,7 +694,7 @@ public class Segment extends Figure
 
         if (IsHorizontal() && s.IsHorizontal()) return true;
 
-        return utilities.math.Utilities.doubleEquals(s.slope(), this.slope());
+        return backend.utilities.math.Utilities.doubleEquals(s.slope(), this.slope());
     }
 
     //
@@ -705,7 +706,7 @@ public class Segment extends Figure
 
         if (IsHorizontal() && thatSegment.IsVertical()) return true;
 
-        return utilities.math.Utilities.doubleEquals(thatSegment.slope() * this.slope(), -1);
+        return backend.utilities.math.Utilities.doubleEquals(thatSegment.slope() * this.slope(), -1);
     }
 
     //
@@ -743,7 +744,7 @@ public class Segment extends Figure
         if ((IsVertical() && thatSegment.IsHorizontal()) || (thatSegment.IsVertical() && IsHorizontal())) return intersection;
 
         // Does m1 * m2 = -1 (opposite reciprocal slopes)
-        return utilities.math.Utilities.doubleEquals(thatSegment.slope() * this.slope(), -1) ? intersection : null;
+        return backend.utilities.math.Utilities.doubleEquals(thatSegment.slope() * this.slope(), -1) ? intersection : null;
     }
 
     //
@@ -758,7 +759,7 @@ public class Segment extends Figure
         if (!thatSegment.PointLiesOnAndBetweenEndpoints(intersection)) return null;
 
         // Do they intersect in the middle of this segment
-        return utilities.math.Utilities.doubleEquals(Point.calcDistance(this.getPoint1(), intersection), Point.calcDistance(this.getPoint2(), intersection)) ? intersection : null;
+        return backend.utilities.math.Utilities.doubleEquals(Point.calcDistance(this.getPoint1(), intersection), Point.calcDistance(this.getPoint2(), intersection)) ? intersection : null;
     }
     
     //
@@ -781,6 +782,19 @@ public class Segment extends Figure
     {
         figureSegments.clear();
     }
+    
+    // Checking for structural equality (is it the same segment) excluding the multiplier
+    @Override
+    public boolean StructurallyEquals(Object obj)
+    {
+        if(obj == null) return false;
+        if(!(obj instanceof Segment)) return false;
+        Segment segment = (Segment)obj;
+
+        return ((segment._point1.StructurallyEquals(_point1) && segment._point2.StructurallyEquals(_point2)) ||
+                (segment._point1.StructurallyEquals(_point2) && segment._point2.StructurallyEquals(_point1)));
+    }
+    
     public static void Record(GroundedClause clause)
     {
         // Record uniquely? For right angles, etc?

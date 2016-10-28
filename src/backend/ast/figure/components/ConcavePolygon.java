@@ -1,7 +1,6 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /// <summary>
 /// Represents a concave polygon (which consists of n >= 4 segments)
@@ -10,7 +9,7 @@ public class ConcavePolygon extends Polygon
 {
     public ConcavePolygon() { }
 
-    public ConcavePolygon(List<Segment> segs, List<Point> pts, List<Angle> angs)
+    public ConcavePolygon(ArrayList<Segment> segs, ArrayList<Point> pts, ArrayList<Angle> angs)
     {
         super();
 
