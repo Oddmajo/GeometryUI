@@ -6,7 +6,7 @@ public class GeometricSegmentEquation extends SegmentEquation
     {
         super();
     }
-    
+    /*
     public GeometricSegmentEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
@@ -16,7 +16,7 @@ public class GeometricSegmentEquation extends SegmentEquation
     {
         return new GeometricSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
-    
+    */
     public int getHashCode()
     {
         return super.getHashCode();

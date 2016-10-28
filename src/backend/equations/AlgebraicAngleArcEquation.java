@@ -4,16 +4,17 @@ import utilities.exception.ArgumentException;
 
 public class AlgebraicAngleArcEquation extends AngleArcEquation
 {
+    
     public AlgebraicAngleArcEquation()
     {
         super();
     }
-
+    /*
     public AlgebraicAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);
     }
-
+    
     public GroundedClause deepCopy() throws CloneNotSupportedException
     {
         try
@@ -27,7 +28,7 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
         }
         return this;
     }
-
+*/
     public boolean isAlgebraic()
     {
         return true;
@@ -47,4 +48,5 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
     {
         return "AlgebraicEquation(" + lhs + " = " + rhs + "): " + justification;
     }
+    
 }

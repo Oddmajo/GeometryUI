@@ -11,7 +11,7 @@ public class ArcEquation extends Equation
     {
         super();
     }
-
+/*
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());
@@ -44,7 +44,7 @@ public class ArcEquation extends Equation
         }
         return sum;
     }
-
+*/
     public int getHashCode()
     {
         return super.getHashCode();

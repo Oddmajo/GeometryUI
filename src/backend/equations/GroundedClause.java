@@ -164,7 +164,7 @@ public abstract class GroundedClause
     
     public ArrayList<GroundedClause> collectTerms()
     {
-        return new ArrayList<GroundedClause>(utilities.list.Utilities.makeList(this));
+        return new ArrayList<GroundedClause>(Utilities.makeList(this));
     }
     
     
@@ -180,13 +180,20 @@ public abstract class GroundedClause
     //
     // For substitution and algebraic Simplifications
     //
-    public boolean containsClause(GroundedClause clause) { return false; }
-    public void substitute(GroundedClause c1, GroundedClause c2) { }
-    public GroundedClause deepCopy() throws CloneNotSupportedException { return (GroundedClause)this.clone(); }
+    public boolean containsClause(GroundedClause clause)
+    {
+        if (this == clause)
+            return true;
+        return false;
+     }
+    public void substitute(GroundedClause c1, GroundedClause c2) {  }
+    public GroundedClause deepCopy() throws CloneNotSupportedException { return (GroundedClause) this.clone(); }
 
     public int getHashCode() { return super.hashCode(); }
 
     public abstract String toString();
+    
+    
 
     public String toPrettyString() { return Integer.toString(clauseId); }
 

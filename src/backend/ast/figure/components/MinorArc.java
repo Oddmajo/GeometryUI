@@ -1,9 +1,9 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.List;
 
-import backend.ast.figure.Figure;
-import backend.utilities.translation.OutTriple;
+import ast.figure.Figure;
+import utilities.translation.OutTriple;
 
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class MinorArc extends Arc
 
         if (!_theCircle.CoordinateCongruent(thatArc._theCircle)) return false;
 
-        return backend.utilities.math.Utilities.doubleEquals(this.GetMinorArcMeasureDegrees(), thatArc.GetMinorArcMeasureDegrees());
+        return utilities.math.Utilities.doubleEquals(this.GetMinorArcMeasureDegrees(), thatArc.GetMinorArcMeasureDegrees());
     }
 
     private void GetStartEndPoints(double angle1, double angle2, OutTriple<Point, Point, Double> out)
@@ -83,7 +83,7 @@ public class MinorArc extends Arc
     }
 
     @Override
-    public ArrayList<Segment> Segmentize()
+    public List<Segment> Segmentize()
     {
         if (!approxSegments.isEmpty()) return approxSegments;
 

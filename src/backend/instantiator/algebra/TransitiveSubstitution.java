@@ -10,8 +10,10 @@ import instantiator.GenericRule;
 import equations.*;
 import utilities.ast_helper.*;
 
+@SuppressWarnings("unused")
 public class TransitiveSubstitution extends GenericRule
 {
+    /*
     private static String NAME = "Transitive Substitution";
     private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_SUBSTITUTION);
 
@@ -1707,4 +1709,5 @@ public class TransitiveSubstitution extends GenericRule
 
         return false;
     }
+    */
 }

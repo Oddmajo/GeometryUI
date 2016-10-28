@@ -6,7 +6,6 @@ import utilities.Pair;
 import utilities.exception.ArgumentException;
 import utilities.exception.ExceptionHandler;
 import utilities.list.Utilities;
-import utilities.math.*;
 import equations.operations.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Simplification extends GenericRule
     public static Equation simplify(Equation original) throws CloneNotSupportedException, ArgumentException
     {
         //Do we have an equation?
-        if (original == null)
+        if (original.equals(null))
         {
             ExceptionHandler.throwException(new ArgumentException());
         }
@@ -43,8 +42,8 @@ public class Simplification extends GenericRule
         // Distribute subtraction or multiplication over addition
         //
         // Flatten the equation so that each side is a sum of atomic expressions
-        Equation copyEq = (Equation)original.deepCopy();
-        FlatEquation flattened = new FlatEquation(copyEq.lhs.collectTerms(), copyEq.rhs.collectTerms());
+        //   Equation copyEq = (Equation) original.deepCopy();
+        FlatEquation flattened = new FlatEquation(original.lhs.collectTerms(), original.rhs.collectTerms());
 
         //Debug.WriteLine("Equation prior to simplification: " + flattened.ToString());
 
@@ -60,33 +59,33 @@ public class Simplification extends GenericRule
 
         FlatEquation constSimplify = SimplifyForMultipliersAndConstants(across);
 
-        Equation inflated = null;
+        Equation inflated;
         GroundedClause singleLeftExp = inflateEntireSide(constSimplify.lhsExps);
         GroundedClause singleRightExp = inflateEntireSide(constSimplify.rhsExps);
 
         if (original instanceof AlgebraicSegmentEquation)
         {
-            inflated = new AlgebraicSegmentEquation(singleLeftExp, singleRightExp);
+            inflated = new AlgebraicSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricSegmentEquation)
         {
-            inflated = new GeometricSegmentEquation(singleLeftExp, singleRightExp);
+            inflated = new GeometricSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleEquation)
         {
-            inflated = new AlgebraicAngleEquation(singleLeftExp, singleRightExp);
+            inflated = new AlgebraicAngleEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricAngleEquation)
         {
-            inflated = new GeometricAngleEquation(singleLeftExp, singleRightExp);
+            inflated = new GeometricAngleEquation(singleLeftExp, singleRightExp);         
         }
         else if (original instanceof AlgebraicArcEquation)
         {
-            inflated = new AlgebraicArcEquation(singleLeftExp, singleRightExp);
+            inflated = new AlgebraicArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricArcEquation)
         {
-            inflated = new GeometricArcEquation(singleLeftExp, singleRightExp);
+            inflated = new GeometricArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleArcEquation)
         {
@@ -94,7 +93,11 @@ public class Simplification extends GenericRule
         }
         else if (original instanceof GeometricAngleArcEquation)
         {
-            inflated = new GeometricAngleArcEquation(singleLeftExp, singleRightExp);
+            inflated = new GeometricAngleArcEquation(singleLeftExp, singleRightExp); 
+        }
+        else
+        {
+            inflated = original;
         }
 
         if (inflated.equals(original))
@@ -104,7 +107,6 @@ public class Simplification extends GenericRule
 
         //
         // 0 = 0 should not be allowable.
-        // "But why would this catch anything now and not earlier??" -Ryan Billingsly
         //
         if (inflated.lhs.equals(new NumericValue(0)) && inflated.rhs.equals(new NumericValue(0)))
         {
@@ -126,7 +128,7 @@ public class Simplification extends GenericRule
         //
         NumericValue value = null;
         GroundedClause unknown = null;
-        
+
         if (inEq.lhsTermAt(0) instanceof NumericValue)
         {
             value = (NumericValue)inEq.lhsTermAt(0);
@@ -223,7 +225,7 @@ public class Simplification extends GenericRule
             }
             catch (CloneNotSupportedException e)
             {
-                
+
                 ExceptionHandler.throwException(e);
                 return sideExps;
             }
@@ -311,7 +313,7 @@ public class Simplification extends GenericRule
         return simp;
     }
 
-    private static FlatEquation combineLikeTermsAcrossEqual(FlatEquation eq)
+    private static FlatEquation combineLikeTermsAcrossEqual(FlatEquation eq) throws CloneNotSupportedException
     {
         // The new simplified side of the equation
         List<GroundedClause> leftSimp = new ArrayList<GroundedClause>();
@@ -326,8 +328,8 @@ public class Simplification extends GenericRule
             if (!(leftExp instanceof NumericValue))
             {
                 //HALP
-                int rightExpIndex = structuralIndex(eq.rhsExps, leftExp);
-                
+                int rightExpIndex = utilities.ast_helper.Utilities.StructuralIndex(eq.rhsExps, leftExp);
+
                 //
                 // Left expression has like term on the right?
                 //

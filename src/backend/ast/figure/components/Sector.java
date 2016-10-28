@@ -1,12 +1,12 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import backend.ast.figure.Figure;
-import backend.atoms.components.Connection;
-import backend.utilities.Pair;
-import backend.utilities.translation.OutPair;
+import ast.figure.Figure;
+import atoms.components.Connection;
+import utilities.Pair;
+import utilities.translation.OutPair;
 
 public class Sector extends Figure
 {
@@ -35,7 +35,7 @@ public class Sector extends Figure
     {
         if (polygonalized != null) return polygonalized;
 
-        ArrayList<Segment> sides = new ArrayList<Segment>(theArc.GetApproximatingSegments());
+        List<Segment> sides = new ArrayList<Segment>(theArc.GetApproximatingSegments());
 
         sides.add(radius1);
         sides.add(radius2);
@@ -64,9 +64,9 @@ public class Sector extends Figure
 //    }
 
     @Override
-    public ArrayList<Segment> Segmentize()
+    public List<Segment> Segmentize()
     {
-        ArrayList<Segment> segments = new ArrayList<Segment>();
+        List<Segment> segments = new ArrayList<Segment>();
 
         // Add radii
         segments.add(radius1);
@@ -99,7 +99,7 @@ public class Sector extends Figure
         double centralAngle1 = new Angle(theArc.getEndpoint1(), theArc._theCircle.getCenter(), pt).measure;
         double centralAngle2 = new Angle(theArc._endpoint2, theArc._theCircle.getCenter(), pt).measure;
 
-        boolean isInMinorArc = backend.utilities.math.Utilities.doubleEquals(theArc.minorMeasure, centralAngle1 + centralAngle2);
+        boolean isInMinorArc = utilities.math.Utilities.doubleEquals(theArc.minorMeasure, centralAngle1 + centralAngle2);
 
         if (theArc instanceof MinorArc) return isInMinorArc;
 
@@ -238,7 +238,7 @@ public class Sector extends Figure
         }
 
         // this radius must be longer than that.
-        if (backend.utilities.math.Utilities.greaterThan(that.theArc._theCircle.getRadius(), this.theArc._theCircle.getRadius())) return false;
+        if (utilities.math.Utilities.greaterThan(that.theArc._theCircle.getRadius(), this.theArc._theCircle.getRadius())) return false;
 
         //
         // Check containment of the points of that sector.

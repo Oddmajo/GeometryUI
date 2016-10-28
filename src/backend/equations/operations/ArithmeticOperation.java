@@ -3,7 +3,9 @@ package equations.operations;
 import java.util.ArrayList;
 import java.util.List;
 import equations.*;
+import utilities.exception.ExceptionHandler;
 
+@SuppressWarnings("unused")
 public class ArithmeticOperation extends ArithmeticNode
 {
     protected GroundedClause leftExp;
@@ -19,12 +21,24 @@ public class ArithmeticOperation extends ArithmeticNode
         rightExp = right;
     }
 
+    public GroundedClause getLeftExp()
+    {
+        return leftExp;
+    }
+    
+    public GroundedClause getRightExp()
+    {
+        return rightExp;
+    }
+    
     public ArrayList<GroundedClause> collectTerms()
     {
-        List<GroundedClause> list = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
 
-        list.addAll(leftExp.collectTerms());  //What is this in Java?
+        list.addAll(leftExp.collectTerms());
+        list.addAll(rightExp.collectTerms());
 
+        /*     
         GroundedClause copyGC = null;
         for(GroundedClause gc : rightExp.collectTerms())
         {
@@ -35,13 +49,13 @@ public class ArithmeticOperation extends ArithmeticNode
             catch (CloneNotSupportedException e)
             {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                ExceptionHandler.throwException(e);
             }
 
             list.add(copyGC);
         }
-
-        return (ArrayList<GroundedClause>) list;
+*/
+        return list;
     }
 
     public boolean containsClause(GroundedClause newG)
@@ -51,7 +65,7 @@ public class ArithmeticOperation extends ArithmeticNode
 
     public void substitute(GroundedClause toFind, GroundedClause toSub)
     {
-        if (leftExp.equals(toFind))
+        if (leftExp.containsClause(toFind))
         {
             leftExp = toSub;
         }
@@ -60,7 +74,7 @@ public class ArithmeticOperation extends ArithmeticNode
             leftExp.substitute(toFind, toSub);
         }
 
-        if (rightExp.equals(toFind))
+        if (rightExp.containsClause(toFind))
         {
             rightExp = toSub;
         }

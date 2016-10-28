@@ -6,7 +6,7 @@ public class GeometricArcEquation extends ArcEquation
     {
         super();
     }
-    
+    /*
     public GeometricArcEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
@@ -16,7 +16,7 @@ public class GeometricArcEquation extends ArcEquation
     {
         return new GeometricArcEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
-    
+    */
     public int getHashCode()
     {
         return super.getHashCode();

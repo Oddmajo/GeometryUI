@@ -1,45 +1,43 @@
-﻿package backend.ast.figure.components;
+﻿package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.ast.figure.components.Circle;
-import backend.ast.ASTException;
-import backend.ast.GroundedClause;
-import backend.ast.figure.Figure;
-import backend.utilities.Pair;
-import backend.utilities.exception.ExceptionHandler;
-import backend.utilities.translation.OutPair;
+import ast.ASTException;
+import ast.GroundedClause;
+import ast.figure.Figure;
+import utilities.Pair;
+import utilities.translation.OutPair;
 
 public abstract class Arc extends Figure implements Cloneable
 {
     public abstract Point Midpoint();
 
     protected Circle _theCircle;
-    public Circle getCircle() { return _theCircle; }
+    protected Circle getCircle() { return _theCircle; }
 
     protected Point _endpoint1;
     protected Point _endpoint2;
     public Point getEndpoint1() { return _endpoint1; }
     public Point getEndpoint2() { return _endpoint2; }
 
-    public ArrayList<Point> getArcMinorPoints() { return arcMinorPoints; }
-    public ArrayList<Point> getArcMajorPoints() { return arcMajorPoints; }
-    public ArrayList<Point> getApproxPoints() { return approxPoints; }
-    public ArrayList<Segment> getApproxSegments() { return approxSegments; }
+    protected List<Point> getArcMinorPoints() { return arcMinorPoints; }
+    protected List<Point> getArcMajorPoints() { return arcMajorPoints; }
+    protected List<Point> getApproxPoints() { return approxPoints; }
+    protected List<Segment> getApproxSegments() { return approxSegments; }
 
-    protected ArrayList<Point> arcMinorPoints;
-    public ArrayList<Point> getArcMinorPoint() { return arcMinorPoints; }
-    protected ArrayList<Point> arcMajorPoints;
-    public ArrayList<Point> getArcMajorPoint() { return arcMajorPoints; }
+    protected List<Point> arcMinorPoints;
+    public List<Point> getArcMinorPoint() { return arcMinorPoints; }
+    protected List<Point> arcMajorPoints;
+    public List<Point> getArcMajorPoint() { return arcMajorPoints; }
 
     protected double minorMeasure;
     public double getMinorMeasure() { return minorMeasure; }
     protected double length;
     public double getLength() { return length; }
 
-    public ArrayList<Point> approxPoints;
-    public ArrayList<Segment> approxSegments;
+    public List<Point> approxPoints;
+    public List<Segment> approxSegments;
 
     public Arc(Circle circle, Point e1, Point e2)
     {
@@ -56,8 +54,8 @@ public abstract class Arc extends Figure implements Cloneable
         arcMinorPoints = new ArrayList<Point>(minorPts);
         arcMajorPoints = new ArrayList<Point>(majorPts);
 
-        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e1.getSuperFigures(), this);
-        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e2.getSuperFigures(), this);
+        utilities.ast_helper.Utilities.addStructurallyUnique(e1.getSuperFigures(), this);
+        utilities.ast_helper.Utilities.addStructurallyUnique(e2.getSuperFigures(), this);
 
         minorMeasure = CalculateArcMinorMeasureDegrees();
         length = CalculateArcMinorLength();
@@ -153,7 +151,7 @@ public abstract class Arc extends Figure implements Cloneable
     @Override
     public void AddCollinearPoint(Point newPt)
     {
-        if (backend.utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
+        if (utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
 
         collinear.add(newPt);
 
@@ -163,7 +161,7 @@ public abstract class Arc extends Figure implements Cloneable
     //
     // The goal instanceof the return the set of collinear points such that the endpoints bookend the list.
     //
-    public List<Point> GetOrderedCollinearPointsByEndpoints(List<Point> given)
+    public List<Point> GetOrderedCollinearPointsByEndpoints(List<Point> given) throws ASTException
     {
         // Find only the points on this arc.
         List<Point> applicable = new ArrayList<Point>();
@@ -180,7 +178,7 @@ public abstract class Arc extends Figure implements Cloneable
 
         if ((index1 == 0 && index2 == ordered.size()-1) || (index2 == 0 && index1 == ordered.size()-1)) return ordered;
 
-        if (index1 + 1 != index2 && index2 + 1 != index1)  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
+        if (index1 + 1 != index2 && index2 + 1 != index1) throw new ASTException("Logic failure to order points...");
 
         List<Point> bookend = new ArrayList<Point>();
         int start = -1;
@@ -196,7 +194,7 @@ public abstract class Arc extends Figure implements Cloneable
             start = index2;
             end = index1;
         }
-        else  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
+        else throw new ASTException("Logic failure to order points...");
 
         for (int i = start; i != end; )
         {
@@ -209,7 +207,7 @@ public abstract class Arc extends Figure implements Cloneable
         return bookend;
     }
 
-    public List<Point> GetOrderedByEndpointsWithMidpoints(List<Point> given)
+    public List<Point> GetOrderedByEndpointsWithMidpoints(List<Point> given) throws ASTException
     {
         List<Point> givenWithMidpoints = _theCircle.ConstructAllMidpoints(given);
 
@@ -237,7 +235,6 @@ public abstract class Arc extends Figure implements Cloneable
     {
         return new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).measure;
     }
-    @SuppressWarnings("unused")
     private double CalculateArcMinorMeasureRadians()
     {
         return Angle.toRadians(new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).measure);
@@ -278,7 +275,7 @@ public abstract class Arc extends Figure implements Cloneable
 
         return null;
     }
-    public static Arc GetFigureMajorArc(Circle circle, Point pt1, Point pt2)
+    public static Arc GetFigureMajorArc(Circle circle, Point pt1, Point pt2) throws ASTException
     {
         MajorArc candArc = new MajorArc(circle, pt1, pt2);
 
@@ -294,7 +291,14 @@ public abstract class Arc extends Figure implements Cloneable
     {
         Segment diameter = new Segment(pt1, pt2);
         Semicircle candArc = null;
-        candArc = new Semicircle(circle, pt1, pt2, middle, diameter);
+        try
+        {
+            candArc = new Semicircle(circle, pt1, pt2, middle, diameter);
+        }
+        catch (ASTException e)
+        {
+            return null;
+        }
 
         for (Semicircle arc : figureSemicircles)
         {
@@ -303,7 +307,7 @@ public abstract class Arc extends Figure implements Cloneable
 
         return null;
     }
-    private static Arc GetInscribedInterceptedArc(Circle circle, Angle angle)
+    private static Arc GetInscribedInterceptedArc(Circle circle, Angle angle) throws ASTException
     {
         Point endpt1, endpt2;
 
@@ -353,7 +357,7 @@ public abstract class Arc extends Figure implements Cloneable
     //
     // Returns the single (closest) intercepted arc for an angle.
     //
-    public static Arc GetInterceptedArc(Circle circle, Angle angle)
+    public static Arc GetInterceptedArc(Circle circle, Angle angle) throws ASTException
     {
         if (circle.IsInscribed(angle)) return GetInscribedInterceptedArc(circle, angle);
 
@@ -416,7 +420,6 @@ public abstract class Arc extends Figure implements Cloneable
         else if (!isSecRay1 || !isSecRay2)
         {
             Segment secant = null;
-            @SuppressWarnings("unused")
             Segment nonSecant = null;
             Point endPtNonSecant = null;
 
@@ -559,7 +562,7 @@ public abstract class Arc extends Figure implements Cloneable
         MinorArc arc1 = new MinorArc(originalArc._theCircle, m, originalArc._endpoint1);
         MinorArc arc2 = new MinorArc(originalArc._theCircle, m, originalArc._endpoint2);
 
-        return backend.utilities.math.Utilities.doubleEquals(arc1.minorMeasure + arc2.minorMeasure, originalArc.minorMeasure);
+        return utilities.math.Utilities.doubleEquals(arc1.minorMeasure + arc2.minorMeasure, originalArc.minorMeasure);
     }
 
     public static boolean StrictlyBetweenMinor(Point m, Arc originalArc)
@@ -617,13 +620,13 @@ public abstract class Arc extends Figure implements Cloneable
     //
     // Is this arc congruent to the given arc : terms of the coordinatization from the UI?
     //
-    public boolean CoordinateCongruent(Arc a) { return backend.utilities.math.Utilities.doubleEquals(this.length, a.length); }
+    public boolean CoordinateCongruent(Arc a) { return utilities.math.Utilities.doubleEquals(this.length, a.length); }
 
     //
     // Is this segment proportional to the given segment : terms of the coordinatization from the UI?
     // We should not report proportional if the ratio between segments instanceof 1
     //
-    public Pair<Integer, Integer> CoordinateProportional(Arc a) { return backend.utilities.math.Utilities.RationalRatio(this.length, a.length); }
+    public Pair<Integer, Integer> CoordinateProportional(Arc a) { return utilities.math.Utilities.RationalRatio(this.length, a.length); }
 
     //
     // Concentric

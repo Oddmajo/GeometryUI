@@ -9,11 +9,12 @@ import java.util.List;
 
 public class AngleArcEquation extends Equation
 {
+    
     public AngleArcEquation()
     {
         super();
     }
-
+    /*
     public AngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         double sumL = SumSide(left.collectTerms());
@@ -24,7 +25,7 @@ public class AngleArcEquation extends Equation
             throw new ArgumentException("Angle-Arc equation is inaccurate; sums differ: " + left + " " + right);
         }
     }
-
+    
     public double SumSide(List<GroundedClause> side)
     {
         double sum = 0;
@@ -56,7 +57,7 @@ public class AngleArcEquation extends Equation
         }
         return sum;
     }
-
+     */
     public int getHashCode() { return super.getHashCode(); }
 
     public boolean equals(Object obj)
@@ -103,4 +104,5 @@ public class AngleArcEquation extends Equation
         // Exact same sides means the union is the same as each list itself
         return unionRHS.size() == thisRHS.size();
     }
+    
 }

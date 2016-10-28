@@ -9,7 +9,7 @@ public class GeometricAngleArcEquation extends AngleArcEquation
     {
         super();
     }
-    
+    /*
     public GeometricAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);
@@ -28,7 +28,7 @@ public class GeometricAngleArcEquation extends AngleArcEquation
         }
         return this;
     }
-    
+    */
     public int getHashCode()
     {
         return super.getHashCode();

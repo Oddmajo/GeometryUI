@@ -1,11 +1,11 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import backend.ast.GroundedClause;
-import backend.utilities.Pair;
-import backend.utilities.translation.OutPair;
+import ast.GroundedClause;
+import utilities.Pair;
+import utilities.translation.OutPair;
 
 
 /// <summary>
@@ -176,18 +176,18 @@ public class Quadrilateral extends Polygon
 
     protected void addSuperFigureToDependencies()
     {
-        backend.utilities.list.Utilities.addUniqueStructurally(topLeft.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topRight.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeft.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomRight.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(left.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(right.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottom.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(top.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topLeftAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topRightAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeftAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomRightAngle.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(topLeft.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(topRight.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(bottomLeft.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(bottomRight.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(left.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(right.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(bottom.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(top.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(topLeftAngle.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(topRightAngle.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(bottomLeftAngle.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(bottomRightAngle.getSuperFigures(), this);
     }
 
     public boolean IsStrictQuadrilateral()

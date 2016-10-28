@@ -1,22 +1,22 @@
-﻿package backend.ast.figure.components;
+﻿package ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
-import backend.ast.GroundedClause;
-import backend.ast.figure.Figure;
-import backend.utilities.Pair;
-import backend.utilities.translation.OutPair;
-import backend.utilities.translation.OutSingle;
+import ast.GroundedClause;
+import ast.figure.Figure;
+import utilities.Pair;
+import utilities.translation.OutPair;
+import utilities.translation.OutSingle;
 
 // <summary>
 // A circle is defined by a _center and _radius.
 // </summary>
 public class Circle extends Figure
 {
-    public static ArrayList<Circle> getFigureCircles()
+    public static List<Circle> getFigureCircles()
     {
         return figureCircles;
     }
@@ -33,50 +33,50 @@ public class Circle extends Figure
     public Dictionary<Segment, Segment> get_secants() { return _secants; }
 
     // We define a chord to strictly be a segment that has BOTH endpoints on the circle (and does not extend).
-    protected ArrayList<Segment> chords;
-    public ArrayList<Segment> getChords() { return chords; }
+    protected List<Segment> chords;
+    public List<Segment> getChords() { return chords; }
 
     // Any radii defined by the figure.
-    protected ArrayList<Segment> radii;
-    public ArrayList<Segment> getRadii() { return radii; }
+    protected List<Segment> radii;
+    public List<Segment> getRadii() { return radii; }
 
     // A diameter is a special chord that passes through the _center of the circle.
-    protected ArrayList<Segment> diameters;
-    public ArrayList<Segment> getDiameters() { return diameters;}
+    protected List<Segment> diameters;
+    public List<Segment> getDiameters() { return diameters;}
 
     // Tangents intersect the circle at one point; the pair is <tangent, _radius> where _radius creates the 90^o angle.
     protected Hashtable<Segment, Segment> tangents;
     public Dictionary<Segment, Segment> getTangents() { return tangents;}
 
     // Polygons that are circumscribed about the circle. 
-    protected ArrayList<ArrayList<Polygon>> circumPolys;
-    public ArrayList<ArrayList<Polygon>> getCircumPolys() { return circumPolys; }
+    protected List<List<Polygon>> circumPolys;
+    public List<List<Polygon>> getCircumPolys() { return circumPolys; }
     
     // Polygons that are inscribed : the circle. 
-    protected ArrayList<ArrayList<Polygon>> inscribedPolys;
-    public ArrayList<ArrayList<Polygon>> getInscribedPolys() { return inscribedPolys; }
+    protected List<List<Polygon>> inscribedPolys;
+    public List<List<Polygon>> getInscribedPolys() { return inscribedPolys; }
     
     // The list of points from the UI which involve this circle.
-    public ArrayList<Point> pointsOnCircle;
-    public ArrayList<Point> getPointsOnCircle() { return pointsOnCircle; }
+    public List<Point> pointsOnCircle;
+    public List<Point> getPointsOnCircle() { return pointsOnCircle; }
 
     // The minor Arcs of this circle (based on pointsOnCircle list)
-    protected ArrayList<MinorArc> minorArcs;
-    protected ArrayList<MajorArc> majorArcs;
-    public ArrayList<MinorArc> getMinorArcs() { return minorArcs; }
-    public ArrayList<MajorArc> getMajorArcs() { return majorArcs; }
+    protected List<MinorArc> minorArcs;
+    protected List<MajorArc> majorArcs;
+    public List<MinorArc> getMinorArcs() { return minorArcs; }
+    public List<MajorArc> getMajorArcs() { return majorArcs; }
 
     // The sectors of this circle (based on pointsOnCircle list)
-    protected ArrayList<Sector> minorSectors;
-    public ArrayList<Sector> getMinorSectors() { return minorSectors; }
-    protected ArrayList<Sector> majorSectors;
-    public ArrayList<Sector> getMajorSectors() { return majorSectors; }
+    protected List<Sector> minorSectors;
+    public List<Sector> getMinorSectors() { return minorSectors; }
+    protected List<Sector> majorSectors;
+    public List<Sector> getMajorSectors() { return majorSectors; }
 
     // Points that approximate the circle using straight-line segments.
-    protected ArrayList<Point> approxPoints;
-    public ArrayList<Point> getApproxPoints() { return approxPoints; }
-    protected ArrayList<Segment> approxSegments;
-    public ArrayList<Segment> getApproxSegments() { return approxSegments; }
+    protected List<Point> approxPoints;
+    public List<Point> getApproxPoints() { return approxPoints; }
+    protected List<Segment> approxSegments;
+    public List<Segment> getApproxSegments() { return approxSegments; }
 
 
 
@@ -99,8 +99,8 @@ public class Circle extends Figure
         diameters = new ArrayList<Segment>();
         tangents = new Hashtable<Segment, Segment>();
 
-        inscribedPolys = new ArrayList<ArrayList<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
-        circumPolys = new ArrayList<ArrayList<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
+        inscribedPolys = new ArrayList<List<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
+        circumPolys = new ArrayList<List<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
         for (int n = Polygon.MIN_POLY_INDEX; n < Polygon.MAX_EXC_POLY_INDEX; n++)
         {
             inscribedPolys.set(n, new ArrayList<Polygon>());
@@ -117,7 +117,7 @@ public class Circle extends Figure
         approxPoints = new ArrayList<Point>();
         approxSegments = new ArrayList<Segment>();
 
-        backend.utilities.list.Utilities.addUniqueStructurally(this._center.getSuperFigures(), this);
+        utilities.list.Utilities.addUniqueStructurally(this._center.getSuperFigures(), this);
 
         //thisAtomicRegion = new ShapeAtomicRegion(this);
 
@@ -166,7 +166,7 @@ public class Circle extends Figure
         if (!(that instanceof Circle)) return false;
         Circle thatCirc = (Circle)that;
 
-        return backend.utilities.math.Utilities.doubleEquals(this._radius, thatCirc._radius);
+        return utilities.math.Utilities.doubleEquals(this._radius, thatCirc._radius);
     }
     
 //    @Override
@@ -200,9 +200,9 @@ public class Circle extends Figure
     // For arcs, order the points so that there is a consistency: A, B, C, D-> B between AC, B between AD, etc.
     // Only need to order the points if there are more than three points
     //
-    public ArrayList<Point> OrderPoints(List<Point> points)
+    public List<Point> OrderPoints(List<Point> points)
     {
-        ArrayList<Pair<Double, Point>> pointAngleMap = new ArrayList<Pair<Double, Point>>();
+        List<Pair<Double, Point>> pointAngleMap = new ArrayList<Pair<Double, Point>>();
 
         for (Point point : points)
         {
@@ -221,7 +221,7 @@ public class Circle extends Figure
         //
         // Put all the points : the final ordered list
         //
-        ArrayList<Point> ordered = new ArrayList<Point>();
+        List<Point> ordered = new ArrayList<Point>();
         for (Pair<Double, Point> pair : pointAngleMap)
         {
             pointsOnCircle.add(pair.getValue());
@@ -231,10 +231,10 @@ public class Circle extends Figure
         return ordered;
     }
 
-    public ArrayList<Point> ConstructAllMidpoints(List<Point> given)
+    public List<Point> ConstructAllMidpoints(List<Point> given)
     {
-        ArrayList<Point> ordered = this.OrderPoints(given);
-        ArrayList<Point> ptsWithMidpoints = new ArrayList<Point>();
+        List<Point> ordered = this.OrderPoints(given);
+        List<Point> ptsWithMidpoints = new ArrayList<Point>();
 
         if (ordered.size() < 2) return ordered;
 
@@ -262,7 +262,7 @@ public class Circle extends Figure
     {
         if (r == null) return null;
 
-        return backend.utilities.list.Utilities.GetStructurally(radii, r);
+        return utilities.list.Utilities.GetStructurally(radii, r);
     }
 
     @Override
@@ -284,7 +284,7 @@ public class Circle extends Figure
     }
 
     @Override
-    public ArrayList<Segment> Segmentize()
+    public List<Segment> Segmentize()
     {
         if (!approxSegments.isEmpty()) return approxSegments;
 
@@ -369,7 +369,7 @@ public class Circle extends Figure
     //
     // Determine if this segment is applicable to the circle: _secants, tangent, and chords.
     //
-    public void AnalyzeSegment(Segment thatSegment, ArrayList<Point> figPoints)
+    public void AnalyzeSegment(Segment thatSegment, List<Point> figPoints)
     {
         Segment tangentRadius = IsTangent(thatSegment);
         if (tangentRadius != null) tangents.put(thatSegment, tangentRadius);
@@ -377,13 +377,13 @@ public class Circle extends Figure
         if (DefinesDiameter(thatSegment))
         {
             // Add radii to the list.
-            backend.utilities.list.Utilities.AddStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
-            backend.utilities.list.Utilities.AddStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
+            utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint1()));
+            utilities.list.Utilities.addStructurallyUnique(radii, new Segment(this._center, thatSegment.getPoint2()));
         }
 
         if (IsChord(thatSegment))
         {
-            backend.utilities.list.Utilities.addUnique(chords, thatSegment);
+            utilities.list.Utilities.addUnique(chords, thatSegment);
         }
         else
         {
@@ -397,14 +397,14 @@ public class Circle extends Figure
                 _secants.put(thatSegment, chord);
 
                 // Also add to the chord list.
-                backend.utilities.list.Utilities.addUnique(chords, chord);
+                utilities.list.Utilities.addUnique(chords, chord);
             }
         }
 
         // Is a _radius the result of a segment starting at the _center and extending outward?
         // We collect all other types below.
         Segment _radius = IsRadius(thatSegment, figPoints);
-        if (_radius != null) backend.utilities.list.Utilities.addUnique(radii, _radius);
+        if (_radius != null) utilities.list.Utilities.addUnique(radii, _radius);
     }
 
     //
@@ -419,16 +419,16 @@ public class Circle extends Figure
             if (chord.pointLiesOnAndExactlyBetweenEndpoints(this._center))
             {
                 // Add to diameters....
-                backend.utilities.list.Utilities.addUnique(diameters, chord);
+                utilities.list.Utilities.addUnique(diameters, chord);
 
                 // but also collect radii
                 Segment new_radius = Segment.GetFigureSegment(this._center, chord.getPoint1());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint1());
-                backend.utilities.list.Utilities.AddStructurallyUnique(radii, new_radius);
+                utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
 
                 new_radius = Segment.GetFigureSegment(this._center, chord.getPoint2());
                 if (new_radius == null) new_radius = new Segment(this._center, chord.getPoint2());
-                backend.utilities.list.Utilities.AddStructurallyUnique(radii, new_radius);
+                utilities.list.Utilities.addStructurallyUnique(radii, new_radius);
             }
         }
     }
@@ -482,7 +482,7 @@ public class Circle extends Figure
     // find the two points of intersection between the secant and the circle.
     // Return the resultant chord segment.
     //
-    private Segment ConstructChord(Segment segment, Point midpt, double distance, ArrayList<Point> figPoints)
+    private Segment ConstructChord(Segment segment, Point midpt, double distance, List<Point> figPoints)
     {
         //                distance
         //      circPt1    _____   circPt2
@@ -506,10 +506,10 @@ public class Circle extends Figure
             deltaX = Math.sqrt(Math.pow(distance, 2) / (1 + Math.pow(segment.slope(), 2)));
             deltaY = segment.slope() * deltaX;
         }
-        Point circPt1 = backend.utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", midpt.getX() + deltaX, midpt.getY() + deltaY));
+        Point circPt1 = utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", midpt.getX() + deltaX, midpt.getY() + deltaY));
 
         // intersection is the midpoint of circPt1 and pt2.
-        Point circPt2 = backend.utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", 2 * midpt.getX() - circPt1.getX(), 2 * midpt.getY() - circPt1.getY()));
+        Point circPt2 = utilities.ast_helper.Utilities.AcquirePoint(figPoints, new Point("", 2 * midpt.getX() - circPt1.getX(), 2 * midpt.getY() - circPt1.getY()));
 
         // Create the actual chord
         return new Segment(circPt1, circPt2);
@@ -518,7 +518,7 @@ public class Circle extends Figure
     //
     // Determine if the segment passes through the circle (we know it is not a chord since they have been filtered).
     //
-    private boolean IsSecant(Segment segment, ArrayList<Point> figPoints, OutSingle<Segment> out)
+    private boolean IsSecant(Segment segment, List<Point> figPoints, OutSingle<Segment> out)
     {
         // Make it null and overwrite when necessary.
         Segment chord = null;
@@ -577,13 +577,13 @@ public class Circle extends Figure
     //
     // Is this a direct _radius segment where one endpoint originates at the origin and extends outward?
     // Return the exact _radius.
-    private Segment IsRadius(Segment segment, ArrayList<Point> figPoints)
+    private Segment IsRadius(Segment segment, List<Point> figPoints)
     {
         // The segment must originate from the circle _center.
         if (!segment.hasPoint(this._center)) return null;
 
         // The segment must be at least as long as a _radius.
-        if (!backend.utilities.math.Utilities.doubleEquals(segment.length(), this._radius)) return null;
+        if (!utilities.math.Utilities.doubleEquals(segment.length(), this._radius)) return null;
 
         Point non_centerPt = segment.OtherPoint(this._center);
 
@@ -603,8 +603,8 @@ public class Circle extends Figure
         Point inter1 = out.first();
         Point inter2 = out.second();
         
-        Point figPoint = backend.utilities.list.Utilities.GetStructurally(figPoints, inter1);
-        if (figPoint == null) figPoint = backend.utilities.list.Utilities.GetStructurally(figPoints, inter2);
+        Point figPoint = utilities.list.Utilities.GetStructurally(figPoints, inter1);
+        if (figPoint == null) figPoint = utilities.list.Utilities.GetStructurally(figPoints, inter2);
 
         return new Segment(_center, figPoint);
     }
@@ -649,7 +649,7 @@ public class Circle extends Figure
         //
         // Tangent point (E)
         //
-        else if (backend.utilities.math.Utilities.doubleEquals(lengthEC, this._radius))
+        else if (utilities.math.Utilities.doubleEquals(lengthEC, this._radius))
         {
             // First intersection
             inter1 = new Point("", E[0], E[1]);
@@ -744,7 +744,7 @@ public class Circle extends Figure
     @Override
     public boolean PointLiesOn(Point pt)
     {
-        return backend.utilities.math.Utilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
+        return utilities.math.Utilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
     }
 
     //
@@ -752,11 +752,11 @@ public class Circle extends Figure
     //
     public boolean PointIsInterior(Point pt)
     {
-        return backend.utilities.math.Utilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
+        return utilities.math.Utilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
     }
     public boolean PointIsExterior(Point pt)
     {
-        return backend.utilities.math.Utilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
+        return utilities.math.Utilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
     }
 
     //
@@ -764,7 +764,7 @@ public class Circle extends Figure
     //
     public boolean AreConcentric(Circle thatCircle)
     {
-        return this._center.StructurallyEquals(thatCircle._center) && !backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return this._center.StructurallyEquals(thatCircle._center) && !utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     //
@@ -855,9 +855,9 @@ public class Circle extends Figure
         return false;
     }
 
-    public static ArrayList<Circle> IsCentralAngle(Angle angle)
+    public static List<Circle> IsCentralAngle(Angle angle)
     {
-        ArrayList<Circle> circles = new ArrayList<Circle>();
+        List<Circle> circles = new ArrayList<Circle>();
 
         for (Circle circle : figureCircles)
         {
@@ -883,9 +883,9 @@ public class Circle extends Figure
         return chord1 != null && chord2 != null;
     }
 
-    public static ArrayList<Circle> IsInscribedAngle(Angle angle)
+    public static List<Circle> IsInscribedAngle(Angle angle)
     {
-        ArrayList<Circle> circles = new ArrayList<Circle>();
+        List<Circle> circles = new ArrayList<Circle>();
 
         for (Circle circle : figureCircles)
         {
@@ -895,9 +895,9 @@ public class Circle extends Figure
         return circles;
     }
 
-    public static ArrayList<Circle> GetChordCircles(Segment segment)
+    public static List<Circle> GetChordCircles(Segment segment)
     {
-        ArrayList<Circle> circles = new ArrayList<Circle>();
+        List<Circle> circles = new ArrayList<Circle>();
 
         for (Circle circle : figureCircles)
         {
@@ -907,9 +907,9 @@ public class Circle extends Figure
         return circles;
     }
 
-    public static ArrayList<Circle> GetSecantCircles(Segment segment)
+    public static List<Circle> GetSecantCircles(Segment segment)
     {
-        ArrayList<Circle> secCircles = new ArrayList<Circle>();
+        List<Circle> secCircles = new ArrayList<Circle>();
 
         for (Circle circle : figureCircles)
         {
@@ -974,7 +974,7 @@ public class Circle extends Figure
 
         double angle1 = new Angle(a, _center, theMidpoint).measure;
         double angle2 = new Angle(b, _center, theMidpoint).measure;
-        if (!backend.utilities.math.Utilities.doubleEquals(angle1, angle2))
+        if (!utilities.math.Utilities.doubleEquals(angle1, angle2))
         {
             throw new IllegalArgumentException("Midpoint is incorrect; angles do not equate: " + angle1 + " " + angle2);
         }
@@ -1038,7 +1038,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.StructurallyEquals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.StructurallyEquals(_center) && utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override
@@ -1048,7 +1048,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.equals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.equals(_center) && utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override
@@ -1063,13 +1063,13 @@ public class Circle extends Figure
         return "Circle(" + this._center.SimpleToString() + ")";
     }
 
-//    public ArrayList<Area_Based_Analyses.Atomizer.AtomicRegion> Atomize(List<Point> figurePoints)
+//    public List<Area_Based_Analyses.Atomizer.AtomicRegion> Atomize(List<Point> figurePoints)
 //    {
-//        ArrayList<Segment> constructedChords = new ArrayList<Segment>();
-//        ArrayList<Segment> constructedRadii = new ArrayList<Segment>();
-//        ArrayList<Point> imagPoints = new ArrayList<Point>();
+//        List<Segment> constructedChords = new ArrayList<Segment>();
+//        List<Segment> constructedRadii = new ArrayList<Segment>();
+//        List<Point> imagPoints = new ArrayList<Point>();
 //
-//        ArrayList<Point> interPts = GetIntersectingPoints();
+//        List<Point> interPts = GetIntersectingPoints();
 //
 //        //
 //        // Construct the radii
@@ -1100,7 +1100,7 @@ public class Circle extends Figure
 //        //
 //        // Construct the chords
 //        //
-//        ArrayList<Segment> chords = new ArrayList<Segment>();
+//        List<Segment> chords = new ArrayList<Segment>();
 //        for (int p1 = 0; p1 < interPts.size() - 1; p1++)
 //        {
 //            for (int p2 = p1 + 1; p2 < interPts.size(); p2++)
@@ -1124,7 +1124,7 @@ public class Circle extends Figure
 //                    _radius.addCollinearPoint(inter);
 //
 //                    // if (!Utilities.HasStructurally<Point>(figurePoints, inter)) imagPoints.add(inter);
-//                    backend.utilities.list.Utilities.addUnique(imagPoints, inter);
+//                    utilities.list.Utilities.addUnique(imagPoints, inter);
 //                }
 //            }
 //        }
@@ -1141,7 +1141,7 @@ public class Circle extends Figure
 //                    constructedChords[c2].addCollinearPoint(inter);
 //
 //                    //if (!Utilities.HasStructurally<Point>(figurePoints, inter)) imagPoints.add(inter);
-//                    backend.utilities.list.Utilities.addUnique(imagPoints, inter);
+//                    utilities.list.Utilities.addUnique(imagPoints, inter);
 //                }
 //            }
 //        }
@@ -1149,7 +1149,7 @@ public class Circle extends Figure
 //        //
 //        // Add all imaginary points to the list of figure points.
 //        //
-//        backend.utilities.list.Utilities.addUniqueList(figurePoints, imagPoints);
+//        utilities.list.Utilities.addUniqueList(figurePoints, imagPoints);
 //
 //        //
 //        // Construct the Planar graph for atomic region identification.
@@ -1197,7 +1197,7 @@ public class Circle extends Figure
 //        //
 //        // Add all arcs
 //        //
-//        ArrayList<Point> arcPts = this.ConstructAllMidpoints(interPts);
+//        List<Point> arcPts = this.ConstructAllMidpoints(interPts);
 //        for (int p = 0; p < arcPts.size(); p++)
 //        {
 //            graph.addNode(arcPts[p]);
@@ -1213,8 +1213,8 @@ public class Circle extends Figure
 //        //
 //        Area_Based_Analyses.Atomizer.UndirectedPlanarGraph.PlanarGraph copy = new Area_Based_Analyses.Atomizer.UndirectedPlanarGraph.PlanarGraph(graph);
 //        FacetCalculator atomFinder = new FacetCalculator(copy);
-//        ArrayList<Primitive> primitives = atomFinder.GetPrimitives();
-//        ArrayList<AtomicRegion> atoms = PrimitiveToRegionConverter.Convert(graph, primitives, Utilities.makeList<Circle>(this));
+//        List<Primitive> primitives = atomFinder.GetPrimitives();
+//        List<AtomicRegion> atoms = PrimitiveToRegionConverter.Convert(graph, primitives, Utilities.makeList<Circle>(this));
 //
 //        //
 //        // A filament may result : the creation of a major AND minor arc; both are not required.
@@ -1252,16 +1252,16 @@ public class Circle extends Figure
     //    return (new MinorArc(this, pt1, pt2)).GetMinorArcMeasureDegrees();
     //}
 //
-//    public void ConstructImpliedAreaBasedSectors(out ArrayList<Sector> minorSectors,
-//            out ArrayList<Sector> majorSectors,
-//            out ArrayList<Semicircle> semicircles)
+//    public void ConstructImpliedAreaBasedSectors(out List<Sector> minorSectors,
+//            out List<Sector> majorSectors,
+//            out List<Semicircle> semicircles)
 //    {
 //        minorSectors = new ArrayList<Sector>();
 //        majorSectors = new ArrayList<Sector>();
 //        semicircles = new ArrayList<Semicircle>();
 //
 //        // Points of interest for atomic region identification (and thus arc / sectors).
-//        ArrayList<Point> interPts = this.OrderPoints(GetIntersectingPoints());
+//        List<Point> interPts = this.OrderPoints(GetIntersectingPoints());
 //
 //        // If there are no points of interest, the circle is the atomic region.
 //        if (!interPts.Any()) return;
@@ -1302,10 +1302,10 @@ public class Circle extends Figure
 //    /// Make a set of connections for atomic region analysis.
 //    /// </summary>
 //    /// <returns></returns>
-//    public override ArrayList<Connection> MakeAtomicConnections()
+//    public override List<Connection> MakeAtomicConnections()
 //    {
-//        ArrayList<Segment> segments = this.Segmentize();
-//        ArrayList<Connection> connections = new ArrayList<Connection>();
+//        List<Segment> segments = this.Segmentize();
+//        List<Connection> connections = new ArrayList<Connection>();
 //
 //        for (Segment approxSide : segments)
 //        {
@@ -1422,7 +1422,7 @@ public class Circle extends Figure
     {
         figureCircles.clear();
     }
-    public static ArrayList<Circle> figureCircles = new ArrayList<Circle>();
+    public static List<Circle> figureCircles = new ArrayList<Circle>();
     public static void Record(GroundedClause clause)
     {
         // Record uniquely? For right angles, etc?
@@ -1441,9 +1441,9 @@ public class Circle extends Figure
         return null;
     }
 
-    public static ArrayList<Circle> GetFigureCirclesBy_radius(Segment _radius)
+    public static List<Circle> GetFigureCirclesBy_radius(Segment _radius)
     {
-        ArrayList<Circle> circles = new ArrayList<Circle>();
+        List<Circle> circles = new ArrayList<Circle>();
 
         for (Circle circle : figureCircles)
         {

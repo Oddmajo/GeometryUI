@@ -2,7 +2,9 @@ package equations.operations;
 
 import java.util.ArrayList;
 import equations.*;
+import utilities.exception.ExceptionHandler;
 
+@SuppressWarnings("unused")
 public class Subtraction extends ArithmeticOperation
 {
     public Subtraction() 
@@ -21,7 +23,8 @@ public class Subtraction extends ArithmeticOperation
         ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
 
         list.addAll((leftExp.collectTerms()));
-
+        list.addAll((rightExp.collectTerms()));
+        /*
         for (GroundedClause gc : rightExp.collectTerms())
         {
             GroundedClause copyGC = null;
@@ -32,13 +35,13 @@ public class Subtraction extends ArithmeticOperation
             catch (CloneNotSupportedException e)
             {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                ExceptionHandler.throwException(e);
             }
 
             copyGC.setMultiplier(copyGC.getMulitplier() * -1);
             list.add(copyGC);
         }
-
+         */
         return list;
     }
 
@@ -47,6 +50,10 @@ public class Subtraction extends ArithmeticOperation
         return "(" + leftExp.toString() + " - " + rightExp.toString() + ")";
     }
 
+    public String toPrettyString()
+    {
+        return leftExp.toPrettyString() + " - " + rightExp.toPrettyString();
+    }
     public boolean equals(Object obj)
     {
 
@@ -58,5 +65,12 @@ public class Subtraction extends ArithmeticOperation
     {
         //Change this if the object is no longer immutable!!!
         return super.getHashCode();
+    }
+
+    public boolean containsClause(GroundedClause c)
+    {
+        if (leftExp.containsClause(c) || rightExp.containsClause(c))
+            return true;
+        return false;
     }
 }

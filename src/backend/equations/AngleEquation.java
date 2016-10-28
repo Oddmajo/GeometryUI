@@ -14,7 +14,7 @@ public class AngleEquation extends Equation
     {
         super();
     }
-
+/*
     public AngleEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());
@@ -62,7 +62,7 @@ public class AngleEquation extends Equation
 
         return sum;
     }
-
+*/
     //public AngleEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just)
     //{
     //    double sumL = SumSide(l.CollectTerms());

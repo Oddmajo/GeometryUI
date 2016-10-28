@@ -6,7 +6,7 @@ public class GeometricAngleEquation extends AngleEquation
     {
         super();
     }
-    
+    /*
     public GeometricAngleEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
@@ -16,7 +16,7 @@ public class GeometricAngleEquation extends AngleEquation
     {
         return new GeometricAngleEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
-    
+    */
     public int getHashCode()
     {
         return super.getHashCode();

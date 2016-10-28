@@ -6,7 +6,7 @@ public class AlgebraicSegmentEquation extends SegmentEquation
     {
         super();
     }
-
+    /*
     public AlgebraicSegmentEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
@@ -18,7 +18,7 @@ public class AlgebraicSegmentEquation extends SegmentEquation
     {
         return new AlgebraicSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
-
+    */
     public boolean isAlgebraic()
     {
         return true;

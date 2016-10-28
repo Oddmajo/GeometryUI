@@ -13,6 +13,7 @@ import utilities.exception.ExceptionHandler;
 
 public class TransitiveCongruentTriangles extends GenericRule
 {
+    /*
     private static String NAME = "Transitivity of Congruent Triangles";
     private static EdgeAnnotation annotation = new EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES);
 
@@ -133,4 +134,5 @@ public class TransitiveCongruentTriangles extends GenericRule
 
         return newGrounded;
     }
+    */
 }

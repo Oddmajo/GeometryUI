@@ -2,6 +2,7 @@ package equations.operations;
 
 import java.util.ArrayList;
 import equations.*;
+import utilities.exception.ExceptionHandler;
 public class Multiplication extends ArithmeticOperation
 {
     public Multiplication()
@@ -17,6 +18,11 @@ public class Multiplication extends ArithmeticOperation
     public String toString()
     {
         return "(" + leftExp.toString() + " * " + rightExp.toString() + ")";
+    }
+    
+    public String toPrettyString()
+    {
+        return leftExp.toPrettyString() + " * " + rightExp.toPrettyString();
     }
 
     //
@@ -44,7 +50,7 @@ public class Multiplication extends ArithmeticOperation
                 catch (CloneNotSupportedException e)
                 {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    ExceptionHandler.throwException(e);
                 }
                 copyGC.setMultiplier(((NumericValue)leftExp).getIntValue());
                 list.add(copyGC);
@@ -62,7 +68,7 @@ public class Multiplication extends ArithmeticOperation
                 }
                 catch (CloneNotSupportedException e)
                 {
-                    e.printStackTrace();
+                    ExceptionHandler.throwException(e);
                 }
 
                 copyGC.setMultiplier(((NumericValue)rightExp).getIntValue());

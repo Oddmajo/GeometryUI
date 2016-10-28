@@ -8,6 +8,7 @@ import java.util.List;
 
 public class RelationTransitiveSubstitution extends GenericRule
 {
+    /*
     //private static read-only string NAME = "Relation Transitive Substitution";
 
     // Transitivity of Parallel Lines
@@ -242,4 +243,5 @@ public class RelationTransitiveSubstitution extends GenericRule
 
         return false;
     }
+    */
 }

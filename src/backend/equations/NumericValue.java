@@ -26,6 +26,15 @@ public class NumericValue extends ArithmeticNode
         return value + "";
     }
     
+    public String toPrettyString()
+    {
+        if (getDoubleValue() == getIntValue())
+            return getIntValue() + "";
+        else
+            return toString();
+    }
+    
+    //This method is bypassed when called from an arithmetic operation - Ryan
     public boolean ContainsClause(GroundedClause clause)
     {
         
@@ -37,9 +46,9 @@ public class NumericValue extends ArithmeticNode
         return Utilities.CompareValues(value, clauseValue.value);
     }
     
-    public GroundedClause deepCopy()
+    public GroundedClause deepCopy() throws CloneNotSupportedException
     {
-        return (NumericValue)this.deepCopy();
+        return super.deepCopy();
     }
     
     public int getIntValue()

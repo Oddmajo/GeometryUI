@@ -1,12 +1,10 @@
-package backend.ast.figure.components;
+package ast.figure.components;
 
 import java.util.List;
 
-import backend.ast.ASTException;
-import backend.ast.figure.Figure;
-import backend.atoms.components.Connection;
-import backend.utilities.exception.ExceptionHandler;
-import backend.utilities.translation.OutTriple;
+import ast.ASTException;
+import ast.figure.Figure;
+import utilities.translation.OutTriple;
 
 import java.util.ArrayList;
 
@@ -17,12 +15,12 @@ public class Semicircle extends Arc
     public Point _middlePoint;
     public Point getMiddlePoint() { return _middlePoint; }
 
-    public Semicircle(Circle circle, Point e1, Point e2, Point m, Segment d)
+    public Semicircle(Circle circle, Point e1, Point e2, Point m, Segment d) throws ASTException
     {
         this(circle, e1, e2, m, new ArrayList<Point>(), new ArrayList<Point>(), d);
     }
 
-    public Semicircle(Circle circle, Point e1, Point e2, Point m, List<Point> minorPts, List<Point> majorPts, Segment d)
+    public Semicircle(Circle circle, Point e1, Point e2, Point m, List<Point> minorPts, List<Point> majorPts, Segment d) throws ASTException
     {
         super(circle, e1, e2, minorPts, majorPts);
 
@@ -31,12 +29,12 @@ public class Semicircle extends Arc
 
         if (!circle.DefinesDiameter(_diameter))
         {
-            ExceptionHandler.throwException(new ASTException("Semicircle constructed without a _diameter"));
+            throw new ASTException("Semicircle constructed without a _diameter");
         }
 
         if (!circle.DefinesDiameter(new Segment(e1, e2)))
         {
-            ExceptionHandler.throwException(new ASTException("Semicircle constructed without a _diameter"));
+            throw new ASTException("Semicircle constructed without a _diameter");
         }
 
         // thisAtomicRegion = new ShapeAtomicRegion(this);
@@ -245,7 +243,7 @@ public class Semicircle extends Arc
     }
 
     @Override
-    public ArrayList<Segment> Segmentize()
+    public List<Segment> Segmentize()
     {
         if (!approxSegments.isEmpty()) return approxSegments;
 
