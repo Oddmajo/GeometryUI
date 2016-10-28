@@ -1,9 +1,9 @@
 package equations;
 
 import java.util.List;
-import ast.figure.components.*;
-import utilities.exception.*;
-import utilities.ast_helper.*;
+import backend.ast.figure.components.*;
+import backend.utilities.exception.*;
+import backend.utilities.ast_helper.*;
 
 public class ArcEquation extends Equation
 {
@@ -11,7 +11,7 @@ public class ArcEquation extends Equation
     {
         super();
     }
-/*
+
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());
@@ -44,7 +44,7 @@ public class ArcEquation extends Equation
         }
         return sum;
     }
-*/
+
     public int getHashCode()
     {
         return super.getHashCode();

@@ -1,9 +1,9 @@
 package equations;
 
-import ast.figure.components.*;
-import utilities.ast_helper.Utilities;
-import utilities.exception.ArgumentException;
-import utilities.list.*;
+import backend.ast.figure.components.*;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.list.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class AngleArcEquation extends Equation
     {
         super();
     }
-    /*
+    
     public AngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         double sumL = SumSide(left.collectTerms());
@@ -57,7 +57,7 @@ public class AngleArcEquation extends Equation
         }
         return sum;
     }
-     */
+     
     public int getHashCode() { return super.getHashCode(); }
 
     public boolean equals(Object obj)

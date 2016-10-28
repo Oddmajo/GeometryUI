@@ -1,12 +1,12 @@
 package instantiator.algebra;
 
-import equations.*;
-import instantiator.GenericRule;
-import utilities.Pair;
-import utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
-import utilities.list.Utilities;
-import equations.operations.*;
+import backend.equations.*;
+import backend.instantiator.GenericRule;
+import backend.utilities.Pair;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.list.Utilities;
+import backend.equations.operations.*;
 
 import java.util.ArrayList;
 import java.util.List;

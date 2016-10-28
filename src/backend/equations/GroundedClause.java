@@ -9,9 +9,9 @@ You should have received a copy of the GNU Affero General Public License along w
 package equations;
 
 import java.util.ArrayList;
-import utilities.list.Utilities;
-import ast.ASTException;
-import utilities.exception.*;
+import backend.utilities.list.Utilities;
+import backend.ast.ASTException;
+import backend.utilities.exception.*;
 
 /**
  * A First Order Logic clause that describes a property about a geometric drawing

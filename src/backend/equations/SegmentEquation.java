@@ -2,9 +2,9 @@ package equations;
 
 import java.util.List;
 import javax.swing.text.Segment;
-import utilities.ast_helper.*;
-import utilities.exception.ArgumentException;
-import utilities.exception.*;
+import backend.utilities.ast_helper.*;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.*;
 
 public class SegmentEquation extends Equation
 {
@@ -12,7 +12,7 @@ public class SegmentEquation extends Equation
     {
         super();
     }
-/*
+
     public SegmentEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());
@@ -44,7 +44,7 @@ public class SegmentEquation extends Equation
         }
         return sum;
     }
-*/
+
     //public SegmentEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just)
     //{
     //    double sumL = SumSide(l.CollectTerms());

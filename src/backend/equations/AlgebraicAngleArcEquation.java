@@ -1,6 +1,6 @@
 package equations;
 
-import utilities.exception.ArgumentException;
+import backend.utilities.exception.ArgumentException;
 
 public class AlgebraicAngleArcEquation extends AngleArcEquation
 {
@@ -9,7 +9,7 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
     {
         super();
     }
-    /*
+    
     public AlgebraicAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);
@@ -28,7 +28,7 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
         }
         return this;
     }
-*/
+
     public boolean isAlgebraic()
     {
         return true;

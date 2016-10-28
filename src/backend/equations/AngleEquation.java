@@ -2,11 +2,11 @@ package equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import ast.figure.components.*;
-import utilities.list.Utilities;
-import utilities.ast_helper.*;
-import utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
+import backend.ast.figure.components.*;
+import backend.utilities.list.Utilities;
+import backend.utilities.ast_helper.*;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class AngleEquation extends Equation
 {
@@ -14,7 +14,7 @@ public class AngleEquation extends Equation
     {
         super();
     }
-/*
+
     public AngleEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());
@@ -62,7 +62,7 @@ public class AngleEquation extends Equation
 
         return sum;
     }
-*/
+
     //public AngleEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just)
     //{
     //    double sumL = SumSide(l.CollectTerms());

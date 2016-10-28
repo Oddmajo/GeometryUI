@@ -6,7 +6,7 @@ public class AlgebraicArcEquation extends ArcEquation
     {
         super();
     }
-/*
+
     public AlgebraicArcEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
@@ -18,7 +18,7 @@ public class AlgebraicArcEquation extends ArcEquation
     {
         return new AlgebraicArcEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
-*/
+
     public boolean isAlgebraic()
     {
         return true;

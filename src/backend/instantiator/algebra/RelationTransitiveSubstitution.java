@@ -1,7 +1,7 @@
 package instantiator.algebra;
 
-import equations.*;
-import instantiator.*;
+import backend.equations.*;
+import backend.instantiator.*;
 
 import java.util.ArrayList;
 import java.util.List;

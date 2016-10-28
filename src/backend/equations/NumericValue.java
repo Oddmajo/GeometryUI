@@ -1,6 +1,6 @@
 package equations;
 
-import utilities.ast_helper.*;
+import backend.utilities.ast_helper.*;
 
 public class NumericValue extends ArithmeticNode
 {

@@ -1,6 +1,6 @@
 package instantiator.algebra;
 
-import equations.*;
+import backend.equations.*;
 import java.util.List;
 
 public class FlatEquation extends Equation
