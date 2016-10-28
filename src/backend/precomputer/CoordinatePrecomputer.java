@@ -25,19 +25,19 @@
 // * @author Tom_Nielsen
 // *
 // */
-package precomputer;
+package backend.precomputer;
 
 import java.util.ArrayList;
-import ast.GroundedClause;
-import ast.Descriptors.Collinear;
-import ast.Descriptors.InMiddle;
-import ast.Descriptors.Intersection;
-import ast.Descriptors.Parallel;
-import ast.Descriptors.Perpendicular;
-import ast.Descriptors.Arcs_and_Circles.ArcInMiddle;
-import ast.Descriptors.Arcs_and_Circles.CircleCircleIntersection;
-import ast.Descriptors.Arcs_and_Circles.CircleSegmentIntersection;
-import ast.figure.components.*;
+import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Collinear;
+import backend.ast.Descriptors.InMiddle;
+import backend.ast.Descriptors.Intersection;
+import backend.ast.Descriptors.Parallel;
+import backend.ast.Descriptors.Perpendicular;
+import backend.ast.Descriptors.Arcs_and_Circles.ArcInMiddle;
+import backend.ast.Descriptors.Arcs_and_Circles.CircleCircleIntersection;
+import backend.ast.Descriptors.Arcs_and_Circles.CircleSegmentIntersection;
+import backend.ast.figure.components.*;
 public class CoordinatePrecomputer
 {
     private ArrayList<Circle> circles;
