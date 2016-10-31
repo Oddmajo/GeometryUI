@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 public class GeometricSegmentEquation extends SegmentEquation
 {
@@ -12,7 +12,7 @@ public class GeometricSegmentEquation extends SegmentEquation
         super(left, right);
     }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return new GeometricSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }

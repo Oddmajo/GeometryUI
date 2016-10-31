@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class AngleEquation extends Equation
         double sumL = SumSide(left.collectTerms());
         double sumR = SumSide(right.collectTerms());
 
-        if (!utilities.ast_helper.Utilities.CompareValues(sumL, sumR))
+        if (!backend.utilities.ast_helper.Utilities.CompareValues(sumL, sumR))
         {
             try
             {
@@ -43,7 +43,7 @@ public class AngleEquation extends Equation
             {
                 sum += (((NumericValue) clause).getDoubleValue());
             }
-
+/*
             else if (clause instanceof Angle)
             {
                 sum += clause.getMulitplier() * ((Angle)clause).measure;
@@ -58,6 +58,7 @@ public class AngleEquation extends Equation
             {
                 sum += clause.getMulitplier() *  ((MajorArc)clause).GetMajorArcMeasureDegrees();
             }
+            */
         }
 
         return sum;

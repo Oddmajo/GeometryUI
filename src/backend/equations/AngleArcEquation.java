@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 import backend.ast.figure.components.*;
 import backend.utilities.ast_helper.Utilities;
@@ -7,6 +7,7 @@ import backend.utilities.list.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class AngleArcEquation extends Equation
 {
     
@@ -35,6 +36,7 @@ public class AngleArcEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
+            /*
             else if (clause instanceof Angle)
             {
                 sum += clause.getMulitplier() * ((Angle)clause).measure();
@@ -54,6 +56,7 @@ public class AngleArcEquation extends Equation
             {
                 sum += clause.getMulitplier() * ((MajorArc)clause).GetMinorArcMeasureDegrees();
             }
+            */
         }
         return sum;
     }
@@ -85,21 +88,21 @@ public class AngleArcEquation extends Equation
 
         // Note operations like multiplication and subtraction have been taken into account.
         List<GroundedClause> unionLHS = new ArrayList<GroundedClause>(thisLHS);
-        utilities.list.Utilities.AddUniqueList(unionLHS, thatLHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionLHS, thatLHS);
 
         List<GroundedClause> unionRHS = new ArrayList<GroundedClause>(thisRHS);
-        utilities.list.Utilities.AddUniqueList(unionRHS, thatRHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionRHS, thatRHS);
 
         // Exact same sides means the union is the same as each list itself
         if (unionLHS.size() == thisLHS.size() && unionRHS.size() == thisRHS.size()) return true;
 
         // Check the other combination of sides
         unionLHS = new ArrayList<GroundedClause>(thisLHS);
-        utilities.list.Utilities.AddUniqueList(unionLHS, thatRHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionLHS, thatRHS);
         if (unionLHS.size() != thisLHS.size()) return false;
 
         unionRHS = new ArrayList<GroundedClause>(thisRHS);
-        utilities.list.Utilities.AddUniqueList(unionRHS, thatLHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionRHS, thatLHS);
 
         // Exact same sides means the union is the same as each list itself
         return unionRHS.size() == thisRHS.size();

@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 public class GeometricArcEquation extends ArcEquation
 {
@@ -12,7 +12,7 @@ public class GeometricArcEquation extends ArcEquation
         super(left, right);
     }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return new GeometricArcEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }

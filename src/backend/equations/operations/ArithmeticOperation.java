@@ -1,9 +1,9 @@
-package equations.operations;
+package backend.equations.operations;
 
 import java.util.ArrayList;
 import java.util.List;
-import equations.*;
-import utilities.exception.ExceptionHandler;
+import backend.equations.*;
+import backend.utilities.exception.ExceptionHandler;
 
 @SuppressWarnings("unused")
 public class ArithmeticOperation extends ArithmeticNode
@@ -85,7 +85,7 @@ public class ArithmeticOperation extends ArithmeticNode
     }
 
     // Make a deep copy of this object
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         ArithmeticOperation other = (ArithmeticOperation)(this.deepCopy());
         other.leftExp = leftExp.deepCopy();

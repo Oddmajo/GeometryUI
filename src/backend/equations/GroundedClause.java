@@ -6,7 +6,7 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package equations;
+package backend.equations;
 
 import java.util.ArrayList;
 import backend.utilities.list.Utilities;
@@ -18,7 +18,7 @@ import backend.utilities.exception.*;
  * @author Chris Alvin
  * @author Drew Whitmire
  */
-public abstract class GroundedClause
+public abstract class GroundedClause implements Cloneable
 {
     
     // A unique integer identifier (from the hypergraph)
@@ -186,12 +186,28 @@ public abstract class GroundedClause
             return true;
         return false;
      }
-    public void substitute(GroundedClause c1, GroundedClause c2) {  }
-    public GroundedClause deepCopy() throws CloneNotSupportedException { return (GroundedClause) this.clone(); }
+    public void substitute(GroundedClause c1, GroundedClause c2)  {  }
+    public GroundedClause deepCopy()
+    { 
+            try
+            {
+                return  (GroundedClause) this.clone();
+            }
+            catch (CloneNotSupportedException e)
+            {
+                // TODO Auto-generated catch block
+                ExceptionHandler.throwException(e);
+            } 
+            return this;
+        
+    }
 
     public int getHashCode() { return super.hashCode(); }
 
-    public abstract String toString();
+    public String toString()
+    {
+        return this.getClass().toString();
+    }
     
     
 

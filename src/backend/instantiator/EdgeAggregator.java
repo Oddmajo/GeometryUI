@@ -1,10 +1,10 @@
-package instantiator;
+package backend.instantiator;
 
-import equations.*;
+import backend.equations.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import hypergraph.*;
+import backend.hypergraph.*;
 
 public class EdgeAggregator
 {

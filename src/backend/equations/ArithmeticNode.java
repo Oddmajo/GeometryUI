@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 
 public class ArithmeticNode extends GroundedClause
@@ -21,6 +21,6 @@ public class ArithmeticNode extends GroundedClause
     
     public String toString()
     {
-        return super.toPrettyString();
+        return super.toString();
     }
 }

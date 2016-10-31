@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 public class GeometricAngleEquation extends AngleEquation
 {
@@ -12,7 +12,7 @@ public class GeometricAngleEquation extends AngleEquation
         super(left, right);
     }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return new GeometricAngleEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }

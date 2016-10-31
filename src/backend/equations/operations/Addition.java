@@ -1,6 +1,6 @@
-package equations.operations;
+package backend.equations.operations;
 
-import equations.*;
+import backend.equations.*;
 
 public class Addition extends ArithmeticOperation
 {
@@ -13,8 +13,6 @@ public class Addition extends ArithmeticOperation
     {
         super(left, right);
     }
-
-
 
     public String toString()
     {

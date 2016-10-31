@@ -1,25 +1,25 @@
-package equations.operations;
+package backend.equations.operations;
 
 import java.util.ArrayList;
-import equations.*;
-import utilities.exception.ExceptionHandler;
+import backend.equations.*;
+import backend.utilities.exception.ExceptionHandler;
 public class Multiplication extends ArithmeticOperation
 {
     public Multiplication()
     {
         super();
     }
-    
+
     public Multiplication(GroundedClause left, GroundedClause right)
     {
-       super(left, right);       
+        super(left, right);       
     }
 
     public String toString()
     {
         return "(" + leftExp.toString() + " * " + rightExp.toString() + ")";
     }
-    
+
     public String toPrettyString()
     {
         return leftExp.toPrettyString() + " * " + rightExp.toPrettyString();
@@ -43,15 +43,9 @@ public class Multiplication extends ArithmeticOperation
             for (GroundedClause gc : rightExp.collectTerms())
             {
                 GroundedClause copyGC = null;
-                try
-                {
-                    copyGC = gc.deepCopy();
-                }
-                catch (CloneNotSupportedException e)
-                {
-                    // TODO Auto-generated catch block
-                    ExceptionHandler.throwException(e);
-                }
+
+                copyGC = gc.deepCopy();
+
                 copyGC.setMultiplier(((NumericValue)leftExp).getIntValue());
                 list.add(copyGC);
             }
@@ -62,14 +56,8 @@ public class Multiplication extends ArithmeticOperation
             for (GroundedClause gc : leftExp.collectTerms())
             {
                 GroundedClause copyGC = null;
-                try
-                {
-                    copyGC = gc.deepCopy();
-                }
-                catch (CloneNotSupportedException e)
-                {
-                    ExceptionHandler.throwException(e);
-                }
+
+                copyGC = gc.deepCopy();
 
                 copyGC.setMultiplier(((NumericValue)rightExp).getIntValue());
                 list.add(copyGC);
