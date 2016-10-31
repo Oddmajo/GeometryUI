@@ -62,6 +62,6 @@ public class AlgebraicCongruentSegments extends CongruentSegments
 	@Override
 	public String toString()
 	{
-		return "AlgebraicCongruent(" + cs1.toString() + ", " + cs2.toString() + ") " + justification;
+		return "AlgebraicCongruent(" + super.getcs1().toString() + ", " + super.getcs2().toString() + ") " + justification;
 	}
 }

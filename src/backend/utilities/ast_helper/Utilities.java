@@ -16,6 +16,7 @@ import backend.ast.figure.Figure;
 import backend.ast.figure.components.Arc;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.utilities.Pair;
 import backend.utilities.PointFactory;
 
 /**
@@ -32,7 +33,7 @@ import backend.utilities.PointFactory;
  * Facet Identification package going.  I will convert the methods as needed.
  * @author Chris Alvin
  * @author Drew W
- *
+ * @author Tom_Nielsen
  */
 public class Utilities
 {
@@ -280,29 +281,35 @@ public class Utilities
 //    // -1 is an error
 //    // A reasonable value for geometry problems must be less than 10 for a ratio
 //    // This is arbitrarily chosen and can be modified
-//    private final int RATIO_MAX = 10;
-//    public static int GET_RATIO_MAX() { return RATIO_MAX; }
-//    
-//    public static Pair<Integer, Integer> RationalRatio(double x, double y)
-//    {
-//        for (int numer = 2; numer < RATIO_MAX; numer++)
-//        {
-//            for (int denom = 1; denom < RATIO_MAX; denom++)
-//            {
-//                if (numer != denom)
-//                {
-//                    if (Utilities.CompareValues(x / y, (double)(numer) / denom))
-//                    {
-//                        int gcd = GCD(numer, denom);
-//                        return numer > denom ? new Pair<int, int>(numer / gcd, denom / gcd)
-//                                             : new Pair<int, int>(denom / gcd, numer / gcd);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return new Pair<Integer,Integer>(-1, -1);
-//    }
+    
+    
+	    private final static int RATIO_MAX = 10;
+	    public static int GET_RATIO_MAX() { return RATIO_MAX; }
+   
+	   public static Pair<Integer, Integer> RationalRatio(double x, double y)
+	    {
+	       for (int numer = 2; numer < RATIO_MAX; numer++)
+	       {
+	           for (int denom = 1; denom < RATIO_MAX; denom++)
+	           {
+	                if (numer != denom)
+	               {
+	                   if (Utilities.CompareValues(x / y, (double)(numer) / denom))
+	                   {
+	                         int gcd = GCD(numer, denom);
+	                        return numer > denom ? new Pair<Integer, Integer>(numer / gcd, denom / gcd)
+	                                             : new Pair<Integer, Integer>(denom / gcd, numer / gcd);
+	                    }
+	               }
+	            }
+	        }
+	
+	        return new Pair<Integer,Integer>(-1, -1);
+	    }
+	    
+    
+    
+    
 //    public static Pair<Integer, Integer> RationalRatio(double x)
 //    {
 //        for (int val = 2; val < RATIO_MAX; val++)
@@ -545,13 +552,13 @@ public class Utilities
 
         return inter;
     }
-
+    */
     public static int GCD(int a, int b)
     {
         return b == 0 ? a : GCD(b, a % b);
     }
     
-    */
+    
     
     public static final double EPSILON = 0.000001;
 

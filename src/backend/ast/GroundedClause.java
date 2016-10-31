@@ -155,8 +155,7 @@ public abstract class GroundedClause
     //
     // For equation simplification
     //
-    private int multiplier;
-    public int getMulitplier() { return multiplier; }
+    public int multiplier;
     
     public ArrayList<GroundedClause> CollectTerms()
     {

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class Collinear extends Descriptor
 {
@@ -61,7 +62,7 @@ public class Collinear extends Descriptor
     {
         if(points.size() <2)
         {
-        	throw new ArgumentException;
+        	ExceptionHandler.throwException( new ArgumentException("A Collinear relationship requires at least 2 points: " + this.toString()));
         }
         
         //create a segment of the endpoints to compare all points for collinearity
@@ -71,11 +72,11 @@ public class Collinear extends Descriptor
         {
         	if(!line.PointLiesOn(pt))
         	{
-        		throw new ArgumentException;
+        		ExceptionHandler.throwException(new ArgumentException("Point " + pt + " is not collinear with line " + line.toString()));
         	}
         	if(!line.PointLiesOnAndBetweenEndpoints(pt))
         	{
-        		throw new ArgumentException;
+        		ExceptionHandler.throwException(new ArgumentException("Point " + pt + " is not between the endpoints of segment " + line.toString()));
         	}
         }
     }

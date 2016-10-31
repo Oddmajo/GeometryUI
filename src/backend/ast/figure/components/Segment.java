@@ -6,6 +6,8 @@ import java.util.List;
 import backend.ast.ASTException;
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
+import backend.utilities.Pair;
+import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 import backend.utilities.translation.OutTriple;
@@ -681,6 +683,15 @@ public class Segment extends Figure
         Segment perp = new Segment(pt, ptOnLine);
 
         return (perp.GetOppositeSegment(ptOnLine)).OtherPoint(ptOnLine);
+    }
+    
+    //
+    // Is this segment proportional to the given segment in terms of the coordinatization from the UI?
+    // We should not report proportional if the ratio between segments is 1
+    //
+    public Pair<Integer, Integer> CoordinateProportional(Segment s)
+    {
+        return Utilities.RationalRatio(s.length(), this.length());
     }
     
     //

@@ -31,6 +31,7 @@ import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.Triangle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 //
 // This class has two roles:
@@ -64,7 +65,7 @@ public class CongruentSegments extends Congruent
 		super();
 		if(!Utilities.CompareValues(s1.length(), s2.length()))
 		{
-			throw new ArgumentException;
+			ExceptionHandler.throwException(new ArgumentException("Two congruent Segments deduced congruent although segment lengths differ: " + s1 + " " + s2));
 		}
 		cs1 = s1;
 		cs2 = s2;
@@ -82,7 +83,7 @@ public class CongruentSegments extends Congruent
 	}
 	
 	//return the number of shared segments in both congruences
-	@Override
+	//@Override //This was overrided in C# but the parent one doesn't have an argument
 	public int SharesNumClauses(Congruent thatCC)
 	{
 		if(thatCC != null && thatCC instanceof CongruentSegments)

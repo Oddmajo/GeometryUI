@@ -32,6 +32,7 @@ import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.Triangle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 //
 // This class has two roles:
@@ -60,7 +61,7 @@ public class CongruentAngles extends Congruent
 		super();
 		if(!Utilities.CompareValues(a1.getMeasure(), a2.getMeasure()))
 		{
-			throw new ArgumentException;
+			ExceptionHandler.throwException(new ArgumentException("Two congruent angles deduced congruent although angle measures differ: " + a1 + " " + a2));
 		}
 		ca1 = a1;
 		ca2 = a2;
@@ -98,7 +99,7 @@ public class CongruentAngles extends Congruent
 	}
 	
 	//return the number of shared angles in both congruences
-	@Override
+	// @Override //This was overriden in C# but the super doesn't take parameters
 	public int SharesNumClauses(Congruent thatCC)
 	{
 		if( thatCC != null && thatCC instanceof CongruentAngles)
