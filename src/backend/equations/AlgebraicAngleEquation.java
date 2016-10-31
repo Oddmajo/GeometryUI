@@ -1,7 +1,7 @@
-package equations;
+package backend.equations;
 
 import backend.utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
+import backend.utilities.exception.ExceptionHandler;
 
 public class AlgebraicAngleEquation extends AngleArcEquation
 {
@@ -17,7 +17,7 @@ public class AlgebraicAngleEquation extends AngleArcEquation
 
   //public AlgebraicAngleEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just) { }
 
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy() 
     {
         try
         {

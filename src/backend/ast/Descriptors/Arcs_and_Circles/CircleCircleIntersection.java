@@ -30,6 +30,7 @@ package backend.ast.Descriptors.Arcs_and_Circles;
 import backend.ast.Descriptors.CircleIntersection;
 import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
+import utilities.translation.OutPair;
 
 public class CircleCircleIntersection extends CircleIntersection
 {
@@ -48,22 +49,21 @@ public class CircleCircleIntersection extends CircleIntersection
         otherCircle = c2;
         
         //Find the intersection points
-        Point pt1, pt2;
-        
+        OutPair pt1, pt2;
         theCircle.FindIntersection(otherCircle, pt1, pt2);
         intersection1 = pt1;
         intersection2 = pt2;
     }
     
     //If the arcs intersect at a single point
-    @Override
+    //@Override //This function never had a function to override in C#
     public boolean IsTangent()
     {
     	return intersection1 != null && intersection2 == null;
     }
     
     //if the segment starts on this arc and extends outward
-    @Override
+    //@Override //This funcation never has a function to override in C# but yet still called override
     public boolean standsOn()
     {
     	return false;

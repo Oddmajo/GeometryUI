@@ -1,7 +1,7 @@
-package equations;
+package backend.equations;
 
-import utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class GeometricAngleArcEquation extends AngleArcEquation
 {
@@ -15,7 +15,7 @@ public class GeometricAngleArcEquation extends AngleArcEquation
         super(left, right);
     }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         try
         {

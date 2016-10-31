@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 import java.util.List;
 import backend.ast.figure.components.*;
@@ -37,10 +37,12 @@ public class ArcEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
+            /*
             else if (clause instanceof Arc)
             {
                 sum += clause.getMulitplier() * ((Arc)clause).getLength();
             }
+            */
         }
         return sum;
     }

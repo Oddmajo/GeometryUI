@@ -1,4 +1,4 @@
-package instantiator.algebra;
+package backend.instantiator.algebra;
 
 import java.util.ArrayList;
 import java.util.List;

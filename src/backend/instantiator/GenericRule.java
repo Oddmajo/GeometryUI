@@ -1,4 +1,4 @@
-package instantiator;
+package backend.instantiator;
 
 //
 // The top-most abstract class for Generics

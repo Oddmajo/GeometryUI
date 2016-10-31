@@ -1,10 +1,10 @@
-package equations;
+package backend.equations;
 
 import java.util.ArrayList;
 import java.util.List;
 import ast.figure.*;
-import ast.figure.components.Angle;
-import utilities.Pair;
+import backend.ast.figure.components.*;
+import backend.utilities.Pair;
 
 public class Equation extends ArithmeticNode
 {
@@ -68,11 +68,11 @@ public class Equation extends ArithmeticNode
     public final static int RIGHT_ATOMIC = 1;
     public final static int BOTH_ATOMIC = 2;
 
-    /*
+    
     public int getAtomicity()
     {
-        boolean leftIs = lhs instanceof Angle || lhs instanceof Segment || lhs instanceof Arc || lhs instanceof NumericValue;
-        boolean rightIs = rhs instanceof Angle || rhs instanceof Segment || rhs instanceof Arc || rhs instanceof NumericValue;
+        boolean leftIs = lhs.getClass().isInstance(new Angle()) || lhs.getClass().isInstance(new Segment()) || /* lhs.getClass().isInstance(new Arc()) || */ lhs instanceof NumericValue;
+        boolean rightIs = rhs.getClass().isInstance(new Angle()) || rhs.getClass().isInstance(new Segment()) || /* rhs.getClass().isInstance(new Arc()))  || */rhs instanceof NumericValue;
 
         if (leftIs && rightIs) return BOTH_ATOMIC;
         if (!leftIs && !rightIs) return NONE_ATOMIC;
@@ -81,7 +81,7 @@ public class Equation extends ArithmeticNode
 
         return NONE_ATOMIC;
     }
-    */
+    
 
     // Collect all the terms and return a size() for both sides <left, right>
     public Pair<Integer, Integer> getCardinalities()
@@ -136,26 +136,36 @@ public class Equation extends ArithmeticNode
 
         // Note operations like multiplication and subtraction have been taken into account.
         List<GroundedClause> unionLHS = new ArrayList<GroundedClause>(thisLHS);
-        utilities.list.Utilities.AddUniqueList(unionLHS, thatLHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionLHS, thatLHS);
 
         List<GroundedClause> unionRHS = new ArrayList<GroundedClause>(thisRHS);
-        utilities.list.Utilities.AddUniqueList(unionRHS, thatRHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionRHS, thatRHS);
 
         // Exact same sides means the union is the same as each list itself
         if (unionLHS.size() == thisLHS.size() && unionRHS.size() == thisRHS.size()) return true;
 
         // Check the other combination of sides
         unionLHS = new ArrayList<GroundedClause>(thisLHS);
-        utilities.list.Utilities.AddUniqueList(unionLHS, thatRHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionLHS, thatRHS);
 
         if (unionLHS.size() != thisLHS.size()) return false;
 
         unionRHS = new ArrayList<GroundedClause>(thisRHS);
-        utilities.list.Utilities.AddUniqueList(unionRHS, thatLHS);
+        backend.utilities.list.Utilities.AddUniqueList(unionRHS, thatLHS);
 
         // Exact same sides means the union is the same as each list itself
         return unionRHS.size() == thisRHS.size();
 
 
+    }
+    
+    public String toString()
+    {
+        return "(" +  lhs.toString() + " = " + rhs.toString() + ")";
+    }
+    
+    public String toPrettyString()
+    {
+        return lhs.toPrettyString() + " = " + rhs.toPrettyString();
     }
 }

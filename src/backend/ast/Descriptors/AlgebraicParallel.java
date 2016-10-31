@@ -74,6 +74,6 @@ public class AlgebraicParallel extends Parallel
 	@Override
 	public String toString()
 	{
-		return "AlgebraicParallel(" + segment1.toString() + ", " + segment2.toString() + ") " + justification;
+		return "AlgebraicParallel(" + super.getSegment1().toString() + ", " + super.getSegment2().toString() + ") " + justification;
 	}
 }

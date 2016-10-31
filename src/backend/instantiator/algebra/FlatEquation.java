@@ -1,4 +1,4 @@
-package instantiator.algebra;
+package backend.instantiator.algebra;
 
 import backend.equations.*;
 import java.util.List;
@@ -39,7 +39,7 @@ public class FlatEquation extends Equation
         rhsExps = right;
     }
 
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         System.out.println("Cannot be properly tested at this time.");
         return this;

@@ -1,8 +1,8 @@
-package equations;
+package backend.equations;
 
 import backend.utilities.ast_helper.*;
 
-public class NumericValue extends ArithmeticNode
+public class NumericValue extends ArithmeticNode implements Cloneable
 {
     protected double value;
     
@@ -46,7 +46,7 @@ public class NumericValue extends ArithmeticNode
         return Utilities.CompareValues(value, clauseValue.value);
     }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return super.deepCopy();
     }

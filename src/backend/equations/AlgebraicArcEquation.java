@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 public class AlgebraicArcEquation extends ArcEquation
 {
@@ -14,7 +14,7 @@ public class AlgebraicArcEquation extends ArcEquation
 
   //public AlgebraicAngleEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just) { }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return new AlgebraicArcEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }

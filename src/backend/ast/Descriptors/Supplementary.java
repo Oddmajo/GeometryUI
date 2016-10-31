@@ -29,18 +29,20 @@ package backend.ast.Descriptors;
 
 import backend.ast.figure.components.Angle;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 /// <summary>
 /// Describes a point that lies on a angmant.
 /// </summary>
-public abstract class Supplementary extends AnglePairRelation
+public class Supplementary extends AnglePairRelation
 {
 	public Supplementary(Angle ang1, Angle ang2 )
 	{
 		super(ang1,ang2);
 		if(!Utilities.CompareValues(ang1.getMeasure() + ang2.getMeasure(), 180))
 		{
-			throw new ArgumentException;
+			ExceptionHandler.throwException(new ArgumentException("Supplementary Angles must sum to 180: " + ang1 + " " + ang2));
 		}
 	}
 	

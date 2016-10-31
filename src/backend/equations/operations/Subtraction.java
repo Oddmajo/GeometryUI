@@ -1,8 +1,8 @@
-package equations.operations;
+package backend.equations.operations;
 
 import java.util.ArrayList;
-import equations.*;
-import utilities.exception.ExceptionHandler;
+import backend.equations.*;
+import backend.utilities.exception.ExceptionHandler;
 
 @SuppressWarnings("unused")
 public class Subtraction extends ArithmeticOperation

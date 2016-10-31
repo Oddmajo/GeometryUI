@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 public class AlgebraicSegmentEquation extends SegmentEquation
 {
@@ -14,7 +14,7 @@ public class AlgebraicSegmentEquation extends SegmentEquation
 
   //public AlgebraicSegmentEquation(GroundedClause l, GroundedClause r, string just) : base(l, r, just) { }
     
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
         return new AlgebraicSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }

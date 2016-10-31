@@ -6,7 +6,7 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package parameters;
+package backend.parameters;
 
 /**
  * All functionality related to user-defined parameters and debugging.

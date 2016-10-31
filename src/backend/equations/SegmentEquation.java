@@ -1,4 +1,4 @@
-package equations;
+package backend.equations;
 
 import java.util.List;
 import javax.swing.text.Segment;
@@ -37,10 +37,12 @@ public class SegmentEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
+            /*
             else if (clause instanceof Segment)
             {
                 sum += clause.getMulitplier() * ((Segment)clause).length();
             }
+            */
         }
         return sum;
     }

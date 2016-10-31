@@ -171,29 +171,30 @@ public class Parallel extends Descriptor
         return "Parallel(" + segment1.toString() + ", " + segment2.toString() + ") " + justification;
     }
     
-    private static final String NAME = "Transitivity";
-    private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBrdige.JustificationSwitch.TRANSITIVE_PARALLEL);
-    
-    public static ArrayList<GenericInstatiator.EdgeAggregator> CreateTransitiveParallel(Parallel parallel1, Parallel parallel2)
-    {
-    	annotation.active = EngineUIBridge.JustificationSwitch.TRANSITIVE_PARALLEL;
-    	ArrayList<GenericInstatiator.EdgeAggregator> newGrounded = new ArrayList<GenericInstatiator.EdgeAggregator>();
-    	
-    	//
-        // Create the antecedent clauses
-        //
-    	ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
-    	antecedent.add(parallel1);
-    	antecedent.add(parallel2);
-    	
-    	//
-    	// Create the consequent clause
-    	//
-    	Segment shared = parallel1.SharedSegment(parallel2);
-    	AlgebraicParallel newAP = new AlgebraicParallel(parallel1.OtherSegment(shared), parallel2.OtherSegment(shared));
-    	
-    	newGrounded.add(new GenericInstantiator.EdgeAggregator(antecedent, newAP, annotation));
-    	
-    	return newGrounded;
-    }
+    //this is commented out to make things compile
+//    private static final String NAME = "Transitivity";
+//    private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBrdige.JustificationSwitch.TRANSITIVE_PARALLEL);
+//    
+//    public static ArrayList<GenericInstatiator.EdgeAggregator> CreateTransitiveParallel(Parallel parallel1, Parallel parallel2)
+//    {
+//    	annotation.active = EngineUIBridge.JustificationSwitch.TRANSITIVE_PARALLEL;
+//    	ArrayList<GenericInstatiator.EdgeAggregator> newGrounded = new ArrayList<GenericInstatiator.EdgeAggregator>();
+//    	
+//    	//
+//        // Create the antecedent clauses
+//        //
+//    	ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+//    	antecedent.add(parallel1);
+//    	antecedent.add(parallel2);
+//    	
+//    	//
+//    	// Create the consequent clause
+//    	//
+//    	Segment shared = parallel1.SharedSegment(parallel2);
+//    	AlgebraicParallel newAP = new AlgebraicParallel(parallel1.OtherSegment(shared), parallel2.OtherSegment(shared));
+//    	
+//    	newGrounded.add(new GenericInstantiator.EdgeAggregator(antecedent, newAP, annotation));
+//    	
+//    	return newGrounded;
+//    }
 }

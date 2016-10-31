@@ -1,26 +1,27 @@
-package ast.figure.components;
+package backend.ast.figure.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.ASTException;
-import ast.figure.Figure;
-import utilities.translation.OutTriple;
+import backend.ast.ASTException;
+import backend.ast.figure.Figure;
+import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.translation.OutTriple;
 
 public class MajorArc extends Arc
 {
-    public MajorArc(Circle circle, Point e1, Point e2) throws ASTException
+    public MajorArc(Circle circle, Point e1, Point e2)
     {
         this(circle, e1, e2, new ArrayList<Point>(), new ArrayList<Point>());
     }
 
-    public MajorArc(Circle circle, Point e1, Point e2, List<Point> minorPts, List<Point> majorPts) throws ASTException
+    public MajorArc(Circle circle, Point e1, Point e2, List<Point> minorPts, List<Point> majorPts)
     {
         super(circle, e1, e2, minorPts, majorPts);
         
         if (circle.DefinesDiameter(new Segment(e1, e2)))
         {
-            throw new ASTException("Major Arc should not be constructed when a semicircle is appropriate.");
+            ExceptionHandler.throwException(new ASTException("Major Arc should not be constructed when a semicircle is appropriate."));
         }
     }
 
@@ -53,7 +54,7 @@ public class MajorArc extends Arc
 
         if (!_theCircle.CoordinateCongruent(thatArc._theCircle)) return false;
 
-        return utilities.math.Utilities.doubleEquals(this.GetMajorArcMeasureDegrees(), thatArc.GetMajorArcMeasureDegrees());
+        return backend.utilities.math.Utilities.doubleEquals(this.GetMajorArcMeasureDegrees(), thatArc.GetMajorArcMeasureDegrees());
     }
 
     private void GetStartEndPoints(double angle1, double angle2, OutTriple<Point, Point, Double> out)
@@ -91,7 +92,7 @@ public class MajorArc extends Arc
     }
 
     @Override
-    public List<Segment> Segmentize()
+    public ArrayList<Segment> Segmentize()
     {
         if (!approxSegments.isEmpty()) return approxSegments;
 

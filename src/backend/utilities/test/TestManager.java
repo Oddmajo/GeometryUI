@@ -24,7 +24,7 @@
 
  
 
-package utilities.test;
+package backend.utilities.test;
 import org.junit.runner.JUnitCore;
 
 import java.io.File;
