@@ -93,5 +93,31 @@ public class EquationSegmentTest
         }
         System.out.println("Done\n");
     }
+    
+    @Test public void simpleEquationSegment_VerticalSegmentPointGenerationTest()
+    {
+        System.out.print("running simpleEquationSegment_VerticalSegmentPointGenerationTest...");
+        
+        //create the segment
+        Point point1 = new Point("point1", 1, 9);
+        Point point2 = new Point("point2", 1, 2);
+        
+        EquationSegment eqSegment = new EquationSegment(point2, point1);
+        
+        System.out.println("eqSegment point1: " + eqSegment.getPoint1());
+        System.out.println("eqSegment point2: " + eqSegment.getPoint2());
+        System.out.println("eqSegment slope: " + eqSegment.slope());
+        System.out.println("eqSegment constant: " + eqSegment.getConstant());
+        
+        // generate 10 points on the segment
+        for (int i = 0; i < 10; i++)
+        {
+            Point genPoint = eqSegment.getRandomPoint();
+            System.out.println("Point " + i + ": " + genPoint);
+            assert (genPoint.getX() == 1);
+            assert (genPoint.getY() >= 2 && genPoint.getY() <= 9);
+        }
+        System.out.println("Done\n");
+    }
 
 }

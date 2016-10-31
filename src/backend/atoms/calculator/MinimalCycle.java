@@ -136,7 +136,7 @@ public class MinimalCycle extends Primitive
         return composed;
     }
 
-    public String ToString()
+    public String toString()
     {
         StringBuilder str = new StringBuilder();
 

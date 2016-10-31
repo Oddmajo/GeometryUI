@@ -39,6 +39,9 @@ public class LexicographicPoints
      */
     private void insert(Point thatNode)
     {
+
+        boolean added = false; // Drew added this
+        
         // Empty List: add to the beginning.
         if (ordered.isEmpty())
         {
@@ -52,8 +55,14 @@ public class LexicographicPoints
             if (Point.LexicographicOrdering(thatNode, ordered.get(i)) <= 0 )
             {
                 ordered.add(i, thatNode);
+                added = true;
                 break;
             }
+        }
+        // Add node to the end of the heap
+        if (added == false)
+        {
+            ordered.add(thatNode);
         }
     }
     
@@ -87,6 +96,34 @@ public class LexicographicPoints
     }
     
     /**
+     * Return the node at the given index
+     * @param index
+     * @return
+     */
+    public Point get(int index)
+    {
+        return ordered.get(index);
+    }
+    
+    /**
+     * Return the size of the ordered list
+     * @return
+     */
+    public int size()
+    {
+        return ordered.size();
+    }
+    
+    /**
+     * Get the node at the second position
+     * @return  the node at the second position
+     */
+    public Point peekNext()
+    {
+        return ordered.get(1);
+    }
+    
+    /**
      * Remove a specific point from the list.
      * @param pt    the point to be removed
      */
@@ -109,7 +146,7 @@ public class LexicographicPoints
             retS += "(" + i + ": " + ordered.get(i) + ") "; 
         }
         
-        return retS + "\n";
+        return retS;
     }
 
 }

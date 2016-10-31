@@ -1,4 +1,4 @@
-package backendTest.atoms.calculatorTest.lexicographicPointsTest;
+package backendTest.atomsTest.calculatorTest.lexicographicPointsTest;
 
 import org.junit.Test;
 

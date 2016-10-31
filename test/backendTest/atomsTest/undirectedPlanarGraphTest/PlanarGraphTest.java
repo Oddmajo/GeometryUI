@@ -1,4 +1,4 @@
-package backendTest.atoms.undirectedPlanarGraphTest;
+package backendTest.atomsTest.undirectedPlanarGraphTest;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package backendTest.atoms.calculatorTest;
+package backendTest.atomsTest.calculatorTest;
 
 import org.junit.Test;
 

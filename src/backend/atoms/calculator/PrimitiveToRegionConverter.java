@@ -57,7 +57,7 @@ public class PrimitiveToRegionConverter
             String message = "Composed: ";
             for (MinimalCycle cycle : cycles)
             {
-                message += "\t" + cycle.ToString();
+                message += "\t" + cycle.toString();
             }
             ExceptionHandler.throwException(new AtomicRegionException(message));
         }

@@ -1,4 +1,4 @@
-package backendTest.atoms.componentsTest;
+package backendTest.atomsTest.componentsTest;
 
 public class AtomicRegionTest
 {

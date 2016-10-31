@@ -43,7 +43,7 @@ public class ExceptionHandlerTest
     {
         // build the GeometryException Logger
         System.out.print("Running ExceptionToLoggerTest...");
-        LoggerFactory.initializeExceptionLoggers();
+        LoggerFactory.initialize();
         
         // test the String argument
         ExceptionHandler.throwException("this is what a string exception looks like");
