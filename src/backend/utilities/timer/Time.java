@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License along w
  */
 
 
-package utilities.timer;
+package backend.utilities.timer;
 
 public class Time
 {
@@ -133,7 +133,7 @@ public class Time
 
     //
     // Time is of the form #:#:#:#:#:#
-    // <years:days:hours:minutes:seconds:milliseconds>
+    // <milliseconds:seconds:minutes:hours:days:years>
     // ALL of these colons must not appear
     //
     void set(String str)
@@ -157,10 +157,19 @@ public class Time
     }
     //
     // Time is of the form #:#:#:#:#:#
-    // <years:days:hours:minutes:seconds:milliseconds>
+    // <milliseconds:seconds:minutes:hours:days:years>
     // ALL of these colons must not appear
     //
+    /**
+     * Get if time is positive or negative
+     * @return
+     */
     boolean positive() { return _sign; }
+
+    /**
+     * Get if time is negative or positive
+     * @return
+     */
     boolean negative() { return !_sign; }
 
     //
@@ -171,6 +180,10 @@ public class Time
     //
     //
     
+    /**
+     * Get the time in milliseconds
+     * @return 
+     */
     long inMilliseconds()
     {
         long milliseconds = 0;
@@ -186,69 +199,105 @@ public class Time
     //
     // Assignment operators
     //
+    /**
+     * Equivalent to this = rhs
+     * @param rhs Time object
+     */
     void assign(Time rhs)
     {
         this.set(rhs._milliseconds, rhs._seconds, rhs._minutes, rhs._hours, rhs._days, rhs._years);
     }
 
+    /**
+     * Equivalent to this += rhs
+     * @param rhs Time object
+     */
     void plusAssign(Time rhs)
     {
         this.set((this.plus(rhs)).inMilliseconds());
     }
 
+    /**
+     * Equivalent to this -= rhs
+     * @param rhs Time Object
+     */
     void subtractAssign(Time rhs)
     {
         this.set((this.subtract(rhs)).inMilliseconds());
     }
 
-    void assign(long milliseconds)
+    /**
+     * Equivalent to this = rhs
+     * @param rhs milliseconds as long
+     */
+    void assign(long rhs)
     {
-        this.set(milliseconds);
+        this.set(rhs);
     }
 
-    void plusAssign(long milliseconds)
+    /**
+     * Equivalent to this += rhs
+     * @param rhs milliseconds as long
+     */
+    void plusAssign(long rhs)
     {
-        this.set(this.inMilliseconds() + milliseconds);
+        this.set(this.inMilliseconds() + rhs);
     }
 
-    void subtractAssign(long milliseconds)
+    /**
+     * Equivalent to this -= rhs
+     * @param rhs milliseconds as long
+     */
+    void subtractAssign(long rhs)
     {
-        this.set(this.inMilliseconds() - milliseconds);
+        this.set(this.inMilliseconds() - rhs);
     }
 
     //
     // arithmetic operators
     //
+    /**
+     * Equivalent to this + rhs
+     * @param rhs Time object
+     * @return
+     */
     Time plus(Time rhs)
     {
         long value = this.inMilliseconds() + rhs.inMilliseconds();
-        Time sum = new Time();
-        sum.set(value);
-        return sum;
+        return new Time(value);
     }
 
+    /**
+     * Equivalent to this - rhs
+     * @param rhs Time object
+     * @return
+     */
     Time subtract(Time rhs)
     {
         long value = this.inMilliseconds() - rhs.inMilliseconds();
-        Time sum = new Time();
-        sum.set(value);
-        return sum;
+        return new Time(value);
     }
 
+    /**
+     * Equivalent to this + rhs
+     * @param rhs milliseconds as long
+     * @return
+     */
     Time plus(long rhs)
     {
         long value = this.inMilliseconds() + rhs;
-        Time sum = new Time();
-        sum.set(value);
-        return sum;
+        return new Time(value);
     }
 
+    /**
+     * Equivalent to this - rhs
+     * @param rhs milliseconds as long
+     * @return
+     */
     Time subtract(long rhs)
     {
         long value = this.inMilliseconds() - rhs;
-        Time sum = new Time();
-        sum.set(value);
-        return sum;
+        return new Time(value);
     }
 
     //
@@ -258,6 +307,7 @@ public class Time
     public boolean equals(Object time)
     {
         if (time == null) { return false; }
+        if (!(time instanceof Time)) { return false; }
         if (time == this) { return true; }
         Time rhs = (Time)time;
         return this._sign    == rhs._sign    &&
@@ -268,31 +318,57 @@ public class Time
                 this._years    == rhs._years;
     }
 
+    /**
+     * Equivalent to this != rhs
+     * @param rhs
+     * @return
+     */
     boolean isNotEqual(Time rhs)
     {
         return !this.equals(rhs);
     }
 
+    /**
+     * Equivalent to this < rhs
+     * @param rhs
+     * @return
+     */
     boolean isLessThan(Time rhs)
     {
         return this.inMilliseconds() < rhs.inMilliseconds();
     }
 
+    /**
+     * Equivalent to this <= rhs
+     * @param rhs
+     * @return
+     */
     boolean isLessThanOrEqual(Time rhs)
     {
         return this.inMilliseconds() <= rhs.inMilliseconds();
     }
 
+    /**
+     * Equivalent to this > rhs
+     * @param rhs
+     * @return
+     */
     boolean isGreaterThan(Time rhs)
     {
         return this.inMilliseconds() > rhs.inMilliseconds();
     }
 
+    /**
+     * Equivalent to this >= rhs
+     * @param rhs
+     * @return
+     */
     boolean isGreaterThanOrEqual(Time rhs)
     {
         return this.inMilliseconds() >= rhs.inMilliseconds();
     }
 
+    @Override
     public String toString() 
     {
         String str = "";
@@ -307,6 +383,5 @@ public class Time
 
         return str;
     }
-    //Const functions
-    //void TimeDuration::set(const std::string& str)----------------------------------------------
+
 }

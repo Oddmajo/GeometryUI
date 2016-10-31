@@ -9,9 +9,9 @@ You should have received a copy of the GNU Affero General Public License along w
 package equations;
 
 import java.util.ArrayList;
-import utilities.list.Utilities;
-import ast.ASTException;
-import utilities.exception.*;
+import backend.utilities.list.Utilities;
+import backend.ast.ASTException;
+import backend.utilities.exception.*;
 
 /**
  * A First Order Logic clause that describes a property about a geometric drawing
@@ -164,7 +164,7 @@ public abstract class GroundedClause
     
     public ArrayList<GroundedClause> collectTerms()
     {
-        return new ArrayList<GroundedClause>(utilities.list.Utilities.makeList(this));
+        return new ArrayList<GroundedClause>(Utilities.makeList(this));
     }
     
     
@@ -180,13 +180,20 @@ public abstract class GroundedClause
     //
     // For substitution and algebraic Simplifications
     //
-    public boolean containsClause(GroundedClause clause) { return false; }
-    public void substitute(GroundedClause c1, GroundedClause c2) { }
-    public GroundedClause deepCopy() throws CloneNotSupportedException { return (GroundedClause)this.clone(); }
+    public boolean containsClause(GroundedClause clause)
+    {
+        if (this == clause)
+            return true;
+        return false;
+     }
+    public void substitute(GroundedClause c1, GroundedClause c2) {  }
+    public GroundedClause deepCopy() throws CloneNotSupportedException { return (GroundedClause) this.clone(); }
 
     public int getHashCode() { return super.hashCode(); }
 
     public abstract String toString();
+    
+    
 
     public String toPrettyString() { return Integer.toString(clauseId); }
 

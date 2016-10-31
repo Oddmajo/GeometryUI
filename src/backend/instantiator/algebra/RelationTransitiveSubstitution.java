@@ -1,13 +1,14 @@
 package instantiator.algebra;
 
-import equations.*;
-import instantiator.*;
+import backend.equations.*;
+import backend.instantiator.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RelationTransitiveSubstitution extends GenericRule
 {
+    /*
     //private static read-only string NAME = "Relation Transitive Substitution";
 
     // Transitivity of Parallel Lines
@@ -242,4 +243,5 @@ public class RelationTransitiveSubstitution extends GenericRule
 
         return false;
     }
+    */
 }

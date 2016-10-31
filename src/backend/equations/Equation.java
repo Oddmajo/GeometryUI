@@ -68,6 +68,7 @@ public class Equation extends ArithmeticNode
     public final static int RIGHT_ATOMIC = 1;
     public final static int BOTH_ATOMIC = 2;
 
+    /*
     public int getAtomicity()
     {
         boolean leftIs = lhs instanceof Angle || lhs instanceof Segment || lhs instanceof Arc || lhs instanceof NumericValue;
@@ -80,6 +81,7 @@ public class Equation extends ArithmeticNode
 
         return NONE_ATOMIC;
     }
+    */
 
     // Collect all the terms and return a size() for both sides <left, right>
     public Pair<Integer, Integer> getCardinalities()

@@ -15,7 +15,7 @@ You should have received a copy of the GNU Affero General Public License along w
  *
  */
 
-package utilities.timer;
+package backend.utilities.timer;
 
 public class Timing
 {

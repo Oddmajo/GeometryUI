@@ -2,11 +2,11 @@ package equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import ast.figure.components.*;
-import utilities.list.Utilities;
-import utilities.ast_helper.*;
-import utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
+import backend.ast.figure.components.*;
+import backend.utilities.list.Utilities;
+import backend.utilities.ast_helper.*;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class AngleEquation extends Equation
 {

@@ -1,19 +1,20 @@
 package equations;
 
-import utilities.exception.ArgumentException;
+import backend.utilities.exception.ArgumentException;
 
 public class AlgebraicAngleArcEquation extends AngleArcEquation
 {
+    
     public AlgebraicAngleArcEquation()
     {
         super();
     }
-
+    
     public AlgebraicAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);
     }
-
+    
     public GroundedClause deepCopy() throws CloneNotSupportedException
     {
         try
@@ -47,4 +48,5 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
     {
         return "AlgebraicEquation(" + lhs + " = " + rhs + "): " + justification;
     }
+    
 }

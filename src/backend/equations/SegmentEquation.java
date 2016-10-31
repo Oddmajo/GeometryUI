@@ -2,9 +2,9 @@ package equations;
 
 import java.util.List;
 import javax.swing.text.Segment;
-import utilities.ast_helper.*;
-import utilities.exception.ArgumentException;
-import utilities.exception.*;
+import backend.utilities.ast_helper.*;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.*;
 
 public class SegmentEquation extends Equation
 {

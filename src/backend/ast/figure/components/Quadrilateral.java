@@ -1,7 +1,6 @@
 package backend.ast.figure.components;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import backend.ast.GroundedClause;
 import backend.utilities.Pair;
@@ -142,7 +141,7 @@ public class Quadrilateral extends Polygon
         addSuperFigureToDependencies();
     }
 
-    public Quadrilateral(List<Segment> segs)
+    public Quadrilateral(ArrayList<Segment> segs)
     {
         this(segs.get(0), segs.get(1), segs.get(2), segs.get(3));
         
@@ -364,9 +363,9 @@ public class Quadrilateral extends Polygon
     //
     // Acquire the other 2 sides not : this parallel relationship; works for a n-gon (polygon) as well.
     //
-    public List<Segment> GetOtherSides(List<Segment> inSegments)
+    public ArrayList<Segment> GetOtherSides(ArrayList<Segment> inSegments)
     {
-        List<Segment> outSegments = new ArrayList<Segment>();
+        ArrayList<Segment> outSegments = new ArrayList<Segment>();
 
         // This quadrilateral must have these given segments to return valid data.
         for (Segment inSeg : inSegments)
@@ -391,10 +390,10 @@ public class Quadrilateral extends Polygon
     //
     // Acquire the other 2 sides not : this parallel relationship; works for a n-gon (polygon) as well.
     //
-    public List<Segment> GetOtherSubsegmentSides(List<Segment> inSegments)
+    public ArrayList<Segment> GetOtherSubsegmentSides(ArrayList<Segment> inSegments)
     {
         // This quadrilateral must have these given segments to return valid data.
-        List<Segment> inSegsMappedToQuad = new ArrayList<Segment>();
+        ArrayList<Segment> inSegsMappedToQuad = new ArrayList<Segment>();
         for (Segment inSeg : inSegments)
         {
             Segment side = this.HasSubsegmentSide(inSeg);
@@ -405,7 +404,7 @@ public class Quadrilateral extends Polygon
         //
         // Traverse given segments partitioning this quad into : / out.
         //
-        List<Segment> outSegments = new ArrayList<Segment>();
+        ArrayList<Segment> outSegments = new ArrayList<Segment>();
         for (Segment side : orderedSides)
         {
             if (!inSegsMappedToQuad.contains(side))
@@ -641,7 +640,7 @@ public class Quadrilateral extends Polygon
     //
     // generate a Quadrilateral object, if the 4 segments construct a valid quadrilateral.
     //
-    public static Quadrilateral GenerateQuadrilateral(List<Segment> segments)
+    public static Quadrilateral GenerateQuadrilateral(ArrayList<Segment> segments)
     {
         if (segments.size() < 4) return null;
 
@@ -695,7 +694,7 @@ public class Quadrilateral extends Polygon
         //
         // Verify that we have 4 unique points; And not different shapes (like a star, or triangle with another segment)
         //
-        List<Point> pts = new ArrayList<Point>();
+        ArrayList<Point> pts = new ArrayList<Point>();
         pts.add(left.SharedVertex(top));
         pts.add(left.SharedVertex(bottom));
         pts.add(right.SharedVertex(bottom));
@@ -810,7 +809,7 @@ public class Quadrilateral extends Polygon
     {
         figureQuadrilaterals.clear();
     }
-    public static List<Quadrilateral> figureQuadrilaterals = new ArrayList<Quadrilateral>();
+    public static ArrayList<Quadrilateral> figureQuadrilaterals = new ArrayList<Quadrilateral>();
     public static void Record(GroundedClause clause)
     {
         // Record uniquely? For right angles, etc?

@@ -1,18 +1,19 @@
 package instantiator.algebra;
 
-import equations.*;
-import instantiator.EdgeAggregator;
-import instantiator.GenericRule;
-import hypergraph.*;
+import backend.equations.*;
+import backend.instantiator.EdgeAggregator;
+import backend.instantiator.GenericRule;
+import backend.hypergraph.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import utilities.Pair;
-import utilities.exception.ArgumentException;
-import utilities.exception.ExceptionHandler;
+import backend.utilities.Pair;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class TransitiveCongruentTriangles extends GenericRule
 {
+    /*
     private static String NAME = "Transitivity of Congruent Triangles";
     private static EdgeAnnotation annotation = new EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES);
 
@@ -133,4 +134,5 @@ public class TransitiveCongruentTriangles extends GenericRule
 
         return newGrounded;
     }
+    */
 }

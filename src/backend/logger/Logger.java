@@ -1,4 +1,4 @@
-package logger;
+package backend.utilities.logger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,6 +15,7 @@ public class Logger
     /*@author Ryan Billingsly
      */
     protected Logger _parentId;
+    public Logger getParent() { return _parentId; }
     protected int _loggerId;
 
     /*
@@ -30,7 +31,8 @@ public class Logger
         _theFilePath = null;
         _parentId = null;
         _loggerId = -1;
-        open(new OutputStreamWriter(System.out));
+        _writer = null;
+        //open(new OutputStreamWriter(System.out));
     }
 
     /*
@@ -125,13 +127,24 @@ public class Logger
     {
         try
         {
-            _writer.write(str);
-            if (_parentId != null)
-                return _parentId.write(str);
+            if (_writer != null)
+            {
+                _writer.write(str);
+                if (_parentId != null)
+                {
+                    return _parentId.write(str);
+                }
+            }
         }
         catch (IOException ioe)
         {
             System.err.println("Logging problem: " + ioe.getMessage() + " for logger: " + _loggerId);
+            String output = "";
+            for (int i = 1; i < Thread.currentThread().getStackTrace().length; i++)
+            {
+                output += "\r\n\tat " + Thread.currentThread().getStackTrace()[i];
+            }
+            System.out.println(output);
             return false;
         }
 
@@ -151,7 +164,15 @@ public class Logger
     //
     public void close() throws IOException
     {
-        _writer.close();
+        try 
+        {
+            if (_writer != null)
+                _writer.close();
+        }
+        catch (IOException ioe)
+        {
+            System.err.println("I'm here, motherfucker");
+        }
     }
     
     /**

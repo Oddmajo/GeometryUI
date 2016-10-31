@@ -3,15 +3,17 @@ package instantiator.algebra;
 import java.util.ArrayList;
 import java.util.List;
 
-import ast.figure.components.Angle;
-import equations.*;
-import instantiator.EdgeAggregator;
-import instantiator.GenericRule;
-import equations.*;
-import utilities.ast_helper.*;
+import backend.ast.figure.components.Angle;
+import backend.equations.*;
+import backend.instantiator.EdgeAggregator;
+import backend.instantiator.GenericRule;
+import backend.equations.*;
+import backend.utilities.ast_helper.*;
 
+@SuppressWarnings("unused")
 public class TransitiveSubstitution extends GenericRule
 {
+    /*
     private static String NAME = "Transitive Substitution";
     private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_SUBSTITUTION);
 
@@ -1707,4 +1709,5 @@ public class TransitiveSubstitution extends GenericRule
 
         return false;
     }
+    */
 }

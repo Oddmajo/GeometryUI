@@ -15,9 +15,15 @@ public class Addition extends ArithmeticOperation
     }
 
 
+
     public String toString()
     {
         return "(" + leftExp.toString() + " + " + rightExp.toString() + ")";
+    }
+
+    public String toPrettyString()
+    {
+        return leftExp.toPrettyString() + " + " + rightExp.toPrettyString();
     }
 
     public  boolean equals(Object obj)
@@ -27,4 +33,11 @@ public class Addition extends ArithmeticOperation
     }
 
     public int getHashCode() {  return super.getHashCode(); }
+    
+    public boolean containsClause(GroundedClause c)
+    {
+        if (leftExp.containsClause(c) || rightExp.containsClause(c))
+            return true;
+        return false;
+    }
 }

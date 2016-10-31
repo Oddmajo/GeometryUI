@@ -1383,8 +1383,9 @@ public class Triangle extends Polygon
     @Override
     public boolean StructurallyEquals(Object obj)
     {
+        if (obj == null) return false;
+        if (!(obj instanceof Triangle)) return false;
         Triangle thatTriangle = (Triangle)obj;
-        if (thatTriangle == null) return false;
 
         return thatTriangle.HasPoint(this.Point1) && thatTriangle.HasPoint(this.Point2) && thatTriangle.HasPoint(this.Point3);
     }

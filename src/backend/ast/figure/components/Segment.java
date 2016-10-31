@@ -793,6 +793,19 @@ public class Segment extends Figure
     {
         figureSegments.clear();
     }
+    
+    // Checking for structural equality (is it the same segment) excluding the multiplier
+    @Override
+    public boolean StructurallyEquals(Object obj)
+    {
+        if(obj == null) return false;
+        if(!(obj instanceof Segment)) return false;
+        Segment segment = (Segment)obj;
+
+        return ((segment._point1.StructurallyEquals(_point1) && segment._point2.StructurallyEquals(_point2)) ||
+                (segment._point1.StructurallyEquals(_point2) && segment._point2.StructurallyEquals(_point1)));
+    }
+    
     public static void Record(GroundedClause clause)
     {
         // Record uniquely? For right angles, etc?

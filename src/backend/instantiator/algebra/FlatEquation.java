@@ -1,6 +1,6 @@
 package instantiator.algebra;
 
-import equations.*;
+import backend.equations.*;
 import java.util.List;
 
 public class FlatEquation extends Equation
@@ -41,14 +41,16 @@ public class FlatEquation extends Equation
 
     public GroundedClause deepCopy() throws CloneNotSupportedException
     {
-        return new AlgebraicSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
+        System.out.println("Cannot be properly tested at this time.");
+        return this;
+       /* return new AlgebraicSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy()); */
     }
 
     public boolean equals(Object obj)
     {
 
-        if (obj == null ||(AlgebraicSegmentEquation) obj == null) return false;
-        AlgebraicSegmentEquation eq = new AlgebraicSegmentEquation();
+        if (obj == null || (AlgebraicSegmentEquation) obj == null) return false;
+        AlgebraicSegmentEquation eq = (AlgebraicSegmentEquation) obj;
         return (lhs.equals(eq.lhs) && rhs.equals(eq.rhs)) || (lhs.equals(eq.rhs) && rhs.equals(eq.lhs));
     }
 

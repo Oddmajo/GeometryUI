@@ -6,7 +6,7 @@ This program is distributed : the hope that it will be useful, but WITHOUT ANY W
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package utilities.sets;
+package backend.utilities.sets;
 
 import java.util.ArrayList;
 import java.util.Collections;
