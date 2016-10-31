@@ -4,7 +4,17 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.utilities.Pair;
+import backend.utilities.ast_helper.Utilities;
 import backend.utilities.translation.OutPair;
+import backend.ast.Descriptors.Intersection;
+import backend.ast.Descriptors.Strengthened;
+import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
+import backend.ast.figure.components.quadrilaterals.Kite;
+import backend.ast.figure.components.quadrilaterals.Parallelogram;
+import backend.ast.figure.components.quadrilaterals.Rectangle;
+import backend.ast.figure.components.quadrilaterals.Rhombus;
+import backend.ast.figure.components.quadrilaterals.Square;
+import backend.ast.figure.components.quadrilaterals.Trapezoid;
 
 
 /// <summary>
@@ -42,8 +52,12 @@ public class Quadrilateral extends Polygon
     //
     // Diagonals
     //
-//    public Intersection diagonalIntersection { get; private set; }
-//    public void SetIntersection(Intersection diag) { diagonalIntersection = diag; }
+    private Intersection diagonalIntersection;
+    public Intersection getDiagonalIntersection()
+    {
+    	return diagonalIntersection;
+    }
+    public void SetIntersection(Intersection diag) { diagonalIntersection = diag; }
 
     protected Segment topLeftBottomRightDiagonal;
     public Segment getTLBRDiagonal() { return topLeftBottomRightDiagonal; }
@@ -439,168 +453,168 @@ public class Quadrilateral extends Polygon
 //
 //        return GetOtherSubsegmentSides(segs);
 //    }
-//
-//    //
-//    // Coordinate-based determination if we have a parallelogram.
-//    //
-//    public boolean VerifyParallelogram()
-//    {
-//        if (!left.IsParallelWith(right)) return false;
-//        if (!top.IsParallelWith(bottom)) return false;
-//
-//        if (!Utilities.doubleEquals(left.Length, right.Length)) return false;
-//        if (!Utilities.doubleEquals(top.Length, bottom.Length)) return false;
-//
-//        if (!Utilities.doubleEquals(topLeftAngle.measure, bottomRightAngle.measure)) return false;
-//        if (!Utilities.doubleEquals(topRightAngle.measure, bottomLeftAngle.measure)) return false;
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have a rhombus.
-//    //
-//    public boolean VerifyRhombus()
-//    {
-//        if (!VerifyParallelogram()) return false;
-//
-//        if (!Utilities.doubleEquals(left.Length, top.Length)) return false;
-//        if (!Utilities.doubleEquals(left.Length, bottom.Length)) return false;
-//
-//        // Redundant
-//        if (!Utilities.doubleEquals(right.Length, top.Length)) return false;
-//        if (!Utilities.doubleEquals(right.Length, bottom.Length)) return false;
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have a Square
-//    //
-//    public boolean VerifySquare()
-//    {
-//        if (!VerifyRhombus()) return false;
-//
-//        if (!Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have a Rectangle
-//    //
-//    public boolean VerifyRectangle()
-//    {
-//        if (!VerifyParallelogram()) return false;
-//
-//        if (!Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-//        if (!Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have a Trapezoid
-//    //
-//    public boolean VerifyTrapezoid()
-//    {
-//        boolean lrParallel = left.IsParallelWith(right);
-//        boolean tbParallel = top.IsParallelWith(bottom);
-//
-//        // XOR of parallel opposing sides
-//        if (lrParallel && tbParallel) return false;
-//        if (!lrParallel && !tbParallel) return false;
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have an Isosceles Trapezoid
-//    //
-//    public boolean VerifyIsoscelesTrapezoid()
-//    {
-//        if (!VerifyTrapezoid()) return false;
-//
-//        //
-//        // Determine parallel sides, then compare lengths of other sides
-//        //
-//        if (left.IsParallelWith(right))
-//        {
-//            if (!Utilities.doubleEquals(top.Length, bottom.Length)) return false;
-//        }
-//        else if (top.IsParallelWith(bottom))
-//        {
-//            if (!Utilities.doubleEquals(left.Length, right.Length)) return false;
-//        }
-//
-//        return true;
-//    }
-//
-//    //
-//    // Coordinate-based determination if we have an Isosceles Trapezoid
-//    //
-//    public boolean VerifyKite()
-//    {
-//        //
-//        // Adjacent sides must equate : length
-//        //
-//        if (Utilities.doubleEquals(left.Length, top.Length) && Utilities.doubleEquals(right.Length, bottom.Length)) return true;
-//
-//        if (Utilities.doubleEquals(left.Length, bottom.Length) && Utilities.doubleEquals(right.Length, top.Length)) return true;
-//
-//        return false;
-//    }
-//
-//    //
-//    // Can this Quadrilateral be strengthened to any of the specific quadrilaterals (parallelogram, kite, square, etc)?
-//    //
-//    public static List<Strengthened> CanBeStrengthened(Quadrilateral thatQuad)
-//    {
-//        List<Strengthened> strengthened = new ArrayList<Strengthened>();
-//
-//        if (thatQuad.VerifyParallelogram())
-//        {
-//            strengthened.add(new Strengthened(thatQuad, new Parallelogram(thatQuad)));
-//        }
-//
-//        if (thatQuad.VerifyRectangle())
-//        {
-//            strengthened.add(new Strengthened(thatQuad, new Rectangle(thatQuad)));
-//        }
-//
-//        if (thatQuad.VerifySquare())
-//        {
-//            strengthened.add(new Strengthened(thatQuad, new Square(thatQuad)));
-//        }
-//
-//        if (thatQuad.VerifyRhombus())
-//        {
-//            strengthened.add(new Strengthened(thatQuad, new Rhombus(thatQuad)));
-//        }
-//
-//        if (thatQuad.VerifyKite())
-//        {
-//            strengthened.add(new Strengthened(thatQuad, new Kite(thatQuad)));
-//        }
-//
-//        if (thatQuad.VerifyTrapezoid())
-//        {
-//            Trapezoid newTrap = new Trapezoid(thatQuad);
-//            strengthened.add(new Strengthened(thatQuad, newTrap));
-//
-//            if (thatQuad.VerifyIsoscelesTrapezoid())
-//            {
-//                strengthened.add(new Strengthened(newTrap, new IsoscelesTrapezoid(thatQuad)));
-//            }
-//        }
-//
-//        return strengthened;
-//    }
+
+    //
+    // Coordinate-based determination if we have a parallelogram.
+    //
+    public boolean VerifyParallelogram()
+    {
+        if (!left.IsParallelWith(right)) return false;
+        if (!top.IsParallelWith(bottom)) return false;
+
+        if (!backend.utilities.math.Utilities.doubleEquals(left._length, right._length)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(top._length, bottom._length)) return false;
+
+        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, bottomRightAngle.measure)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, bottomLeftAngle.measure)) return false;
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have a rhombus.
+    //
+    public boolean VerifyRhombus()
+    {
+        if (!VerifyParallelogram()) return false;
+
+        if (!backend.utilities.math.Utilities.doubleEquals(left._length, top._length)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(left._length, bottom._length)) return false;
+
+        // Redundant
+        if (!backend.utilities.math.Utilities.doubleEquals(right._length, top._length)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(right._length, bottom._length)) return false;
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have a Square
+    //
+    public boolean VerifySquare()
+    {
+        if (!VerifyRhombus()) return false;
+
+        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have a Rectangle
+    //
+    public boolean VerifyRectangle()
+    {
+        if (!VerifyParallelogram()) return false;
+
+        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have a Trapezoid
+    //
+    public boolean VerifyTrapezoid()
+    {
+        boolean lrParallel = left.IsParallelWith(right);
+        boolean tbParallel = top.IsParallelWith(bottom);
+
+        // XOR of parallel opposing sides
+        if (lrParallel && tbParallel) return false;
+        if (!lrParallel && !tbParallel) return false;
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have an Isosceles Trapezoid
+    //
+    public boolean VerifyIsoscelesTrapezoid()
+    {
+        if (!VerifyTrapezoid()) return false;
+
+        //
+        // Determine parallel sides, then compare lengths of other sides
+        //
+        if (left.IsParallelWith(right))
+        {
+            if (!backend.utilities.math.Utilities.doubleEquals(top._length, bottom._length)) return false;
+        }
+        else if (top.IsParallelWith(bottom))
+        {
+            if (!backend.utilities.math.Utilities.doubleEquals(left._length, right._length)) return false;
+        }
+
+        return true;
+    }
+
+    //
+    // Coordinate-based determination if we have an Isosceles Trapezoid
+    //
+    public boolean VerifyKite()
+    {
+        //
+        // Adjacent sides must equate : length
+        //
+        if (backend.utilities.math.Utilities.doubleEquals(left._length, top._length) && backend.utilities.math.Utilities.doubleEquals(right._length, bottom._length)) return true;
+
+        if (backend.utilities.math.Utilities.doubleEquals(left._length, bottom._length) && backend.utilities.math.Utilities.doubleEquals(right._length, top._length)) return true;
+
+        return false;
+    }
+
+    //
+    // Can this Quadrilateral be strengthened to any of the specific quadrilaterals (parallelogram, kite, square, etc)?
+    //
+    public static ArrayList<Strengthened> CanBeStrengthened(Quadrilateral thatQuad)
+    {
+        ArrayList<Strengthened> strengthened = new ArrayList<Strengthened>();
+
+        if (thatQuad.VerifyParallelogram())
+        {
+            strengthened.add(new Strengthened(thatQuad, new Parallelogram(thatQuad)));
+        }
+
+        if (thatQuad.VerifyRectangle())
+        {
+            strengthened.add(new Strengthened(thatQuad, new Rectangle(thatQuad)));
+        }
+
+        if (thatQuad.VerifySquare())
+        {
+            strengthened.add(new Strengthened(thatQuad, new Square(thatQuad)));
+        }
+
+        if (thatQuad.VerifyRhombus())
+        {
+            strengthened.add(new Strengthened(thatQuad, new Rhombus(thatQuad)));
+        }
+
+        if (thatQuad.VerifyKite())
+        {
+            strengthened.add(new Strengthened(thatQuad, new Kite(thatQuad)));
+        }
+
+        if (thatQuad.VerifyTrapezoid())
+        {
+            Trapezoid newTrap = new Trapezoid(thatQuad);
+            strengthened.add(new Strengthened(thatQuad, newTrap));
+
+            if (thatQuad.VerifyIsoscelesTrapezoid())
+            {
+                strengthened.add(new Strengthened(newTrap, new IsoscelesTrapezoid(thatQuad)));
+            }
+        }
+
+        return strengthened;
+    }
 
     protected boolean HasSamePoints(Quadrilateral quad)
     {

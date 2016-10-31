@@ -1,5 +1,6 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
@@ -18,22 +19,22 @@ public class Kite extends Quadrilateral
     public Segment getPairBSegment1() { return pairBSegment1; }
     public Segment getPairBSegment2() { return pairBSegment2; }
 
-//    public Kite(Quadrilateral quad)
-//    { 
-//        this(quad.left, quad.right, quad.top, quad.bottom,
-//                quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.getDiagonalIntersection());
-//    }
+    public Kite(Quadrilateral quad)
+    { 
+        this(quad.left, quad.right, quad.top, quad.bottom,
+                quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.getDiagonalIntersection());
+    }
 
     public Kite(Segment left, Segment right, Segment top, Segment bottom)
     {
 //        boolean tlDiag = false;
 //        boolean brDiag = false;
 //        Intersection inter = null;
-        this(left, right, top, bottom, false, false);
+        this(left, right, top, bottom, false, false,null);
     }
     
 //    public Kite(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter)
-    public Kite(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag)
+    public Kite(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag,Intersection inter)
     {
         super(left, right, top, bottom);
         
@@ -61,7 +62,7 @@ public class Kite extends Quadrilateral
         //Set the diagonal and intersection values
         if (!tlDiag) this.SetTopLeftDiagonalInValid();
         if (!brDiag) this.SetBottomRightDiagonalInValid();
-//        this.SetIntersection(inter);
+        this.SetIntersection(inter);
     }
 
     @Override

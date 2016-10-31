@@ -368,7 +368,9 @@ public class CoordinatePrecomputer
     	}
     }
     
-    private <T> void CalculateArcCongruences(ArrayList<T> arcs)
+    //slightly changed from C# but this should be alright
+    //CAN THIS EVER NOT BE AN ARC? IF NOT WHY WAS IT TYPE T?
+    private <T extends Arc> void CalculateArcCongruences(ArrayList<T> arcs)
     {
     	for(int a1 = 0; a1< arcs.size(); a1++)
     	{
@@ -396,13 +398,13 @@ public class CoordinatePrecomputer
         //
     	for(Quadrilateral quad : quadrilaterals)
     	{
-    		strengthened.AddRange(Quadrilateral.CanBeStrengthened(quad));
+    		strengthened.addAll(Quadrilateral.CanBeStrengthened(quad));
     	}
     	
     	//can a triangle be strengthened? scalene -> isosceles -> equilateral?
     	for(Triangle t : triangles)
     	{
-    		strengthened.AddRange(Triangle.CanBeStrengthened(t));
+    		strengthened.addAll(Triangle.CanBeStrengthened(t));
     	}
     	
     	//can an inMiddle relationship be classified as a midpoint?
@@ -429,7 +431,7 @@ public class CoordinatePrecomputer
     	{
     		System.Diagnostics.Debug.WriteLine("Precomputed Strengthening");
     		for(Strengthened s : strengthened)
-    		{
+    		{ 
     			System.Diagnostics.Debug.WriteLine(s.toString());
     		}
     	}

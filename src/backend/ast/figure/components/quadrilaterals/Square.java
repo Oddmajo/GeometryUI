@@ -1,5 +1,6 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
@@ -8,19 +9,19 @@ import backend.utilities.math.Utilities;
 
 public class Square extends Rhombus
 {
-//   public Square(Quadrilateral quad)
-//   { 
-//        this(quad.left, quad.right, quad.top, quad.bottom,
-//        quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.diagonalIntersection)
-//   }
+   public Square(Quadrilateral quad)
+   { 
+        this(quad.left, quad.right, quad.top, quad.bottom,
+        quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.getDiagonalIntersection());
+   }
     
     public Square(Segment left, Segment right, Segment top, Segment bottom)
     {
-        this(left, right, top, bottom, false, false);
+        this(left, right, top, bottom, false, false, null);
     }
 
 //    public Square(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter) 
-    public Square(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag) 
+    public Square(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter) 
     {
         super(left, right, top, bottom);  
         if (!Utilities.doubleEquals(topLeftAngle.getMeasure(), 90))
@@ -45,7 +46,7 @@ public class Square extends Rhombus
         //Set the diagonal and intersection values
         if (!tlDiag) this.SetTopLeftDiagonalInValid();
         if (!brDiag) this.SetBottomRightDiagonalInValid();
-        //                this.SetIntersection(inter);
+         this.SetIntersection(inter);
     }
 
     //

@@ -7,6 +7,8 @@ import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.ast.figure.components.triangles.EquilateralTriangle;
 import backend.ast.figure.components.triangles.IsoscelesTriangle;
+import backend.ast.figure.components.triangles.RightTriangle;
+import backend.ast.Descriptors.Strengthened;
 
 
 public class Triangle extends Polygon
@@ -1040,68 +1042,68 @@ public class Triangle extends Polygon
         return !congruentAngle.contains(false) && (corresponding.getKey() == null && corresponding.getValue() == null); // CTA: Congruence is stronger than Similarity
     }
 
-    //
-    // Can this triangle be strengthened to Isosceles, Equilateral, Right, or Right Isosceles?
-    //
-    //    public static ArrayList<Strengthened> CanBeStrengthened(Triangle thatTriangle)
-    //    {
-    //        ArrayList<Strengthened> strengthened = new ArrayList<Strengthened>();
-    //
-    //        //
-    //        // Equilateral cannot be strengthened
-    //        //
-    //        if (thatTriangle instanceof EquilateralTriangle) return strengthened;
-    //
-    //        if (thatTriangle instanceof IsoscelesTriangle)
-    //        {
-    //            //
-    //            // Isosceles -> Equilateral
-    //            //
-    //            if (thatTriangle.isEquilateral)
-    //            {
-    //                strengthened.add(new Strengthened(thatTriangle, new EquilateralTriangle(thatTriangle)));
-    //            }
-    //
-    //            //
-    //            // Isosceles -> Right Isosceles
-    //            //
-    //            if (thatTriangle.isRight)
-    //            {
-    //                strengthened.add(new Strengthened(thatTriangle, new RightTriangle(thatTriangle)));
-    //            }
-    //
-    //            return strengthened;
-    //        }
-    //
-    //        //
-    //        // Scalene -> Isosceles
-    //        //
-    //        if (thatTriangle.isIsosceles)
-    //        {
-    //            strengthened.add(new Strengthened(thatTriangle, new IsoscelesTriangle(thatTriangle)));
-    //        }
-    //
-    //        //
-    //        // Scalene -> Equilateral
-    //        //
-    //        if (thatTriangle.isEquilateral)
-    //        {
-    //            strengthened.add(new Strengthened(thatTriangle, new EquilateralTriangle(thatTriangle)));
-    //        }
-    //
-    //        //
-    //        // Scalene -> Right
-    //        //
-    //        if (!(thatTriangle instanceof RightTriangle))
-    //        {
-    //            if (thatTriangle.isRight)
-    //            {
-    //                strengthened.add(new Strengthened(thatTriangle, new RightTriangle(thatTriangle)));
-    //            }
-    //        }
-    //
-    //        return strengthened;
-    //    }
+    
+     //Can this triangle be strengthened to Isosceles, Equilateral, Right, or Right Isosceles?
+    
+        public static ArrayList<Strengthened> CanBeStrengthened(Triangle thatTriangle)
+        {
+            ArrayList<Strengthened> strengthened = new ArrayList<Strengthened>();
+    
+            //
+            // Equilateral cannot be strengthened
+            //
+            if (thatTriangle instanceof EquilateralTriangle) return strengthened;
+    
+            if (thatTriangle instanceof IsoscelesTriangle)
+            {
+                //
+                // Isosceles -> Equilateral
+                //
+                if (thatTriangle.isEquilateral)
+                {
+                    strengthened.add(new Strengthened(thatTriangle, new EquilateralTriangle(thatTriangle)));
+                }
+    
+                //
+                // Isosceles -> Right Isosceles
+                //
+                if (thatTriangle.isRight)
+                {
+                    strengthened.add(new Strengthened(thatTriangle, new RightTriangle(thatTriangle)));
+                }
+    
+                return strengthened;
+            }
+    
+            //
+            // Scalene -> Isosceles
+            //
+            if (thatTriangle.isIsosceles)
+            {
+                strengthened.add(new Strengthened(thatTriangle, new IsoscelesTriangle(thatTriangle)));
+            }
+    
+            //
+            // Scalene -> Equilateral
+            //
+            if (thatTriangle.isEquilateral)
+            {
+                strengthened.add(new Strengthened(thatTriangle, new EquilateralTriangle(thatTriangle)));
+            }
+    
+            //
+            // Scalene -> Right
+            //
+            if (!(thatTriangle instanceof RightTriangle))
+            {
+                if (thatTriangle.isRight)
+                {
+                    strengthened.add(new Strengthened(thatTriangle, new RightTriangle(thatTriangle)));
+                }
+            }
+    
+            return strengthened;
+        }
 
     @Override
     public boolean CanBeStrengthenedTo(GroundedClause gc)

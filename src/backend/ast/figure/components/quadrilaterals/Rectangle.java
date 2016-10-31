@@ -1,5 +1,6 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
@@ -9,18 +10,36 @@ import backend.utilities.math.Utilities;
 
 public class Rectangle extends Parallelogram
 {
-    //        public Rectangle(Quadrilateral quad) 
-    //        { 
-    //            this(quad.left, quad.right, quad.top, quad.bottom,
-    //                    quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.diagonalIntersection)
-    //        }
+    public Rectangle(Quadrilateral quad) 
+    { 
+        this(quad.left, quad.right, quad.top, quad.bottom,
+                quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.getDiagonalIntersection());
+    }
 
-    public Rectangle(Segment a, Segment b, Segment c, Segment d)
+    public Rectangle(Segment a, Segment b, Segment c, Segment d )
     {
         super(a, b, c, d);
         boolean tlDiag = false;
         boolean brDiag = false;
         //            Intersection inter = null;
+        for (Angle angle : angles)
+        {
+            if (!Utilities.doubleEquals(angle.getMeasure(), 90))
+            {
+                throw new IllegalArgumentException("Quadrilateral is not a Rectangle; angle does not measure 90^o: " + angle);
+            }
+        }
+
+        //Set the diagonal and intersection values
+        if (!tlDiag) this.SetTopLeftDiagonalInValid();
+        if (!brDiag) this.SetBottomRightDiagonalInValid();
+        //            this.SetIntersection(inter);
+    }
+    
+    public Rectangle(Segment a, Segment b, Segment c, Segment d, boolean tlDiag, boolean brDiag, Intersection inter)
+    {
+    	super(a,b,c,d);
+    	 //            Intersection inter = null;
         for (Angle angle : angles)
         {
             if (!Utilities.doubleEquals(angle.getMeasure(), 90))

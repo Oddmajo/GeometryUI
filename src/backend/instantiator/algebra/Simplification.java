@@ -1,4 +1,4 @@
-package instantiator.algebra;
+package backend.instantiator.algebra;
 
 import backend.equations.*;
 import backend.instantiator.GenericRule;

@@ -1,5 +1,6 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
@@ -8,11 +9,11 @@ import backend.utilities.math.Utilities;
 
 public class Rhombus extends Parallelogram
 {
-//    public Rhombus(Quadrilateral quad)
-//    {
-//        this(quad.left, quad.right, quad.top, quad.bottom,
-//                quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.diagonalIntersection)
-//    }
+    public Rhombus(Quadrilateral quad)
+    {
+        this(quad.left, quad.right, quad.top, quad.bottom,
+                quad.TopLeftDiagonalIsValid(), quad.BottomRightDiagonalIsValid(), quad.getDiagonalIntersection());
+    }
 
     //TODO: Need to find a way to determine the validity of diagonals, and to find the intersection if both diagonals are valid
     //These values are determined for base quadrilaterals by the Implied Component Calculator in the UI parser, but are never
@@ -21,12 +22,12 @@ public class Rhombus extends Parallelogram
     
     public Rhombus(Segment left, Segment right, Segment top, Segment bottom)
     {
-        this(left, right, top, bottom, false, false);
+        this(left, right, top, bottom, false, false, null);
         
     }
     
 //    public Rhombus(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersction inter)
-    public Rhombus(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag)
+    public Rhombus(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter)
     {
         super(left, right, top, bottom);
         if (!Utilities.doubleEquals(top.length(), left.length()))
@@ -45,7 +46,7 @@ public class Rhombus extends Parallelogram
         //Set the diagonal and intersection values
         if (!tlDiag) this.SetTopLeftDiagonalInValid();
         if (!brDiag) this.SetBottomRightDiagonalInValid();
-//        this.SetIntersection(inter);
+        this.SetIntersection(inter);
     }
 
     @Override

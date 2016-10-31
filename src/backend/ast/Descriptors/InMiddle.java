@@ -51,12 +51,12 @@ public class InMiddle extends Descriptor
         this.segment = segment;
     }
     
-    @Override
-    public void DumpXML(Action<String, ArrayList<GroundedClause>> write)
-    {
-        GroundedClause[] children = {point, segment};
-        write("InMiddle", new ArrayList<GroundedClause>(children));
-    }
+//    @Override
+//    public void DumpXML(Action<String, ArrayList<GroundedClause>> write)
+//    {
+//        GroundedClause[] children = {point, segment};
+//        write("InMiddle", new ArrayList<GroundedClause>(children));
+//    }
     
     //
     // Can this relationship can strengthened to a Midpoint?
