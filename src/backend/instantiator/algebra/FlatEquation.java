@@ -2,6 +2,7 @@ package backend.instantiator.algebra;
 
 import backend.equations.*;
 import java.util.List;
+import backend.ast.GroundedClause;
 
 public class FlatEquation extends Equation
 {

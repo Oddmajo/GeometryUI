@@ -7,6 +7,7 @@ import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.list.Utilities;
 import backend.equations.operations.*;
+import backend.ast.GroundedClause;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ public class Simplification extends GenericRule
         //Do we have an equation?
         if (original.equals(null))
         {
-            ExceptionHandler.throwException(new ArgumentException());
+            ExceptionHandler.throwException(new ArgumentException(""));
         }
 
         //Is the equation 0=0?  This should be allowed as it indicates a tautology.
@@ -219,16 +220,7 @@ public class Simplification extends GenericRule
 
         if (sideExps.size() == 1)
         {
-            try
-            {
                 return Utilities.makeList((GroundedClause)sideExps.get(0).deepCopy());
-            }
-            catch (CloneNotSupportedException e)
-            {
-
-                ExceptionHandler.throwException(e);
-                return sideExps;
-            }
         }
 
         // The new simplified side of the equation
@@ -328,7 +320,7 @@ public class Simplification extends GenericRule
             if (!(leftExp instanceof NumericValue))
             {
                 //HALP
-                int rightExpIndex = utilities.ast_helper.MathUtilities.StructuralIndex(eq.rhsExps, leftExp);
+                int rightExpIndex = backend.utilities.ast_helper.Utilities.StructuralIndex(eq.rhsExps, leftExp);
 
                 //
                 // Left expression has like term on the right?
@@ -388,11 +380,11 @@ public class Simplification extends GenericRule
             int gcd = leftSimp.get(0).getMulitplier();
             for (int i = 1; i < leftSimp.size(); i++)
             {
-                gcd = utilities.math.MathUtilities.GCD(gcd, leftSimp.get(i).getMulitplier());
+                gcd = backend.utilities.math.MathUtilities.GCD(gcd, leftSimp.get(i).getMulitplier());
             }
             for (GroundedClause rightExp : rightSimp)
             {
-                gcd = utilities.math.MathUtilities.GCD(gcd, rightExp.getMulitplier());
+                gcd = backend.utilities.math.MathUtilities.GCD(gcd, rightExp.getMulitplier());
             }
 
             if (gcd != 1)

@@ -66,7 +66,7 @@ public class Utilities
     // Given a list of grounded clauses, add a new value which is structurally unique.
     //
     
-    public static <T extends GroundedClause> boolean HasStructurally(ArrayList<T> list, T t)
+    public static <T extends GroundedClause> boolean HasStructurally(List<T> list, T t)
     {
         return Utilities.StructuralIndex(list, t) != -1;
     }
@@ -75,11 +75,11 @@ public class Utilities
     //
     // Given a list of grounded clauses, get the structurally unique.
     //
-    public static <T extends GroundedClause> T GetStructurally(ArrayList<T> list, T t)
+    public static <T extends GroundedClause> T GetStructurally(List<T> list, T t)
     {
         for (T oldT : list)
         {
-            if (oldT.StructurallyEquals(t)) return oldT;
+            if (oldT.structurallyEquals(t)) return oldT;
         }
 
         return null;
@@ -89,7 +89,7 @@ public class Utilities
     //
     // Given a list of grounded clauses, add a new value which is structurally unique.
     //
-    public static <T extends GroundedClause> boolean AddStructurallyUnique(ArrayList<T> list, T t)
+    public static <T extends GroundedClause> boolean AddStructurallyUnique(List<T> list, T t)
     {
         if (HasStructurally(list, t)) return false;
 
@@ -103,31 +103,31 @@ public class Utilities
     // This has been commented out because it is handled by a previous method
     //
     
-    public static <T extends GroundedClause> int StructuralIndex(ArrayList<T> list, T t) 
+    public static <T extends GroundedClause> int StructuralIndex(List<T> list, T t) 
     {
         for (int i = 0; i < list.size(); i++)
         {
-            if (list.get(i).StructurallyEquals(t)) return i;
+            if (list.get(i).structurallyEquals(t)) return i;
         }
 
         return -1;
     }
    
     // Ensure uniqueness of additions
-    public static void AddUniqueStructurally(ArrayList<Figure> figures, Figure f)
+    public static void AddUniqueStructurally(List<Figure> figures, Figure f)
     {
         for (Figure figure : figures)
         {
-            if (figure.StructurallyEquals(f)) return;
+            if (figure.structurallyEquals(f)) return;
         }
         figures.add(f);
         
     }
 
     // Makes a list containing a single element
-    public static <T> ArrayList<T> MakeList(T obj)
+    public static <T> List<T> MakeList(T obj)
     {
-        ArrayList<T> l = new ArrayList<T>();
+        List<T> l = new ArrayList<T>();
 
         l.add(obj);
 
@@ -135,7 +135,7 @@ public class Utilities
     }
     
     // Makes a list containing a single element
-    public static <T> boolean AddUnique(ArrayList<T> list, T obj)
+    public static <T> boolean AddUnique(List<T> list, T obj)
     {
         if (list.contains(obj)) return false;
 
@@ -144,7 +144,7 @@ public class Utilities
     }
     
     // Makes a list containing a single element
-    public static <T> void AddUniqueList(ArrayList<T> list, List<T> objList)
+    public static <T> void AddUniqueList(List<T> list, List<T> objList)
     {
         for (T o : objList)
         {
@@ -176,7 +176,7 @@ public class Utilities
     //
     // Get a point in the given list OR create a new list.
     //
-    public static Point AcquirePoint(ArrayList<Point> points, Point that)
+    public static Point AcquirePoint(List<Point> points, Point that)
     {
         if (that == null) return null;
 
@@ -192,7 +192,7 @@ public class Utilities
     //
     // Get a point in the given list OR create a new list that is internal to the given segments.
     //
-    public static Point AcquireRestrictedPoint(ArrayList<Point> points, Point that,
+    public static Point AcquireRestrictedPoint(List<Point> points, Point that,
                                                            Segment seg1, Segment seg2)
     {
         Point pt = AcquirePoint(points, that);
@@ -202,7 +202,7 @@ public class Utilities
         return !seg1.PointLiesOnAndBetweenEndpoints(pt) || !seg2.PointLiesOnAndBetweenEndpoints(pt) ? null : pt;
     }
     
-    public static Point AcquireRestrictedPoint(ArrayList<Point> points, Point that,
+    public static Point AcquireRestrictedPoint(List<Point> points, Point that,
                                                            Arc arc1, Arc arc2)
     {
         Point pt = AcquirePoint(points, that);
@@ -212,7 +212,7 @@ public class Utilities
         return !arc1.PointLiesOn(pt) || !arc2.PointLiesOn(pt) ? null : pt;
     }
 
-    public static Point AcquireRestrictedPoint(ArrayList<Point> points, Point that,
+    public static Point AcquireRestrictedPoint(List<Point> points, Point that,
                                                            Segment seg, Arc arc)
     {
         Point pt = AcquirePoint(points, that);

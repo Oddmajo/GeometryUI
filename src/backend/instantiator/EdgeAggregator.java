@@ -5,6 +5,7 @@ import backend.equations.*;
 import java.util.ArrayList;
 import java.util.List;
 import backend.hypergraph.*;
+import backend.ast.GroundedClause;
 
 public class EdgeAggregator
 {
