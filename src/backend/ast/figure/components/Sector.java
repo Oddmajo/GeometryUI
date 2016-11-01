@@ -99,7 +99,7 @@ public class Sector extends Figure
         double centralAngle1 = new Angle(theArc.getEndpoint1(), theArc._theCircle.getCenter(), pt).measure;
         double centralAngle2 = new Angle(theArc._endpoint2, theArc._theCircle.getCenter(), pt).measure;
 
-        boolean isInMinorArc = backend.utilities.math.Utilities.doubleEquals(theArc.minorMeasure, centralAngle1 + centralAngle2);
+        boolean isInMinorArc = backend.utilities.math.MathUtilities.doubleEquals(theArc.minorMeasure, centralAngle1 + centralAngle2);
 
         if (theArc instanceof MinorArc) return isInMinorArc;
 
@@ -238,7 +238,7 @@ public class Sector extends Figure
         }
 
         // this radius must be longer than that.
-        if (backend.utilities.math.Utilities.greaterThan(that.theArc._theCircle.getRadius(), this.theArc._theCircle.getRadius())) return false;
+        if (backend.utilities.math.MathUtilities.greaterThan(that.theArc._theCircle.getRadius(), this.theArc._theCircle.getRadius())) return false;
 
         //
         // Check containment of the points of that sector.

@@ -18,21 +18,14 @@ package backend.parameters;
 public final class Utilities
 {
 
-    public static final boolean OVERRIDE_DEBUG = false;
+    public static boolean OVERRIDE_DEBUG = false;
 
-    @SuppressWarnings("unused")
     public static final boolean DEBUG                       = OVERRIDE_DEBUG && true;
-    @SuppressWarnings("unused")
     public static final boolean CONSTRUCTION_DEBUG          = OVERRIDE_DEBUG && true;   // Generating clauses when analyzing input figure
-    @SuppressWarnings("unused")
     public static final boolean PEBBLING_DEBUG              = OVERRIDE_DEBUG && false;   // Hypergraph edges and pebbled nodes
-    @SuppressWarnings("unused")
     public static final boolean PROBLEM_GEN_DEBUG           = OVERRIDE_DEBUG && true;   // Generating the actual problems
-    @SuppressWarnings("unused")
     public static final boolean BACKWARD_PROBLEM_GEN_DEBUG  = OVERRIDE_DEBUG && true;   // Generating backward problems
-    @SuppressWarnings("unused")
     public static final boolean ATOMIC_REGION_GEN_DEBUG     = OVERRIDE_DEBUG && true;   // Generating atomic regions
-    @SuppressWarnings("unused")
     public static final boolean SHADED_AREA_SOLVER_DEBUG    = OVERRIDE_DEBUG && true;   // Solving a shaded area problem.
     public static final boolean FIGURE_SYNTHESIZER_DEBUG    = true;   // Solving a shaded area problem.
 

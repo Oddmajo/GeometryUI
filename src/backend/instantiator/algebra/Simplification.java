@@ -328,7 +328,7 @@ public class Simplification extends GenericRule
             if (!(leftExp instanceof NumericValue))
             {
                 //HALP
-                int rightExpIndex = utilities.ast_helper.Utilities.StructuralIndex(eq.rhsExps, leftExp);
+                int rightExpIndex = utilities.ast_helper.MathUtilities.StructuralIndex(eq.rhsExps, leftExp);
 
                 //
                 // Left expression has like term on the right?
@@ -388,11 +388,11 @@ public class Simplification extends GenericRule
             int gcd = leftSimp.get(0).getMulitplier();
             for (int i = 1; i < leftSimp.size(); i++)
             {
-                gcd = utilities.math.Utilities.GCD(gcd, leftSimp.get(i).getMulitplier());
+                gcd = utilities.math.MathUtilities.GCD(gcd, leftSimp.get(i).getMulitplier());
             }
             for (GroundedClause rightExp : rightSimp)
             {
-                gcd = utilities.math.Utilities.GCD(gcd, rightExp.getMulitplier());
+                gcd = utilities.math.MathUtilities.GCD(gcd, rightExp.getMulitplier());
             }
 
             if (gcd != 1)

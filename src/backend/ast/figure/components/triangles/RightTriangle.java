@@ -3,7 +3,7 @@ package backend.ast.figure.components.triangles;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.Triangle;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class RightTriangle extends Triangle
 {
@@ -15,9 +15,9 @@ public class RightTriangle extends Triangle
         super(a,b,c);
         provenRight = true;
 
-        rightAngle = Utilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
-        rightAngle = Utilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
-        rightAngle = Utilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
     }
 
     public RightTriangle(Triangle t) 
@@ -25,9 +25,9 @@ public class RightTriangle extends Triangle
         super(t.getSegmentA(), t.getSegmentB(), t.getSegmentC());
         provenRight = true;
 
-        rightAngle = Utilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
-        rightAngle = Utilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
-        rightAngle = Utilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
+        rightAngle = MathUtilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
     }
 
     @Override

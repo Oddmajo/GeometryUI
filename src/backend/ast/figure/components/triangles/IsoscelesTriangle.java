@@ -4,7 +4,7 @@ import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.Triangle;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class IsoscelesTriangle extends Triangle
 {
@@ -39,7 +39,7 @@ public class IsoscelesTriangle extends Triangle
         for (int i = 0; i < segments.length; i++)
         {
             int otherSegment = i + 1 < segments.length ? i + 1 : 0;
-            if (Utilities.doubleEquals(segments[i].length(), segments[otherSegment].length()))
+            if (MathUtilities.doubleEquals(segments[i].length(), segments[otherSegment].length()))
             {
                 leg1 = segments[i];
                 leg2 = segments[otherSegment];

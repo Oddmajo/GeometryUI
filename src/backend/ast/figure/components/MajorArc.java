@@ -54,7 +54,7 @@ public class MajorArc extends Arc
 
         if (!_theCircle.CoordinateCongruent(thatArc._theCircle)) return false;
 
-        return backend.utilities.math.Utilities.doubleEquals(this.GetMajorArcMeasureDegrees(), thatArc.GetMajorArcMeasureDegrees());
+        return backend.utilities.math.MathUtilities.doubleEquals(this.GetMajorArcMeasureDegrees(), thatArc.GetMajorArcMeasureDegrees());
     }
 
     private void GetStartEndPoints(double angle1, double angle2, OutTriple<Point, Point, Double> out)

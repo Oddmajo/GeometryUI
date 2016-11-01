@@ -5,7 +5,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class Kite extends Quadrilateral
 {
@@ -38,7 +38,7 @@ public class Kite extends Quadrilateral
     {
         super(left, right, top, bottom);
         
-        if (Utilities.doubleEquals(left.length(), top.length()) && Utilities.doubleEquals(right.length(), bottom.length()))
+        if (MathUtilities.doubleEquals(left.length(), top.length()) && MathUtilities.doubleEquals(right.length(), bottom.length()))
         {
             pairASegment1 = left;
             pairASegment2 = top;
@@ -46,7 +46,7 @@ public class Kite extends Quadrilateral
             pairBSegment1 = right;
             pairBSegment2 = bottom;
         }
-        else if (Utilities.doubleEquals(left.length(), bottom.length()) && Utilities.doubleEquals(right.length(), top.length()))
+        else if (MathUtilities.doubleEquals(left.length(), bottom.length()) && MathUtilities.doubleEquals(right.length(), top.length()))
         {
             pairASegment1 = left;
             pairASegment2 = bottom;

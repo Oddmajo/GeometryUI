@@ -430,9 +430,9 @@ public class Triangle extends Polygon
     /// <returns>TRUE if this is a right triangle.</returns>
     public boolean isRightTriangle()
     {
-        return  backend.utilities.math.Utilities.doubleEquals(AngleA.measure, 90) ||
-                backend.utilities.math.Utilities.doubleEquals(AngleB.measure, 90) ||
-                backend.utilities.math.Utilities.doubleEquals(AngleC.measure, 90);
+        return  backend.utilities.math.MathUtilities.doubleEquals(AngleA.measure, 90) ||
+                backend.utilities.math.MathUtilities.doubleEquals(AngleB.measure, 90) ||
+                backend.utilities.math.MathUtilities.doubleEquals(AngleC.measure, 90);
     }
 
     /// <summary>
@@ -463,8 +463,8 @@ public class Triangle extends Polygon
     /// <returns>TRUE if this is an equilateral triangle.</returns>
     private boolean IsEquilateral()
     {
-        return backend.utilities.math.Utilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
-                backend.utilities.math.Utilities.doubleEquals(SegmentB.length(), SegmentC.length());
+        return backend.utilities.math.MathUtilities.doubleEquals(SegmentA.length(), SegmentB.length()) &&
+                backend.utilities.math.MathUtilities.doubleEquals(SegmentB.length(), SegmentC.length());
     }
 
     public Angle GetOppositeAngle(Segment s)
@@ -1185,9 +1185,9 @@ public class Triangle extends Polygon
         if (this.HasSegment(thatSegment) && this.isRight)
         {
             // Find the right angle; the altitude must be one of those segments
-            if (backend.utilities.math.Utilities.doubleEquals(this.AngleA.measure, 90)) return AngleA.HasSegment(thatSegment);
-            if (backend.utilities.math.Utilities.doubleEquals(this.AngleB.measure, 90)) return AngleB.HasSegment(thatSegment);
-            if (backend.utilities.math.Utilities.doubleEquals(this.AngleC.measure, 90)) return AngleC.HasSegment(thatSegment);
+            if (backend.utilities.math.MathUtilities.doubleEquals(this.AngleA.measure, 90)) return AngleA.HasSegment(thatSegment);
+            if (backend.utilities.math.MathUtilities.doubleEquals(this.AngleB.measure, 90)) return AngleB.HasSegment(thatSegment);
+            if (backend.utilities.math.MathUtilities.doubleEquals(this.AngleC.measure, 90)) return AngleC.HasSegment(thatSegment);
         }
 
         //
@@ -1228,7 +1228,7 @@ public class Triangle extends Polygon
         if (!thatSegment.PointLiesOnAndBetweenEndpoints(otherIntersection)) return false;
 
         // We require a perpendicular intersection
-        return backend.utilities.math.Utilities.doubleEquals((new Angle(thisIntersection, otherIntersection, oppSide.getPoint1())).measure, 90);
+        return backend.utilities.math.MathUtilities.doubleEquals((new Angle(thisIntersection, otherIntersection, oppSide.getPoint1())).measure, 90);
     }
 
     //    // Returns the exact correspondence between the triangles; <this, that>

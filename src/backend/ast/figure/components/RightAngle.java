@@ -1,7 +1,7 @@
 package backend.ast.figure.components;
 
 
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 /// <summary>
 /// Represents an angle (degrees), defined by 3 points.
@@ -11,7 +11,7 @@ public class RightAngle extends Angle
     public RightAngle(Point a, Point b, Point c)
     {
         super(a, b, c);
-        if (!Utilities.doubleEquals(this.measure, 90))
+        if (!MathUtilities.doubleEquals(this.measure, 90))
         {
             //                System.Diagnostics.Debug.WriteLine("Problem");
             // throw new ArgumentException("Right angles should measure 90 degrees, not (" + this.measure + ") degrees.");
@@ -20,7 +20,7 @@ public class RightAngle extends Angle
     public RightAngle(Angle angle) 
     {
         super(angle.A, angle.B, angle.C);
-        if (!Utilities.doubleEquals(angle.measure, 90))
+        if (!MathUtilities.doubleEquals(angle.measure, 90))
         {
             //                System.Diagnostics.Debug.WriteLine("Problem");
             // throw new ArgumentException("Right angles should measure 90 degrees, not (" + angle.measure + ") degrees.");
@@ -38,7 +38,7 @@ public class RightAngle extends Angle
         RightAngle angle = (RightAngle)obj;
 
         // Measures must be the same.
-        if (!Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return super.Equals(obj) && StructurallyEquals(obj);
     }

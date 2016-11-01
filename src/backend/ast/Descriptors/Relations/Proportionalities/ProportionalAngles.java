@@ -6,6 +6,7 @@ import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.math.MathUtilities;
 import backend.utilities.exception.ExceptionHandler;
 
 public class ProportionalAngles extends Descriptor
@@ -38,7 +39,7 @@ public class ProportionalAngles extends Descriptor
 		smallerAngle = angle1.getMeasure() < angle2.getMeasure() ? angle1 : angle2;
         largerAngle = angle1.getMeasure() < angle2.getMeasure() ? angle2 : angle1;
 
-        proportion = Utilities.RationalRatio(angle1.getMeasure(), angle2.getMeasure());
+        proportion = MathUtilities.RationalRatio(angle1.getMeasure(), angle2.getMeasure());
 
         // Non-rational ratios which may have arisen due to dual congruenceg implying proportionality
         if (proportion.getKey() == -1 && proportion.getValue() == -1)

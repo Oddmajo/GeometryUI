@@ -2,7 +2,7 @@ package backend.equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import ast.figure.*;
+import backend.ast.figure.*;
 import backend.ast.figure.components.*;
 import backend.utilities.Pair;
 

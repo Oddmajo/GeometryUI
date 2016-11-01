@@ -1,4 +1,4 @@
-package hypergraph;
+package backend.hypergraph;
 
 public class EdgeAnnotation
 {

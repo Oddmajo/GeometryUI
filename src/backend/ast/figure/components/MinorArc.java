@@ -45,7 +45,7 @@ public class MinorArc extends Arc
 
         if (!_theCircle.CoordinateCongruent(thatArc._theCircle)) return false;
 
-        return backend.utilities.math.Utilities.doubleEquals(this.GetMinorArcMeasureDegrees(), thatArc.GetMinorArcMeasureDegrees());
+        return backend.utilities.math.MathUtilities.doubleEquals(this.GetMinorArcMeasureDegrees(), thatArc.GetMinorArcMeasureDegrees());
     }
 
     private void GetStartEndPoints(double angle1, double angle2, OutTriple<Point, Point, Double> out)

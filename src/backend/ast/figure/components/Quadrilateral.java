@@ -462,11 +462,11 @@ public class Quadrilateral extends Polygon
         if (!left.IsParallelWith(right)) return false;
         if (!top.IsParallelWith(bottom)) return false;
 
-        if (!backend.utilities.math.Utilities.doubleEquals(left._length, right._length)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(top._length, bottom._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, right._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(top._length, bottom._length)) return false;
 
-        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, bottomRightAngle.measure)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, bottomLeftAngle.measure)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, bottomRightAngle.measure)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, bottomLeftAngle.measure)) return false;
 
         return true;
     }
@@ -478,12 +478,12 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyParallelogram()) return false;
 
-        if (!backend.utilities.math.Utilities.doubleEquals(left._length, top._length)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(left._length, bottom._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, top._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, bottom._length)) return false;
 
         // Redundant
-        if (!backend.utilities.math.Utilities.doubleEquals(right._length, top._length)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(right._length, bottom._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(right._length, top._length)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(right._length, bottom._length)) return false;
 
         return true;
     }
@@ -495,10 +495,10 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyRhombus()) return false;
 
-        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
 
         return true;
     }
@@ -510,10 +510,10 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyParallelogram()) return false;
 
-        if (!backend.utilities.math.Utilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(topRightAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.Utilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
 
         return true;
     }
@@ -545,11 +545,11 @@ public class Quadrilateral extends Polygon
         //
         if (left.IsParallelWith(right))
         {
-            if (!backend.utilities.math.Utilities.doubleEquals(top._length, bottom._length)) return false;
+            if (!backend.utilities.math.MathUtilities.doubleEquals(top._length, bottom._length)) return false;
         }
         else if (top.IsParallelWith(bottom))
         {
-            if (!backend.utilities.math.Utilities.doubleEquals(left._length, right._length)) return false;
+            if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, right._length)) return false;
         }
 
         return true;
@@ -563,9 +563,9 @@ public class Quadrilateral extends Polygon
         //
         // Adjacent sides must equate : length
         //
-        if (backend.utilities.math.Utilities.doubleEquals(left._length, top._length) && backend.utilities.math.Utilities.doubleEquals(right._length, bottom._length)) return true;
+        if (backend.utilities.math.MathUtilities.doubleEquals(left._length, top._length) && backend.utilities.math.MathUtilities.doubleEquals(right._length, bottom._length)) return true;
 
-        if (backend.utilities.math.Utilities.doubleEquals(left._length, bottom._length) && backend.utilities.math.Utilities.doubleEquals(right._length, top._length)) return true;
+        if (backend.utilities.math.MathUtilities.doubleEquals(left._length, bottom._length) && backend.utilities.math.MathUtilities.doubleEquals(right._length, top._length)) return true;
 
         return false;
     }

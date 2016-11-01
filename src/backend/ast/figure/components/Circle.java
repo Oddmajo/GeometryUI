@@ -166,7 +166,7 @@ public class Circle extends Figure
         if (!(that instanceof Circle)) return false;
         Circle thatCirc = (Circle)that;
 
-        return backend.utilities.math.Utilities.doubleEquals(this._radius, thatCirc._radius);
+        return backend.utilities.math.MathUtilities.doubleEquals(this._radius, thatCirc._radius);
     }
     
 //    @Override
@@ -583,7 +583,7 @@ public class Circle extends Figure
         if (!segment.hasPoint(this._center)) return null;
 
         // The segment must be at least as long as a _radius.
-        if (!backend.utilities.math.Utilities.doubleEquals(segment.length(), this._radius)) return null;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(segment.length(), this._radius)) return null;
 
         Point non_centerPt = segment.OtherPoint(this._center);
 
@@ -649,7 +649,7 @@ public class Circle extends Figure
         //
         // Tangent point (E)
         //
-        else if (backend.utilities.math.Utilities.doubleEquals(lengthEC, this._radius))
+        else if (backend.utilities.math.MathUtilities.doubleEquals(lengthEC, this._radius))
         {
             // First intersection
             inter1 = new Point("", E[0], E[1]);
@@ -744,7 +744,7 @@ public class Circle extends Figure
     @Override
     public boolean PointLiesOn(Point pt)
     {
-        return backend.utilities.math.Utilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
+        return backend.utilities.math.MathUtilities.doubleEquals(Math.pow(_center.getX() - pt.getX(), 2) + Math.pow(_center.getY() - pt.getY(), 2), Math.pow(this._radius, 2));
     }
 
     //
@@ -752,11 +752,11 @@ public class Circle extends Figure
     //
     public boolean PointIsInterior(Point pt)
     {
-        return backend.utilities.math.Utilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
+        return backend.utilities.math.MathUtilities.lessThan(Point.calcDistance(this._center, pt), this._radius);
     }
     public boolean PointIsExterior(Point pt)
     {
-        return backend.utilities.math.Utilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
+        return backend.utilities.math.MathUtilities.greaterThan(Point.calcDistance(this._center, pt), this._radius);
     }
 
     //
@@ -764,7 +764,7 @@ public class Circle extends Figure
     //
     public boolean AreConcentric(Circle thatCircle)
     {
-        return this._center.StructurallyEquals(thatCircle._center) && !backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return this._center.StructurallyEquals(thatCircle._center) && !backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     //
@@ -974,7 +974,7 @@ public class Circle extends Figure
 
         double angle1 = new Angle(a, _center, theMidpoint).measure;
         double angle2 = new Angle(b, _center, theMidpoint).measure;
-        if (!backend.utilities.math.Utilities.doubleEquals(angle1, angle2))
+        if (!backend.utilities.math.MathUtilities.doubleEquals(angle1, angle2))
         {
             throw new IllegalArgumentException("Midpoint is incorrect; angles do not equate: " + angle1 + " " + angle2);
         }
@@ -1038,7 +1038,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.StructurallyEquals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.StructurallyEquals(_center) && backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override
@@ -1048,7 +1048,7 @@ public class Circle extends Figure
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.equals(_center) && backend.utilities.math.Utilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.equals(_center) && backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override

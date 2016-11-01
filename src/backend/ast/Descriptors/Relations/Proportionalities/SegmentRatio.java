@@ -4,6 +4,7 @@ import backend.ast.Descriptors.Descriptor;
 import backend.ast.figure.components.Segment;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.math.MathUtilities;
 
 /// <summary>
 /// Describes a point that lies on a segmant.
@@ -47,7 +48,7 @@ public class SegmentRatio extends Descriptor
 		smallerSegment = segment1.length() < segment2.length() ? segment1 : segment2;
 		largerSegment = segment1.length() < segment2.length() ? segment2 : segment1;
 
-        proportion = Utilities.RationalRatio(segment1.length(), segment2.length());
+        proportion = MathUtilities.RationalRatio(segment1.length(), segment2.length());
      // A similar triangle may induce proportional segments even though the triangles are congruent
         //if (proportion.Key == 1 && proportion.Value == 1)
         //{

@@ -6,7 +6,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class Rectangle extends Parallelogram
 {
@@ -24,7 +24,7 @@ public class Rectangle extends Parallelogram
         //            Intersection inter = null;
         for (Angle angle : angles)
         {
-            if (!Utilities.doubleEquals(angle.getMeasure(), 90))
+            if (!MathUtilities.doubleEquals(angle.getMeasure(), 90))
             {
                 throw new IllegalArgumentException("Quadrilateral is not a Rectangle; angle does not measure 90^o: " + angle);
             }
@@ -42,7 +42,7 @@ public class Rectangle extends Parallelogram
     	 //            Intersection inter = null;
         for (Angle angle : angles)
         {
-            if (!Utilities.doubleEquals(angle.getMeasure(), 90))
+            if (!MathUtilities.doubleEquals(angle.getMeasure(), 90))
             {
                 throw new IllegalArgumentException("Quadrilateral is not a Rectangle; angle does not measure 90^o: " + angle);
             }

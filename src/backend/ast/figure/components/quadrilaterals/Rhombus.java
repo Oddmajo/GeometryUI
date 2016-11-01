@@ -5,7 +5,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class Rhombus extends Parallelogram
 {
@@ -30,15 +30,15 @@ public class Rhombus extends Parallelogram
     public Rhombus(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter)
     {
         super(left, right, top, bottom);
-        if (!Utilities.doubleEquals(top.length(), left.length()))
+        if (!MathUtilities.doubleEquals(top.length(), left.length()))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Rhombus; sides are not equal length: " + top + " " + left);
         }
-        if (!Utilities.doubleEquals(top.length(), right.length()))
+        if (!MathUtilities.doubleEquals(top.length(), right.length()))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Rhombus; sides are not equal length: " + top + " " + right);
         }
-        if (!Utilities.doubleEquals(top.length(), bottom.length()))
+        if (!MathUtilities.doubleEquals(top.length(), bottom.length()))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Rhombus; sides are not equal length: " + top + " " + bottom);
         }

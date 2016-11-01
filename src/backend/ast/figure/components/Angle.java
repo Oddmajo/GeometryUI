@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 
 
@@ -140,13 +140,13 @@ public class Angle extends Figure
 
         // Avoid minor calculation issues and retarget the given value to specific angles. 
         // 0 or 180 degrees
-        if (backend.utilities.math.Utilities.doubleEquals(Math.abs(cosAngle), 1))
+        if (backend.utilities.math.MathUtilities.doubleEquals(Math.abs(cosAngle), 1))
         {
             cosAngle = cosAngle < 0 ? -1 : 1;
         }
 
         // 90 degrees
-        if (backend.utilities.math.Utilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
+        if (backend.utilities.math.MathUtilities.doubleEquals(cosAngle, 0)) cosAngle = 0;
 
         return Math.acos(cosAngle);
     }
@@ -211,7 +211,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj;
 
         // Measures better be the same.
-        if (!backend.utilities.math.Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!backend.utilities.math.MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
                 (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
@@ -279,7 +279,7 @@ public class Angle extends Figure
         Angle newAngle2 = new Angle(C, GetVertex(), pt);
 
         // This is an angle addition scenario, BUT not with these two angles; that is, one is contained in the other.
-        if (Utilities.doubleEquals(newAngle1.measure + newAngle2.measure, this.measure)) return true;
+        if (MathUtilities.doubleEquals(newAngle1.measure + newAngle2.measure, this.measure)) return true;
 
         return newAngle1.measure + newAngle2.measure <= this.measure;
     }
@@ -296,7 +296,7 @@ public class Angle extends Figure
         Angle newAngle2 = new Angle(C, GetVertex(), pt);
 
         // This is an angle addition scenario, BUT not with these two angles; that is, one is contained in the other.
-        if (Utilities.doubleEquals(newAngle1.measure + newAngle2.measure, this.measure)) return true;
+        if (MathUtilities.doubleEquals(newAngle1.measure + newAngle2.measure, this.measure)) return true;
 
         return newAngle1.measure + newAngle2.measure <= this.measure;
     }
@@ -377,7 +377,7 @@ public class Angle extends Figure
     {
         for (int d : VALID_CONCRETE_SPECIAL_ANGLES)
         {
-            if (Utilities.GCD((int)measure, d) == d) return true;
+            if (MathUtilities.GCD((int)measure, d) == d) return true;
         }
 
         return false;
@@ -546,12 +546,12 @@ public class Angle extends Figure
 
     public boolean IsComplementaryTo(Angle thatAngle)
     {
-        return Utilities.doubleEquals(this.measure + thatAngle.measure, 90);
+        return MathUtilities.doubleEquals(this.measure + thatAngle.measure, 90);
     }
 
     public boolean IsSupplementaryTo(Angle thatAngle)
     {
-        return Utilities.doubleEquals(this.measure + thatAngle.measure, 180);
+        return MathUtilities.doubleEquals(this.measure + thatAngle.measure, 180);
     }
 
     public boolean IsStraightAngle()
@@ -569,7 +569,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj;
 
         // Measures better be the same.
-        if (!Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
         if (this.equates(angle)) return true;
 
@@ -586,7 +586,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj ;
 
         // Measures better be the same.
-       if (!Utilities.doubleEquals(this.measure, angle.measure)) return false;
+       if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
                 (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
@@ -597,7 +597,7 @@ public class Angle extends Figure
     //
     public boolean CoordinateCongruent(Angle a)
     {
-        return Utilities.doubleEquals(a.measure, this.measure);
+        return MathUtilities.doubleEquals(a.measure, this.measure);
     }
 
     public boolean CoordinateAngleBisector(Segment thatSegment)
@@ -612,7 +612,7 @@ public class Angle extends Figure
         Angle angle1 = new Angle(A, GetVertex(), interiorPoint);
         Angle angle2 = new Angle(C, GetVertex(), interiorPoint);
         
-        return Utilities.doubleEquals(angle1.measure, angle2.measure);
+        return MathUtilities.doubleEquals(angle1.measure, angle2.measure);
     }
 
     //
@@ -621,7 +621,7 @@ public class Angle extends Figure
     //
     public backend.utilities.Pair<Integer, Integer> CoordinateProportional(Angle a)
     {
-        return Utilities.RationalRatio(a.measure, this.measure);
+        return MathUtilities.RationalRatio(a.measure, this.measure);
     }
 
     public boolean HasPoint(Point p)
@@ -649,7 +649,7 @@ public class Angle extends Figure
         Angle angle = (Angle)obj ;
 
         // Measures must be the same.
-        if (!Utilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
         return super.Equals(obj) && StructurallyEquals(obj);
     }

@@ -5,7 +5,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
-import backend.utilities.math.Utilities;
+import backend.utilities.math.MathUtilities;
 
 public class Square extends Rhombus
 {
@@ -24,21 +24,21 @@ public class Square extends Rhombus
     public Square(Segment left, Segment right, Segment top, Segment bottom, boolean tlDiag, boolean brDiag, Intersection inter) 
     {
         super(left, right, top, bottom);  
-        if (!Utilities.doubleEquals(topLeftAngle.getMeasure(), 90))
+        if (!MathUtilities.doubleEquals(topLeftAngle.getMeasure(), 90))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topLeftAngle);
         }
-        if (!Utilities.doubleEquals(topRightAngle.getMeasure(), 90))
+        if (!MathUtilities.doubleEquals(topRightAngle.getMeasure(), 90))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topRightAngle);
         }
 
-        if (!Utilities.doubleEquals(bottomLeftAngle.getMeasure(), 90))
+        if (!MathUtilities.doubleEquals(bottomLeftAngle.getMeasure(), 90))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomLeftAngle);
         }
 
-        if (!Utilities.doubleEquals(bottomRightAngle.getMeasure(), 90))
+        if (!MathUtilities.doubleEquals(bottomRightAngle.getMeasure(), 90))
         {
             throw new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomRightAngle);
         }

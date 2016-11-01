@@ -16,12 +16,12 @@ import backend.utilities.Pair;
  * @author Chris Alvin
  *
  */
-public class Utilities
+public class MathUtilities
 {
     // -1 is an error
     public static int IntegerRatio(double x, double y)
     {
-        return Utilities.doubleEquals(x / y, Math.floor(x / y)) ? (int)Math.floor(x / y) : -1;
+        return MathUtilities.doubleEquals(x / y, Math.floor(x / y)) ? (int)Math.floor(x / y) : -1;
     }
 
     // -1 is an error
@@ -38,7 +38,7 @@ public class Utilities
             {
                 if (numer != denom)
                 {
-                    if (Utilities.doubleEquals(x / y, (double)(numer) / denom))
+                    if (MathUtilities.doubleEquals(x / y, (double)(numer) / denom))
                     {
                         int gcd = GCD(numer, denom);
                         return numer > denom ? new Pair<Integer,Integer>(numer / gcd, denom / gcd)
@@ -55,9 +55,9 @@ public class Utilities
         for (int val = 2; val < RATIO_MAX; val++)
         {
             // Do we acquire an integer?
-            if (Utilities.doubleEquals(x * val, Math.floor(x * val)))
+            if (MathUtilities.doubleEquals(x * val, Math.floor(x * val)))
             {
-                int gcd = Utilities.GCD(val, (int)Math.round(x * val));
+                int gcd = MathUtilities.GCD(val, (int)Math.round(x * val));
                 return x < 1 ? new Pair<Integer,Integer>(val / gcd, (int)Math.round(x * val) / gcd) :
                                new Pair<Integer,Integer>((int)Math.round(x * val) / gcd, val / gcd);
             }
@@ -68,7 +68,7 @@ public class Utilities
 
     public static boolean IsInteger(double x)
     {
-        return Utilities.doubleEquals(x, (int)x);
+        return MathUtilities.doubleEquals(x, (int)x);
     }
     
 
