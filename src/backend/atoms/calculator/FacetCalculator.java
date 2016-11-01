@@ -20,6 +20,20 @@ public class FacetCalculator
     // The list of minimal cycles, filaments, and isolated points.
     private ArrayList<Primitive> primitives;
     public ArrayList<Primitive> GetPrimitives() { return primitives; }
+    
+    // local copy of epsilon
+    public static final double EPSILON = 0.0000000001;
+
+    /**
+     * Locale copy of compare values with local EPSILON to refine facet calculation
+     * @param a
+     * @param b
+     * @return
+     */
+    public static boolean CompareValues(double a, double b)
+    {
+        return Math.abs(a - b) < EPSILON;
+    }
 
     public FacetCalculator(PlanarGraph g)
     {
@@ -68,7 +82,7 @@ public class FacetCalculator
             double angleMeasure = Point.AngleBetween(prevCurrVector, currentNeighborVector);
 
             // if (GeometryTutorLib.Utilities.GreaterThan(crossProduct, 0)) angleMeasure = angleMeasure;
-            if (Utilities.CompareValues(crossProduct, 0)) angleMeasure = 180;
+            if (CompareValues(crossProduct, 0)) angleMeasure = 180;
             
             // this should be crossProduct > 0
             // why not just use angle measure itself?
@@ -76,7 +90,7 @@ public class FacetCalculator
 
             // If there are have the same angle, choose the one farther away (it is due to two connections)
             // So these points are collinear with a segment, but indistinguishable with two arcs.
-            if (Utilities.CompareValues(angleMeasure, currentAngle))
+            if (CompareValues(angleMeasure, currentAngle))
             {
                 double currentDist = Point.calcDistance(currentPt, currentNextPoint);
                 double candDist = Point.calcDistance(currentPt, neighbor);
@@ -132,7 +146,7 @@ public class FacetCalculator
                 double angleMeasure = Point.AngleBetween(Point.GetOppositeVector(prevCurrVector), currentNeighborVector);
 
                 // if (GeometryTutorLib.Utilities.GreaterThan(crossProduct, 0)) angleMeasure = angleMeasure;
-                if (Utilities.CompareValues(crossProduct, 0))
+                if (CompareValues(crossProduct, 0))
                 {
                     //commenting this out to see if it will work without it - Drew
 //                    // Circles create a legitimate situation where we want to walk back in the same 'collinear' path.
@@ -151,7 +165,7 @@ public class FacetCalculator
 
                 // If there are have the same angle, choose the one farther away (it is due to two connections)
                 // So these points are collinear with a segment, but indistinguishable with two arcs.
-                if (Utilities.CompareValues(angleMeasure, currentAngle))
+                if (CompareValues(angleMeasure, currentAngle))
                 {
                     double currentDist = Point.calcDistance(currentPt, currentNextPoint);
                     double candDist = Point.calcDistance(currentPt, neighbor);
