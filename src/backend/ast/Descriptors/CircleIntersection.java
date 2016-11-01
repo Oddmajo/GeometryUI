@@ -70,13 +70,13 @@ public class CircleIntersection extends Descriptor
     /// <param name="obj">The other object to test.</param>
     /// <returns>True if the parameter is structurally equal to this intersection.</returns>
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj != null)
         {
             CircleIntersection ci = (CircleIntersection)obj;
-            return (intersect.StructurallyEquals(ci.circle1) && circle2.StructurallyEquals(ci.circle2)) ||
-                    (circle1.StructurallyEquals(ci.circle2) && circle2.StructurallyEquals(ci.circle1));
+            return (intersect.structurallyEquals(ci.circle1) && circle2.structurallyEquals(ci.circle2)) ||
+                    (circle1.structurallyEquals(ci.circle2) && circle2.structurallyEquals(ci.circle1));
         }
         else
         {

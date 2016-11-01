@@ -68,7 +68,7 @@ public class CongruentAngles extends Congruent
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof CongruentAngles)
 		{
@@ -78,8 +78,8 @@ public class CongruentAngles extends Congruent
 			{
 				return false;
 			}
-			return (ca1.StructurallyEquals(cas.ca1) && ca2.StructurallyEquals(cas.ca2)) ||
-	                   (ca1.StructurallyEquals(cas.ca2) && ca2.StructurallyEquals(cas.ca1));
+			return (ca1.structurallyEquals(cas.ca1) && ca2.structurallyEquals(cas.ca2)) ||
+	                   (ca1.structurallyEquals(cas.ca2) && ca2.structurallyEquals(cas.ca1));
 		}
 		
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal
@@ -87,13 +87,13 @@ public class CongruentAngles extends Congruent
 	}
 	
 	@Override
-	public boolean Equals(Object obj)
+	public boolean equals(Object obj)
 	{
-		return this.StructurallyEquals(obj);
+		return this.structurallyEquals(obj);
 	}
 	
 	@Override
-	public boolean IsReflexive()
+	public boolean isReflexive()
 	{
 		return ca1.Equals(ca2);
 	}
@@ -184,9 +184,9 @@ public class CongruentAngles extends Congruent
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override

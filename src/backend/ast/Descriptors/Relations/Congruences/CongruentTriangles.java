@@ -27,13 +27,13 @@ public class CongruentTriangles extends Congruent
 	}
 	
 	@Override
-	public boolean IsReflexive()
+	public boolean isReflexive()
 	{
 		return ct1.StructurallyEquals(ct2);
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof CongruentTriangles)
 		{

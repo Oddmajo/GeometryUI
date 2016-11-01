@@ -50,19 +50,19 @@ public class PerpendicularBisector extends Perpendicular
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override
-	public boolean Equals(Object obj)
+	public boolean equals(Object obj)
 	{
 		if(obj != null && obj instanceof PerpendicularBisector)
 		{
 			PerpendicularBisector p = (PerpendicularBisector)obj;
 			
-			return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
+			return intersect.equals(p.intersect) && lhs.equals(p.lhs) && rhs.equals(p.rhs);
 		}
 		
 		

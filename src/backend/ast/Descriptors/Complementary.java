@@ -17,19 +17,19 @@ public class Complementary extends AnglePairRelation
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
 		//change this if the object is no longer immutable
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof Complementary)
 		{
 			Complementary supp = (Complementary)obj;
-			return super.StructurallyEquals(supp);
+			return super.structurallyEquals(supp);
 		}
 		
 		//if this fails the null check or the instaceof then it should probably return false

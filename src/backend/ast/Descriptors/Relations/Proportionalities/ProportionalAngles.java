@@ -54,8 +54,10 @@ public class ProportionalAngles extends Descriptor
         }
 
         // Reinit the multipliers to basic values
-        smallerAngle.multiplier = 1;
-        largerAngle.multiplier = 1;
+        smallerAngle.setMultiplier(1);
+        largerAngle.setMultiplier(1);
+        //smallerAngle.multiplier = 1;
+        //largerAngle.multiplier = 1;
 	}
 	
 	 // Return the number of shared angles in both congruences
@@ -87,7 +89,7 @@ public class ProportionalAngles extends Descriptor
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
     	if(obj != null && obj instanceof ProportionalAngles)
     	{
@@ -114,10 +116,10 @@ public class ProportionalAngles extends Descriptor
     }
 
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
         //Change this if the object is no longer immutable!!!
-        return super.GetHashCode();
+        return super.getHashCode();
     }
 
     // Return the shared angle in both congruences

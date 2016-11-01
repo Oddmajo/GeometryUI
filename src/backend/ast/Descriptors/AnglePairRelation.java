@@ -91,19 +91,19 @@ public abstract class AnglePairRelation extends Descriptor
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-    	return super.GetHashCode();
+    	return super.getHashCode();
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
     	if(obj != null && obj instanceof AnglePairRelation)
     	{
     		AnglePairRelation relation = (AnglePairRelation)obj;
-    		return (angle1.StructurallyEquals(relation.angle1) && angle2.StructurallyEquals(relation.angle2)) ||
-                    (angle1.StructurallyEquals(relation.angle2) && angle2.StructurallyEquals(relation.angle1));
+    		return (angle1.structurallyEquals(relation.angle1) && angle2.structurallyEquals(relation.angle2)) ||
+                    (angle1.structurallyEquals(relation.angle2) && angle2.structurallyEquals(relation.angle1));
     	}
     	
     	//This is untested but should be correct. IF the if isn't hit then it should never be equal
@@ -111,13 +111,13 @@ public abstract class AnglePairRelation extends Descriptor
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
     	if(obj != null && obj instanceof AnglePairRelation)
     	{
     		AnglePairRelation relation = (AnglePairRelation)obj;
-    		return (angle1.Equals(relation.angle1) && angle2.Equals(relation.angle2)) ||
-                    (angle1.Equals(relation.angle2) && angle2.Equals(relation.angle1)) && super.Equals(relation);
+    		return (angle1.equals(relation.angle1) && angle2.equals(relation.angle2)) ||
+                    (angle1.equals(relation.angle2) && angle2.equals(relation.angle1)) && super.equals(relation);
     	}
     	
     	//This is untested but should be correct. IF the if isn't hit then it should never be equal

@@ -55,14 +55,14 @@ public class Strengthened extends Descriptor
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-        return super.GetHashCode();
+        return super.getHashCode();
     }
     
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj != null && obj instanceof Strengthened)
         {
@@ -72,7 +72,7 @@ public class Strengthened extends Descriptor
 //            {
 //                return false;
 //            }
-            return this.getOriginal().StructurallyEquals(s.getOriginal()) && this.getStrengthened().StructurallyEquals(s.getStrengthened());
+            return this.getOriginal().structurallyEquals(s.getOriginal()) && this.getStrengthened().structurallyEquals(s.getStrengthened());
         }
         else
         {
@@ -83,7 +83,7 @@ public class Strengthened extends Descriptor
     
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if(obj != null)
         {
@@ -97,7 +97,7 @@ public class Strengthened extends Descriptor
             
             //HEAVILY UNTESTED ATM
             //THIS IS UNTESTED BUT SHOULD WORK FINE changed from getType() to .getClass().getCanonicalName() 
-            return this.getOriginal().Equals(thatS.getOriginal()) && this.getStrengthened().getClass().getCanonicalName() == thatS.getStrengthened().getClass().getCanonicalName();
+            return this.getOriginal().equals(thatS.getOriginal()) && this.getStrengthened().getClass().getCanonicalName() == thatS.getStrengthened().getClass().getCanonicalName();
         }
       //This is untested but should be correct. IF the if isn't hit then it should never be equal
     	return false;

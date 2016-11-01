@@ -74,13 +74,13 @@ public class CircleSegmentIntersection extends CircleIntersection
     /// <param name="obj">The other object to test.</param>
     /// <returns>True if the parameter is structurally equal to this intersection.</returns>
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof CircleSegmentIntersection)
 		{
 			CircleSegmentIntersection csi = (CircleSegmentIntersection)obj;
-			return intersect.StructurallyEquals(csi.intersect) && circle.StructurallyEquals(csi.circle)
-					&& segment.StructurallyEquals(csi.segment);
+			return intersect.structurallyEquals(csi.intersect) && circle.structurallyEquals(csi.circle)
+					&& segment.structurallyEquals(csi.segment);
 		}
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal
     	return false;

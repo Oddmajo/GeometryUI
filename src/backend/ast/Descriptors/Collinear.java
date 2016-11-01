@@ -96,7 +96,7 @@ public class Collinear extends Descriptor
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
     	if(obj != null && obj instanceof Collinear)
     	{
@@ -119,9 +119,9 @@ public class Collinear extends Descriptor
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-    	return super.GetHashCode();
+    	return super.getHashCode();
     }
     
     @Override

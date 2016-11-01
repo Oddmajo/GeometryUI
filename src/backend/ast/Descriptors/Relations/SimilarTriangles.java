@@ -25,7 +25,7 @@ public class SimilarTriangles extends Descriptor
 	}
 	
 	@Override 
-	public boolean IsReflexive()
+	public boolean isReflexive()
 	{
 		return st1.StructurallyEquals(st2);
 	}
@@ -55,7 +55,7 @@ public class SimilarTriangles extends Descriptor
 //      }
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof SimilarTriangles)
 		{
@@ -82,9 +82,9 @@ public class SimilarTriangles extends Descriptor
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	

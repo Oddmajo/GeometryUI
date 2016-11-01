@@ -38,33 +38,33 @@ public class MidPoint extends InMiddle
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof MidPoint)
 		{
 			MidPoint midptObj = (MidPoint)obj;
-			return point.StructurallyEquals(midptObj.point) && segment.StructurallyEquals(midptObj.segment);
+			return point.StructurallyEquals(midptObj.point) && segment.structurallyEquals(midptObj.segment);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
 	}
 	
 	@Override
-	public boolean Equals(Object obj)
+	public boolean equals(Object obj)
 	{
 		if(obj != null && obj instanceof MidPoint)
 		{
 			MidPoint midptObj = (MidPoint)obj;
-			return point.Equals(midptObj.point) && segment.Equals(midptObj.segment) && super.Equals(obj);
+			return point.equals(midptObj.point) && segment.equals(midptObj.segment) && super.equals(obj);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override

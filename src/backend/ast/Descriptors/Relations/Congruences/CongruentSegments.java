@@ -72,14 +72,14 @@ public class CongruentSegments extends Congruent
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	public Boolean HasSegment(Segment cs)
 	{
-		return cs1.Equals(cs) || cs2.Equals(cs);
+		return cs1.equals(cs) || cs2.equals(cs);
 	}
 	
 	//return the number of shared segments in both congruences
@@ -89,8 +89,8 @@ public class CongruentSegments extends Congruent
 		if(thatCC != null && thatCC instanceof CongruentSegments)
 		{
 			CongruentSegments ccss = (CongruentSegments)thatCC;
-			int numShared = cs1.Equals(ccss.cs1) || cs1.Equals(ccss.cs2) ? 1 : 0;
-            numShared += cs2.Equals(ccss.cs1) || cs2.Equals(ccss.cs2) ? 1 : 0;
+			int numShared = cs1.equals(ccss.cs1) || cs1.equals(ccss.cs2) ? 1 : 0;
+            numShared += cs2.equals(ccss.cs1) || cs2.equals(ccss.cs2) ? 1 : 0;
 
             return numShared;
 		}
@@ -106,17 +106,17 @@ public class CongruentSegments extends Congruent
 		{
 			return null;
 		}
-		return cs1.Equals(thatCC.cs1) || cs1.Equals(thatCC.cs2) ? cs1 : cs2;
+		return cs1.equals(thatCC.cs1) || cs1.equals(thatCC.cs2) ? cs1 : cs2;
 	}
 	
 	//given one of the segments in the pair, return the other
 	public Segment OtherSegment(Segment cs)
 	{
-		if(cs.Equals(cs1))
+		if(cs.equals(cs1))
 		{
 			return cs2;
 		}
-		else if(cs.Equals(cs2))
+		else if(cs.equals(cs2))
 		{
 			return cs1;
 		}
@@ -124,9 +124,9 @@ public class CongruentSegments extends Congruent
 	}
 	
 	@Override
-	public boolean IsReflexive()
+	public boolean isReflexive()
 	{
-		return cs1.Equals(cs2);
+		return cs1.equals(cs2);
 	}
 	
 	public boolean LinksTriangles(Triangle ct1, Triangle ct2)
@@ -142,20 +142,20 @@ public class CongruentSegments extends Congruent
 	
 	public Segment SharedSegment(CongruentSegments ccs)
 	{
-		if (ccs.cs1.StructurallyEquals(this.cs1) || ccs.cs2.StructurallyEquals(this.cs1)) return this.cs1;
-        if (ccs.cs1.StructurallyEquals(this.cs2) || ccs.cs2.StructurallyEquals(this.cs2)) return this.cs2;
+		if (ccs.cs1.structurallyEquals(this.cs1) || ccs.cs2.structurallyEquals(this.cs1)) return this.cs1;
+        if (ccs.cs1.structurallyEquals(this.cs2) || ccs.cs2.structurallyEquals(this.cs2)) return this.cs2;
 
         return null;
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof CongruentSegments)
 		{
 			CongruentSegments ccs = (CongruentSegments)obj;
-			return (cs1.StructurallyEquals(ccs.cs1) && cs2.StructurallyEquals(ccs.cs2)) ||
-	                   (cs1.StructurallyEquals(ccs.cs2) && cs2.StructurallyEquals(ccs.cs1));
+			return (cs1.structurallyEquals(ccs.cs1) && cs2.structurallyEquals(ccs.cs2)) ||
+	                   (cs1.structurallyEquals(ccs.cs2) && cs2.structurallyEquals(ccs.cs1));
 		}
 		
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal
@@ -163,12 +163,12 @@ public class CongruentSegments extends Congruent
 	}
 	
 	@Override
-	public boolean Equals(Object obj)
+	public boolean equals(Object obj)
 	{
 		if(obj != null && obj instanceof CongruentSegments)
 		{
 			CongruentSegments ccs = (CongruentSegments)obj;
-			return (cs1.Equals(ccs.cs1) && cs2.Equals(ccs.cs2)) || (cs1.Equals(ccs.cs2) && cs2.Equals(ccs.cs1)) && super.Equals(obj);
+			return (cs1.equals(ccs.cs1) && cs2.equals(ccs.cs2)) || (cs1.equals(ccs.cs2) && cs2.equals(ccs.cs1)) && super.equals(obj);
 		}
 		
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal

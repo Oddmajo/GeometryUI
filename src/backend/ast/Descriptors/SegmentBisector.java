@@ -25,14 +25,14 @@ public class SegmentBisector extends Bisector
 	
 	//segmentbisector has a specific order associated with the intersection segments
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof SegmentBisector)
 		{
 			SegmentBisector b = (SegmentBisector)obj;
 			
 			//the bisector segment
-			if(!bisector.StructurallyEquals(b.bisector))
+			if(!bisector.structurallyEquals(b.bisector))
 			{
 				return false;
 			}
@@ -44,7 +44,7 @@ public class SegmentBisector extends Bisector
 			}
 			
 			//the bisected segments
-			return bisected.OtherSegment(bisector).StructurallyEquals(b.bisected.OtherSegment(b.bisector));
+			return bisected.OtherSegment(bisector).structurallyEquals(b.bisected.OtherSegment(b.bisector));
 		}
 		
 		//if the null check fails or it isn't an instance of then it probably should return false

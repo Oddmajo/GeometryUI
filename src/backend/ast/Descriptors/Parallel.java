@@ -66,24 +66,24 @@ public class Parallel extends Descriptor
     
     //This should never be true, otherwise they are coinciding
     @Override
-    public boolean IsReflexive()
+    public boolean isReflexive()
     {
-        return segment1.StructurallyEquals(segment2);
+        return segment1.structurallyEquals(segment2);
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-        return super.GetHashCode();
+        return super.getHashCode();
     }
     
     public Segment OtherSegment(Segment that)
     {
-        if(segment1.Equals(that))
+        if(segment1.equals(that))
         {
             return segment2;
         }
-        if(segment2.Equals(that)) 
+        if(segment2.equals(that)) 
         {
             return segment1;
         }
@@ -126,7 +126,7 @@ public class Parallel extends Descriptor
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj != null)
         {
@@ -136,8 +136,8 @@ public class Parallel extends Descriptor
 //            {
 //                return false;
 //            }
-            return (segment1.StructurallyEquals(p.segment1) && segment2.StructurallyEquals(p.segment2)) ||
-                   (segment1.StructurallyEquals(p.segment2) && segment2.StructurallyEquals(p.segment1));
+            return (segment1.structurallyEquals(p.segment1) && segment2.structurallyEquals(p.segment2)) ||
+                   (segment1.structurallyEquals(p.segment2) && segment2.structurallyEquals(p.segment1));
         }
         else
         {
@@ -146,7 +146,7 @@ public class Parallel extends Descriptor
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if(obj != null && obj instanceof Parallel)
         {
@@ -156,8 +156,8 @@ public class Parallel extends Descriptor
 //            {
 //                return false;
 //            }
-            return (segment1.Equals(p.segment1) && segment2.Equals(p.segment2)) ||
-                    (segment1.Equals(p.segment2) && segment2.Equals(p.segment1)) && super.Equals(obj);
+            return (segment1.equals(p.segment1) && segment2.equals(p.segment2)) ||
+                    (segment1.equals(p.segment2) && segment2.equals(p.segment1)) && super.equals(obj);
         }
         else
         {

@@ -276,7 +276,7 @@ public class Intersection extends Descriptor
     	}
     	
     	// Return in the order of 'off' points: <this, that>
-    	return this.Equals(endpt) ? new Pair<Point, Point>(offEnd, offStands) : new Pair<Point, Point>(offStands, offEnd);
+    	return this.equals(endpt) ? new Pair<Point, Point>(offEnd, offStands) : new Pair<Point, Point>(offStands, offEnd);
     }
     
     //
@@ -1104,11 +1104,11 @@ public class Intersection extends Descriptor
     //If an endpoint of one segment is on the other segment
     public boolean StandsOnEndpoint()
     {
-    	if(lhs.getPoint1().Equals(rhs.getPoint1()) || lhs.getPoint1().Equals(rhs.getPoint2()))
+    	if(lhs.getPoint1().equals(rhs.getPoint1()) || lhs.getPoint1().equals(rhs.getPoint2()))
     	{
     		return true;
     	}
-    	if(lhs.getPoint2().Equals(rhs.getPoint1()) || lhs.getPoint2().Equals(rhs.getPoint2()))
+    	if(lhs.getPoint2().equals(rhs.getPoint1()) || lhs.getPoint2().equals(rhs.getPoint2()))
     	{
     		return true;
     	}
@@ -1128,7 +1128,7 @@ public class Intersection extends Descriptor
     //If an endpoint of one segment is on the other segment
     public boolean HasSegment(Segment s)
     {
-    	return lhs.StructurallyEquals(s) || rhs.StructurallyEquals(s);
+    	return lhs.structurallyEquals(s) || rhs.structurallyEquals(s);
     }
     
     //if an endpoint of one segment is on the other segment
@@ -1154,19 +1154,19 @@ public class Intersection extends Descriptor
     //if a common segment exists (a transversal that cuts across both intersections), return that common segment
     public Segment CommonSegment(Intersection thatInter)
     {
-    	if (lhs.StructurallyEquals(thatInter.lhs) || lhs.IsCollinearWith(thatInter.lhs))
+    	if (lhs.structurallyEquals(thatInter.lhs) || lhs.IsCollinearWith(thatInter.lhs))
 		{
 			return lhs;
 		}
-        if (lhs.StructurallyEquals(thatInter.rhs) || lhs.IsCollinearWith(thatInter.rhs))
+        if (lhs.structurallyEquals(thatInter.rhs) || lhs.IsCollinearWith(thatInter.rhs))
     	{
         	return lhs;
     	}
-        if (rhs.StructurallyEquals(thatInter.lhs) || rhs.IsCollinearWith(thatInter.lhs))
+        if (rhs.structurallyEquals(thatInter.lhs) || rhs.IsCollinearWith(thatInter.lhs))
     	{
         	return rhs;
     	}
-        if (rhs.StructurallyEquals(thatInter.rhs) || rhs.IsCollinearWith(thatInter.rhs))
+        if (rhs.structurallyEquals(thatInter.rhs) || rhs.IsCollinearWith(thatInter.rhs))
     	{
         	return rhs;
     	}
@@ -1176,19 +1176,19 @@ public class Intersection extends Descriptor
     //If a common segment exists( a transversal that cuts across both intersections), retuyrn that common segment
     public Segment CommonSegment(Parallel thatParallel)
     {
-    	if (lhs.StructurallyEquals(thatParallel.getSegment1()) || lhs.IsCollinearWith(thatParallel.getSegment1()))
+    	if (lhs.structurallyEquals(thatParallel.getSegment1()) || lhs.IsCollinearWith(thatParallel.getSegment1()))
 		{
     		return lhs;
 		}
-        if (lhs.StructurallyEquals(thatParallel.getSegment2()) || lhs.IsCollinearWith(thatParallel.getSegment2()))
+        if (lhs.structurallyEquals(thatParallel.getSegment2()) || lhs.IsCollinearWith(thatParallel.getSegment2()))
     	{
         	return lhs;
     	}
-        if (rhs.StructurallyEquals(thatParallel.getSegment1()) || rhs.IsCollinearWith(thatParallel.getSegment1()))
+        if (rhs.structurallyEquals(thatParallel.getSegment1()) || rhs.IsCollinearWith(thatParallel.getSegment1()))
     	{
         	return rhs;
     	}
-        if (rhs.StructurallyEquals(thatParallel.getSegment2()) || rhs.IsCollinearWith(thatParallel.getSegment2()))
+        if (rhs.structurallyEquals(thatParallel.getSegment2()) || rhs.IsCollinearWith(thatParallel.getSegment2()))
     	{
         	return rhs;
     	}
@@ -1200,7 +1200,7 @@ public class Intersection extends Descriptor
     public boolean InducesNonStraightAngle(Angle thatAngle)
     {
     	// The given vertex must match the intersection point of the two lines intersection
-    	if(!intersect.Equals(thatAngle.GetVertex()))
+    	if(!intersect.equals(thatAngle.GetVertex()))
     	{
     		return false;
     	}
@@ -1295,11 +1295,11 @@ public class Intersection extends Descriptor
     
     public Segment OtherSegment(Segment thatSegment)
     {
-    	if (lhs.Equals(thatSegment))
+    	if (lhs.equals(thatSegment))
 		{
     		return rhs;
 		}
-        if (rhs.Equals(thatSegment))
+        if (rhs.equals(thatSegment))
     	{
         	return lhs;
     	}
@@ -1317,14 +1317,14 @@ public class Intersection extends Descriptor
     }
     
     @Override
-    public boolean CanBeStrengthenedTo(GroundedClause gc)
+    public boolean canBeStrengthenedTo(GroundedClause gc)
     {
     	if(gc !=null && gc instanceof Perpendicular)
     	{
     		Perpendicular perp = (Perpendicular)gc;
     		
-    		return intersect.Equals(perp.intersect) && ((lhs.StructurallyEquals(perp.lhs) && rhs.StructurallyEquals(perp.rhs)) ||
-    													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs)));
+    		return intersect.equals(perp.intersect) && ((lhs.structurallyEquals(perp.lhs) && rhs.structurallyEquals(perp.rhs)) ||
+    													(lhs.structurallyEquals(perp.rhs) && rhs.structurallyEquals(perp.lhs)));
     	}
     	
     	//WARNING
@@ -1337,7 +1337,7 @@ public class Intersection extends Descriptor
     //
     public boolean ImpliesRay(Segment s)
     {
-        if (!intersect.Equals(s.getPoint1()) && !intersect.Equals(s.getPoint2()))
+        if (!intersect.equals(s.getPoint1()) && !intersect.equals(s.getPoint2()))
     	{
         	return false;
     	}
@@ -1387,7 +1387,7 @@ public class Intersection extends Descriptor
     public Segment AcquireTransversal(Intersection thatInter)
     {
         // The two intersections should not be at the same vertex
-        if (intersect.Equals(thatInter.intersect))
+        if (intersect.equals(thatInter.intersect))
     	{
         	return null;
     	}
@@ -1422,12 +1422,12 @@ public class Intersection extends Descriptor
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
     	if(obj !=null && obj instanceof Perpendicular)
     	{
     		Perpendicular perp = (Perpendicular)obj;
-    		return perp.StructurallyEquals(this);
+    		return perp.structurallyEquals(this);
     	}
     	
     	
@@ -1435,8 +1435,8 @@ public class Intersection extends Descriptor
     	{
     		Intersection inter = null;
     		inter = (Intersection)obj;
-    		return intersect.Equals(inter.intersect) && ((lhs.StructurallyEquals(inter.lhs) && rhs.StructurallyEquals(inter.rhs)) ||
-    				(lhs.StructurallyEquals(inter.rhs) && rhs.StructurallyEquals(inter.lhs)));
+    		return intersect.equals(inter.intersect) && ((lhs.structurallyEquals(inter.lhs) && rhs.structurallyEquals(inter.rhs)) ||
+    				(lhs.structurallyEquals(inter.rhs) && rhs.structurallyEquals(inter.lhs)));
     	}
     	
     	///////I ADDED THIS RETURN FALSE CAUSE OTHERWISE THERE IS AN ERROR. THIS SHOULD BE CORRECT BUT IS UNTESTED
@@ -1445,7 +1445,7 @@ public class Intersection extends Descriptor
     }
     
     @Override 
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
     	if(obj != null && obj instanceof PerpendicularBisector)
     	{
@@ -1455,7 +1455,7 @@ public class Intersection extends Descriptor
     	if(obj != null && obj instanceof Perpendicular)
     	{
     		Perpendicular perp = (Perpendicular)obj;
-    		return perp.Equals(this);
+    		return perp.equals(this);
     	}
     	
     	
@@ -1463,7 +1463,7 @@ public class Intersection extends Descriptor
     	{
     		Intersection inter = null;
     		inter = (Intersection)obj;
-    		return StructurallyEquals(inter) && super.Equals(inter);
+    		return structurallyEquals(inter) && super.equals(inter);
     	}
     	
 		///////I ADDED THIS RETURN FALSE CAUSE OTHERWISE THERE IS AN ERROR. THIS SHOULD BE CORRECT BUT IS UNTESTED
@@ -1472,9 +1472,9 @@ public class Intersection extends Descriptor
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-    	return super.GetHashCode();
+    	return super.getHashCode();
     }
     
     @Override 

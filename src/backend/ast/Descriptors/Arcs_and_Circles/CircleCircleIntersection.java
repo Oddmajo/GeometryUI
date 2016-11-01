@@ -30,12 +30,11 @@ package backend.ast.Descriptors.Arcs_and_Circles;
 import backend.ast.Descriptors.CircleIntersection;
 import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
-import utilities.translation.OutPair;
+import backend.utilities.translation.OutPair;
 
 public class CircleCircleIntersection extends CircleIntersection
 {
     protected Circle otherCircle;
-    
     public Circle getOtherCircle()
     {
         return otherCircle;
@@ -49,10 +48,14 @@ public class CircleCircleIntersection extends CircleIntersection
         otherCircle = c2;
         
         //Find the intersection points
-        OutPair pt1, pt2;
-        theCircle.FindIntersection(otherCircle, pt1, pt2);
-        intersection1 = pt1;
-        intersection2 = pt2;
+        OutPair<Point,Point> pts;
+        
+        
+        //maybe this? instead of the other code?
+        //c1.FindIntersection(otherCircle, pts);
+        theCircle.FindIntersection(otherCircle, pts);
+        intersection1 = pts.first();
+        intersection2 = pts.second();
     }
     
     //If the arcs intersect at a single point
@@ -71,7 +74,7 @@ public class CircleCircleIntersection extends CircleIntersection
     
     //If not tangent, circles pass through each other
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
     	if(obj != null & obj instanceof CircleCircleIntersection)
     	{
@@ -97,9 +100,9 @@ public class CircleCircleIntersection extends CircleIntersection
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-    	return super.GetHashCode();
+    	return super.getHashCode();
     }
     
     @Override

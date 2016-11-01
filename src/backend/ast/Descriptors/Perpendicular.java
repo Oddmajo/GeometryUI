@@ -51,13 +51,13 @@ public class Perpendicular extends Intersection
     }
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-    	return super.GetHashCode();
+    	return super.getHashCode();
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
     	if(obj != null && obj instanceof Perpendicular)
     	{
@@ -67,25 +67,25 @@ public class Perpendicular extends Intersection
     		//{
     		// return false;
     		//}
-    		return intersect.Equals(perp.intersect) && ((lhs.StructurallyEquals(perp.lhs) && rhs.StructurallyEquals(perp.rhs)) ||
-    													(lhs.StructurallyEquals(perp.rhs) && rhs.StructurallyEquals(perp.lhs)));
+    		return intersect.equals(perp.intersect) && ((lhs.structurallyEquals(perp.lhs) && rhs.structurallyEquals(perp.rhs)) ||
+    													(lhs.structurallyEquals(perp.rhs) && rhs.structurallyEquals(perp.lhs)));
     	}
     	//This is untested but should be correct. IF the if isn't hit then it should never be equal
     	return false;
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
     	if(obj != null && obj instanceof PerpendicularBisector)
     	{
-    		return ((PerpendicularBisector)obj).Equals(this);
+    		return ((PerpendicularBisector)obj).equals(this);
     	}
     	
     	if(obj != null && obj instanceof Perpendicular)
     	{
     		Perpendicular p = (Perpendicular)obj;
-    		return intersect.Equals(p.intersect) && lhs.Equals(p.lhs) && rhs.Equals(p.rhs);
+    		return intersect.equals(p.intersect) && lhs.equals(p.lhs) && rhs.equals(p.rhs);
     	}
     	
     	//This is untested but should be correct. IF the if isn't hit then it should never be equal

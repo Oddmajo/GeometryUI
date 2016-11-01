@@ -27,6 +27,9 @@
 // */
 package backend.precomputer;
 
+
+//WARNING, SOME DEBUG PRINT STATEMENTS HAVE BEEN COMMENTED OUT. PROBABLY SHOULD GET A LOGGER AND LOG IT
+
 import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
@@ -59,6 +62,8 @@ import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.DebugException;
+import backend.utilities.exception.ExceptionHandler;
 public class CoordinatePrecomputer
 {
     private ArrayList<Circle> circles;
@@ -81,6 +86,26 @@ public class CoordinatePrecomputer
     
     private ArrayList<CircleSegmentIntersection> csIntersections;
     private ArrayList<CircleCircleIntersection> ccIntersections;
+    
+    
+    public ArrayList<Circle> getCircles() {return circles;}
+    public ArrayList<Quadrilateral> getQuadrilaterals() {return quadrilaterals;}
+    public ArrayList<Triangle> getTriangles() {return triangles;}
+    public ArrayList<Segment> getSegments() {return segments;}
+    public ArrayList<Angle> getAngles() {return angles;}
+    public ArrayList<Collinear> getCollinear() {return collinear;}
+    
+    public ArrayList<InMiddle> getInMiddles() {return inMiddles;}
+    public ArrayList<Intersection> getIntersections() {return intersections;}
+    public ArrayList<Perpendicular> getPerpendiculars() {return perpendiculars;}
+    public ArrayList<Parallel> getParallels() {return parallels;}
+    
+    public ArrayList<MinorArc> getMinorArcs() {return minorArcs;}
+    public ArrayList<MajorArc> getMajorArcs() {return majorArcs;}
+    public ArrayList<Semicircle> getSemiCircles() {return semiCircles;}
+    public ArrayList<Sector> getSectors() {return sectors;}
+    public ArrayList<ArcInMiddle> getArcInMiddle() {return arcInMiddle;}
+    
     
     public CoordinatePrecomputer(ArrayList<GroundedClause> figure)
     {
@@ -110,66 +135,69 @@ public class CoordinatePrecomputer
     {
         for(GroundedClause clause : figure)
         {
-            if(clause instanceof Circle && clause != null)
-            {
-                circles.add((Circle)clause);
-            }
-            else if(clause instanceof Quadrilateral && clause != null)
-            {
-                quadrilaterals.add((Quadrilateral)clause);
-            }
-            else if(clause instanceof Triangle && clause != null)
-            {
-                triangles.add((Triangle)clause);
-            }
-            else if(clause != null && clause instanceof Angle)
-            {
-            	angles.add((Angle)clause);
-            }
-            else if(clause != null && clause instanceof Segment)
-            {
-            	segments.add((Segment)clause);
-            }
-            else if(clause != null && clause instanceof InMiddle)
-            {
-            	inMiddles.add((InMiddle)clause);
-            }
-            else if(clause != null && clause instanceof Collinear)
-            {
-            	collinear.add((Collinear)clause);
-            }
-            else if(clause != null && clause instanceof Parallel)
-            {
-            	parallels.add((Parallel)clause);
-            }
-            else if(clause != null && clause instanceof Perpendicular)
-            {
-            	perpendiculars.add((Perpendicular)clause);
-            }
-            else if(clause != null && clause instanceof Intersection)
-            {
-            	intersections.add((Intersection)clause);
-            }
-            else if(clause !=null && clause instanceof MinorArc)
-            {
-            	minorArcs.add((MinorArc)clause);
-            }
-            else if(clause != null && clause instanceof MajorArc)
-            {
-            	majorArcs.add((MajorArc)clause);
-            }
-            else if(clause != null && clause instanceof Semicircle)
-            {
-            	semiCircles.add((Semicircle)clause);
-            }
-            else if(clause != null && clause instanceof Sector)
-            {
-            	sectors.add((Sector)clause);
-            }
-            else if(clause != null && clause instanceof ArcInMiddle)
-            {
-            	arcInMiddle.add((ArcInMiddle)clause);
-            }
+        	if(clause != null)
+        	{
+	            if(clause instanceof Circle)
+	            {
+	                circles.add((Circle)clause);
+	            }
+	            else if(clause instanceof Quadrilateral )
+	            {
+	                quadrilaterals.add((Quadrilateral)clause);
+	            }
+	            else if(clause instanceof Triangle)
+	            {
+	                triangles.add((Triangle)clause);
+	            }
+	            else if(clause instanceof Angle)
+	            {
+	            	angles.add((Angle)clause);
+	            }
+	            else if(clause instanceof Segment)
+	            {
+	            	segments.add((Segment)clause);
+	            }
+	            else if(clause instanceof InMiddle)
+	            {
+	            	inMiddles.add((InMiddle)clause);
+	            }
+	            else if(clause instanceof Collinear)
+	            {
+	            	collinear.add((Collinear)clause);
+	            }
+	            else if(clause instanceof Parallel)
+	            {
+	            	parallels.add((Parallel)clause);
+	            }
+	            else if(clause instanceof Perpendicular)
+	            {
+	            	perpendiculars.add((Perpendicular)clause);
+	            }
+	            else if(clause instanceof Intersection)
+	            {
+	            	intersections.add((Intersection)clause);
+	            }
+	            else if(clause instanceof MinorArc)
+	            {
+	            	minorArcs.add((MinorArc)clause);
+	            }
+	            else if(clause instanceof MajorArc)
+	            {
+	            	majorArcs.add((MajorArc)clause);
+	            }
+	            else if(clause instanceof Semicircle)
+	            {
+	            	semiCircles.add((Semicircle)clause);
+	            }
+	            else if(clause instanceof Sector)
+	            {
+	            	sectors.add((Sector)clause);
+	            }
+	            else if(clause instanceof ArcInMiddle)
+	            {
+	            	arcInMiddle.add((ArcInMiddle)clause);
+	            }
+        	}
         }
     }
     
@@ -247,7 +275,8 @@ public class CoordinatePrecomputer
     				{
     					if(Utilities.DEBUG)
     					{
-    						System.Diagnostics.Debug.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2));
+    						//System.Diagnostics.Debug.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2));
+    						ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2)));
     					}
     					descriptors.add(new SegmentRatio(segments.get(s1), segments.get(s2)));
     				}
@@ -283,7 +312,8 @@ public class CoordinatePrecomputer
     				{
     					if(Utilities.DEBUG)
     					{
-    						System.Diagnostics.Debu.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2));
+    						//System.Diagnostics.Debu.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2));
+    						ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2)));
     					}
     					descriptors.add(new ProportionalAngles(angles.get(a1), angles.get(a2)));
     				}
@@ -359,10 +389,12 @@ public class CoordinatePrecomputer
     	//Dumping the relations
     	if(Utilities.DEBUG)
     	{
-    		System.Diagnostics.Debug.WriteLine("Precomputed Relations");
+    		//System.Diagnostics.Debug.WriteLine("Precomputed Relations");
+    		ExceptionHandler.throwException(new DebugException("Precomputer Relations"));
     		for(Descriptor descriptor : descriptors)
     		{
-    			System.Diagnostics.Debug.WriteLine(descriptors.toString());
+    			//System.Diagnostics.Debug.WriteLine(descriptors.toString());
+    			ExceptionHandler.throwException(new DebugException(descriptors.toString()));
     		}
     		
     	}
@@ -429,10 +461,12 @@ public class CoordinatePrecomputer
     	//Dumping the strengthening
     	if(Utilities.DEBUG)
     	{
-    		System.Diagnostics.Debug.WriteLine("Precomputed Strengthening");
+    		//System.Diagnostics.Debug.WriteLine("Precomputed Strengthening");
+    		ExceptionHandler.throwException(new DebugException("Precomputer Strengthening"));
     		for(Strengthened s : strengthened)
     		{ 
-    			System.Diagnostics.Debug.WriteLine(s.toString());
+    			//System.Diagnostics.Debug.WriteLine(s.toString());
+    			ExceptionHandler.throwException(new DebugException(s.toString()));
     		}
     	}
     }

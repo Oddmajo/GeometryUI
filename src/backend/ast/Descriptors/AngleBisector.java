@@ -37,9 +37,9 @@ public class AngleBisector extends Bisector
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override
@@ -55,12 +55,12 @@ public class AngleBisector extends Bisector
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof AngleBisector)
 		{
 			AngleBisector ab = (AngleBisector)obj;
-			return angle.StructurallyEquals(ab.angle) && bisector.StructurallyEquals(ab.bisector);
+			return angle.structurallyEquals(ab.angle) && bisector.structurallyEquals(ab.bisector);
 		}
 		
 		return false;

@@ -72,12 +72,12 @@ public class InMiddle extends Descriptor
     }
     
     @Override	
-    public boolean CanBeStrengthenedTo(GroundedClause gc)
+    public boolean canBeStrengthenedTo(GroundedClause gc)
     {
     	if(gc != null && gc instanceof MidPoint)
     	{
     		MidPoint midpoint = (MidPoint)gc;
-    		return this.point.StructurallyEquals(midpoint.point) && this.segment.StructurallyEquals(midpoint.segment);
+    		return this.point.structurallyEquals(midpoint.point) && this.segment.structurallyEquals(midpoint.segment);
     	}
     	
     	//this is untested but if the if statement isn't hit then it probably should return false anyways
@@ -85,7 +85,7 @@ public class InMiddle extends Descriptor
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
     	//Causes infinite recursion -> if (obj is Midpoint) return (obj as Midpoint).Equals(this);
     	
@@ -93,7 +93,7 @@ public class InMiddle extends Descriptor
     	{
     		InMiddle im = (InMiddle)obj;
     		
-    		return im.point.Equals(point) && im.segment.Equals(segment);
+    		return im.point.equals(point) && im.segment.equals(segment);
     	}
     	
     	//this is untested but if the if statement isn't hit then it probably should return false anyways

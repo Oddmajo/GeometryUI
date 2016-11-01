@@ -25,17 +25,17 @@ public class Altitude extends Descriptor
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof Altitude)
 		{
 			Altitude alt = (Altitude)obj;
-			return triangle.StructurallyEquals(alt.triangle) && segment.StructurallyEquals(alt.segment);
+			return triangle.StructurallyEquals(alt.triangle) && segment.structurallyEquals(alt.segment);
 		}
 		
 		return false;
@@ -47,7 +47,7 @@ public class Altitude extends Descriptor
 		if(obj != null && obj instanceof Altitude)
 		{
 			Altitude alt = (Altitude)obj;
-			return triangle.Equals(alt.triangle) && segment.Equals(alt.segment) && super.Equals(obj);
+			return triangle.equals(alt.triangle) && segment.equals(alt.segment) && super.equals(obj);
 		}
 		
 		return false;

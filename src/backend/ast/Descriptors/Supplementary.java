@@ -47,31 +47,31 @@ public class Supplementary extends AnglePairRelation
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
 		//change this if the object is no longer immutable
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof Supplementary)
 		{
 			Supplementary supp = (Supplementary)obj;
-			return super.StructurallyEquals(supp);
+			return super.structurallyEquals(supp);
 		}
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal
     	return false;
 	}
 	
 	@Override
-	public boolean Equals(Object obj)
+	public boolean equals(Object obj)
 	{
 		if(obj != null && obj instanceof Supplementary)
 		{
 			Supplementary supp = (Supplementary)obj;
-			return super.Equals(supp);
+			return super.equals(supp);
 		}
 		//This is untested but should be correct. IF the if isn't hit then it should never be equal
     	return false;

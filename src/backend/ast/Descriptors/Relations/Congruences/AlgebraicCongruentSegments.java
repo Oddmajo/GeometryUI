@@ -43,19 +43,19 @@ public class AlgebraicCongruentSegments extends CongruentSegments
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
 		//change this if the object is no longer immutable
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	
 	@Override
-	public boolean IsAlgebraic()
+	public boolean isAlgebraic()
 	{
 		return true;
 	}
 	@Override
-	public boolean IsGeometric()
+	public boolean isGeometric()
 	{
 		return false;
 	}

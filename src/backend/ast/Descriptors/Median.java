@@ -24,17 +24,17 @@ public class Median extends Descriptor
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	@Override 
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof Median)
 		{
 			Median med = (Median)obj;
-			return theTriangle.StructurallyEquals(med.theTriangle) && medianSegment.StructurallyEquals(med.medianSegment);
+			return theTriangle.structurallyEquals(med.theTriangle) && medianSegment.structurallyEquals(med.medianSegment);
 		}
 		
 		//if the check fails then we should probably return false
@@ -47,7 +47,7 @@ public class Median extends Descriptor
 		if(obj != null && obj instanceof Median)
 		{
 			Median med = (Median)obj;
-			return theTriangle.Equals(med.theTriangle) && medianSegment.Equals(med.medianSegment) && super.Equals(obj);
+			return theTriangle.equals(med.theTriangle) && medianSegment.equals(med.medianSegment) && super.equals(obj);
 		}
 		
 		//if the check fails then we should probably return false

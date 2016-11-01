@@ -36,7 +36,7 @@ public class CongruentArcs extends Congruent
 	}
 	
 	@Override
-	public boolean IsReflexive()
+	public boolean isReflexive()
 	{
 		return ca1.StructurallyEquals(ca2);
 	}
@@ -55,7 +55,7 @@ public class CongruentArcs extends Congruent
 	}
 	
 	@Override
-	public boolean StructurallyEquals(Object obj)
+	public boolean structurallyEquals(Object obj)
 	{
 		if(obj != null && obj instanceof CongruentArcs)
 		{
@@ -72,8 +72,8 @@ public class CongruentArcs extends Congruent
 		if(obj != null && obj instanceof CongruentArcs)
 		{
 			CongruentArcs cts = (CongruentArcs)obj;
-			return this.ca1.Equals(cts.ca1) || this.ca2.Equals(cts.ca2) ||
-	                   this.ca2.Equals(cts.ca1) || this.ca1.Equals(cts.ca2);
+			return this.ca1.equals(cts.ca1) || this.ca2.equals(cts.ca2) ||
+	                   this.ca2.equals(cts.ca1) || this.ca1.equals(cts.ca2);
 		}
 		return false;
 	}
@@ -84,9 +84,9 @@ public class CongruentArcs extends Congruent
 	}
 	
 	@Override
-	public int GetHashCode()
+	public int getHashCode()
 	{
-		return super.GetHashCode();
+		return super.getHashCode();
 	}
 	@Override
 	public String toString()

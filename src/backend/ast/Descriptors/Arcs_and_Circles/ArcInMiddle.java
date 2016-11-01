@@ -69,18 +69,18 @@ public class ArcInMiddle extends Descriptor
     //}
     
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
-        return super.GetHashCode();
+        return super.getHashCode();
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj != null)
         {
             ArcInMiddle im = (ArcInMiddle)obj;
-            return im.point.Equals(this.point) && im.arc.StructurallyEquals(this.arc);
+            return im.point.structurallyEquals(this.point) && im.arc.StructurallyEquals(this.arc);
         }
         else
         {
@@ -90,12 +90,12 @@ public class ArcInMiddle extends Descriptor
     }
     
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if(obj != null)
         {
             ArcInMiddle im = (ArcInMiddle)obj;
-            return im.point.Equals(this.point) && im.arc.Equals(this.arc);
+            return im.point.equals(this.point) && im.arc.equals(this.arc);
         }
         else
         {
