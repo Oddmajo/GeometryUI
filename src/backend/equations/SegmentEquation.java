@@ -5,6 +5,7 @@ import javax.swing.text.Segment;
 import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.*;
+import backend.ast.GroundedClause;
 
 public class SegmentEquation extends Equation
 {

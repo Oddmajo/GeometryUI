@@ -1,6 +1,7 @@
 package backend.equations.operations;
 
 import java.util.ArrayList;
+import backend.ast.GroundedClause;
 import java.util.List;
 import backend.equations.*;
 import backend.utilities.exception.ExceptionHandler;

@@ -1,6 +1,7 @@
 package backend.equations;
 
 import backend.utilities.ast_helper.*;
+import backend.ast.GroundedClause;
 
 public class NumericValue extends ArithmeticNode implements Cloneable
 {

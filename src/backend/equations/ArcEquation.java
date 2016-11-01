@@ -4,6 +4,7 @@ import java.util.List;
 import backend.ast.figure.components.*;
 import backend.utilities.exception.*;
 import backend.utilities.ast_helper.*;
+import backend.ast.GroundedClause;
 
 public class ArcEquation extends Equation
 {

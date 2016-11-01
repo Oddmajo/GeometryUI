@@ -1,7 +1,8 @@
 package backend.equations;
 
+import backend.ast.GroundedClause;
 
-public class ArithmeticNode extends GroundedClause
+public abstract class ArithmeticNode extends GroundedClause implements Cloneable
 {
     public ArithmeticNode()
     {
@@ -19,8 +20,5 @@ public class ArithmeticNode extends GroundedClause
         return super.equals(obj);
     }
     
-    public String toString()
-    {
-        return super.toString();
-    }
+    public abstract String toString();
 }

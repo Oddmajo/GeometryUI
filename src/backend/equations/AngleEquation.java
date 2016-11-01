@@ -3,6 +3,7 @@ package backend.equations;
 import java.util.ArrayList;
 import java.util.List;
 import backend.ast.figure.components.*;
+import backend.ast.GroundedClause;
 import backend.utilities.list.Utilities;
 import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;

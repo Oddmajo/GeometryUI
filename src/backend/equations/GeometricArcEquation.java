@@ -1,5 +1,7 @@
 package backend.equations;
 
+import backend.ast.GroundedClause;
+
 public class GeometricArcEquation extends ArcEquation
 {
     public GeometricArcEquation()

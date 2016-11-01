@@ -1,6 +1,6 @@
 package backend.equations.operations;
 
-import backend.equations.*;
+import backend.ast.GroundedClause;
 
 public class Addition extends ArithmeticOperation
 {

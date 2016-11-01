@@ -1,8 +1,9 @@
 package backend.equations.operations;
 
 import java.util.ArrayList;
+import backend.ast.GroundedClause;
 import backend.equations.*;
-import backend.utilities.exception.ExceptionHandler;
+
 public class Multiplication extends ArithmeticOperation
 {
     public Multiplication()

@@ -1,6 +1,7 @@
 package backend.equations;
 
 import backend.utilities.exception.ArgumentException;
+import backend.ast.GroundedClause;
 
 public class AlgebraicAngleArcEquation extends AngleArcEquation
 {

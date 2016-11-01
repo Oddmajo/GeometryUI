@@ -6,6 +6,7 @@ import backend.utilities.exception.ArgumentException;
 import backend.utilities.list.*;
 import java.util.ArrayList;
 import java.util.List;
+import backend.ast.GroundedClause;
 
 @SuppressWarnings("unused")
 public class AngleArcEquation extends Equation

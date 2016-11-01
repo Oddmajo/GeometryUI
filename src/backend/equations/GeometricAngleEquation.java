@@ -1,5 +1,6 @@
 package backend.equations;
 
+import backend.ast.GroundedClause;
 public class GeometricAngleEquation extends AngleEquation
 {
     public GeometricAngleEquation()

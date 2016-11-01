@@ -1,6 +1,7 @@
 package backend.equations;
 
 import backend.utilities.exception.ArgumentException;
+import backend.ast.GroundedClause;
 import backend.utilities.exception.ExceptionHandler;
 
 public class GeometricAngleArcEquation extends AngleArcEquation
