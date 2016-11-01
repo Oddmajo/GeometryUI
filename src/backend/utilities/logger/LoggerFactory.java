@@ -1,5 +1,6 @@
 package backend.utilities.logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 import backend.ast.ASTException;
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.DebugException;
 import backend.utilities.exception.GeometryException;
 import backend.utilities.exception.NotImplementedException;
 
@@ -212,22 +214,25 @@ public class LoggerFactory
     
     /**
      * method to create loggers and set loggerIDs of exception classes
+     * @throws IOException 
      */
-    public static void initialize()
+    public static void initialize() throws IOException
     {
         // *****default loggers
+        File dir = new File(".");
+        String path = dir.getCanonicalPath();
         _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
         _loggers = new ArrayList<Logger>();
-        buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DebugLog.txt");                     // debug logger id 0
-        buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\MatlabLog.txt");                     // matlab logger id 1
+        buildLogger(path + "\\src\\backend\\logs\\DebugLog.txt");                     // debug logger id 0
+        buildLogger(path + "\\src\\backend\\logs\\MatlabLog.txt");                     // matlab logger id 1
         
         // default logger id 2
         //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"));     
-        buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"); 
+        buildLogger(path + "\\src\\backend\\logs\\DefaultLog.txt"); 
         
         // exception default logger id 3
         //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID)));    
-        buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID));    
+        buildLogger(path + "\\src\\backend\\logs\\exception\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID));    
         
         // Initializing the null output stream
         //_deathLogger = new Logger(new NullOutputStreamWriter());
@@ -235,10 +240,10 @@ public class LoggerFactory
         
         // ****build the Loggers****
         // AST Loggers
-        Logger astLogger = buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\ASTLog.txt", 
+        Logger astLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\ASTLog.txt", 
                 getLogger(EXCEPTION_OUTPUT_ID));
         
-        Logger geometryLogger = buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\GeometryLog.txt", 
+        Logger geometryLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\GeometryLog.txt", 
                 getLogger(astLogger.getLoggerId()));
         
         // atomic region loggers
@@ -246,7 +251,7 @@ public class LoggerFactory
 //                LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID));
         
         // generic exception logger
-        Logger generalExceptionLogger = buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\GeneralExceptionLog.txt", 
+        Logger generalExceptionLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\GeneralExceptionLog.txt", 
                 getLogger(EXCEPTION_OUTPUT_ID));
         
         
@@ -255,6 +260,7 @@ public class LoggerFactory
         GeometryException.setLoggerID(geometryLogger);
         NotImplementedException.setLoggerID(generalExceptionLogger);
         ArgumentException.setLoggerID(generalExceptionLogger);
+        DebugException.setLoggerID(DEBUG_OUTPUT_ID);
         
     }
 
