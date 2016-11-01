@@ -42,7 +42,7 @@ public class Connection
         segmentOrArc = so;
     }
 
-    public boolean HasPoint(Point p) { return endpoint1.Equals(p) || endpoint2.Equals(p); }
+    public boolean HasPoint(Point p) { return endpoint1.equals(p) || endpoint2.equals(p); }
 
     public Point OtherEndpoint(Point p)
     {
@@ -68,7 +68,7 @@ public class Connection
 
         if (type != that.type) return false;
 
-        return segmentOrArc.StructurallyEquals(that.segmentOrArc);
+        return segmentOrArc.structurallyEquals(that.segmentOrArc);
     }
 
     //

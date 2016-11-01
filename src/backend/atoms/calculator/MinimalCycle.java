@@ -319,7 +319,7 @@ public class MinimalCycle extends Primitive
                 }
             }
 
-            if (!collinearFound) collinearSet.add(Utilities.MakeList(segment));
+            if (!collinearFound) collinearSet.add((ArrayList<Segment>) Utilities.MakeList(segment));
         }
 
         return collinearSet;
@@ -385,7 +385,7 @@ public class MinimalCycle extends Primitive
                 }
             }
 
-            if (!collinearFound) collinearSet.add(Utilities.MakeList(minor));
+            if (!collinearFound) collinearSet.add((ArrayList<MinorArc>) Utilities.MakeList(minor));
         }
 
         //

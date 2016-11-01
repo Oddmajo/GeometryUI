@@ -125,9 +125,9 @@ public class Utilities
     }
 
     // Makes a list containing a single element
-    public static <T> List<T> MakeList(T obj)
+    public static <T> ArrayList<T> MakeList(T obj)
     {
-        List<T> l = new ArrayList<T>();
+        ArrayList<T> l = new ArrayList<T>();
 
         l.add(obj);
 

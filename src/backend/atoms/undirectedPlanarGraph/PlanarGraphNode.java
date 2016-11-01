@@ -148,7 +148,7 @@ public class PlanarGraphNode
         if (obj != null && obj instanceof PlanarGraphNode)
         {
             PlanarGraphNode node = (PlanarGraphNode) obj;
-            return this.thePoint.Equals(node.thePoint);
+            return this.thePoint.equals(node.thePoint);
         }
         else { return false; }
     }

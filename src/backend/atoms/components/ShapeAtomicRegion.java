@@ -128,7 +128,7 @@ public class ShapeAtomicRegion extends AtomicRegion
         if (obj != null && obj instanceof ShapeAtomicRegion)
         {
             ShapeAtomicRegion thatAtom = (ShapeAtomicRegion) obj;
-            return (shape.StructurallyEquals(thatAtom.shape) && super.Equals(obj) );
+            return (shape.structurallyEquals(thatAtom.shape) && super.Equals(obj) );
         }
         else { return false; }
     }

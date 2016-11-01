@@ -81,7 +81,7 @@ public class Utilities
 			Angle angle = (Angle)clause1;
 			return angle.equalRays(clause2);
 		}
-		else return clause1.StructurallyEquals(clause2);
+		else return clause1.structurallyEquals(clause2);
 	}
 
 
@@ -92,7 +92,7 @@ public class Utilities
 	{
 		for (int i = 0; i < list.size(); i++)
 		{
-			if (list.get(i).StructurallyEquals(t)) return i;
+			if (list.get(i).structurallyEquals(t)) return i;
 		}
 
 		return -1;
@@ -116,7 +116,7 @@ public class Utilities
 	{
 		for (T oldT : list)
 		{
-			if (oldT.StructurallyEquals(t)) return oldT;
+			if (oldT.structurallyEquals(t)) return oldT;
 		}
 
 		return null;
@@ -243,7 +243,7 @@ public class Utilities
 	{
 		for (Figure figure : figures)
 		{
-			if (figure.StructurallyEquals(f)) return;
+			if (figure.structurallyEquals(f)) return;
 		}
 		figures.add(f);
 	}
