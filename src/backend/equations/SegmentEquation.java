@@ -6,6 +6,7 @@ import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.*;
 import backend.ast.GroundedClause;
+import backend.ast.figure.components.*;
 
 public class SegmentEquation extends Equation
 {
@@ -44,6 +45,7 @@ public class SegmentEquation extends Equation
                 sum += clause.getMulitplier() * ((Segment)clause).length();
             }
             */
+            
         }
         return sum;
     }

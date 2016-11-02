@@ -2,6 +2,8 @@ package backend.instantiator.algebra;
 
 import backend.equations.*;
 import backend.instantiator.*;
+import backend.ast.Descriptors.*;
+import backend.ast.Descriptors.Relations.SimilarTriangles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,4 +246,5 @@ public class RelationTransitiveSubstitution extends GenericRule
         return false;
     }
     */
+    
 }

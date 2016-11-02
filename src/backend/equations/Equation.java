@@ -2,7 +2,6 @@ package backend.equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import backend.ast.figure.*;
 import backend.ast.figure.components.*;
 import backend.utilities.Pair;
 import backend.ast.GroundedClause;
@@ -31,7 +30,7 @@ public class Equation extends ArithmeticNode
     //    justification = just;
     //}
 
-    public void Substitute(GroundedClause toFind, GroundedClause toSub)
+    public void substitute(GroundedClause toFind, GroundedClause toSub)
     {
         if (lhs.equals(toFind))
         {
@@ -72,8 +71,8 @@ public class Equation extends ArithmeticNode
     
     public int getAtomicity()
     {
-        boolean leftIs = /* lhs.getClass().isInstance(new Angle()) || lhs.getClass().isInstance(new Segment()) ||  lhs.getClass().isInstance(new Arc()) || */ lhs instanceof NumericValue;
-        boolean rightIs = /* rhs.getClass().isInstance(new Angle()) || rhs.getClass().isInstance(new Segment()) ||  rhs.getClass().isInstance(new Arc())  || */ rhs instanceof NumericValue;
+        boolean leftIs =  lhs instanceof Angle || lhs instanceof Segment ||  lhs instanceof Arc ||  lhs instanceof NumericValue;
+        boolean rightIs =  rhs instanceof Angle || rhs instanceof Segment ||  rhs instanceof Arc  ||  rhs instanceof NumericValue;
 
         if (leftIs && rightIs) return BOTH_ATOMIC;
         if (!leftIs && !rightIs) return NONE_ATOMIC;

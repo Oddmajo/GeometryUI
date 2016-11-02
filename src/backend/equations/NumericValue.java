@@ -1,11 +1,17 @@
 package backend.equations;
 
 import backend.utilities.ast_helper.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
+
 import backend.ast.GroundedClause;
 
 public class NumericValue extends ArithmeticNode implements Cloneable
 {
     protected double value;
+    ArrayList<Character> variables;
     
     public NumericValue()
     {
@@ -22,15 +28,35 @@ public class NumericValue extends ArithmeticNode implements Cloneable
         value = v;
     }
     
+    public NumericValue(int v, ArrayList<Character> c)
+    {
+        value = v;
+        variables = c;
+            
+    }
+    
+    public NumericValue(double v, ArrayList<Character> c)
+    {
+        value = v;
+        variables = c;
+    }
+    
     public String toString()
     {
-        return value + "";
+        String v = "";
+        for (char c : variables)
+            v += c;
+        return value + v;
     }
     
     public String toPrettyString()
     {
+        Collections.sort(variables);
+        String v = "";
+        for (char c : variables)
+            v += c;
         if (getDoubleValue() == getIntValue())
-            return getIntValue() + "";
+            return getIntValue() + v;
         else
             return toString();
     }

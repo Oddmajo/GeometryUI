@@ -38,12 +38,12 @@ public class ArcEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
-            /*
+            
             else if (clause instanceof Arc)
             {
                 sum += clause.getMulitplier() * ((Arc)clause).getLength();
             }
-            */
+            
         }
         return sum;
     }

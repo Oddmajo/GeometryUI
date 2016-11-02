@@ -3,12 +3,10 @@ package backend.equations;
 import backend.ast.figure.components.*;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
-import backend.utilities.list.*;
 import java.util.ArrayList;
 import java.util.List;
 import backend.ast.GroundedClause;
 
-@SuppressWarnings("unused")
 public class AngleArcEquation extends Equation
 {
     
@@ -37,10 +35,10 @@ public class AngleArcEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
-            /*
+            
             else if (clause instanceof Angle)
             {
-                sum += clause.getMulitplier() * ((Angle)clause).measure();
+                sum += clause.getMulitplier() * ((Angle)clause).getMeasure();
             }
 
             else if (clause instanceof MinorArc)
@@ -57,7 +55,7 @@ public class AngleArcEquation extends Equation
             {
                 sum += clause.getMulitplier() * ((MajorArc)clause).GetMinorArcMeasureDegrees();
             }
-            */
+            
         }
         return sum;
     }

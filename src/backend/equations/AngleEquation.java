@@ -5,7 +5,6 @@ import java.util.List;
 import backend.ast.figure.components.*;
 import backend.ast.GroundedClause;
 import backend.utilities.list.Utilities;
-import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -44,10 +43,10 @@ public class AngleEquation extends Equation
             {
                 sum += (((NumericValue) clause).getDoubleValue());
             }
-/*
+
             else if (clause instanceof Angle)
             {
-                sum += clause.getMulitplier() * ((Angle)clause).measure;
+                sum += clause.getMulitplier() * ((Angle)clause).getMeasure();
             }
             
             else if (clause instanceof MinorArc)
@@ -59,7 +58,7 @@ public class AngleEquation extends Equation
             {
                 sum += clause.getMulitplier() *  ((MajorArc)clause).GetMajorArcMeasureDegrees();
             }
-            */
+            
         }
 
         return sum;

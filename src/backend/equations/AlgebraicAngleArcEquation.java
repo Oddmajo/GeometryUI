@@ -1,6 +1,7 @@
 package backend.equations;
 
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 import backend.ast.GroundedClause;
 
 public class AlgebraicAngleArcEquation extends AngleArcEquation
@@ -24,8 +25,8 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
         }
         catch (ArgumentException e)
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+           
+            ExceptionHandler.throwException(new ArgumentException(""));
         }
         return this;
     }

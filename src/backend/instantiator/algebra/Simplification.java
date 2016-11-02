@@ -34,7 +34,8 @@ public class Simplification extends GenericRule
         //Is the equation 0=0?  This should be allowed as it indicates a tautology.
         if (original.lhs.equals(new NumericValue(0)) && original.rhs.equals(new NumericValue(0)))
         {
-            ExceptionHandler.throwException(new ArgumentException("Should not have an equation that is 0 = 0: " + original.toString()));
+            return original;
+            //ExceptionHandler.throwException(new ArgumentException("Should not have an equation that is 0 = 0: " + original.toString()));
         }
 
         //
