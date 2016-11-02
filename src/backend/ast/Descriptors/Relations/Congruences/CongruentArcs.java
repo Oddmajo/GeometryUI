@@ -38,16 +38,16 @@ public class CongruentArcs extends Congruent
 	@Override
 	public boolean isReflexive()
 	{
-		return ca1.StructurallyEquals(ca2);
+		return ca1.structurallyEquals(ca2);
 	}
 	
 	public Arc OtherArc(Arc thatArc)
 	{
-		if (ca1.StructurallyEquals(thatArc))
+		if (ca1.structurallyEquals(thatArc))
 		{
 			return ca2;
 		}
-        if (ca2.StructurallyEquals(thatArc))
+        if (ca2.structurallyEquals(thatArc))
     	{
     		return ca1;
     	}
@@ -60,8 +60,8 @@ public class CongruentArcs extends Congruent
 		if(obj != null && obj instanceof CongruentArcs)
 		{
 			CongruentArcs cts = (CongruentArcs)obj;
-			return this.ca1.StructurallyEquals(cts.ca1) || this.ca2.StructurallyEquals(cts.ca2) ||
-	                   this.ca2.StructurallyEquals(cts.ca1) || this.ca1.StructurallyEquals(cts.ca2);
+			return this.ca1.structurallyEquals(cts.ca1) || this.ca2.structurallyEquals(cts.ca2) ||
+	                   this.ca2.structurallyEquals(cts.ca1) || this.ca1.structurallyEquals(cts.ca2);
 		}
 		return false;
 	}

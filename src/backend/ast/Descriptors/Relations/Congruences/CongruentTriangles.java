@@ -29,7 +29,7 @@ public class CongruentTriangles extends Congruent
 	@Override
 	public boolean isReflexive()
 	{
-		return ct1.StructurallyEquals(ct2);
+		return ct1.structurallyEquals(ct2);
 	}
 	
 	@Override
@@ -42,12 +42,12 @@ public class CongruentTriangles extends Congruent
 			//the point must equate in order
 			Pair<Triangle, Triangle> pair1;
 			Pair<Triangle, Triangle> pair2;
-			if(ct1.StructurallyEquals(cts.ct1) && ct2.StructurallyEquals(cts.ct2))
+			if(ct1.structurallyEquals(cts.ct1) && ct2.structurallyEquals(cts.ct2))
 			{
 				pair1 = new Pair<Triangle, Triangle>(ct1, cts.ct1);
 				pair2 = new Pair<Triangle, Triangle>(ct2, cts.ct2);
 			}
-			else if(ct1.StructurallyEquals(cts.ct2) && ct2.StructurallyEquals(cts.ct1))
+			else if(ct1.structurallyEquals(cts.ct2) && ct2.structurallyEquals(cts.ct1))
 			{
 				pair1 = new Pair<Triangle, Triangle>(ct1, cts.ct2);
 				pair2 = new Pair<Triangle, Triangle>(ct2, cts.ct1);

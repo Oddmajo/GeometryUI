@@ -43,7 +43,7 @@ public class MidPoint extends InMiddle
 		if(obj != null && obj instanceof MidPoint)
 		{
 			MidPoint midptObj = (MidPoint)obj;
-			return point.StructurallyEquals(midptObj.point) && segment.structurallyEquals(midptObj.segment);
+			return point.structurallyEquals(midptObj.point) && segment.structurallyEquals(midptObj.segment);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;

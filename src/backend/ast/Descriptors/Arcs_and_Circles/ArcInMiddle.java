@@ -80,7 +80,7 @@ public class ArcInMiddle extends Descriptor
         if(obj != null)
         {
             ArcInMiddle im = (ArcInMiddle)obj;
-            return im.point.structurallyEquals(this.point) && im.arc.StructurallyEquals(this.arc);
+            return im.point.structurallyEquals(this.point) && im.arc.structurallyEquals(this.arc);
         }
         else
         {

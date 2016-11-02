@@ -35,7 +35,7 @@ public class Altitude extends Descriptor
 		if(obj != null && obj instanceof Altitude)
 		{
 			Altitude alt = (Altitude)obj;
-			return triangle.StructurallyEquals(alt.triangle) && segment.structurallyEquals(alt.segment);
+			return triangle.structurallyEquals(alt.triangle) && segment.structurallyEquals(alt.segment);
 		}
 		
 		return false;

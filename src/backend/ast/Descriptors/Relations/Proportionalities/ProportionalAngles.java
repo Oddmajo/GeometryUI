@@ -63,8 +63,8 @@ public class ProportionalAngles extends Descriptor
 	 // Return the number of shared angles in both congruences
     public int SharesNumClauses(CongruentAngles thatCas)
     {
-        int numShared = smallerAngle.Equals(thatCas.GetFirstAngle()) || smallerAngle.Equals(thatCas.GetSecondAngle()) ? 1 : 0;
-        numShared += largerAngle.Equals(thatCas.GetFirstAngle()) || largerAngle.Equals(thatCas.GetSecondAngle()) ? 1 : 0;
+        int numShared = smallerAngle.equals(thatCas.GetFirstAngle()) || smallerAngle.equals(thatCas.GetSecondAngle()) ? 1 : 0;
+        numShared += largerAngle.equals(thatCas.GetFirstAngle()) || largerAngle.equals(thatCas.GetSecondAngle()) ? 1 : 0;
 
         return numShared;
     }
@@ -94,7 +94,7 @@ public class ProportionalAngles extends Descriptor
     	if(obj != null && obj instanceof ProportionalAngles)
     	{
     		ProportionalAngles p = (ProportionalAngles)obj;
-    		return smallerAngle.StructurallyEquals(p.smallerAngle) && largerAngle.StructurallyEquals(p.largerAngle);
+    		return smallerAngle.structurallyEquals(p.smallerAngle) && largerAngle.structurallyEquals(p.largerAngle);
     	}
     	
     	//if the null check or instanceof fails it probably should return false
@@ -127,14 +127,14 @@ public class ProportionalAngles extends Descriptor
     {
         if (SharesNumClauses(thatCas) != 1) return null;
 
-        return smallerAngle.Equals(thatCas.GetFirstAngle()) || smallerAngle.Equals(thatCas.GetSecondAngle()) ? smallerAngle : largerAngle;
+        return smallerAngle.equals(thatCas.GetFirstAngle()) || smallerAngle.equals(thatCas.GetSecondAngle()) ? smallerAngle : largerAngle;
     }
 
     // Return the shared angle in both congruences
     public Angle OtherAngle(Angle thatAngle)
     {
-        if (smallerAngle.Equals(thatAngle)) return largerAngle;
-        if (largerAngle.Equals(thatAngle)) return smallerAngle;
+        if (smallerAngle.equals(thatAngle)) return largerAngle;
+        if (largerAngle.equals(thatAngle)) return smallerAngle;
 
         return null;
     }

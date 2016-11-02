@@ -27,7 +27,7 @@ public class SimilarTriangles extends Descriptor
 	@Override 
 	public boolean isReflexive()
 	{
-		return st1.StructurallyEquals(st2);
+		return st1.structurallyEquals(st2);
 	}
 	
 //	  public Triangle OtherTriangle(Triangle that)
@@ -60,8 +60,8 @@ public class SimilarTriangles extends Descriptor
 		if(obj != null && obj instanceof SimilarTriangles)
 		{
 			SimilarTriangles sts = (SimilarTriangles)obj;
-			return st1.StructurallyEquals(sts.st1) && st2.StructurallyEquals(sts.st2) ||
-            st1.StructurallyEquals(sts.st2) && st2.StructurallyEquals(sts.st1);
+			return st1.structurallyEquals(sts.st1) && st2.structurallyEquals(sts.st2) ||
+            st1.structurallyEquals(sts.st2) && st2.structurallyEquals(sts.st1);
 		}
 		
 		//if the null check and instanceof fails it probably should return false
@@ -74,7 +74,7 @@ public class SimilarTriangles extends Descriptor
 		if(obj != null && obj instanceof SimilarTriangles)
 		{
 			SimilarTriangles sts = (SimilarTriangles)obj;
-			return (st1.Equals(sts.st1) && st2.Equals(sts.st2)) || (st1.Equals(sts.st2) && st2.Equals(sts.st1));
+			return (st1.equals(sts.st1) && st2.equals(sts.st2)) || (st1.equals(sts.st2) && st2.equals(sts.st1));
 		}
 		
 		//if the null check and instanceof fails it probably should return false

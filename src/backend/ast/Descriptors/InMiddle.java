@@ -47,6 +47,7 @@ public class InMiddle extends Descriptor
     /// <param name="segment">A segment</param>
     public InMiddle(Point p, Segment segment)// :base()
     {
+    	super();
         this.point = p;
         this.segment = segment;
     }

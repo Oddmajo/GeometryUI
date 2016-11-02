@@ -95,7 +95,7 @@ public class CongruentAngles extends Congruent
 	@Override
 	public boolean isReflexive()
 	{
-		return ca1.Equals(ca2);
+		return ca1.equals(ca2);
 	}
 	
 	//return the number of shared angles in both congruences

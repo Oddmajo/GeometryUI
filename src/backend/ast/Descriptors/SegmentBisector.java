@@ -38,7 +38,7 @@ public class SegmentBisector extends Bisector
 			}
 			
 			//the intersection points
-			if(!bisected.intersect.StructurallyEquals(b.bisected.intersect))
+			if(!bisected.intersect.structurallyEquals(b.bisected.intersect))
 			{
 				return false;
 			}
