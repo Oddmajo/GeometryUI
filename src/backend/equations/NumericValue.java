@@ -88,6 +88,10 @@ public class NumericValue extends ArithmeticNode implements Cloneable
         return value;
     }
     
+    public List<Character> getVariables()
+    {
+        return variables;
+    }
     public int getHashCode()
     {
         return super.getHashCode();

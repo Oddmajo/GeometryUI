@@ -660,9 +660,95 @@ public class SimplificationTest
         testsPassed = 0;
         totalTests = 0;
 
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue value = new NumericValue(i-100, sample);
+            String test = value.toPrettyString();
+            String expectedResult = i - 100 + "xy";
+            if (test.equals(expectedResult))
+                testsPassed++;
+            else
+            {
+                System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+            }
+            totalTests++;
+        }
+        
+        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue value = new NumericValue(i-100, sample);
+            double test = value.getDoubleValue();
+            double expectedResult = i - 100.0;
+            if (test == expectedResult)
+                testsPassed++;
+            else
+            {
+                System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+            }
+            totalTests++;
+        }
+
+        System.out.println("getDoubleValue() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
+
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue value = new NumericValue(i-100, sample);
+            int test = value.getIntValue();
+            int expectedResult = i - 100;
+            if (test == expectedResult)
+                testsPassed++;
+            else
+            {
+                System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+            }
+            totalTests++;
+        }
+        
+        System.out.println("getIntValue() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+        
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue value = new NumericValue(i-100, sample);
+            List<Character> t1 = value.getVariables();
+            String test = "";
+            for (char c: t1)
+                test += c;
+            String expectedResult = "xy";
+            if (test.equals(expectedResult))
+                testsPassed++;
+            else
+            {
+                System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+            }
+            totalTests++;
+        }
+        
+        System.out.println("getVariables() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
     }
-    
-    
 
 }
 
