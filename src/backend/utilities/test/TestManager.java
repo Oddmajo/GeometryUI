@@ -42,7 +42,7 @@ public class TestManager
     // finds all classes and then runs every class in the ArrayList testClasses 
     public static void run() throws Exception
     {
-        File dir = new File(".");
+        File dir = new File(".\\test");
         findClasses(dir);
         for(Class test : testClasses)
         {
@@ -74,19 +74,20 @@ public class TestManager
                 if(name.toLowerCase().contains(FILE_TEST_STRING))
                 {
                     String packagePath = new String(file.getParentFile().getPath());
-                    packagePath = packagePath.replace(".\\src\\", EMPTY);
+                    packagePath = packagePath.replace(".\\test\\", EMPTY);
                     packagePath = packagePath.replace("\\", ".");
+                    System.out.println(packagePath);
                     testClasses.add(Class.forName(packagePath+"."+name.replace(FILE_TYPE, EMPTY)));
                 }
                 else if(name.toLowerCase().endsWith(FILE_TYPE))
                 {
-                    System.out.println(name);
                     String packagePath = new String(file.getParentFile().getPath());
-                    packagePath = packagePath.replace(".\\src\\", EMPTY);
+                    packagePath = packagePath.replace(".\\test\\", EMPTY);
                     packagePath = packagePath.replace("\\", ".");
+                    System.out.println(packagePath);
                     try
                     {
-                        if(!testClasses.contains(Class.forName(packagePath+"."+name.replace(FILE_TYPE, EMPTY)+"test")))
+                        if(!testClasses.contains(Class.forName(packagePath+"."+name.replace(FILE_TYPE, EMPTY)+"Test")))
                         {
                             missing.add(Class.forName(packagePath+"." + name.replace(FILE_TYPE, EMPTY)));
                         }
