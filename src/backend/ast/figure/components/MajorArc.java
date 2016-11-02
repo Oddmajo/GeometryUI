@@ -27,16 +27,16 @@ public class MajorArc extends Arc
 
     // Checking for structural equality (is it the same segment) excluding the multiplier
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof MajorArc)) return false;
         MajorArc arc = (MajorArc)obj;
 
-        return this._theCircle.StructurallyEquals(arc._theCircle) && ((this._endpoint1.StructurallyEquals(arc._endpoint1)
-                && this._endpoint2.StructurallyEquals(arc._endpoint2))
-                || (this._endpoint1.StructurallyEquals(arc._endpoint2)
-                        && this._endpoint2.StructurallyEquals(arc._endpoint1)));
+        return this._theCircle.structurallyEquals(arc._theCircle) && ((this._endpoint1.structurallyEquals(arc._endpoint1)
+                && this._endpoint2.structurallyEquals(arc._endpoint2))
+                || (this._endpoint1.structurallyEquals(arc._endpoint2)
+                        && this._endpoint2.structurallyEquals(arc._endpoint1)));
     }
 
     @Override
@@ -147,7 +147,7 @@ public class MajorArc extends Arc
     @Override
     public boolean HasSubArc(Arc that)
     {
-        if (!this._theCircle.StructurallyEquals(that._theCircle)) return false;
+        if (!this._theCircle.structurallyEquals(that._theCircle)) return false;
 
         if (that instanceof MajorArc) return this.HasMajorSubArc(that);
         if (that instanceof Semicircle)
@@ -169,7 +169,7 @@ public class MajorArc extends Arc
 
         // Check equality of MajorArc Major / major points?
 
-        return super.Equals(obj);
+        return super.equals(obj);
     }
 
     @Override

@@ -38,14 +38,14 @@ public class Angle extends Figure
 
  // Make a deep copy of this object
     @Override
-    public  GroundedClause DeepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy() throws CloneNotSupportedException
     {
         Angle other = (Angle)(this.clone());
         other.A = (Point)this.A.DeepCopy();
         other.B = (Point)this.B.DeepCopy();
         other.C = (Point)this.C.DeepCopy();
-        other.ray1 = (Segment)this.ray1.DeepCopy();
-        other.ray2 = (Segment)this.ray2.DeepCopy();
+        other.ray1 = (Segment)this.ray1.deepCopy();
+        other.ray2 = (Segment)this.ray2.deepCopy();
 
         return other;
     }
@@ -75,7 +75,7 @@ public class Angle extends Figure
      */
     public Angle(Point a, Point b, Point c)
     {
-        if (a.StructurallyEquals(b) || b.StructurallyEquals(c) || a.StructurallyEquals(c))
+        if (a.structurallyEquals(b) || b.structurallyEquals(c) || a.structurallyEquals(c))
         {
             return;
             //Commented out : Source Code ------
@@ -108,7 +108,7 @@ public class Angle extends Figure
         this.B = pts.get(1);
         this.C = pts.get(3);
 
-        if (A.StructurallyEquals(B) || B.StructurallyEquals(C) || A.StructurallyEquals(C))
+        if (A.structurallyEquals(B) || B.structurallyEquals(C) || A.structurallyEquals(C))
         {
             throw new IllegalArgumentException("Angle constructed with redundant vertices.");
         }
@@ -194,7 +194,7 @@ public class Angle extends Figure
         //if (this.Equals(thatAngle)) return true;
 
         // Vertices must equate
-        if (!this.GetVertex().Equals(thatAngle.GetVertex())) return false;
+        if (!this.GetVertex().equals(thatAngle.GetVertex())) return false;
 
         // Rays must originate at the vertex and emanate outward
         return (ray1.rayOverlays(thatAngle.ray1) && ray2.rayOverlays(thatAngle.ray2)) ||
@@ -213,16 +213,16 @@ public class Angle extends Figure
         // Measures better be the same.
         if (!backend.utilities.math.MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
-        return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
-                (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
+        return (angle.A.structurallyEquals(A) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(C)) ||
+                (angle.A.structurallyEquals(C) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(A));
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     public Point SameVertex(Angle ang)
     {
-        return GetVertex().Equals(ang.GetVertex()) ? GetVertex() : null;
+        return GetVertex().equals(ang.GetVertex()) ? GetVertex() : null;
     }
 
     public Segment SharesOneRayAndHasSameVertex(Angle ang)
@@ -355,7 +355,7 @@ public class Angle extends Figure
     public boolean IsIncludedAngle(Segment seg1, Segment seg2)
     {
         // Do not allow the same segment.
-        if (seg1.StructurallyEquals(seg2)) return false;
+        if (seg1.structurallyEquals(seg2)) return false;
 
         // Check direct inclusion
         if (seg1.equals(ray1) && seg2.equals(ray2) || seg1.equals(ray2) && seg2.equals(ray1)) return true;
@@ -384,9 +384,9 @@ public class Angle extends Figure
     }
 
     @Override
-    public boolean ContainsClause(GroundedClause target)
+    public boolean containsClause(GroundedClause target)
     {
-        return this.Equals(target);
+        return this.equals(target);
     }
 
     //
@@ -562,7 +562,7 @@ public class Angle extends Figure
     // Checking for structural equality (is it the same segment) excluding the multiplier
     // This is either a direct comparison of the angle based on vertices or 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Angle)) return false;
@@ -573,8 +573,8 @@ public class Angle extends Figure
 
         if (this.equates(angle)) return true;
 
-        return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
-                (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
+        return (angle.A.structurallyEquals(A) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(C)) ||
+                (angle.A.structurallyEquals(C) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(A));
     }
 
     //Checking for equality of angles WITHOUT considering possible overlay of rays (i.e. two angles will be considered NOT equal
@@ -588,8 +588,8 @@ public class Angle extends Figure
         // Measures better be the same.
        if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
-        return (angle.A.StructurallyEquals(A) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(C)) ||
-                (angle.A.StructurallyEquals(C) && angle.B.StructurallyEquals(B) && angle.C.StructurallyEquals(A));
+        return (angle.A.structurallyEquals(A) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(C)) ||
+                (angle.A.structurallyEquals(C) && angle.B.structurallyEquals(B) && angle.C.structurallyEquals(A));
     }
 
     //
@@ -626,9 +626,9 @@ public class Angle extends Figure
 
     public boolean HasPoint(Point p)
     {
-        if (A.Equals(p)) return true;
-        if (B.Equals(p)) return true;
-        if (C.Equals(p)) return true;
+        if (A.equals(p)) return true;
+        if (B.equals(p)) return true;
+        if (C.equals(p)) return true;
 
         return false;
     }
@@ -642,7 +642,7 @@ public class Angle extends Figure
     // If we check for angle measure equality that is distinct.
     // If we check to see that a different set of remote vertices describes this angle, that is distinct.
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Angle)) return false;
@@ -651,7 +651,7 @@ public class Angle extends Figure
         // Measures must be the same.
         if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
-        return super.Equals(obj) && StructurallyEquals(obj);
+        return super.equals(obj) && structurallyEquals(obj);
     }
 
 //    @Override

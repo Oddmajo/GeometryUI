@@ -228,7 +228,7 @@ public class Point extends Figure
     {
         for (Point p : figurePoints)
         {
-            if (p.StructurallyEquals(candPoint)) return p;
+            if (p.structurallyEquals(candPoint)) return p;
         }
 
         return null;
@@ -261,7 +261,7 @@ public class Point extends Figure
     }
     
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         Point pt =  (Point)obj;
 
@@ -279,7 +279,7 @@ public class Point extends Figure
 
         if (pt == null) return false;
 
-        return StructurallyEquals(obj); // && name.Equals(pt.name);
+        return structurallyEquals(obj); // && name.Equals(pt.name);
     }
     
     @Override

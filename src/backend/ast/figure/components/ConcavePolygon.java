@@ -130,13 +130,13 @@ public class ConcavePolygon extends Polygon
     //        }
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof ConcavePolygon)) return false;
         ConcavePolygon thatPoly = (ConcavePolygon) obj;
 
-        return super.StructurallyEquals(obj);
+        return super.structurallyEquals(obj);
     }
 
     @Override

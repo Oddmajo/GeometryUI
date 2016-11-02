@@ -102,15 +102,15 @@ public class IsoscelesTriangle extends Triangle
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof IsoscelesTriangle)) return false;
 //        IsoscelesTriangle triangle = (IsoscelesTriangle)obj;
-        return super.Equals(obj);
+        return super.equals(obj);
     }
 
 }

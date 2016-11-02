@@ -776,8 +776,8 @@ public class AtomicRegion
 
         for (int a = 0; a < intersections.size(); a++)
         {
-            if (pt.StructurallyEquals(intersections.get(a).intersection1)) return a;
-            if (pt.StructurallyEquals(intersections.get(a).intersection2)) return a;
+            if (pt.structurallyEquals(intersections.get(a).intersection1)) return a;
+            if (pt.structurallyEquals(intersections.get(a).intersection2)) return a;
         }
 
         return -1;

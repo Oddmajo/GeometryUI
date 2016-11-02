@@ -73,15 +73,15 @@ public class EquilateralTriangle extends IsoscelesTriangle
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if(!(obj instanceof EquilateralTriangle)) return false;
 //        EquilateralTriangle triangle = (EquilateralTriangle)obj;
         
-        return super.Equals(obj);
+        return super.equals(obj);
     }
 }

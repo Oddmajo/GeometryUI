@@ -171,7 +171,7 @@ public class Segment extends Figure
     //
     public boolean rayOverlays(Segment thatRay)
     {
-        if (this.Equals(thatRay)) return true;
+        if (this.equals(thatRay)) return true;
 
         if (!this.IsCollinearWith(thatRay)) return false;
 
@@ -229,7 +229,7 @@ public class Segment extends Figure
     {
         if (!IsCollinearWith(thatSegment)) return false;
 
-        if (this.StructurallyEquals(thatSegment)) return true;
+        if (this.structurallyEquals(thatSegment)) return true;
 
         if (this.pointLiesOnAndExactlyBetweenEndpoints(thatSegment._point1)) return true;
 
@@ -758,7 +758,7 @@ public class Segment extends Figure
         Point intersection1 = seg1.FindIntersection(seg3);
         Point intersection2 = seg2.FindIntersection(seg3);
 
-        return intersection1.Equals(intersection2);
+        return intersection1.equals(intersection2);
     }
 
     //
@@ -830,7 +830,7 @@ public class Segment extends Figure
         // Search for exact segment first
         for (Segment segment : figureSegments)
         {
-            if (segment.StructurallyEquals(candSegment)) return segment;
+            if (segment.structurallyEquals(candSegment)) return segment;
         }
 
         // Otherwise, find a maximal segment.

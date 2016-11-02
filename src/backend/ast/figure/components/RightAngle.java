@@ -31,7 +31,7 @@ public class RightAngle extends Angle
     // If we check for angle measure equality that is distinct.
     // If we check to see that a different set of remote vertices describes this angle, that is distinct.
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if(obj == null) return false;
         if(!(obj instanceof RightAngle)) return false;
@@ -40,11 +40,11 @@ public class RightAngle extends Angle
         // Measures must be the same.
         if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
 
-        return super.Equals(obj) && StructurallyEquals(obj);
+        return super.equals(obj) && structurallyEquals(obj);
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     @Override
     public String toString()

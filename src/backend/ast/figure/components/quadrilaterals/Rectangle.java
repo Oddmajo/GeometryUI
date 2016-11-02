@@ -68,7 +68,7 @@ public class Rectangle extends Parallelogram
     }
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj == null) return false;
         if(!(obj instanceof Rectangle)) return false;
@@ -79,9 +79,9 @@ public class Rectangle extends Parallelogram
     }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
-        return StructurallyEquals(obj);
+        return structurallyEquals(obj);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Rectangle extends Parallelogram
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     @Override
     public String CheapPrettyString()

@@ -133,9 +133,9 @@ public class Circle extends Figure
 
     public boolean DefinesRadius(Segment seg)
     {
-        if (_center.StructurallyEquals(seg.getPoint1()) && this.PointLiesOn(seg.getPoint2())) return true;
+        if (_center.structurallyEquals(seg.getPoint1()) && this.PointLiesOn(seg.getPoint2())) return true;
 
-        return _center.StructurallyEquals(seg.getPoint1()) && this.PointLiesOn(seg.getPoint2());
+        return _center.structurallyEquals(seg.getPoint1()) && this.PointLiesOn(seg.getPoint2());
     }
 
     public boolean DefinesDiameter(Segment seg)
@@ -446,7 +446,7 @@ public class Circle extends Figure
         Segment perpendicular = segment.GetPerpendicular(this._center);
 
         // If the segment was found to pass through the _center, it is not a tangent
-        if (perpendicular.Equals(segment)) return null;
+        if (perpendicular.equals(segment)) return null;
 
         // Is this perpendicular segment a _radius? Check length
         //if (!Utilities.doubleEquals(perpendicular.Length, this._radius)) return null;
@@ -724,7 +724,7 @@ public class Circle extends Figure
         //
         if (inter1 != null && inter2 != null)
         {
-            if (inter1.StructurallyEquals(inter2)) inter2 = null;
+            if (inter1.structurallyEquals(inter2)) inter2 = null;
         }
         
         out.set(inter1,  inter2);
@@ -764,7 +764,7 @@ public class Circle extends Figure
     //
     public boolean AreConcentric(Circle thatCircle)
     {
-        return this._center.StructurallyEquals(thatCircle._center) && !backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
+        return this._center.structurallyEquals(thatCircle._center) && !backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     //
@@ -844,7 +844,7 @@ public class Circle extends Figure
 
     public boolean IsCentral(Angle angle)
     {
-        if (this._center.StructurallyEquals(angle.GetVertex()))
+        if (this._center.structurallyEquals(angle.GetVertex()))
         {
             // The rays need to contain radii of the circle.
             if (this.ContainsRadiusWithin(angle.ray1) && this.ContainsRadiusWithin(angle.ray2))
@@ -1012,7 +1012,7 @@ public class Circle extends Figure
         
         if (pt2 == null) return null;
 
-        return pt1.StructurallyEquals(that) ? pt2 : pt1;
+        return pt1.structurallyEquals(that) ? pt2 : pt1;
     }
 
     public boolean CircleContains(Circle that)
@@ -1022,7 +1022,7 @@ public class Circle extends Figure
 
     public boolean HasArc(Arc arc)
     {
-        return this.StructurallyEquals(arc.getCircle());
+        return this.structurallyEquals(arc.getCircle());
     }
 
     public boolean HasArc(Point p1, Point p2)
@@ -1032,13 +1032,13 @@ public class Circle extends Figure
 
     // Checking for structural equality (is it the same segment) excluding the multiplier
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Circle)) return false;
         Circle thatCircle = (Circle)obj;
 
-        return thatCircle._center.StructurallyEquals(_center) && backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
+        return thatCircle._center.structurallyEquals(_center) && backend.utilities.math.MathUtilities.doubleEquals(thatCircle._radius, this._radius);
     }
 
     @Override
@@ -1382,7 +1382,7 @@ public class Circle extends Figure
     //
     public boolean Covers(Arc that)
     {
-        return this.StructurallyEquals(that.getCircle());
+        return this.structurallyEquals(that.getCircle());
     }
 
 //    //
@@ -1435,7 +1435,7 @@ public class Circle extends Figure
         // Search for exact segment first
         for (Circle circle : figureCircles)
         {
-            if (circle.StructurallyEquals(candCircle)) return circle;
+            if (circle.structurallyEquals(candCircle)) return circle;
         }
 
         return null;

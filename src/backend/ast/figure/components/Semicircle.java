@@ -93,7 +93,7 @@ public class Semicircle extends Arc
     @Override
     public boolean PointLiesStrictlyOn(Point pt)
     {
-        if (pt.StructurallyEquals(_middlePoint)) return true;
+        if (pt.structurallyEquals(_middlePoint)) return true;
 
         return Arc.StrictlyBetweenMinor(pt, new MinorArc(_theCircle, _endpoint1, _middlePoint)) ||
                 Arc.StrictlyBetweenMinor(pt, new MinorArc(_theCircle, _endpoint2, _middlePoint));
@@ -102,7 +102,7 @@ public class Semicircle extends Arc
     @Override
     public boolean HasSubArc(Arc that)
     {
-        if (!this._theCircle.StructurallyEquals(that._theCircle)) return false;
+        if (!this._theCircle.structurallyEquals(that._theCircle)) return false;
 
         if (that instanceof MajorArc) return false;
         if (that instanceof Semicircle)
@@ -118,7 +118,7 @@ public class Semicircle extends Arc
     public boolean SameSideSemicircle(Semicircle thatSemi)
     {
         // First, the endpoints and the _diameter must match
-        if (!(this._diameter.StructurallyEquals(thatSemi._diameter) && super.StructurallyEquals(thatSemi))) return false;
+        if (!(this._diameter.structurallyEquals(thatSemi._diameter) && super.structurallyEquals(thatSemi))) return false;
 
         // if either of the 2 minor arcs formed by this semicircle's middlepoint contain the middlepoint of thatSemi,
         // then the two semicircles form the same 'side' of the circle
@@ -135,8 +135,8 @@ public class Semicircle extends Arc
         // Verify that angle points match _diameter endpoints
         Point endpt1, endpt2;
 
-        endpt1 = angle.ray1.getPoint1().StructurallyEquals(angle.GetVertex()) ? angle.ray1.getPoint2() : angle.ray1.getPoint1();
-        endpt2 = angle.ray2.getPoint2().StructurallyEquals(angle.GetVertex()) ? angle.ray2.getPoint2() : angle.ray2.getPoint1();
+        endpt1 = angle.ray1.getPoint1().structurallyEquals(angle.GetVertex()) ? angle.ray1.getPoint2() : angle.ray1.getPoint1();
+        endpt2 = angle.ray2.getPoint2().structurallyEquals(angle.GetVertex()) ? angle.ray2.getPoint2() : angle.ray2.getPoint1();
 
         if (!this._diameter.hasPoint(endpt1) || !this._diameter.hasPoint(endpt2)) return false;
 
@@ -179,13 +179,13 @@ public class Semicircle extends Arc
 
     // Checking for structural equality (is it the same segment) excluding the multiplier
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Semicircle)) return false;
         Semicircle semi = (Semicircle)obj;
 
-        return this._diameter.StructurallyEquals(semi._diameter) && this._middlePoint.StructurallyEquals(semi._middlePoint) && super.StructurallyEquals(obj);
+        return this._diameter.structurallyEquals(semi._diameter) && this._middlePoint.structurallyEquals(semi._middlePoint) && super.structurallyEquals(obj);
     }
 
     @Override
@@ -195,7 +195,7 @@ public class Semicircle extends Arc
         if (!(obj instanceof Semicircle)) return false;
         Semicircle semi = (Semicircle)obj;
 
-        return this._diameter.equals(semi._diameter) && this._middlePoint.Equals(semi._middlePoint) && super.equals(obj);
+        return this._diameter.equals(semi._diameter) && this._middlePoint.equals(semi._middlePoint) && super.equals(obj);
     }
 
     @Override

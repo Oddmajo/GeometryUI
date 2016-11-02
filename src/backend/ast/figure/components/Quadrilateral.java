@@ -120,7 +120,7 @@ public class Quadrilateral extends Polygon
         {
             for (int j = i + 1; j < points.size(); j++)
             {
-                if (points.get(i).StructurallyEquals(points.get(j)))
+                if (points.get(i).structurallyEquals(points.get(j)))
                 {
                     throw new IllegalArgumentException("Points of quadrilateral are not distinct: " + points.get(i) + " " + points.get(j));
                 }
@@ -245,7 +245,7 @@ public class Quadrilateral extends Polygon
     {
         for(Segment side : orderedSides)
         {
-            if (side.StructurallyEquals(segment)) return true;
+            if (side.structurallyEquals(segment)) return true;
         }
 
         return false;
@@ -271,11 +271,11 @@ public class Quadrilateral extends Polygon
     {
         if (!this.HasSide(segment1) || !this.HasSide(segment2)) return false;
 
-        if (top.StructurallyEquals(segment1) && bottom.StructurallyEquals(segment2)) return true;
-        if (top.StructurallyEquals(segment2) && bottom.StructurallyEquals(segment1)) return true;
+        if (top.structurallyEquals(segment1) && bottom.structurallyEquals(segment2)) return true;
+        if (top.structurallyEquals(segment2) && bottom.structurallyEquals(segment1)) return true;
 
-        if (left.StructurallyEquals(segment1) && right.StructurallyEquals(segment2)) return true;
-        if (left.StructurallyEquals(segment2) && right.StructurallyEquals(segment1)) return true;
+        if (left.structurallyEquals(segment1) && right.structurallyEquals(segment2)) return true;
+        if (left.structurallyEquals(segment2) && right.structurallyEquals(segment1)) return true;
 
         return false;
     }
@@ -319,17 +319,17 @@ public class Quadrilateral extends Polygon
     {
         if (!this.HasSide(segment1) || !this.HasSide(segment2)) return false;
 
-        if (top.StructurallyEquals(segment1) && left.StructurallyEquals(segment2)) return true;
-        if (top.StructurallyEquals(segment2) && left.StructurallyEquals(segment1)) return true;
+        if (top.structurallyEquals(segment1) && left.structurallyEquals(segment2)) return true;
+        if (top.structurallyEquals(segment2) && left.structurallyEquals(segment1)) return true;
 
-        if (top.StructurallyEquals(segment2) && right.StructurallyEquals(segment1)) return true;
-        if (top.StructurallyEquals(segment1) && right.StructurallyEquals(segment2)) return true;
+        if (top.structurallyEquals(segment2) && right.structurallyEquals(segment1)) return true;
+        if (top.structurallyEquals(segment1) && right.structurallyEquals(segment2)) return true;
 
-        if (bottom.StructurallyEquals(segment1) && left.StructurallyEquals(segment2)) return true;
-        if (bottom.StructurallyEquals(segment2) && left.StructurallyEquals(segment1)) return true;
+        if (bottom.structurallyEquals(segment1) && left.structurallyEquals(segment2)) return true;
+        if (bottom.structurallyEquals(segment2) && left.structurallyEquals(segment1)) return true;
 
-        if (bottom.StructurallyEquals(segment2) && right.StructurallyEquals(segment1)) return true;
-        if (bottom.StructurallyEquals(segment1) && right.StructurallyEquals(segment2)) return true;
+        if (bottom.structurallyEquals(segment2) && right.structurallyEquals(segment1)) return true;
+        if (bottom.structurallyEquals(segment1) && right.structurallyEquals(segment2)) return true;
 
         return false;
     }
@@ -627,7 +627,7 @@ public class Quadrilateral extends Polygon
     }
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Quadrilateral)) return false;
@@ -679,7 +679,7 @@ public class Quadrilateral extends Polygon
         Segment rightMid = AcquireMiddleSegment(top, bottom, right, out);
 
         // The middle segment we acquired must match the 4th segment
-        if (!right.StructurallyEquals(rightMid)) return null;
+        if (!right.structurallyEquals(rightMid)) return null;
 
         //
         // The top / bottom cannot cross; bowtie or hourglass shape
@@ -717,7 +717,7 @@ public class Quadrilateral extends Polygon
         {
             for (int j = i + 1; j < pts.size(); j++)
             {
-                if (pts.get(i).StructurallyEquals(pts.get(j)))
+                if (pts.get(i).structurallyEquals(pts.get(j)))
                 {
                     return null;
                 }
@@ -834,7 +834,7 @@ public class Quadrilateral extends Polygon
         // Search for exact segment first
         for (Quadrilateral quad : figureQuadrilaterals)
         {
-            if (quad.StructurallyEquals(q)) return quad;
+            if (quad.structurallyEquals(q)) return quad;
         }
 
         return null;

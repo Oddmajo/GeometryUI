@@ -313,7 +313,7 @@ public class MinimalCycle extends Primitive
                     int i = 0;
                     for (i = 0; i < collinear.size(); i++)
                     {
-                        if (segment.getPoint2().StructurallyEquals(collinear.get(i).getPoint1())) break;
+                        if (segment.getPoint2().structurallyEquals(collinear.get(i).getPoint1())) break;
                     }
                     collinear.add(i, segment);
                 }
@@ -373,13 +373,13 @@ public class MinimalCycle extends Primitive
             for (ArrayList<MinorArc> collinear : collinearSet)
             {
                 // Do the arcs belong to the same circle?
-                if (minor.getCircle().StructurallyEquals(collinear.get(0).getCircle()))
+                if (minor.getCircle().structurallyEquals(collinear.get(0).getCircle()))
                 {
                     collinearFound = true;
                     int i = 0;
                     for (i = 0; i < collinear.size(); i++)
                     {
-                        if (minor.getEndpoint2().StructurallyEquals(collinear.get(i).getEndpoint1())) break;
+                        if (minor.getEndpoint2().structurallyEquals(collinear.get(i).getEndpoint1())) break;
                     }
                     collinear.add(i, minor);
                 }
@@ -487,7 +487,7 @@ public class MinimalCycle extends Primitive
             throw new Exception("Sides do not share a vertex as expected; they share " + sharedCenter);
         }
 
-        if (!sharedCenter.StructurallyEquals(theArc.getCircle().getCenter()))
+        if (!sharedCenter.structurallyEquals(theArc.getCircle().getCenter()))
         {
             throw new Exception("Center and deduced center do not equate: " + sharedCenter + " " + theArc.getCircle().getCenter());
         }
@@ -875,7 +875,7 @@ public class MinimalCycle extends Primitive
             for (int i = 0; i < arcs.length; i++)
             {
                 // A solid starting point is an arc right after a null.
-                if (!arcs[i].getCircle().StructurallyEquals(arcs[(i + 1) % arcs.length].getCircle()))
+                if (!arcs[i].getCircle().structurallyEquals(arcs[(i + 1) % arcs.length].getCircle()))
                 {
                     startIndex = (i + 1) % arcs.length;
                     break;
@@ -912,7 +912,7 @@ public class MinimalCycle extends Primitive
                 {
                     if (arcs[seqIndex] == null) break;
 
-                    if (arcs[currIndex].getCircle().StructurallyEquals(arcs[seqIndex].getCircle()))
+                    if (arcs[currIndex].getCircle().structurallyEquals(arcs[seqIndex].getCircle()))
                     {
                         if (arcs[seqIndex] != null && arcs[seqIndex] instanceof MinorArc)
                         {
@@ -1015,7 +1015,7 @@ public class MinimalCycle extends Primitive
             int c;
             for (c = 0; c < circles.size(); c++)
             {
-                if (circles.get(c).getCenter().StructurallyEquals(collPoints.get(i))) break;
+                if (circles.get(c).getCenter().structurallyEquals(collPoints.get(i))) break;
             }
 
             // Add the circle in order

@@ -76,7 +76,7 @@ public abstract class Arc extends Figure implements Cloneable
     public boolean Crosses(Arc that)
     {
         // Need to be from different circles.
-        if (this._theCircle.StructurallyEquals(that._theCircle)) return false;
+        if (this._theCircle.structurallyEquals(that._theCircle)) return false;
 
         // Need to touch at a point not at the endpoints; 
         if (this.HasEndpoint(that._endpoint1) && this.HasEndpoint(that._endpoint2)) return false;
@@ -130,19 +130,19 @@ public abstract class Arc extends Figure implements Cloneable
     {
         if (that == null) return null;
 
-        if (that.StructurallyEquals(_endpoint1)) return _endpoint2;
-        if (that.StructurallyEquals(_endpoint2)) return _endpoint1;
+        if (that.structurallyEquals(_endpoint1)) return _endpoint2;
+        if (that.structurallyEquals(_endpoint2)) return _endpoint1;
 
         return null;
     }
 
     public Point SharedEndpoint(Arc that)
     {
-        if (this._endpoint1.StructurallyEquals(that._endpoint1)) return _endpoint1;
-        if (this._endpoint1.StructurallyEquals(that._endpoint2)) return _endpoint1;
+        if (this._endpoint1.structurallyEquals(that._endpoint1)) return _endpoint1;
+        if (this._endpoint1.structurallyEquals(that._endpoint2)) return _endpoint1;
 
-        if (this._endpoint2.StructurallyEquals(that._endpoint1)) return _endpoint2;
-        if (this._endpoint2.StructurallyEquals(that._endpoint2)) return _endpoint2;
+        if (this._endpoint2.structurallyEquals(that._endpoint1)) return _endpoint2;
+        if (this._endpoint2.structurallyEquals(that._endpoint2)) return _endpoint2;
 
         return null;
     }
@@ -273,7 +273,7 @@ public abstract class Arc extends Figure implements Cloneable
         // Search for exact segment first
         for (MinorArc arc : figureMinorArcs)
         {
-            if (arc.StructurallyEquals(candArc)) return arc;
+            if (arc.structurallyEquals(candArc)) return arc;
         }
 
         return null;
@@ -285,7 +285,7 @@ public abstract class Arc extends Figure implements Cloneable
         // Search for exact segment first
         for (MajorArc arc : figureMajorArcs)
         {
-            if (arc.StructurallyEquals(candArc)) return arc;
+            if (arc.structurallyEquals(candArc)) return arc;
         }
 
         return null;
@@ -298,7 +298,7 @@ public abstract class Arc extends Figure implements Cloneable
 
         for (Semicircle arc : figureSemicircles)
         {
-            if (arc.StructurallyEquals(candArc)) return arc;
+            if (arc.structurallyEquals(candArc)) return arc;
         }
 
         return null;
@@ -313,13 +313,13 @@ public abstract class Arc extends Figure implements Cloneable
         Point pt1 = out.first();
         Point pt2 = out.second();
 
-        endpt1 = pt1.StructurallyEquals(angle.GetVertex()) ? pt2 : pt1;
+        endpt1 = pt1.structurallyEquals(angle.GetVertex()) ? pt2 : pt1;
 
         circle.FindIntersection(angle.ray2, out);
         pt1 = out.first();
         pt2 = out.second();
 
-        endpt2 = pt1.StructurallyEquals(angle.GetVertex()) ? pt2 : pt1;
+        endpt2 = pt1.structurallyEquals(angle.GetVertex()) ? pt2 : pt1;
 
         // Need to check if the angle instanceof a diameter and create a semicircle
         Segment chord = new Segment(endpt1, endpt2);
@@ -481,16 +481,16 @@ public abstract class Arc extends Figure implements Cloneable
 
     // Checking for structural equality (instanceof it the same segment) excluding the multiplier
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Arc)) return false;
         Arc arc = (Arc)obj;
 
-        return this._theCircle.StructurallyEquals(arc._theCircle) && ((this._endpoint1.StructurallyEquals(arc._endpoint1)
-                && this._endpoint2.StructurallyEquals(arc._endpoint2))
-                || (this._endpoint1.StructurallyEquals(arc._endpoint2)
-                        && this._endpoint2.StructurallyEquals(arc._endpoint1)));
+        return this._theCircle.structurallyEquals(arc._theCircle) && ((this._endpoint1.structurallyEquals(arc._endpoint1)
+                && this._endpoint2.structurallyEquals(arc._endpoint2))
+                || (this._endpoint1.structurallyEquals(arc._endpoint2)
+                        && this._endpoint2.structurallyEquals(arc._endpoint1)));
     }
 
     @Override
@@ -503,19 +503,19 @@ public abstract class Arc extends Figure implements Cloneable
         // Check equality of arc minor / major points?
 
         // Verify that the arcs match
-        boolean arcsMatch = this._theCircle.Equals(arc._theCircle) && ((this._endpoint1.Equals(arc._endpoint1)
-                && this._endpoint2.Equals(arc._endpoint2))
-                || (this._endpoint1.Equals(arc._endpoint2)
-                        && this._endpoint2.Equals(arc._endpoint1)));
+        boolean arcsMatch = this._theCircle.equals(arc._theCircle) && ((this._endpoint1.equals(arc._endpoint1)
+                && this._endpoint2.equals(arc._endpoint2))
+                || (this._endpoint1.equals(arc._endpoint2)
+                        && this._endpoint2.equals(arc._endpoint1)));
 
         // Verify that the multipliers match
         return arcsMatch && super.equals(obj);
     }
 
     @Override
-    public boolean ContainsClause(GroundedClause target)
+    public boolean containsClause(GroundedClause target)
     {
-        return this.Equals(target);
+        return this.equals(target);
     }
 
     @Override
@@ -600,7 +600,7 @@ public abstract class Arc extends Figure implements Cloneable
 
     public boolean HasEndpoint(Point p)
     {
-        return _endpoint1.Equals(p) || _endpoint2.Equals(p);
+        return _endpoint1.equals(p) || _endpoint2.equals(p);
     }
 
     //    // Make a deep copy of this object

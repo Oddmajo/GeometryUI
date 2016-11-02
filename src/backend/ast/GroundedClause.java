@@ -187,6 +187,7 @@ public abstract class GroundedClause implements Cloneable
         return false;
      }
     public void substitute(GroundedClause c1, GroundedClause c2)  {  }
+    
     public GroundedClause deepCopy()
     { 
             try

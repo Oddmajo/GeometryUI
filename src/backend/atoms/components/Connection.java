@@ -46,8 +46,8 @@ public class Connection
 
     public Point OtherEndpoint(Point p)
     {
-        if (endpoint1.StructurallyEquals(p)) return endpoint2;
-        if (endpoint2.StructurallyEquals(p)) return endpoint1;
+        if (endpoint1.structurallyEquals(p)) return endpoint2;
+        if (endpoint2.structurallyEquals(p)) return endpoint1;
         return null;
     }
 
@@ -214,7 +214,7 @@ public class Connection
 
         if (this.type == ConnectionType.ARC)
         {
-            if (!((Arc)this.segmentOrArc).StructurallyEquals((Arc)this.segmentOrArc)) return false;
+            if (!((Arc)this.segmentOrArc).structurallyEquals((Arc)this.segmentOrArc)) return false;
 
             // If the arcs just touch, it's not overlap.
             if (this.segmentOrArc instanceof MinorArc)

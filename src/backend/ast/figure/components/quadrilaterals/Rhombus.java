@@ -63,7 +63,7 @@ public class Rhombus extends Parallelogram
     }
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj == null) return false;
         if(!(obj instanceof Rhombus));
@@ -76,7 +76,7 @@ public class Rhombus extends Parallelogram
     }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         //Rhombus thatRhom = obj as Rhombus;
         //if (thatRhom == null) return false;
@@ -84,7 +84,7 @@ public class Rhombus extends Parallelogram
         //if (thatRhom is Square) return false;
 
         //return this.StructurallyEquals(obj);
-        return this.StructurallyEquals(obj);
+        return this.structurallyEquals(obj);
     }
 
     @Override
@@ -103,5 +103,5 @@ public class Rhombus extends Parallelogram
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 }

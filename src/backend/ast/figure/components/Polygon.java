@@ -284,7 +284,7 @@ public class Polygon extends Figure
     }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     // Parallel arrays of (1) vertices and (2) segments that share that given vertex.
     public static Polygon ConstructPolygon(ArrayList<Point> vertices, ArrayList<Pair<Segment, Segment>> pairs) 
@@ -302,7 +302,7 @@ public class Polygon extends Figure
             int nextVertexIndex = vertices.indexOf(currentVertex);
 
             // Find the next side to follow.
-            if (pairs.get(nextVertexIndex).getKey().StructurallyEquals(currentSide))
+            if (pairs.get(nextVertexIndex).getKey().structurallyEquals(currentSide))
             {
                 currentSide = pairs.get(nextVertexIndex).getValue();
             }
@@ -666,7 +666,7 @@ public class Polygon extends Figure
     }
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if(obj == null) return false;
         if(!(obj instanceof Polygon)) return false;
@@ -684,7 +684,7 @@ public class Polygon extends Figure
     }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Polygon)) return false;

@@ -222,12 +222,12 @@ public class Sector extends Figure
     //
     private boolean ContainsSector(Sector that)
     {
-        if (this.StructurallyEquals(that)) return true;
+        if (this.structurallyEquals(that)) return true;
 
         //
         // Is this sector from the same circle as that sector?
         //
-        if (this.theArc._theCircle.StructurallyEquals(that.theArc._theCircle))
+        if (this.theArc._theCircle.structurallyEquals(that.theArc._theCircle))
         {
             for (Point pt : that.theArc.GetApproximatingPoints())
             {
@@ -313,13 +313,13 @@ public class Sector extends Figure
 
     // Checking for structural equality (is it the same segment) excluding the multiplier
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Sector)) return false;
         Sector sector = (Sector)obj;
 
-        return theArc.StructurallyEquals(sector.theArc);
+        return theArc.structurallyEquals(sector.theArc);
     }
 
     @Override

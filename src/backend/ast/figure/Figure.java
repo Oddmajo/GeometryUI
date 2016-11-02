@@ -175,7 +175,7 @@ public abstract class Figure extends GroundedClause
                 ShapeAtomicRegion shapeAtom = (ShapeAtomicRegion)atom;
                 if (shapeAtom != null)
                 {
-                    if (this.StructurallyEquals(shapeAtom.getShape())) return true;
+                    if (this.structurallyEquals(shapeAtom.getShape())) return true;
                 }
     
                 //

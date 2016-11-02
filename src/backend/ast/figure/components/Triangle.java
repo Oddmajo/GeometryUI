@@ -40,7 +40,7 @@ public class Triangle extends Polygon
     public boolean WasDeducedSimilar(Triangle that) { return similarPairs.contains(that); }
 
     @Override
-    public boolean Strengthened() { return provenIsosceles || provenRight || provenEquilateral; }
+    public boolean strengthened() { return provenIsosceles || provenRight || provenEquilateral; }
 
     public Point getPoint1() { return Point1; }
     public Point getPoint2() { return Point2; }
@@ -102,7 +102,7 @@ public class Triangle extends Polygon
 
         Point1 = SegmentA.getPoint1();
         Point2 = SegmentA.getPoint2();
-        Point3 = Point1.Equals(SegmentB.getPoint1()) || Point2.Equals(SegmentB.getPoint1()) ? SegmentB.getPoint2() : SegmentB.getPoint1();
+        Point3 = Point1.equals(SegmentB.getPoint1()) || Point2.equals(SegmentB.getPoint1()) ? SegmentB.getPoint2() : SegmentB.getPoint1();
 
         AngleA = new Angle(Point1, Point2, Point3);
         AngleB = new Angle(Point2, Point3, Point1);
@@ -418,7 +418,7 @@ public class Triangle extends Polygon
         // Search for exact segment first
         for (Triangle tri : figureTriangles)
         {
-            if (tri.StructurallyEquals(candTriangle)) return tri;
+            if (tri.structurallyEquals(candTriangle)) return tri;
         }
 
         return null;
@@ -471,9 +471,9 @@ public class Triangle extends Polygon
     {
         Point oppVertex = this.OtherPoint(s);
 
-        if (oppVertex.Equals(AngleA.GetVertex())) return AngleA;
-        if (oppVertex.Equals(AngleB.GetVertex())) return AngleB;
-        if (oppVertex.Equals(AngleC.GetVertex())) return AngleC;
+        if (oppVertex.equals(AngleA.GetVertex())) return AngleA;
+        if (oppVertex.equals(AngleB.GetVertex())) return AngleB;
+        if (oppVertex.equals(AngleC.GetVertex())) return AngleC;
 
         return null;
     }
@@ -483,17 +483,17 @@ public class Triangle extends Polygon
         Angle outAng1 = null;
         Angle outAng2 = null;
 
-        if (AngleA.StructurallyEquals(that))
+        if (AngleA.structurallyEquals(that))
         {
             outAng1 = AngleB;
             outAng2 = AngleC;
         }
-        else if (AngleB.StructurallyEquals(that))
+        else if (AngleB.structurallyEquals(that))
         {
             outAng1 = AngleA;
             outAng2 = AngleC;
         }
-        else if (AngleC.StructurallyEquals(that))
+        else if (AngleC.structurallyEquals(that))
         {
             outAng1 = AngleA;
             outAng2 = AngleB;
@@ -507,17 +507,17 @@ public class Triangle extends Polygon
         Segment outSeg1 = null;
         Segment outSeg2 = null;
 
-        if (s.StructurallyEquals(SegmentA))
+        if (s.structurallyEquals(SegmentA))
         {
             outSeg1 = SegmentB;
             outSeg2 = SegmentC;
         }
-        else if (s.StructurallyEquals(SegmentB))
+        else if (s.structurallyEquals(SegmentB))
         {
             outSeg1 = SegmentA;
             outSeg2 = SegmentC;
         }
-        else if (s.StructurallyEquals(SegmentC))
+        else if (s.structurallyEquals(SegmentC))
         {
             outSeg1 = SegmentA;
             outSeg2 = SegmentB;
@@ -586,10 +586,10 @@ public class Triangle extends Polygon
     }
 
     @Override
-    public int GetHashCode()
+    public int getHashCode()
     {
         //Change this if the object is no longer immutable!!!
-        return super.GetHashCode();
+        return super.getHashCode();
     }
 
     public boolean LiesOn(Segment cs)
@@ -622,9 +622,9 @@ public class Triangle extends Polygon
     // Does the given angle correspond to any of the angles?
     public Angle GetAngleWithVertex(Point pt)
     {
-        if (AngleA.GetVertex().Equals(pt)) return AngleA;
-        if (AngleB.GetVertex().Equals(pt)) return AngleB;
-        if (AngleC.GetVertex().Equals(pt)) return AngleC;
+        if (AngleA.GetVertex().equals(pt)) return AngleA;
+        if (AngleB.GetVertex().equals(pt)) return AngleB;
+        if (AngleC.GetVertex().equals(pt)) return AngleC;
 
         return null;
     }
@@ -641,15 +641,15 @@ public class Triangle extends Polygon
 
     public Segment SharesSide(Triangle cs)
     {
-        if (SegmentA.Equals(cs.SegmentA) || SegmentA.Equals(cs.SegmentB) || SegmentA.Equals(cs.SegmentC))
+        if (SegmentA.equals(cs.SegmentA) || SegmentA.equals(cs.SegmentB) || SegmentA.equals(cs.SegmentC))
         {
             return SegmentA;
         }
-        if (SegmentB.Equals(cs.SegmentA) || SegmentB.Equals(cs.SegmentB) || SegmentB.Equals(cs.SegmentC))
+        if (SegmentB.equals(cs.SegmentA) || SegmentB.equals(cs.SegmentB) || SegmentB.equals(cs.SegmentC))
         {
             return SegmentB;
         }
-        if (SegmentC.Equals(cs.SegmentA) || SegmentC.Equals(cs.SegmentB) || SegmentC.Equals(cs.SegmentC))
+        if (SegmentC.equals(cs.SegmentA) || SegmentC.equals(cs.SegmentB) || SegmentC.equals(cs.SegmentC))
         {
             return SegmentC;
         }
@@ -685,7 +685,7 @@ public class Triangle extends Polygon
 
         // If the shared vertex between the segments is the vertex of this given angle, then
         // the angle is the included angle as desired
-        return s1.SharedVertex(s2).Equals(a.GetVertex());
+        return s1.SharedVertex(s2).equals(a.GetVertex());
     }
 
     // Of the congruent pair, return the segment that applies to this triangle
@@ -708,9 +708,9 @@ public class Triangle extends Polygon
 
     public boolean HasPoint(Point p)
     {
-        if (Point1.Equals(p)) return true;
-        if (Point2.Equals(p)) return true;
-        if (Point3.Equals(p)) return true;
+        if (Point1.equals(p)) return true;
+        if (Point2.equals(p)) return true;
+        if (Point3.equals(p)) return true;
 
         return false;
     }
@@ -787,9 +787,9 @@ public class Triangle extends Polygon
     public Segment OtherSide(Segment s1, Segment s2)
     {
         if (!HasSegment(s1) || !HasSegment(s2)) return null;
-        if (!SegmentA.Equals(s1) && !SegmentA.Equals(s2)) return SegmentA;
-        if (!SegmentB.Equals(s1) && !SegmentB.Equals(s2)) return SegmentB;
-        if (!SegmentC.Equals(s1) && !SegmentC.Equals(s2)) return SegmentC;
+        if (!SegmentA.equals(s1) && !SegmentA.equals(s2)) return SegmentA;
+        if (!SegmentB.equals(s1) && !SegmentB.equals(s2)) return SegmentB;
+        if (!SegmentC.equals(s1) && !SegmentC.equals(s2)) return SegmentC;
         return null;
     }
 
@@ -877,9 +877,9 @@ public class Triangle extends Polygon
     // Determine if the given segment is coinciding with one of the triangle sides; return that 
     public Pair<Segment, Segment> OtherSides(Segment candidate)
     {
-        if (SegmentA.Equals(candidate)) return new Pair<Segment,Segment>(SegmentB, SegmentC);
-        if (SegmentB.Equals(candidate)) return new Pair<Segment, Segment>(SegmentA, SegmentC);
-        if (SegmentC.Equals(candidate)) return new Pair<Segment, Segment>(SegmentA, SegmentB);
+        if (SegmentA.equals(candidate)) return new Pair<Segment,Segment>(SegmentB, SegmentC);
+        if (SegmentB.equals(candidate)) return new Pair<Segment, Segment>(SegmentA, SegmentC);
+        if (SegmentC.equals(candidate)) return new Pair<Segment, Segment>(SegmentA, SegmentB);
 
         return new Pair<Segment, Segment>(null, null);
     }
@@ -913,12 +913,12 @@ public class Triangle extends Polygon
 
         if (!HasPoint(givenVertex)) return;
 
-        if (AngleA.GetVertex().Equals(givenVertex))
+        if (AngleA.GetVertex().equals(givenVertex))
         {
             remote1 = AngleB;
             remote2 = AngleC;
         }
-        else if (AngleB.GetVertex().Equals(givenVertex))
+        else if (AngleB.GetVertex().equals(givenVertex))
         {
             remote1 = AngleA;
             remote2 = AngleC;
@@ -1106,7 +1106,7 @@ public class Triangle extends Polygon
         }
 
     @Override
-    public boolean CanBeStrengthenedTo(GroundedClause gc)
+    public boolean canBeStrengthenedTo(GroundedClause gc)
     {
         if(gc == null) return false;
         if(!(gc instanceof Triangle)) return false;
@@ -1118,7 +1118,7 @@ public class Triangle extends Polygon
         //}
 
         // Handles isosceles, right, or equilateral
-        if (!this.StructurallyEquals(gc)) return false;
+        if (!this.structurallyEquals(gc)) return false;
 
         // Ensure we know the original has been 'proven' (given) to be a particular type of triangle
         if (tri.provenIsosceles) this.provenIsosceles = true;
@@ -1171,7 +1171,7 @@ public class Triangle extends Polygon
         if (!oppSide.PointLiesOnAndBetweenEndpoints(midptIntersection)) return false;
 
         // Midpoint of the remaining side needs to align
-        return midptIntersection.Equals(oppSide.Midpoint());
+        return midptIntersection.equals(oppSide.Midpoint());
     }
 
     //
@@ -1383,7 +1383,7 @@ public class Triangle extends Polygon
 
 
     @Override
-    public boolean StructurallyEquals(Object obj)
+    public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof Triangle)) return false;
@@ -1393,7 +1393,7 @@ public class Triangle extends Polygon
     }
 
         @Override
-        public boolean Equals(Object obj)
+        public boolean equals(Object obj)
         {
             if (this == obj) return true;
             if (obj == null) return false;
@@ -1416,7 +1416,7 @@ public class Triangle extends Polygon
             // Is this a strenghtened version?
             if (triangle.provenRight != this.provenRight) return false;
     
-            return StructurallyEquals(obj) && super.Equals(obj);
+            return structurallyEquals(obj) && super.equals(obj);
         }
 
     @Override

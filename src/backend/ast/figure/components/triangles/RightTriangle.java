@@ -67,16 +67,16 @@ public class RightTriangle extends Triangle
 //    }
 
     @Override
-    public int GetHashCode() { return super.GetHashCode(); }
+    public int getHashCode() { return super.getHashCode(); }
 
     @Override
-    public boolean Equals(Object obj)
+    public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof RightTriangle)) return false;
 //        RightTriangle triangle = (RightTriangle)obj;
         
-        return super.Equals(obj);
+        return super.equals(obj);
     }
 
     @Override
