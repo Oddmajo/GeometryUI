@@ -15,7 +15,7 @@ public class FacetCalculatorIsolatedPointTest
 
     @Test public void simpleFacetCalculator_SingleIsolatedPointTest()
     {
-        System.out.println("\nFACET CALCULATOR SINGLE POINT TEST:");
+        System.out.print("\nRunning simpleFacetCalculator_SingleIsolatedPointTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -25,36 +25,38 @@ public class FacetCalculatorIsolatedPointTest
         Point point1 = new Point("point1", 1, 4);
         
         // add the points to the graph
-        System.out.println("Adding Point:");
+        //System.out.println("Adding Point:");
         graph.addNode(point1);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof IsolatedPoint)
-            {
-                IsolatedPoint isopoint = (IsolatedPoint) prim;
-                System.out.println("\t" + isopoint.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof IsolatedPoint)
+//            {
+//                IsolatedPoint isopoint = (IsolatedPoint) prim;
+//                System.out.println("\t" + isopoint.toString());
+//            }
+//            
+//        }
         assert(calc.GetPrimitives().get(0).toString().equals("Point { point1(1.000, 4.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_TenIsolatedPointsTest()
     {
-        System.out.println("\nFACET CALCULATOR TEN POINTS TEST:");
+        System.out.print("\nRunning simpleFacetCalculator_TenIsolatedPointsTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -73,7 +75,7 @@ public class FacetCalculatorIsolatedPointTest
         Point point10 = new Point("point10", 100, 100);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -86,26 +88,26 @@ public class FacetCalculatorIsolatedPointTest
         graph.addNode(point10);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof IsolatedPoint)
-            {
-                IsolatedPoint isopoint = (IsolatedPoint) prim;
-                System.out.println("\t" + isopoint.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof IsolatedPoint)
+//            {
+//                IsolatedPoint isopoint = (IsolatedPoint) prim;
+//                System.out.println("\t" + isopoint.toString());
+//            }
+//            
+//        }
         assert(calc.GetPrimitives().get(0).toString().equals("Point { point1(1.000, 1.000) }"));
         assert(calc.GetPrimitives().get(1).toString().equals("Point { point4(1.000, 3.000) }"));
         assert(calc.GetPrimitives().get(2).toString().equals("Point { point7(1.000, 5.000) }"));
@@ -116,6 +118,8 @@ public class FacetCalculatorIsolatedPointTest
         assert(calc.GetPrimitives().get(7).toString().equals("Point { point6(5.000, 3.000) }"));
         assert(calc.GetPrimitives().get(8).toString().equals("Point { point9(5.000, 5.000) }"));
         assert(calc.GetPrimitives().get(9).toString().equals("Point { point10(100.000, 100.000) }"));
+        
+        System.out.println("Done");
     }
 
 }

@@ -14,7 +14,7 @@ public class ComplexTriangleGeneratorTest
 
     @Test public void segmentsGeneratedPointsSetTest()
     {
-        System.out.println("Running segmentsGeneratedPointsSetTest...");
+        System.out.print("Running segmentsGeneratedPointsSetTest...");
         
         // create three points for the triangle
         Point point1 = new Point("p1", 1, 1);
@@ -31,28 +31,32 @@ public class ComplexTriangleGeneratorTest
         HashMap<Point, EquationSegment> hashS2Points = triGen.getHashS2Points();
         
         // print segment 1 points
-        System.out.println("Segment 1 Points: ");
+        //System.out.println("Segment 1 Points: ");
         int i = 0;
         while (!seg1points.isEmpty())
         {
             Point p = seg1points.extractMin();
-            System.out.print("\tpoint " + i + ": " + p.toString());
-            System.out.println(" segment: " + hashS1Points.get(p).toString());
+//            System.out.print("\tpoint " + i + ": " + p.toString());
+//            System.out.println(" segment: " + hashS1Points.get(p).toString());
+            assert(p.getX() > 7 && p.getX() < 14);
+            assert(p.getY() > 1 && p.getY() < 8);
             i++;
         }
         
         // print segment 2 points
-        System.out.println("Segment 2 Points: ");
+        //System.out.println("Segment 2 Points: ");
         i = 0;
         while (!seg2points.isEmpty())
         {
             Point p = seg2points.extractMin();
-            System.out.print("\tpoint " + i + ": " + p.toString());
-            System.out.println(" segment: " + hashS2Points.get(p).toString());
+            //System.out.print("\tpoint " + i + ": " + p.toString());
+            //System.out.println(" segment: " + hashS2Points.get(p).toString());
+            assert(p.getX() > 1 && p.getX() < 14);
+            assert(p.getY() == 1);
             i++;
         }
         
-        System.out.println("Done\n");
+        System.out.println("Done");
     }
     
     @Test public void intersectionCalculatorTest()
@@ -82,7 +86,7 @@ public class ComplexTriangleGeneratorTest
         assert(intersect2.toString().equals("intersection(3.000, 1.000)"));
         assert(intersect3.toString().equals("intersection(3.000, 2.200)"));
         
-        System.out.println("Done\n");
+        System.out.println("Done");
     }
     
     @Test public void calculateCrossPointsTest()
@@ -106,21 +110,25 @@ public class ComplexTriangleGeneratorTest
         HashMap<Point, EquationSegment> hashS2Points = triGen.getHashS2Points();
         
         // print segment 1 points
-        System.out.println("Segment 1 Points: ");
+        //System.out.println("Segment 1 Points: ");
         for (int i = 0; i < seg1points.size(); i++)
         {
             Point p = seg1points.get(i);
-            System.out.print("\tpoint " + i + ": " + p.toString());
-            System.out.println(" segment: " + hashS1Points.get(p).toString());
+//            System.out.print("\tpoint " + i + ": " + p.toString());
+//            System.out.println(" segment: " + hashS1Points.get(p).toString());
+            assert(p.getX() > 7 && p.getX() < 14);
+            assert(p.getY() > 1 && p.getY() < 8);
         }
         
         // print segment 2 points
-        System.out.println("Segment 2 Points: ");
+        //System.out.println("Segment 2 Points: ");
         for (int i = 0; i < seg2points.size(); i++)
         {
             Point p = seg2points.get(i);
-            System.out.print("\tpoint " + i + ": " + p.toString());
-            System.out.println(" segment: " + hashS2Points.get(p).toString());
+//            System.out.print("\tpoint " + i + ": " + p.toString());
+//            System.out.println(" segment: " + hashS2Points.get(p).toString());
+            assert(p.getX() > 1 && p.getX() < 14);
+            assert(p.getY() == 1);
         }
         
         // print out each LexicographPoints list for each key point
@@ -140,7 +148,7 @@ public class ComplexTriangleGeneratorTest
     
     @Test public void buildPlanarGraphTest()
     {
-        System.out.println("Running buildPlanarGraphTest...");
+        System.out.print("Running buildPlanarGraphTest...");
         
         // create three points for the triangle
         Point point1 = new Point("p1", 1, 1);
@@ -155,7 +163,7 @@ public class ComplexTriangleGeneratorTest
         PlanarGraph graph = triGen.getGraph();
         
         // make sure graph is correct
-        System.out.println("graph.count(): " + graph.count());
+        //System.out.println("graph.count(): " + graph.count());
         assert(graph.count() == ((n*n) + (2*n) + 3));
         
         System.out.println("Done");

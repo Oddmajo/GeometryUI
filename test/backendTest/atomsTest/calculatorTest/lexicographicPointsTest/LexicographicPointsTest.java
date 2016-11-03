@@ -12,7 +12,7 @@ public class LexicographicPointsTest
 
     @Test public void LexicographicPointsAddTest()
     {
-        System.out.println("\nLEXICOGRAPHIC POINT ADD TEST:");
+        System.out.print("\nRunning LexicographicPointsAddTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -26,7 +26,7 @@ public class LexicographicPointsTest
         Point point5 = new Point("point5", 7, 3);
         
         // add the points to the graph
-        System.out.println("Adding Points...");
+        //System.out.println("Adding Points...");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -37,15 +37,16 @@ public class LexicographicPointsTest
         // Lexicographically sorted heap of all points in the graph.
         //
         LexicographicPoints heap = new LexicographicPoints();
-        System.out.println("graph.count: " + graph.count());
+        //System.out.println("graph.count: " + graph.count());
         for (int gIndex = 0; gIndex < graph.count(); gIndex++)
         {
-            System.out.println("adding gIndex " + gIndex + ": " + graph.getNodes().get(gIndex).getPoint() + " to heap");
+            //System.out.println("adding gIndex " + gIndex + ": " + graph.getNodes().get(gIndex).getPoint() + " to heap");
             heap.add(graph.getNodes().get(gIndex).getPoint());
-            System.out.println("heap: " + heap.toString());
+            //System.out.println("heap: " + heap.toString());
         }
         
         assert(heap.toString().equals("(0: point3(1.000, 1.000)) (1: point1(1.000, 4.000)) (2: point4(4.000, 1.000)) (3: point2(4.000, 4.000)) (4: point5(7.000, 3.000)) "));
+        System.out.println("Done");
     }
 
 }

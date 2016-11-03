@@ -17,7 +17,7 @@ public class FacetCalculatorSimpleComboTests
 
     @Test public void simpleFacetCalculator_Filament_Cycle_1_Test()
     {
-        System.out.println("\nFACET CALCULATOR FILAMENT AND CYCLE TEST 1:");
+        System.out.print("\nRunning simpleFacetCalculator_Filament_Cycle_1_Test...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -32,7 +32,7 @@ public class FacetCalculatorSimpleComboTests
         Point point6 = new Point("point6", 5, 5);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -49,33 +49,35 @@ public class FacetCalculatorSimpleComboTests
         graph.addUndirectedEdge(point4, point5, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof Filament)
-            {
-                Filament fil = (Filament) prim;
-                System.out.println("\t" +fil.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof Filament)
+//            {
+//                Filament fil = (Filament) prim;
+//                System.out.println("\t" +fil.toString());
+//            }
+//            
+//        }
         assert(calc.GetPrimitives().get(0).toString().equals("Filament { point1(1.000, 1.000), point2(2.000, 2.000), point3(3.000, 3.000) }"));
         assert(calc.GetPrimitives().get(1).toString().equals("Cycle { point3(3.000, 3.000), point4(5.000, 1.000), point5(7.000, 3.000), point6(5.000, 5.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_Filament_Cycle_2_Test()
     {
-        System.out.println("\nFACET CALCULATOR FILAMENT AND CYCLE TEST 2:");
+        System.out.print("\nRunning simpleFacetCalculator_Filament_Cycle_2_Test...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -90,7 +92,7 @@ public class FacetCalculatorSimpleComboTests
         Point point6 = new Point("point6", 5, 5);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -107,33 +109,35 @@ public class FacetCalculatorSimpleComboTests
         graph.addUndirectedEdge(point4, point5, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof Filament)
-            {
-                Filament fil = (Filament) prim;
-                System.out.println("\t" +fil.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof Filament)
+//            {
+//                Filament fil = (Filament) prim;
+//                System.out.println("\t" +fil.toString());
+//            }
+//            
+//        }
         assert(calc.GetPrimitives().get(0).toString().equals("Cycle { point3(3.000, 3.000), point4(5.000, 1.000), point5(7.000, 3.000), point6(5.000, 5.000) }"));
         assert(calc.GetPrimitives().get(1).toString().equals("Filament { point5(7.000, 3.000), point2(8.000, 2.000), point1(9.000, 1.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_Filament_Cycle_IsoPoint_Test()
     {
-        System.out.println("\nFACET CALCULATOR FILAMENT, CYCLE, AND ISOLATED POINTS TEST 1:");
+        System.out.print("\nRunning simpleFacetCalculator_Filament_Cycle_IsoPoint_Test...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -152,7 +156,7 @@ public class FacetCalculatorSimpleComboTests
         Point point10 = new Point("point10", 5, 3);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -173,42 +177,45 @@ public class FacetCalculatorSimpleComboTests
         graph.addUndirectedEdge(point4, point5, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof Filament)
-            {
-                Filament fil = (Filament) prim;
-                System.out.println("\t" +fil.toString());
-            }
-            else if (prim instanceof IsolatedPoint)
-            {
-                IsolatedPoint isopoint = (IsolatedPoint) prim;
-                System.out.println("\t" + isopoint.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof Filament)
+//            {
+//                Filament fil = (Filament) prim;
+//                System.out.println("\t" +fil.toString());
+//            }
+//            else if (prim instanceof IsolatedPoint)
+//            {
+//                IsolatedPoint isopoint = (IsolatedPoint) prim;
+//                System.out.println("\t" + isopoint.toString());
+//            }
+//            
+//        }
+        
         assert(calc.GetPrimitives().get(0).toString().equals("Point { point9(1.000, 1.000) }"));
         assert(calc.GetPrimitives().get(1).toString().equals("Point { point8(1.000, 5.000) }"));
         assert(calc.GetPrimitives().get(2).toString().equals("Cycle { point3(3.000, 3.000), point4(5.000, 1.000), point5(7.000, 3.000), point6(5.000, 5.000) }"));
         assert(calc.GetPrimitives().get(3).toString().equals("Point { point10(5.000, 3.000) }"));
         assert(calc.GetPrimitives().get(4).toString().equals("Filament { point5(7.000, 3.000), point2(8.000, 2.000), point1(9.000, 1.000) }"));
         assert(calc.GetPrimitives().get(5).toString().equals("Point { point7(8.000, 5.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_FilamentBetweenCycles_IsoPoint_Test()
     {
-        System.out.println("\nFACET CALCULATOR FILAMENT BETWEEN CYCLES AND ISOLATED POINTS TEST 2 \"The Big One\":");
+        System.out.print("\nRunning simpleFacetCalculator_FilamentBetweenCycles_IsoPoint_Test...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -241,7 +248,7 @@ public class FacetCalculatorSimpleComboTests
         Point point24 = new Point("point24", 6, 2);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -293,31 +300,32 @@ public class FacetCalculatorSimpleComboTests
         graph.addUndirectedEdge(point10, point9, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            else if (prim instanceof Filament)
-            {
-                Filament fil = (Filament) prim;
-                System.out.println("\t" +fil.toString());
-            }
-            else if (prim instanceof IsolatedPoint)
-            {
-                IsolatedPoint isopoint = (IsolatedPoint) prim;
-                System.out.println("\t" + isopoint.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            else if (prim instanceof Filament)
+//            {
+//                Filament fil = (Filament) prim;
+//                System.out.println("\t" +fil.toString());
+//            }
+//            else if (prim instanceof IsolatedPoint)
+//            {
+//                IsolatedPoint isopoint = (IsolatedPoint) prim;
+//                System.out.println("\t" + isopoint.toString());
+//            }
+//            
+//        }
+        
         assert(calc.GetPrimitives().get(0).toString().equals("Cycle { point7(1.000, 4.000), point6(2.000, 2.000), point5(4.000, 2.000), point4(5.000, 3.000), point8(3.000, 5.000) }"));
         assert(calc.GetPrimitives().get(1).toString().equals("Filament { point4(5.000, 3.000), point2(7.000, 3.000) }"));
         assert(calc.GetPrimitives().get(2).toString().equals("Point { point24(6.000, 2.000) }"));
@@ -331,6 +339,8 @@ public class FacetCalculatorSimpleComboTests
         assert(calc.GetPrimitives().get(10).toString().equals("Point { point21(11.000, 2.000) }"));
         assert(calc.GetPrimitives().get(11).toString().equals("Cycle { point17(12.000, 1.000), point18(13.000, 2.000), point19(12.000, 3.000) }"));
         assert(calc.GetPrimitives().get(12).toString().equals("Point { point20(12.000, 5.000) }"));
+        
+        System.out.println("Done");
     }
 
 }

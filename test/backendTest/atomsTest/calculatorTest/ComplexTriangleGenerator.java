@@ -399,7 +399,7 @@ public class ComplexTriangleGenerator
         double yVal;
         
         // s1 is a vertical line segment
-        if (s1.slope() == null)
+        if (Double.isInfinite(s1.slope()))
         {
             // get the x value from the vertical line s1
             xVal = s1.getPoint1().getX();
@@ -408,7 +408,7 @@ public class ComplexTriangleGenerator
             yVal = s2.slope() * xVal + s2.getConstant();
         }
         // s2 is a vertical line segment
-        else if (s2.slope() == null)
+        else if (Double.isInfinite(s2.slope()))
         {
             // get the x value from the vertical line s2
             xVal = s2.getPoint1().getX();

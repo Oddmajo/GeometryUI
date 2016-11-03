@@ -104,16 +104,16 @@ public class EquationSegmentTest
         
         EquationSegment eqSegment = new EquationSegment(point2, point1);
         
-        System.out.println("eqSegment point1: " + eqSegment.getPoint1());
-        System.out.println("eqSegment point2: " + eqSegment.getPoint2());
-        System.out.println("eqSegment slope: " + eqSegment.slope());
-        System.out.println("eqSegment constant: " + eqSegment.getConstant());
+//        System.out.println("eqSegment point1: " + eqSegment.getPoint1());
+//        System.out.println("eqSegment point2: " + eqSegment.getPoint2());
+//        System.out.println("eqSegment slope: " + eqSegment.slope());
+//        System.out.println("eqSegment constant: " + eqSegment.getConstant());
         
         // generate 10 points on the segment
         for (int i = 0; i < 10; i++)
         {
             Point genPoint = eqSegment.getRandomPoint();
-            System.out.println("Point " + i + ": " + genPoint);
+            //System.out.println("Point " + i + ": " + genPoint);
             assert (genPoint.getX() == 1);
             assert (genPoint.getY() >= 2 && genPoint.getY() <= 9);
         }

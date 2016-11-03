@@ -16,7 +16,7 @@ public class FacetCalculatorSimpleCyclesTest
 
     @Test public void simpleFacetCalculator_SingleTrangleCycleTest()
     {
-        System.out.println("\nFACET CALCULATOR SIMPLE TRIANGLE TEST");
+        System.out.print("\nRunning simpleFacetCalculator_SingleTrangleCycleTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -28,7 +28,7 @@ public class FacetCalculatorSimpleCyclesTest
         Point point3 = new Point("point3", 6, 4);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+//        System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -39,31 +39,32 @@ public class FacetCalculatorSimpleCyclesTest
         graph.addUndirectedEdge(point3, point2, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
         // print the primitives from the facet calculator
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            System.out.println("Primitives: ");
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            
-        }
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            System.out.println("Primitives: ");
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            
+//        }
         Primitive prim = calc.GetPrimitives().get(0);
         MinimalCycle mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point1(2.000, 4.000), point2(4.000, 1.000), point3(6.000, 4.000) }"));
         
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_SingleSquareCycleTest()
     {
-        System.out.println("\nFACET CALCULATOR SIMPLE SQUARE TEST:");
+        System.out.print("\nRunning simpleFacetCalculator_SingleSquareCycleTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -76,7 +77,7 @@ public class FacetCalculatorSimpleCyclesTest
         Point point4 = new Point("point4", 2, 4);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -89,29 +90,31 @@ public class FacetCalculatorSimpleCyclesTest
         graph.addUndirectedEdge(point4, point2, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            System.out.println("Primitives: ");
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            
-        }
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            System.out.println("Primitives: ");
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            
+//        }
         Primitive prim = calc.GetPrimitives().get(0);
         MinimalCycle mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point2(2.000, 2.000), point3(4.000, 2.000), point1(4.000, 4.000), point4(2.000, 4.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCalculator_DoubleCycleTest()
     {
-        System.out.println("\nFACET CALCULATOR DOUBLE CYCLE TEST:");
+        System.out.print("\nRunning simpleFacetCalculator_DoubleCycleTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -125,7 +128,7 @@ public class FacetCalculatorSimpleCyclesTest
         Point point5 = new Point("point5", 7, 3);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -141,21 +144,21 @@ public class FacetCalculatorSimpleCyclesTest
         graph.addUndirectedEdge(point5, point2, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            
+//        }
         Primitive prim = calc.GetPrimitives().get(0);
         MinimalCycle mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point3(1.000, 1.000), point4(4.000, 1.000), point2(4.000, 4.000), point1(1.000, 4.000) }"));
@@ -163,11 +166,13 @@ public class FacetCalculatorSimpleCyclesTest
         prim = calc.GetPrimitives().get(1);
         mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point4(4.000, 1.000), point5(7.000, 3.000), point2(4.000, 4.000) }"));
+        
+        System.out.println("Done");
     }
     
     @Test public void simpleFacetCaclulator_NestedCyclesTest()
     {
-        System.out.println("\nFACET CALCULATOR NESTED CYCLES TEST:");
+        System.out.print("\nRunning simpleFacetCaclulator_NestedCyclesTest...");
         Utilities.OVERRIDE_DEBUG = true;
         
         // create the graph
@@ -185,7 +190,7 @@ public class FacetCalculatorSimpleCyclesTest
         Point point9 = new Point("point9", 5, 5);
         
         // add the points to the graph
-        System.out.println("Adding Points:");
+        //System.out.println("Adding Points:");
         graph.addNode(point1);
         graph.addNode(point2);
         graph.addNode(point3);
@@ -209,21 +214,21 @@ public class FacetCalculatorSimpleCyclesTest
         graph.addUndirectedEdge(point8, point9, 0, EdgeType.REAL_SEGMENT);
         
         //print the graph
-        System.out.println(graph.toString());
+        //System.out.println(graph.toString());
         
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         
-        System.out.println("Primitives: ");
-        for (Primitive prim : calc.GetPrimitives())
-        {
-            if (prim instanceof MinimalCycle)
-            {
-                MinimalCycle mincycle = (MinimalCycle) prim;
-                System.out.println("\t" + mincycle.toString());
-            }
-            
-        }
+//        System.out.println("Primitives: ");
+//        for (Primitive prim : calc.GetPrimitives())
+//        {
+//            if (prim instanceof MinimalCycle)
+//            {
+//                MinimalCycle mincycle = (MinimalCycle) prim;
+//                System.out.println("\t" + mincycle.toString());
+//            }
+//            
+//        }
         Primitive prim = calc.GetPrimitives().get(0);
         MinimalCycle mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point1(1.000, 1.000), point2(3.000, 1.000), point5(3.000, 3.000), point4(1.000, 3.000) }"));
@@ -231,6 +236,7 @@ public class FacetCalculatorSimpleCyclesTest
         prim = calc.GetPrimitives().get(1);
         mincycle = (MinimalCycle) prim;
         assert(mincycle.toString().equals("Cycle { point4(1.000, 3.000), point5(3.000, 3.000), point2(3.000, 1.000), point3(5.000, 1.000), point6(5.000, 3.000), point9(5.000, 5.000), point8(3.000, 5.000), point7(1.000, 5.000) }"));
+        System.out.println("Done");
     }
     
     
