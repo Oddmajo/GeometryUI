@@ -11,7 +11,7 @@ import backend.ast.GroundedClause;
 public class NumericValue extends ArithmeticNode implements Cloneable
 {
     protected double value;
-    ArrayList<Character> variables;
+    
     
     public NumericValue()
     {
@@ -27,6 +27,11 @@ public class NumericValue extends ArithmeticNode implements Cloneable
     {
         value = v;
     }
+    public NumericValue(NumericValue v)
+    {
+        value = v.getDoubleValue();
+        variables = v.getVariables();
+    }
     
     public NumericValue(int v, ArrayList<Character> c)
     {
@@ -38,6 +43,12 @@ public class NumericValue extends ArithmeticNode implements Cloneable
     public NumericValue(double v, ArrayList<Character> c)
     {
         value = v;
+        variables = c;
+    }
+    
+    public NumericValue(NumericValue v, ArrayList<Character> c)
+    {
+        value = v.getDoubleValue();
         variables = c;
     }
     
@@ -62,7 +73,7 @@ public class NumericValue extends ArithmeticNode implements Cloneable
     }
     
     //This method is bypassed when called from an arithmetic operation - Ryan
-    public boolean ContainsClause(GroundedClause clause)
+    public boolean containsClause(GroundedClause clause)
     {
         
         if ((NumericValue)clause == null)
@@ -87,16 +98,55 @@ public class NumericValue extends ArithmeticNode implements Cloneable
     {
         return value;
     }
-    
-    public List<Character> getVariables()
+    public ArrayList<Character> getVariables()
     {
         return variables;
     }
+    
     public int getHashCode()
     {
         return super.getHashCode();
     }
     
+    public void substitute(char toFind, char toSub)
+    {
+        for (char c : variables)
+        {
+            if (c == toFind)
+            {
+                variables.remove(c);
+                variables.add(toSub);
+                break;
+            }
+        }
+    }
+    
+    public void substitute(double toFind, double toSub)
+    {
+        if ( value == toFind)
+        {
+            value = toSub;
+        }
+            
+    }
+    
+    public void substitute(int toFind, int toSub)
+    {
+        substitute((double) toFind, (double) toSub);
+    }
+    
+    public boolean containsVariable(char toFind)
+    {
+        for (char c : variables)
+        {
+            if (c == toFind)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+  
     public boolean equals(Object obj)
     {
         if (obj == null || (NumericValue) obj == null)

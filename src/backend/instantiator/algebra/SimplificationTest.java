@@ -28,9 +28,9 @@ public class SimplificationTest
             testList.add(new NumericValue(i));
         }
         long testsPassed = 0, totalTests = 0;
-/*
+        /*
         System.out.println("\t---NUMERIC VALUE TESTS---");
-        
+
         for (int i = 0; i < 200; i++)
         {
             String test = testList.get(i).toString();
@@ -437,7 +437,7 @@ public class SimplificationTest
         totalTests = 0;
 
 
-        
+
         for (int i = 0; i < 200; i++)
         {
             for (int j = 0; j < 200; j++)
@@ -460,7 +460,7 @@ public class SimplificationTest
         System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0;
-         
+
         for (int i = 0; i < 200; i++)
         {
             for (int j = 0; j < 200; j++)
@@ -555,7 +555,7 @@ public class SimplificationTest
         totalTests = 0;
 
 
-        
+
         for (int i = 0; i < 200; i++)
         {
             for (int j = 0; j < 200; j++)
@@ -578,7 +578,7 @@ public class SimplificationTest
         System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0;
-         
+
         for (int i = 0; i < 200; i++)
         {
             for (int j = 0; j < 200; j++)
@@ -626,8 +626,8 @@ public class SimplificationTest
         System.out.println("Multi-clause tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0; 
-*/
-        
+         */
+
         System.out.println("\n\t---VARIABLE TESTS---");
         List<Character> testChars = new ArrayList<Character>();
         for  (int i = 0; i < 26; i++)
@@ -635,10 +635,10 @@ public class SimplificationTest
             char x = (char) (i + 97);
             testChars.add(x);
         }
-            
+
         System.out.println(testChars);
-        
-        
+
+
         for (int i = 0; i < 200; i++)
         {
             ArrayList<Character> sample = new ArrayList<Character>();
@@ -676,7 +676,7 @@ public class SimplificationTest
             }
             totalTests++;
         }
-        
+
         System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0;
@@ -719,11 +719,11 @@ public class SimplificationTest
             }
             totalTests++;
         }
-        
+
         System.out.println("getIntValue() tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0;
-        
+
         for (int i = 0; i < 200; i++)
         {
             ArrayList<Character> sample = new ArrayList<Character>();
@@ -743,8 +743,85 @@ public class SimplificationTest
             }
             totalTests++;
         }
-        
+
         System.out.println("getVariables() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue eq = new NumericValue(testList.get(i), sample);
+            for (int j = 0; j < 200; j++)
+            {
+                boolean test = eq.containsClause(testList.get(i));
+                boolean expectedResult = eq.getIntValue() == ((i)-100)  || eq.getIntValue() == ((j)-100) ? true : false ;
+                if (test == expectedResult)
+                    testsPassed++;
+                else
+                {
+                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+                } 
+                totalTests++;
+            }
+        }
+
+        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            NumericValue eq = new NumericValue(testList.get(i), sample);
+            for (int j = 0; j < 26; j++)
+            {
+                char x = (char) (j + 97);
+                boolean test = eq.containsVariable(x);
+                boolean expectedResult;
+                if (x == 'x' || x == 'y')
+                    expectedResult = true;
+                else
+                    expectedResult = false;
+                if (test == expectedResult)
+                    testsPassed++;
+                else
+                {
+                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
+                } 
+                totalTests++;
+            }
+        }
+        System.out.println("containsVariable() tests passed: " + testsPassed + "/" + totalTests);
+        testsPassed = 0;
+        totalTests = 0;
+
+        for (int i = 0; i < 200; i++)
+        {
+            ArrayList<Character> sample = new ArrayList<Character>();
+            sample.add('x');
+            sample.add('y');
+            
+            for (int j = 0; j < 200; j++)
+            {
+                NumericValue eq = new NumericValue(testList.get(i), sample);
+                NumericValue expectedResult = new NumericValue(testList.get(j), sample);  
+                eq.substitute(testList.get(i).getDoubleValue(), testList.get(j).getDoubleValue());
+                if (eq.equals(expectedResult))
+                    testsPassed++;
+                else
+                {
+                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + eq);
+                } 
+                totalTests++;
+
+            }
+        }
+        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
         testsPassed = 0;
         totalTests = 0;
 
