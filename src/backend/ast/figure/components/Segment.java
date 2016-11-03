@@ -31,8 +31,8 @@ public class Segment extends Figure
         _point1 = p1;
         _point2 = p2;
         _length = Point.calcDistance(p1, p2);
-        //_slope = (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
-        _slope = getSlope();
+        _slope = (p2.getY() - p1.getY()) / (p2.getX() - p1.getX());
+        //_slope = getSlope(); Removed on 11/2/2016 by Nick. Dealing with vertical slopes using Infinity instead of null. 
 
         backend.utilities.list.Utilities.addUniqueStructurally(_point1.getSuperFigures(), this);
         backend.utilities.list.Utilities.addUniqueStructurally(_point2.getSuperFigures(), this);
@@ -785,6 +785,18 @@ public class Segment extends Figure
         return backend.utilities.math.MathUtilities.doubleEquals(thatSegment.slope() * this.slope(), -1) ? intersection : null;
     }
 
+    // Checking for structural equality (is it the same segment) excluding the multiplier
+    @Override
+    public boolean structurallyEquals(Object obj)
+    {
+        if(obj == null) return false;
+        if(!(obj instanceof Segment)) return false;
+        Segment segment = (Segment)obj;
+
+        return ((segment._point1.structurallyEquals(_point1) && segment._point2.structurallyEquals(_point2)) ||
+                (segment._point1.structurallyEquals(_point2) && segment._point2.structurallyEquals(_point1)));
+    }
+    
     //
     // Is thatSegment a bisector of this segment in terms of the coordinatization from the UI?
     //

@@ -34,7 +34,7 @@ public class EquationSegment extends Segment
     private void getEquation()
     {
         // if the segment is not a vertical line
-        if (_slope != null)
+        if (!Double.isInfinite(_slope))
         {
             _constant = _slope * -(_point1.getX()) + _point1.getY();
         }
@@ -61,7 +61,7 @@ public class EquationSegment extends Segment
         double randomMultiplier = Math.abs(generator.nextInt());
         
         // if the segment is not a vertical line
-        if (_slope != null)
+        if (!Double.isInfinite(_slope))
         {
             // ranges for generation, so points are on the segment
             double xBound1 = _point1.getX();
