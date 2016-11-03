@@ -139,23 +139,38 @@ public class PolygonCalculatorTest
     public void testAngle()
     {
         ArrayList<Segment> segs = new ArrayList<Segment>();
+        ArrayList<Segment> segs2 = new ArrayList<Segment>();
         Point pt0 = new Point("0", 1, 1);
         Point pt1 = new Point("1", 3, 5);
         Point pt4 = new Point("4", 2, 3);
+        Point pt5 = new Point("5", 3, (double)7/3);
+        Point pt3 = new Point("3", 4, 3);
         
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt4);
         Segment seg2 = new Segment(pt0, pt4);
         
+        Segment seg3 = new Segment(pt0, pt5);
+        Segment seg4 = new Segment(pt3, pt5);
+        Segment seg5 = new Segment(pt0, pt3);
+        
         segs.add(seg0);
         segs.add(seg1);
         segs.add(seg2);
         
+        segs2.add(seg3);
+        segs2.add(seg4);
+        segs2.add(seg5);
+        
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         
+        PolygonCalculator pc2 = new PolygonCalculator(segs2);
+        ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
+        
         assertNotNull(polys);
         System.out.println("T4: " + polys);
+        System.out.println("T5: " + polys2 );
     }
     
     
@@ -170,7 +185,7 @@ public class PolygonCalculatorTest
         Point pt2 = new Point("2", 5, 1);
         Point pt3 = new Point("3", 4, 3);
         Point pt4 = new Point("4", 2, 3);
-        Point pt5 = new Point("5", 2, 7/3);
+        Point pt5 = new Point("5", 3, (double)7/3);
         
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt2);

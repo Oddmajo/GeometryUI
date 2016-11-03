@@ -119,6 +119,8 @@ public class Segment extends Figure
 
         return backend.utilities.math.MathUtilities.doubleEquals(this._slope, otherSegment._slope) &&
                this.PointLiesOn(otherSegment._point1) && this.PointLiesOn(otherSegment._point2); // Check both endpoints just to be sure
+   
+
     }
 
     public Point SharedVertex(Segment s)
@@ -840,5 +842,22 @@ public class Segment extends Figure
         }
 
         return null;
+    }
+    @Override
+    public boolean PointLiesOn(Point thatPoint)
+    {
+        // If the segments are vertical, just compare the X values of one point of each
+        if (this.IsVertical())
+        {
+            return MathUtilities.doubleEquals(this._point1.getX(), thatPoint.getX());
+        }
+
+        // If the segments are horizontal, just compare the Y values of one point of each; this is redundant
+        if (this.IsHorizontal())
+        {
+            return MathUtilities.doubleEquals(this._point1.getY(), thatPoint.getY());
+        }
+
+        return MathUtilities.doubleEquals(this._point1.getY() - thatPoint.getY(), this._slope * (this._point1.getX() - thatPoint.getX()));
     }
 }
