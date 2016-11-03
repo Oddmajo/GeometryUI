@@ -1,14 +1,14 @@
-/**
- * @author Nick Celiberti
- */
-
 package backend.precomputer;
 
 import java.util.ArrayList;
 
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
+import backend.utilities.ast_helper.Utilities;
 
+/// <summary>
+/// Live Geometry does not define ALL components of the figure, we must acquire those implied components.
+/// </summary>
 public class PolygonCalculator
 {
     private ArrayList<ArrayList<Polygon>> polygons;
@@ -20,16 +20,17 @@ public class PolygonCalculator
         segments = segs;
     }
 
-    public ArrayList<ArrayList<Polygon>> GetPolygons() throws IllegalArgumentException 
+    public ArrayList<ArrayList<Polygon>> GetPolygons()
     {
-        if(polygons == null)
+        if (polygons == null)
         {
             polygons = Polygon.ConstructPolygonContainer();
             CalculateImpliedPolygons();
         }
+
         return polygons;
     }
-    
+
     //
     // Not all shapes are explicitly stated by the user; find all the implied shapes.
     // This populates the polygon array with any such shapes (concave or convex)
@@ -42,14 +43,13 @@ public class PolygonCalculator
     //    (4) Inductively repeat for sets of size up MAX_POLY
     // No set of segments are collinear.
     //
-    // This construction must be done : a breadth first manner (triangles then quads then pentagons...)
+    // This construction must be done in a breadth first manner (triangles then quads then pentagons...)
     //
-    public void CalculateImpliedPolygons() throws IllegalArgumentException 
+    private void CalculateImpliedPolygons()
     {
         boolean[][] eligible = DetermineEligibleCombinations();
         ArrayList<ArrayList<Integer>> constructedPolygonSets = new ArrayList<ArrayList<Integer>>();
         ArrayList<ArrayList<Integer>> failedPolygonSets = new ArrayList<ArrayList<Integer>>();
-        
 
         //
         // Base case: construct all triangles.
@@ -66,39 +66,47 @@ public class PolygonCalculator
                         // Does this set create a triangle?
                         if (eligible[s1][s3] && eligible[s2][s3])
                         {
+                            
                             ArrayList<Integer> indices = new ArrayList<Integer>();
                             indices.add(s1);
                             indices.add(s2);
                             indices.add(s3);
-                            
                             ArrayList<Segment> segs = MakeSegmentsList(indices);
-                            System.out.println(segs);
-                            Polygon poly = Polygon.MakePolygon(segs);
-                            if (poly == null)
+                            //Added for testing purposes without the Implied Component Calculator. Nick 11/2/2016
+                            if(!(segs.get(0).IsCollinearWith(segs.get(1)) || segs.get(1).IsCollinearWith(segs.get(2)) || segs.get(1).IsCollinearWith(segs.get(2))))
                             {
-                                System.out.println("failed");
-                                failedPolygonSets.add(indices);
+                                Polygon poly = Polygon.MakePolygon(segs);
+                                if (poly == null)
+                                {
+                                    
+                                    failedPolygonSets.add(indices);
+                                }
+                                else
+                                {
+                                    polygons.get(Polygon.GetPolygonIndex(indices.size())).add(poly);
+
+                                    // Keep track of all existent sets of segments which created polygons.
+                                    constructedPolygonSets.add(indices);
+                                }
+                                
                             }
-                            else
-                            {
-                                System.out.println("Adding Poly");
-                                polygons.get(Polygon.GetPolygonIndex(indices.size())).add(poly);
-                                // Keep track of all existent sets of segments which created polygons.
-                                constructedPolygonSets.add(indices);
-                            }
-                        } else { System.out.println(eligible[s1][s3]); System.out.println(eligible[s2][s3]);}
+                            
+                        }
                     }
                 }
             }
         }
+
         //
         // Inductively look for polygons with more than 3 sides.
         //
         InductivelyConstructPolygon(failedPolygonSets, eligible, constructedPolygonSets);
     }
 
-    private void InductivelyConstructPolygon(ArrayList<ArrayList<Integer>> openPolygonSets, boolean[][] eligible,
-            ArrayList<ArrayList<Integer>> constructedPolygonSets) throws IllegalArgumentException
+    //
+    // For each given set, add 1 new side (at a time) to the list of sides in order to construct polygons.
+    //
+    private void InductivelyConstructPolygon(ArrayList<ArrayList<Integer>> openPolygonSets, boolean[][] eligible, ArrayList<ArrayList<Integer>> constructedPolygonSets)
     {
         // Stop if no sets to consider and grow from.
         if (openPolygonSets.isEmpty()) return;
@@ -106,16 +114,16 @@ public class PolygonCalculator
         // Stop at a maximum number of sides;  we say n is the number of sides
         if (openPolygonSets.get(0).size() == Polygon.MAX_POLYGON_SIDES) return;
 
+        ///Check this length 
         int matrixLength = eligible[0].length; 
 
         // The set of sets that contains n+1 elements that do not make a polygon (sent to the next round)
         ArrayList<ArrayList<Integer>> failedPolygonSets = new ArrayList<ArrayList<Integer>>();
 
-        // Breadth first construction / traversal
-        for (ArrayList<Integer> currOpenSet : openPolygonSets)
+        // Breadth first consruction / traversal
+        for (ArrayList<Integer> currentOpenSet : openPolygonSets)
         {
-            ArrayList<Integer> currentOpenSet = currOpenSet;
-            // Since indices will be ordered least to greatest, we start looking at the largest index (last place : the list).
+            // Since indices will be ordered least to greatest, we start looking at the largest index (last place in the list).
             for (int s = currentOpenSet.get(currentOpenSet.size() - 1); s < matrixLength; s++)
             {
                 if (IsEligible(currentOpenSet, eligible, s))
@@ -124,8 +132,7 @@ public class PolygonCalculator
                     newIndices.add(s);
 
                     // Did we already create a polygon with a subset of these indices?
-                    //if (!GeometryTutorLib.Utilities.ListHasSubsetOfSet<Integer>(constructedPolygonSets, newIndices))
-                    if(true)
+                    if (!Utilities.ListHasSubsetOfSet(constructedPolygonSets, newIndices))
                     {
                         ArrayList<Segment> segs = MakeSegmentsList(newIndices);
                         Polygon poly = Polygon.MakePolygon(segs);
@@ -146,9 +153,9 @@ public class PolygonCalculator
         }
 
         InductivelyConstructPolygon(failedPolygonSets, eligible, constructedPolygonSets);
-        
     }
 
+    // Make a list of segments based on indices; a helper function.
     private ArrayList<Segment> MakeSegmentsList(ArrayList<Integer> indices)
     {
         ArrayList<Segment> segs = new ArrayList<Segment>();
@@ -160,7 +167,10 @@ public class PolygonCalculator
 
         return segs;
     }
-    
+
+    //
+    // Given the set, is the given single term eligible?
+    //
     private boolean IsEligible(ArrayList<Integer> indices, boolean[][] eligible, int newElement)
     {
         for (int index : indices)
@@ -171,8 +181,11 @@ public class PolygonCalculator
         return true;
     }
 
-    
-
+    //
+    // Eligibility means that each pair of segment combinations does not:
+    //   (1) Cross the other segment through the middle (creating an X or |-)
+    //   (2) Coincide with overlap (or share a vertex)
+    //
     private boolean[][] DetermineEligibleCombinations()
     {
         boolean[][] eligible = new boolean[segments.size()][segments.size()]; // defaults to false
@@ -186,7 +199,6 @@ public class PolygonCalculator
                 {
                     if (!segments.get(s1).IsCollinearWith(segments.get(s2)))
                     {
-                        
                         eligible[s1][s2] = true;
                         eligible[s2][s1] = true;
                     }
@@ -208,11 +220,10 @@ public class PolygonCalculator
                             }
                         }
                     }
-                } 
+                }
             }
         }
 
         return eligible;
     }
 }
-

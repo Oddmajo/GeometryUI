@@ -221,6 +221,29 @@ public class Utilities
 
         return !seg.PointLiesOnAndBetweenEndpoints(pt) || !arc.PointLiesOn(pt) ? null : pt;
     }
+    
+    // Is smaller subset larger
+    public static <T> boolean Subset(ArrayList<T> larger, ArrayList<T> smaller)
+    {
+        for (T o : smaller)
+        {
+            if (!larger.contains(o)) return false;
+        }
 
+        return true;
+    }
+
+    
+    // Is the list a subset of any of the sets in the list of lists?
+    public static <T> boolean ListHasSubsetOfSet(ArrayList<ArrayList<T>> sets, ArrayList<T> theSet)
+    {
+        // Do not consider a new subset which contains an existent polygon.
+        for(ArrayList<T> set : sets)
+        {
+            if (Subset(theSet, set)) return true;
+        }
+
+        return false;
+    }
 
 }

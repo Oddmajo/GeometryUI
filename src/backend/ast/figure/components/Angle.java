@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
 
@@ -38,14 +39,23 @@ public class Angle extends Figure
 
  // Make a deep copy of this object
     @Override
-    public GroundedClause deepCopy() throws CloneNotSupportedException
+    public GroundedClause deepCopy()
     {
-        Angle other = (Angle)(this.clone());
-        other.A = (Point)this.A.DeepCopy();
-        other.B = (Point)this.B.DeepCopy();
-        other.C = (Point)this.C.DeepCopy();
-        other.ray1 = (Segment)this.ray1.deepCopy();
-        other.ray2 = (Segment)this.ray2.deepCopy();
+        Angle other = null;
+        try
+        {
+            other = (Angle)(this.clone());
+            other.A = (Point)this.A.DeepCopy();
+            other.B = (Point)this.B.DeepCopy();
+            other.C = (Point)this.C.DeepCopy();
+            other.ray1 = (Segment)this.ray1.deepCopy();
+            other.ray2 = (Segment)this.ray2.deepCopy();
+        }
+        catch (CloneNotSupportedException e)
+        {
+            ExceptionHandler.throwException(e);
+        }
+        
 
         return other;
     }
