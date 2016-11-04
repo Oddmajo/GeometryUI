@@ -392,7 +392,7 @@ public class FacetCalculator
         int v1Index = graph.indexOf(v1);
 
         // Loop until we have a cycle or we have a null (filament)
-        while (vCurr != null && !vCurr.equals(v0) && !visited.contains(vCurr))
+        while (vCurr != null && !vCurr.structurallyEquals(v0) && !visited.contains(vCurr))
         {
             sequence.add(vCurr);
             visited.add(vCurr);
@@ -429,7 +429,7 @@ public class FacetCalculator
         //
         // Minimal cycle found.
         //
-        else if (vCurr.equals(v0))
+        else if (vCurr.structurallyEquals(v0))
         {
             //System.out.println("Minimal Cycle");
             MinimalCycle primitive = new MinimalCycle();
@@ -489,7 +489,7 @@ public class FacetCalculator
             while (graph.getNodes().get(v0Index).nodeDegree() == 2)
             {
                 // Choose between the the two neighbors
-                if (graph.getNodes().get(v0Index).getEdges().get(0).getTarget().equals(v1))
+                if (graph.getNodes().get(v0Index).getEdges().get(0).getTarget().structurallyEquals(v1))
                 {
                     v1 = v0;
                     v0 = graph.getNodes().get(v0Index).getEdges().get(1).getTarget();

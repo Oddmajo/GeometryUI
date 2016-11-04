@@ -4,9 +4,6 @@ import org.junit.Test;
 
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.FacetCalculator;
-import backend.atoms.calculator.Filament;
-import backend.atoms.calculator.MinimalCycle;
-import backend.atoms.calculator.Primitive;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
 
 public class FacetCalculatorComplexTriangleTest
