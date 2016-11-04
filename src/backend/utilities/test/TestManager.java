@@ -76,7 +76,7 @@ public class TestManager
                     String packagePath = new String(file.getParentFile().getPath());
                     packagePath = packagePath.replace(".\\test\\", EMPTY);
                     packagePath = packagePath.replace("\\", ".");
-                    System.out.println(packagePath);
+                    //System.out.println(packagePath);
                     testClasses.add(Class.forName(packagePath+"."+name.replace(FILE_TYPE, EMPTY)));
                 }
                 else if(name.toLowerCase().endsWith(FILE_TYPE))
@@ -84,7 +84,7 @@ public class TestManager
                     String packagePath = new String(file.getParentFile().getPath());
                     packagePath = packagePath.replace(".\\test\\", EMPTY);
                     packagePath = packagePath.replace("\\", ".");
-                    System.out.println(packagePath);
+                    //System.out.println(packagePath);
                     try
                     {
                         if(!testClasses.contains(Class.forName(packagePath+"."+name.replace(FILE_TYPE, EMPTY)+"Test")))

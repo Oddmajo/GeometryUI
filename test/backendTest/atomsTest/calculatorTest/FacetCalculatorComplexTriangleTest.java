@@ -54,12 +54,12 @@ public class FacetCalculatorComplexTriangleTest
         System.out.println("Done\n");
     }
     
-    @Test public void facetCalculator_SmallComplexTriangle_70Points_Test()
+    @Test public void facetCalculator_SmallComplexTriangle_50Points_Test()
     {
-        System.out.print("Running facetCalculator_SmallComplexTriangle_70Points_Test...");
+        System.out.print("Running facetCalculator_SmallComplexTriangle_50Points_Test...");
         
         // variable declarations/instantiations
-        int n = 70;
+        int n = 50;
         Point p1 = new Point("p1", 1, 1);
         Point p2 = new Point("p2", 7, 8);
         Point p3 = new Point("p3", 14, 1);
@@ -96,12 +96,12 @@ public class FacetCalculatorComplexTriangleTest
         System.out.println("Done\n");
     }
 
-    @Test public void facetCalculator_LargeComplexTriangle_100Points_Test()
+    @Test public void facetCalculator_LargeComplexTriangle_75Points_Test()
     {
-        System.out.println("Running facetCalculator_LargeComplexTriangle_100Points_Test...");
+        System.out.println("Running facetCalculator_LargeComplexTriangle_75Points_Test...");
         
         // variable declarations/instantiations
-        int n = 100;
+        int n = 75;
         Point p1 = new Point("p1", 1, 1);
         Point p2 = new Point("p2", 123, 538);
         Point p3 = new Point("p3", 333, 120);
@@ -121,12 +121,12 @@ public class FacetCalculatorComplexTriangleTest
         System.out.println("Done\n");
     }
     
-    @Test public void facetCalculator_LargeComplexTriangle_150Points_Test()
+    @Test public void facetCalculator_LargeComplexTriangle_125Points_Test()
     {
-        System.out.println("Running facetCalculator_LargeComplexTriangle_150Points_Test...");
+        System.out.println("Running facetCalculator_LargeComplexTriangle_125Points_Test...");
         
         // variable declarations/instantiations
-        int n = 150;
+        int n = 125;
         Point p1 = new Point("p1", 1, 1);
         Point p2 = new Point("p2", 123, 538);
         Point p3 = new Point("p3", 333, 120);
