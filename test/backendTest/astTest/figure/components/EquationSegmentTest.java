@@ -1,4 +1,4 @@
-package backendTest.ast.figure.components;
+package backendTest.astTest.figure.components;
 
 import org.junit.Test;
 

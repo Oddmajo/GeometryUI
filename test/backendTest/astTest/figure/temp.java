@@ -1,4 +1,4 @@
-package backendTest.ast.figure.components;
+package backendTest.astTest.figure;
 
 public class temp
 {

@@ -1,4 +1,4 @@
-package backendTest.ast.figure;
+package backendTest.astTest;
 
 public class temp
 {

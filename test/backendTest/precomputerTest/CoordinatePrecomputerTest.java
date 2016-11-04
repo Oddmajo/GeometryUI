@@ -1,4 +1,4 @@
-package backendTest.utilitiesTest;
+package backendTest.precomputerTest;
 
 
 import static org.junit.Assert.assertEquals;

@@ -73,7 +73,7 @@ public class PolygonCalculator
                             indices.add(s3);
                             ArrayList<Segment> segs = MakeSegmentsList(indices);
                             //Added for testing purposes without the Implied Component Calculator. Nick 11/2/2016
-                            if(!(segs.get(0).IsCollinearWith(segs.get(1)) || segs.get(1).IsCollinearWith(segs.get(2)) || segs.get(1).IsCollinearWith(segs.get(2))))
+                            if(!(segs.get(0).IsCollinearWith(segs.get(1)) || segs.get(1).IsCollinearWith(segs.get(2)) || segs.get(0).IsCollinearWith(segs.get(2))))
                             {
                                 Polygon poly = Polygon.MakePolygon(segs);
                                 if (poly == null)

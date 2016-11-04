@@ -1,4 +1,4 @@
-package backend.precomputer;
+package backendTest.precomputerTest;
 
 import static org.junit.Assert.*;
 
@@ -9,6 +9,7 @@ import org.junit.Test;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
+import backend.precomputer.PolygonCalculator;
 public class PolygonCalculatorTest
 {
 
@@ -185,7 +186,7 @@ public class PolygonCalculatorTest
         Point pt2 = new Point("2", 5, 1);
         Point pt3 = new Point("3", 4, 3);
         Point pt4 = new Point("4", 2, 3);
-        Point pt5 = new Point("5", 3, (double)7/3);
+        Point pt5 = new Point("5", 3, (double)(7/3));
         
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt2);
