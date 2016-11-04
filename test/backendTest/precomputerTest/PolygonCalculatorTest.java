@@ -16,6 +16,7 @@ public class PolygonCalculatorTest
     @Test
     public void testTri() 
     {
+        System.out.print("Testing Triangle...");
         Point pt0 = new Point("0", 1, 1);
         Point pt1 = new Point("1", 1, 2);
         Point pt2 = new Point("2", 2, 1);
@@ -31,33 +32,13 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         assertNotNull(polys);
         System.out.println(polys);
-    }
-    
-    @Test
-    public void testSquare() 
-    {
-        Point pt0 = new Point("0", 1, 1);
-        Point pt1 = new Point("1", 1, 2);
-        Point pt2 = new Point("2", 2, 2);
-        Point pt3 = new Point("3", 2, 1);
-        
-        Segment seg1 = new Segment(pt0, pt1);
-        Segment seg2 = new Segment(pt1, pt2);
-        Segment seg3 = new Segment(pt2, pt3);
-        Segment seg4 = new Segment(pt3, pt0);
-        ArrayList<Segment> segs = new ArrayList<Segment>();
-        segs.add(seg1);
-        segs.add(seg2);
-        segs.add(seg3);
-        segs.add(seg4);
-        PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        assertNotNull(polys);
+        System.out.println("Done");
     }
     
     @Test
     public void testQuad() 
     {
+        System.out.print("Testing Quadrilateral...");
         Point pt0 = new Point("0", 1, 1);
         Point pt1 = new Point("1", 1, 2);
         Point pt2 = new Point("2", 4, 2);
@@ -76,11 +57,13 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         assertNotNull(polys);
         System.out.println(polys);
+        System.out.println("Done");
     }
     
     @Test
     public void testPentagon()
     {
+        System.out.print("Testing Pentagon...");
         Point pt0 = new Point("0", 1, 1);
         Point pt1 = new Point("1", 1, 2);
         Point pt2 = new Point("2", 2, 3);
@@ -103,11 +86,13 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         assertNotNull(polys);
         System.out.println(polys);
+        System.out.println("Done");
     }
     
     @Test
     public void testHexagon()
     {
+        System.out.print("Testing Hexagon...");
         
         Point pt0 = new Point("0", 1, 2);
         Point pt1 = new Point("1", 1, 3);
@@ -134,50 +119,90 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         assertNotNull(polys);
         System.out.println(polys);
+        System.out.println("Done");
     }
     
     @Test
-    public void testAngle()
+    public void testBugs()
     {
-        ArrayList<Segment> segs = new ArrayList<Segment>();
-        ArrayList<Segment> segs2 = new ArrayList<Segment>();
+        System.out.print("Testing past bugs...");
+        
         Point pt0 = new Point("0", 1, 1);
         Point pt1 = new Point("1", 3, 5);
+        Point pt2 = new Point("2", 5, 1);
+        Point pt3 = new Point("3", 4, 3);
         Point pt4 = new Point("4", 2, 3);
         Point pt5 = new Point("5", 3, (double)7/3);
-        Point pt3 = new Point("3", 4, 3);
         
+        ArrayList<Segment> segs = new ArrayList<Segment>();
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt4);
         Segment seg2 = new Segment(pt0, pt4);
-        
-        Segment seg3 = new Segment(pt0, pt5);
-        Segment seg4 = new Segment(pt3, pt5);
-        Segment seg5 = new Segment(pt0, pt3);
-        
         segs.add(seg0);
         segs.add(seg1);
         segs.add(seg2);
         
+        ArrayList<Segment> segs2 = new ArrayList<Segment>();
+        Segment seg3 = new Segment(pt0, pt5);
+        Segment seg4 = new Segment(pt3, pt5);
+        Segment seg5 = new Segment(pt0, pt3);
         segs2.add(seg3);
         segs2.add(seg4);
         segs2.add(seg5);
         
+        ArrayList<Segment> segs3 = new ArrayList<Segment>();
+        Segment segA = new Segment(pt1, pt2);
+        Segment segB = new Segment(pt2, pt5);
+        Segment segC = new Segment(pt5, pt3);
+        Segment segD = new Segment(pt3, pt4);
+        Segment segE = new Segment(pt4, pt1);
+        segs3.add(segA);
+        segs3.add(segB);
+        segs3.add(segC);
+        segs3.add(segD);
+        segs3.add(segE);
+        
+        ArrayList<Segment> segs4 = new ArrayList<Segment>();
+        Segment segAA = new Segment(pt0, pt2);
+        Segment segAB = new Segment(pt2, pt5);
+        Segment segAC = new Segment(pt5, pt4);
+        Segment segAD = new Segment(pt4, pt3);
+        Segment segAE = new Segment(pt3, pt5);
+        Segment segAF = new Segment(pt5, pt0);
+        segs4.add(segAA);
+        segs4.add(segAB);
+        segs4.add(segAC);
+        segs4.add(segAD);
+        segs4.add(segAE);
+        segs4.add(segAF);
+
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         
         PolygonCalculator pc2 = new PolygonCalculator(segs2);
         ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
         
-        assertNotNull(polys);
-        System.out.println("T4: " + polys);
-        System.out.println("T5: " + polys2 );
+        PolygonCalculator pc3 = new PolygonCalculator(segs3);
+        ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
+        
+        PolygonCalculator pc4 = new PolygonCalculator(segs4);
+        ArrayList<ArrayList<Polygon>> polys4 = pc4.GetPolygons();
+        
+        
+        System.out.println("Collinear Bug Long: " + polys);
+        System.out.println("Collinear Bug Short: " + polys2 );
+        System.out.println("Not Failed Polygon Bug: " + polys3);
+        System.out.println("Crosses Bug: " + polys4);
+        assertTrue(polys3.get(2).size() == 0);
+        assertTrue(polys4.get(0).size() == 2);
+        System.out.println("done");
     }
     
     
     @Test
     public void testComplicated()
     {
+        System.out.print("Testing Fancy Triangle...");
         ArrayList<Segment> segs = new ArrayList<Segment>();
         ArrayList<Segment> segs2 = new ArrayList<Segment>();
         ArrayList<Segment> segs3 = new ArrayList<Segment>();
@@ -186,7 +211,7 @@ public class PolygonCalculatorTest
         Point pt2 = new Point("2", 5, 1);
         Point pt3 = new Point("3", 4, 3);
         Point pt4 = new Point("4", 2, 3);
-        Point pt5 = new Point("5", 3, (double)(7/3));
+        Point pt5 = new Point("5", 3, (double)7/3);
         
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt2);
@@ -252,9 +277,10 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
         assertNotNull(polys);
         
-        System.out.println("T1: " +  polys);
-        System.out.println("T2: " + polys2);
-        System.out.println("T3: " + polys3);
+        System.out.println("IT1: " +  polys);
+        System.out.println("IT2: " + polys2);
+        System.out.println("IT3: " + polys3);
+        System.out.println("done");
     }
 
 }
