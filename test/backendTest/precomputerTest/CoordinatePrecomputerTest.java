@@ -9,12 +9,14 @@ import java.util.Random;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.AlgebraicParallel;
 import backend.ast.Descriptors.Collinear;
+import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.MidPoint;
 import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
+import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Arcs_and_Circles.ArcInMiddle;
 import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Circle;
@@ -47,72 +49,72 @@ import org.junit.Assert;
 public class CoordinatePrecomputerTest 
 {	
 	
-	private ArrayList<GroundedClause> setClauses()
-	{
-		System.out.print("Setting up Clauses...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Random generator = new Random();
-		clauses.add(null);
-		ArrayList<Point> pts = new ArrayList<Point>();
-		Point pt1 = new Point(new String(""), 0,0);
-		Point pt2 = new Point(new String(""),0,1);
-		pts.add(pt1);
-		pts.add(pt2);
-		clauses.add(new Collinear(pts));
-		Point pt3 = new Point(new String(""),0,2);
-		Segment seg1 = new Segment(pt1,pt3);
-		InMiddle in = new InMiddle(pt2,seg1);
-		clauses.add(in);
-		clauses.add(new MidPoint(in));
-		Point pt4 = new Point(new String(""),1,1);
-		Segment seg2 = new Segment(pt2,pt4);
-		clauses.add(new Perpendicular(new Intersection(pt2,seg1,seg2)));
-		clauses.add(new PerpendicularBisector(new Intersection(pt2,seg1,seg2),seg2));
-		//clauses.add(new Circle(pt1,1));
-		Point pt5 = new Point(new String(""),1,0);
-		Segment seg3 = new Segment(pt1,pt2);
-		Segment seg4 = new Segment(pt4,pt5);
-		Segment seg5 = new Segment(pt5,pt1);
-		clauses.add(new Quadrilateral(seg3,seg2,seg4,seg5));
-		clauses.add(new Kite(new Quadrilateral(seg3,seg4,seg2,seg5))); 
-		clauses.add(new Parallelogram(new Quadrilateral(seg3,seg4,seg2,seg5))); 
-		clauses.add(new Rectangle(new Quadrilateral(seg3,seg4,seg2,seg5)));
-		clauses.add(new Rhombus(new Quadrilateral(seg3,seg4,seg2,seg5)));
-		clauses.add(new Square(new Quadrilateral(seg3,seg4,seg2,seg5)));
-		clauses.add(new Trapezoid(new Quadrilateral(seg3,seg4,seg2,seg5)));
-		clauses.add(new IsoscelesTrapezoid(new Quadrilateral(seg3,seg4,seg2,seg5)));
-		clauses.add(new Triangle(pt1,pt2,pt5));
-		clauses.add(new IsoscelesTriangle(new Triangle(pt1,pt2,pt5)));
-		//clauses.add(new EquilateralTriangle(new Triangle(pt1, pt5, new Point(new String(""),0,0))));
-		clauses.add(new RightTriangle(new Triangle(pt1,pt2,pt5)));
-		clauses.add(new Angle(pt2,pt1,pt5));
-		clauses.add(new RightAngle(pt2,pt1,pt5));
-		clauses.add(seg1);
-		clauses.add(new EquationSegment(pt1,pt2));
- 		clauses.add(new Parallel(seg3,seg4));
-		clauses.add(new AlgebraicParallel(seg3,seg4));
-		clauses.add(new Intersection(pt2,seg1,seg2));
-		//clauses.add(new MinorArc(new Circle(pt1,1),pt2,pt5));
-		//clauses.add(new MajorArc(new Circle(pt1,1),pt2,pt5));
-		//clauses.add(new Semicircle(null,null,null,null,null));
-		//clauses.add(new Sector(null));
-		//clauses.add(new ArcInMiddle(null,null));
-		System.out.print("Done setting clauses\n");
-		return clauses;
-	}
-	@Test
-	public void filterTest()
-	{
-		System.out.println("starting Precomputer filter test ...");
-		try {
-			LoggerFactory.initialize();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ArrayList<GroundedClause> clauses = setClauses();
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		
+//	private ArrayList<GroundedClause> setClauses()
+//	{
+//		System.out.print("Setting up Clauses...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Random generator = new Random();
+//		clauses.add(null);
+//		ArrayList<Point> pts = new ArrayList<Point>();
+//		Point pt1 = new Point(new String(""), 0,0);
+//		Point pt2 = new Point(new String(""),0,1);
+//		pts.add(pt1);
+//		pts.add(pt2);
+//		clauses.add(new Collinear(pts));
+//		Point pt3 = new Point(new String(""),0,2);
+//		Segment seg1 = new Segment(pt1,pt3);
+//		InMiddle in = new InMiddle(pt2,seg1);
+//		clauses.add(in);
+//		clauses.add(new MidPoint(in));
+//		Point pt4 = new Point(new String(""),1,1);
+//		Segment seg2 = new Segment(pt2,pt4);
+//		clauses.add(new Perpendicular(new Intersection(pt2,seg1,seg2)));
+//		clauses.add(new PerpendicularBisector(new Intersection(pt2,seg1,seg2),seg2));
+//		//clauses.add(new Circle(pt1,1));
+//		Point pt5 = new Point(new String(""),1,0);
+//		Segment seg3 = new Segment(pt1,pt2);
+//		Segment seg4 = new Segment(pt4,pt5);
+//		Segment seg5 = new Segment(pt5,pt1);
+//		clauses.add(new Quadrilateral(seg3,seg2,seg4,seg5));
+//		clauses.add(new Kite(new Quadrilateral(seg3,seg4,seg2,seg5))); 
+//		clauses.add(new Parallelogram(new Quadrilateral(seg3,seg4,seg2,seg5))); 
+//		clauses.add(new Rectangle(new Quadrilateral(seg3,seg4,seg2,seg5)));
+//		clauses.add(new Rhombus(new Quadrilateral(seg3,seg4,seg2,seg5)));
+//		clauses.add(new Square(new Quadrilateral(seg3,seg4,seg2,seg5)));
+//		clauses.add(new Trapezoid(new Quadrilateral(seg3,seg4,seg2,seg5)));
+//		clauses.add(new IsoscelesTrapezoid(new Quadrilateral(seg3,seg4,seg2,seg5)));
+//		clauses.add(new Triangle(pt1,pt2,pt5));
+//		clauses.add(new IsoscelesTriangle(new Triangle(pt1,pt2,pt5)));
+//		//clauses.add(new EquilateralTriangle(new Triangle(pt1, pt5, new Point(new String(""),0,0))));
+//		clauses.add(new RightTriangle(new Triangle(pt1,pt2,pt5)));
+//		clauses.add(new Angle(pt2,pt1,pt5));
+//		clauses.add(new RightAngle(pt2,pt1,pt5));
+//		clauses.add(seg1);
+//		clauses.add(new EquationSegment(pt1,pt2));
+// 		clauses.add(new Parallel(seg3,seg4));
+//		clauses.add(new AlgebraicParallel(seg3,seg4));
+//		clauses.add(new Intersection(pt2,seg1,seg2));
+//		//clauses.add(new MinorArc(new Circle(pt1,1),pt2,pt5));
+//		//clauses.add(new MajorArc(new Circle(pt1,1),pt2,pt5));
+//		//clauses.add(new Semicircle(null,null,null,null,null));
+//		//clauses.add(new Sector(null));
+//		//clauses.add(new ArcInMiddle(null,null));
+//		System.out.print("Done setting clauses\n");
+//		return clauses;
+//	}
+//	@Test
+//	public void filterTest()
+//	{
+//		System.out.println("starting Precomputer filter test ...");
+//		try {
+//			LoggerFactory.initialize();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		ArrayList<GroundedClause> clauses = setClauses();
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		
 //		assertEquals(compute.getCircles().size(), 1);
 //		assertEquals(compute.getQuadrilaterals().size(), 8);
 //		assertEquals(compute.getTriangles().size(), 4);
@@ -130,10 +132,59 @@ public class CoordinatePrecomputerTest
 //		assertEquals(compute.getSemiCircles().size(), 1);
 //		assertEquals(compute.getSectors().size(), 1);
 //		assertEquals(compute.getArcInMiddle().size(), 1);
-		System.out.println("Done!");
-		LoggerFactory.close();
-	}
+//		System.out.println("Done!");
+//		LoggerFactory.close();
+//	}
 	
+	@Test
+	public void segmentCongruence()
+	{
+		System.out.println("Running CoordinatePrecompute segmentTest....");
+		Random gen = new Random();
+		try{
+			LoggerFactory.initialize();
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+		
+		int ptnum = 10000;
+		ArrayList<Point> pts = new ArrayList<Point>();
+		for(int i = 0; i<ptnum; i++)
+		{
+			pts.add(new Point(""+i,gen.nextInt(1000),gen.nextInt(1000)));
+		}
+		System.out.println("Computed points");
+		int snum = 10000;
+		ArrayList<Segment> segs = new ArrayList<Segment>();
+		for(int i =0; i<snum; i++)
+		{
+			Point a = pts.get(gen.nextInt(pts.size()));
+			Point b = pts.get(gen.nextInt(pts.size()));
+			while(a.structurallyEquals(b))
+			{
+				b = pts.get(gen.nextInt(pts.size()));
+			}
+			segs.add(new Segment(a ,b));
+		}
+		System.out.println("Computed segments");
+		clauses.addAll(segs);
+		
+		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+		compute.CalculateRelations();
+		System.out.println("Computed Relations");
+		//compute.CalculateStrengthening();
+		//System.out.println("Computed Strengthening");
+		System.out.println("Found "+compute.GetPrecomputedRelations().size() + " number of relations in the Segments");
+//		for(Descriptor d: compute.GetPrecomputedRelations())
+//		{
+//			System.out.println(d.toString());
+//		}
+		
+		
+		System.out.println("Done!\n");
+	}
 	
 	
 }
