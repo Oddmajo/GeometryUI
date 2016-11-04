@@ -27,6 +27,8 @@
 // */
 package backend.ast.Descriptors;
 
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class Perpendicular extends Intersection
 {
@@ -44,7 +46,7 @@ public class Perpendicular extends Intersection
     	//check if truly perpendicular
     	if(lhs.CoordinatePerpendicular(rhs) == null)
     	{
-    		
+    		ExceptionHandler.throwException(new ArgumentException("Intersection is not perpendicular: " + inter.toString()));
     	}
     	
     	originalInter = inter;

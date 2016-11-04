@@ -79,8 +79,8 @@ public class CircleCircleIntersection extends CircleIntersection
     	if(obj != null & obj instanceof CircleCircleIntersection)
     	{
     		CircleCircleIntersection inter = (CircleCircleIntersection)obj;
-    		return this.otherCircle.StructurallyEquals(inter.otherCircle) &&
-    					this.getIntersect().StructurallyEquals(inter.getIntersect()) &&
+    		return this.otherCircle.structurallyEquals(inter.otherCircle) &&
+    					this.getIntersect().structurallyEquals(inter.getIntersect()) &&
     					this.otherCircle.StructurallyEquals(inter.theCircle);
     	}
     	return false;

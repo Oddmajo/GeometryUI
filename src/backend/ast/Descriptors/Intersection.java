@@ -126,6 +126,9 @@ public class Intersection extends Descriptor
         //Determine which is the stands and which is the endpoint
         Intersection endpointInter = null;
         Intersection standsInter = null;
+        
+        
+        //THIS NEEDS TO BE TESTED FOR CORRECTNESS!
         if(this.StandsOnEndpoint() && thatInter.standsOn())
         {
         	endpointInter = this;
@@ -133,8 +136,11 @@ public class Intersection extends Descriptor
         }
         else if(thatInter.StandsOnEndpoint() && this.standsOn())
         {
-        	endpointInter = this;
-        	standsInter = thatInter;
+        	//This is the old code and I believe either this or the one above is a logic error
+//        	endpointInter = this;
+//        	standsInter = thatInter;
+        	endpointInter = thatInter;
+        	standsInter = this;
         }
         else
         {
@@ -319,6 +325,8 @@ public class Intersection extends Descriptor
     	Segment nonTransversalThis = this.OtherSegment(transversal);
     	Segment nonTransversalThat = thatInter.OtherSegment(transversal);
     	
+    	
+    	//The below may be a logic error since there are two if statements that can result in the same thing happening
     	if(transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThis.getPoint1()) ||
     		transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThis.getPoint2()))
     	{
@@ -440,8 +448,12 @@ public class Intersection extends Descriptor
     	//PLEASE VERIFY THIS IS RIGHT AND THER IS NO BUG EVEN IN OLD CODE
     	else if(thatInter.StandsOnEndpoint() && this.standsOn())
     	{
-    		endpointInter = this;
-    		standsInter = thatInter;
+    		//This NEEDS TO BE TEST
+//    		//old code
+//    		endpointInter = this;
+//    		standsInter = thatInter;
+    		endpointInter = thatInter;
+    		standsInter = this;
     	}
     	else
     	{
@@ -1327,8 +1339,6 @@ public class Intersection extends Descriptor
     													(lhs.structurallyEquals(perp.rhs) && rhs.structurallyEquals(perp.lhs)));
     	}
     	
-    	//WARNING
-    	//This has not been test but I believe this should be okay since if the check does not hit then it cannot be strengthened
     	return false;
     }
     
@@ -1439,7 +1449,6 @@ public class Intersection extends Descriptor
     				(lhs.structurallyEquals(inter.rhs) && rhs.structurallyEquals(inter.lhs)));
     	}
     	
-    	///////I ADDED THIS RETURN FALSE CAUSE OTHERWISE THERE IS AN ERROR. THIS SHOULD BE CORRECT BUT IS UNTESTED
     	return false;
     	
     }
@@ -1466,7 +1475,6 @@ public class Intersection extends Descriptor
     		return structurallyEquals(inter) && super.equals(inter);
     	}
     	
-		///////I ADDED THIS RETURN FALSE CAUSE OTHERWISE THERE IS AN ERROR. THIS SHOULD BE CORRECT BUT IS UNTESTED
     	return false;
     	
     }

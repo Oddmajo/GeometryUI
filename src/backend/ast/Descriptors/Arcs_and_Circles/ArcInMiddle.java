@@ -47,6 +47,13 @@ public class ArcInMiddle extends Descriptor
         return arc;
     }
     
+    public ArcInMiddle(Point p, Arc a)
+    {
+    	super();
+    	this.point = p;
+    	this.arc = a;
+    }
+    
     //// old previously commented out code
     //// Can this relationship can strengthened to a Midpoint?
     ////
