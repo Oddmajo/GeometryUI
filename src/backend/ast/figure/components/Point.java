@@ -279,7 +279,7 @@ public class Point extends Figure
 
         if (pt == null) return false;
 
-        return structurallyEquals(obj); // && name.Equals(pt.name);
+        return structurallyEquals(obj) && name.equals(pt.name);
     }
     
     @Override

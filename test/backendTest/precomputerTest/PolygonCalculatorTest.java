@@ -216,8 +216,8 @@ public class PolygonCalculatorTest
         Segment seg0 = new Segment(pt0, pt1);
         Segment seg1 = new Segment(pt1, pt2);
         Segment seg2 = new Segment(pt2, pt0);
-        Segment seg3 = new Segment(pt0, pt3);
-        Segment seg4 = new Segment(pt2, pt4);
+        Segment seg3 = new Segment(pt2, pt3);
+        Segment seg4 = new Segment(pt0, pt4);
         Segment seg5 = new Segment(pt4, pt3);
         
         segs.add(seg0);
@@ -226,16 +226,6 @@ public class PolygonCalculatorTest
         segs.add(seg3);
         segs.add(seg4);
         segs.add(seg5);
-        
-        Segment seg6 = new Segment(pt0, pt4);
-        Segment seg7 = new Segment(pt3, pt2);
-        
-        segs2.add(seg6);
-        segs2.add(seg7);
-        segs2.add(seg2);
-        segs2.add(seg3);
-        segs2.add(seg4);
-        segs2.add(seg5);
         
         Segment Tseg0 = new Segment(pt0, pt4);
         Segment Tseg1 = new Segment(pt0, pt5);
@@ -252,6 +242,17 @@ public class PolygonCalculatorTest
         Segment Tseg12 = new Segment(pt0, pt3);
         Segment Tseg13 = new Segment(pt2, pt4);
 
+        segs2.add(Tseg1);
+        segs2.add(Tseg2);
+        segs2.add(Tseg3);
+        segs2.add(Tseg4);
+        segs2.add(Tseg6);
+        segs2.add(Tseg7);
+        segs2.add(Tseg8);
+        segs2.add(Tseg9);
+        segs2.add(Tseg12);
+        segs2.add(Tseg13);
+        
         segs3.add(Tseg0);
         segs3.add(Tseg1);
         segs3.add(Tseg2);
@@ -277,9 +278,9 @@ public class PolygonCalculatorTest
         ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
         assertNotNull(polys);
         
-        System.out.println("IT1: " +  polys);
-        System.out.println("IT2: " + polys2);
-        System.out.println("IT3: " + polys3);
+        System.out.println("Only Long: " +  polys);
+        System.out.println("Only Short: " + polys2);
+        System.out.println("All Segments: " + polys3);
         System.out.println("done");
     }
 

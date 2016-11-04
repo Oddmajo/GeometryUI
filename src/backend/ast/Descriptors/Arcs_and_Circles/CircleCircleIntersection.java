@@ -34,80 +34,81 @@ import backend.utilities.translation.OutPair;
 
 public class CircleCircleIntersection extends CircleIntersection
 {
-    protected Circle otherCircle;
-    public Circle getOtherCircle()
-    {
-        return otherCircle;
-    }
-    
+    //protected Circle circle2;
+//    public Circle getcircle2()
+//    {
+//        return circle2;
+//    }
+//    
     public CircleCircleIntersection(Point p, Circle c1, Circle c2)
     {
-    	//The C# code had just two parameters. So this needs to be checked for correctness
-        super(p,c1,null); 
-        
-        otherCircle = c2;
-        
-        //Find the intersection points
-        OutPair<Point,Point> pts;
-        
-        
-        //maybe this? instead of the other code?
-        //c1.FindIntersection(otherCircle, pts);
-        theCircle.FindIntersection(otherCircle, pts);
-        intersection1 = pts.first();
-        intersection2 = pts.second();
+        super(p,c1,null);
+//    	//The C# code had just two parameters. So this needs to be checked for correctness
+//        super(p,c1,null); 
+//        
+//        circle2 = c2;
+//        
+//        //Find the intersection points
+//        OutPair<Point,Point> pts;
+//        
+//        
+//        //maybe this? instead of the other code?
+//        //c1.FindIntersection(circle2, pts);
+//        theCircle.FindIntersection(circle2, pts);
+//        intersection1 = pts.first();
+//        intersection2 = pts.second();
     }
-    
-    //If the arcs intersect at a single point
-    //@Override //This function never had a function to override in C#
-    public boolean IsTangent()
-    {
-    	return intersection1 != null && intersection2 == null;
-    }
-    
-    //if the segment starts on this arc and extends outward
-    //@Override //This funcation never has a function to override in C# but yet still called override
-    public boolean standsOn()
-    {
-    	return false;
-    }
-    
-    //If not tangent, circles pass through each other
-    @Override
-    public boolean structurallyEquals(Object obj)
-    {
-    	if(obj != null & obj instanceof CircleCircleIntersection)
-    	{
-    		CircleCircleIntersection inter = (CircleCircleIntersection)obj;
-    		return this.otherCircle.structurallyEquals(inter.otherCircle) &&
-    					this.getIntersect().structurallyEquals(inter.getIntersect()) &&
-    					this.otherCircle.StructurallyEquals(inter.theCircle);
-    	}
-    	return false;
-    }
-    
-    @Override
-    public boolean equals(Object obj)
-    {
-    	if(obj != null & obj instanceof CircleCircleIntersection)
-    	{
-    		CircleCircleIntersection inter = (CircleCircleIntersection)obj;
-    		return this.otherCircle.equals(inter.otherCircle) &&
-    					this.getIntersect().equals(inter.getIntersect()) &&
-    					this.otherCircle.equals(inter.theCircle);
-    	}
-    	return false;
-    }
-    
-    @Override
-    public int getHashCode()
-    {
-    	return super.getHashCode();
-    }
-    
-    @Override
-    public String toString()
-    {
-    	return "CircleCircleIntersection(" + intersect.toString() + ", " + theCircle.toString() + ", " + otherCircle.toString() + ") " + justification;
-    }
+//    
+//    //If the arcs intersect at a single point
+//    //@Override //This function never had a function to override in C#
+//    public boolean IsTangent()
+//    {
+//    	return intersection1 != null && intersection2 == null;
+//    }
+//    
+//    //if the segment starts on this arc and extends outward
+//    //@Override //This funcation never has a function to override in C# but yet still called override
+//    public boolean standsOn()
+//    {
+//    	return false;
+//    }
+//    
+//    //If not tangent, circles pass through each other
+//    @Override
+//    public boolean structurallyEquals(Object obj)
+//    {
+//    	if(obj != null & obj instanceof CircleCircleIntersection)
+//    	{
+//    		CircleCircleIntersection inter = (CircleCircleIntersection)obj;
+//    		return this.circle2.structurallyEquals(inter.circle2) &&
+//    					this.getIntersect().structurallyEquals(inter.getIntersect()) &&
+//    					this.circle2.StructurallyEquals(inter.theCircle);
+//    	}
+//    	return false;
+//    }
+//    
+//    @Override
+//    public boolean equals(Object obj)
+//    {
+//    	if(obj != null & obj instanceof CircleCircleIntersection)
+//    	{
+//    		CircleCircleIntersection inter = (CircleCircleIntersection)obj;
+//    		return this.circle2.equals(inter.circle2) &&
+//    					this.getIntersect().equals(inter.getIntersect()) &&
+//    					this.circle2.equals(inter.theCircle);
+//    	}
+//    	return false;
+//    }
+//    
+//    @Override
+//    public int getHashCode()
+//    {
+//    	return super.getHashCode();
+//    }
+//    
+//    @Override
+//    public String toString()
+//    {
+//    	return "CircleCircleIntersection(" + intersect.toString() + ", " + theCircle.toString() + ", " + circle2.toString() + ") " + justification;
+//    }
 }
