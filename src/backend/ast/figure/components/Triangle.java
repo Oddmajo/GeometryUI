@@ -5,6 +5,7 @@ import backend.ast.GroundedClause;
 import backend.utilities.translation.OutPair;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ExceptionHandler;
 import backend.ast.figure.components.triangles.EquilateralTriangle;
 import backend.ast.figure.components.triangles.IsoscelesTriangle;
 import backend.ast.figure.components.triangles.RightTriangle;
@@ -83,7 +84,7 @@ public class Triangle extends Polygon
         if(obj.get(0) instanceof Segment)
         {
             setTriangle((Segment)obj.get(0), (Segment)obj.get(1), (Segment)obj.get(2));
-            if (obj.size() != 3) throw new IllegalArgumentException("Triangle constructed with " + obj.size() + " segments.");
+            if (obj.size() != 3) ExceptionHandler.throwException( new IllegalArgumentException("Triangle constructed with " + obj.size() + " segments."));
         }
         
     }

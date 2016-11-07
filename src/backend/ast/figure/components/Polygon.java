@@ -23,6 +23,7 @@ import backend.atoms.components.Connection.ConnectionType;
 import backend.utilities.Pair;
 import backend.utilities.PointFactory;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 import backend.utilities.translation.OutSingle;
 
@@ -146,7 +147,7 @@ public class Polygon extends Figure
     public Polygon GetPolygonalized() { return this; }
 
 //    @Override
-    public void FindIntersection(Segment that, OutSingle<Point> inter1, OutSingle<Point> inter2) throws Exception 
+    public void FindIntersection(Segment that, OutSingle<Point> inter1, OutSingle<Point> inter2)
     {
         inter1 = null;
         inter2 = null;
@@ -177,7 +178,7 @@ public class Polygon extends Figure
         }
         if (!(this instanceof ConcavePolygon) && intersections.size() > 2)
         {
-            throw new Exception("A segment intersecting a polygon may have up to 2 intersection points, not: " + intersections.size());
+            ExceptionHandler.throwException( new Exception("A segment intersecting a polygon may have up to 2 intersection points, not: " + intersections.size()));
         }
 
         if (!intersections.isEmpty()) inter1.set(intersections.get(0));
@@ -226,7 +227,7 @@ public class Polygon extends Figure
         if (thatPoint == null)
         {
 //            System.Diagnostics.Debug.WriteLine(new System.Diagnostics.StackTrace(true).ToString());
-            throw new IllegalArgumentException("Null passed to isInPolygon");
+            ExceptionHandler.throwException( new IllegalArgumentException("Null passed to isInPolygon"));
         }
 
         boolean result = false;
@@ -319,7 +320,7 @@ public class Polygon extends Figure
 
         if (orderedSides.size() != vertices.size())
         {
-            throw new IllegalArgumentException("Construction of new polygon failed.");
+            ExceptionHandler.throwException( new IllegalArgumentException("Construction of new polygon failed."));
         }
 
         return ActuallyConstructThePolygonObject(orderedSides);

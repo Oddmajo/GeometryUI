@@ -4,6 +4,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
 public class IsoscelesTrapezoid extends Trapezoid
@@ -18,7 +19,7 @@ public class IsoscelesTrapezoid extends Trapezoid
         super(left, right, top, bottom);
         if (!MathUtilities.doubleEquals(getLeftLeg().length(), getRightLeg().length()))
         {
-            throw new IllegalArgumentException("Trapezoid does not define an isosceles trapezoid; sides are not equal length: " + this);
+            ExceptionHandler.throwException( new IllegalArgumentException("Trapezoid does not define an isosceles trapezoid; sides are not equal length: " + this));
         }
     }
 

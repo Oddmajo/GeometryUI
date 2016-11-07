@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
+import backend.utilities.exception.ExceptionHandler;
 
 /**
  * A 2D Point
@@ -24,24 +25,24 @@ public class Point extends Figure
     private static int CURRENT_ID = 0;
     public static final double EPSILON = 0.0001;
     public static final Point ORIGIN;
-    
+
     static
     {
         ORIGIN = new Point("origin", 0, 0);
     }
-    
+
     private double X;
     public double getX() { return this.X; }
     private double Y; 
     public double getY() { return this.Y; }
-    
+
     private int ID; 
     /**
      * Get the unique identifier for this point.
      * @return 
      */
     public int getID() { return this.ID; }
-    
+
     public String name; 
     /**
      * Create a new Point with the specified coordinates.
@@ -57,7 +58,7 @@ public class Point extends Figure
         this.X = x;
         this.Y = y;
     }
-    
+
     /**
      * Expects a radian angle measurement
      * @param center Center
@@ -69,7 +70,7 @@ public class Point extends Figure
     {
         return new Point("", center.X + radius * Math.cos(angle), center.Y + radius * Math.sin(angle));
     }
-    
+
     /**
      * Assumes our points represent vectors in standard position.
      * @param thisPoint 
@@ -80,7 +81,7 @@ public class Point extends Figure
     {
         return thisPoint.X * thatPoint.Y - thisPoint.Y * thatPoint.X;
     }
-    
+
     /**
      * Assumes our points represent vectors in standard position.
      * @param first
@@ -93,7 +94,7 @@ public class Point extends Figure
 
         return Segment.Between(origin, first, second);
     }
-    
+
     /**
      * Angle measure (in degrees) between two vectors in standard position.
      * @param thisPoint
@@ -107,10 +108,10 @@ public class Point extends Figure
         if (Segment.Between(origin, thisPoint, thatPoint)) return 180;
         if (Segment.Between(thisPoint, origin, thatPoint)) return 0;
         if (Segment.Between(thatPoint, origin, thisPoint)) return 0;
-        
+
         return new Angle(thisPoint, origin, thatPoint).measure;
     }
-    
+
     /**
      * 
      * @param A Point A
@@ -130,7 +131,7 @@ public class Point extends Figure
 
         return Point.CrossProduct(vect1, vect2) < 0;
     }
-    
+
     /**
      * Calculates the magnitude.
      * @param vector 
@@ -150,7 +151,7 @@ public class Point extends Figure
      * @return Opposite vector of v
      */
     public static Point GetOppositeVector(Point v) { return new Point("", -v.X, -v.Y); }
-    
+
     /**
      * Normalize a vector
      * @param vector assumed unnormalized vector
@@ -161,7 +162,7 @@ public class Point extends Figure
         double magnitude = Point.Magnitude(vector);
         return new Point("", vector.X / magnitude, vector.Y / magnitude);
     }
-    
+
     /**
      * Scalar Multiply a vector
      * @param vector 
@@ -169,23 +170,23 @@ public class Point extends Figure
      * @return vector that has been multiplied.
      */
     public static Point ScalarMultiply(Point vector, double scalar) { return new Point("", scalar * vector.X, scalar * vector.Y); }
-    
-//    // CTA: Used? NC: Not that I'm aware of
-//    public int Quadrant()
-//    {
-//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 0;
-//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 1;
-//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 12;
-//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 2;
-//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 23;
-//        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 3;
-//        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 34;
-//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 4;
-//        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 41;
-//
-//        return -1;
-//    }
-    
+
+    //    // CTA: Used? NC: Not that I'm aware of
+    //    public int Quadrant()
+    //    {
+    //        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 0;
+    //        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 1;
+    //        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 12;
+    //        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.greaterThan(Y, 0)) return 2;
+    //        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 23;
+    //        if (backend.utilities.math.Utilities.lessThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 3;
+    //        if (backend.utilities.math.Utilities.doubleEquals(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 34;
+    //        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.lessThan(Y, 0)) return 4;
+    //        if (backend.utilities.math.Utilities.greaterThan(X, 0) && backend.utilities.math.Utilities.doubleEquals(Y, 0)) return 41;
+    //
+    //        return -1;
+    //    }
+
     /**
      * Returns a degree angle measurement between [0, 360]. 
      * @param center
@@ -196,7 +197,7 @@ public class Point extends Figure
     {
         return GetRadianStandardAngleWithCenter(center, other) / Math.PI * 180;
     }
-    
+
     /**
      * Returns a radian angle measurement between [0, 2PI]. 
      * @param center
@@ -211,7 +212,7 @@ public class Point extends Figure
 
         return angle < 0 ? angle + 2 * Math.PI : angle;
     }
-    
+
     /**
      * Maintain a public repository of all segment objects in the figure.
      */
@@ -223,7 +224,7 @@ public class Point extends Figure
         // Record uniquely? For right angles, etc?
         if (clause instanceof Point) figurePoints.add((Point)clause);
     }
- 
+
     public static Point GetFigurePoint(Point candPoint)
     {
         for (Point p : figurePoints)
@@ -244,7 +245,7 @@ public class Point extends Figure
     {
         return Math.sqrt(Math.pow(p2.X - p1.X, 2) + Math.pow(p2.Y - p1.Y, 2));
     }
-    
+
     /**
      * Determines if value is between a and b
      * @param val Value to test
@@ -259,7 +260,7 @@ public class Point extends Figure
 
         return false;
     }
-    
+
     @Override
     public boolean structurallyEquals(Object obj)
     {
@@ -268,10 +269,22 @@ public class Point extends Figure
         if (pt == null) return false;
         return backend.utilities.math.MathUtilities.doubleEquals(pt.X, X) && backend.utilities.math.MathUtilities.doubleEquals(pt.Y, Y);
     }
-    
+
     // Make a deep copy of this object; this is actually shallow, but is all that is required.
-    public GroundedClause DeepCopy() throws CloneNotSupportedException { return (Point)(this.clone()); } 
-    
+    public GroundedClause DeepCopy() 
+    { 
+    try
+    {
+        return (Point)(this.clone());
+    }
+    catch (CloneNotSupportedException e)
+    {
+        // TODO Auto-generated catch block
+        ExceptionHandler.throwException(e);
+    }
+    return this; 
+    } 
+
     @Override
     public boolean equals(Object obj)
     {
@@ -281,28 +294,28 @@ public class Point extends Figure
 
         return structurallyEquals(obj) && name.equals(pt.name);
     }
-    
+
     @Override
     public String toString()
     {
         return name + "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
-    
+
     @Override
     public String CheapPrettyString()
     {
         return SimpleToString(); 
     }
-    
+
     @Override
     public String toPrettyString() { return name; }
-    
+
     public String SimpleToString()
     {
         if (name == "") return "(" + String.format("%1$.1f", X) + ", " + String.format("%1$.3f", Y) + ")";
         else return name;
     }
-    
+
     /**
      * 
      * @param p1 Point 1
@@ -329,6 +342,6 @@ public class Point extends Figure
         // Equal points
         return 0;
     }
-    
-    
+
+
 }

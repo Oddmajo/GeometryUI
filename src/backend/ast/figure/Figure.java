@@ -23,6 +23,7 @@ import backend.ast.figure.components.Segment;
 import backend.atoms.components.AtomicRegion;
 import backend.atoms.components.Connection;
 import backend.atoms.components.ShapeAtomicRegion;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.NotImplementedException;
 import backend.utilities.translation.OutPair;
 import backend.ast.GroundedClause;
@@ -72,20 +73,20 @@ public abstract class Figure extends GroundedClause
     public void FindIntersection(Segment that, OutPair<Point, Point> out) { out.set(null, null); }
     public void FindIntersection(Arc that, OutPair<Point, Point> out) { out.set(null, null); }
     public ArrayList<Connection> MakeAtomicConnections() { return new ArrayList<Connection>(); }
-    public boolean Covers(AtomicRegion a) throws NotImplementedException { throw new NotImplementedException(); }
+    public boolean Covers(AtomicRegion a)  { ExceptionHandler.throwException(new NotImplementedException()); return false; }
 
     // An ORDERED ArrayList of collinear points.
     protected ArrayList<Point> collinear; 
     public ArrayList<Point> getCollinear() { return collinear; } 
-    public void AddCollinearPoint(Point newPt) throws IllegalArgumentException { throw new IllegalArgumentException("Only segments or arcs have 'collinearity'"); }
-    public void AddCollinearPoints(ArrayList<Point> pts) throws IllegalArgumentException
+    public void AddCollinearPoint(Point newPt) { ExceptionHandler.throwException(new IllegalArgumentException("Only segments or arcs have 'collinearity'")); }
+    public void AddCollinearPoints(ArrayList<Point> pts) 
     { 
         for (Point pt : pts)
         {
             this.AddCollinearPoint(pt);
         }
     }
-    public void ClearCollinear() throws IllegalArgumentException { throw new IllegalArgumentException("Only segments or arcs have 'collinearity'"); }
+    public void ClearCollinear() { ExceptionHandler.throwException( new IllegalArgumentException("Only segments or arcs have 'collinearity'")); }
 
     protected ArrayList<Figure> superFigures;
     protected ArrayList<Figure> subFigures;

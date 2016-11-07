@@ -5,6 +5,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
 public class Kite extends Quadrilateral
@@ -56,7 +57,7 @@ public class Kite extends Quadrilateral
         }
         else
         {
-            throw new IllegalArgumentException("Quadrilateral does not define a kite; no two adjacent sides are equal lengths: " + this);
+            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral does not define a kite; no two adjacent sides are equal lengths: " + this));
         }
 
         //Set the diagonal and intersection values

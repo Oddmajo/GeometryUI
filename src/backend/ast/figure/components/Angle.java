@@ -60,11 +60,11 @@ public class Angle extends Figure
         return other;
     }
     
-    public Angle(Segment ray1, Segment ray2) throws IllegalArgumentException
+    public Angle(Segment ray1, Segment ray2)
     {
         Point vertex = ray1.SharedVertex(ray2);
 
-        if (vertex == null) throw new IllegalArgumentException("Rays do not share a vertex: " + ray1 + " " + ray2);
+        if (vertex == null) ExceptionHandler.throwException( new IllegalArgumentException("Rays do not share a vertex: " + ray1 + " " + ray2));
 
         this.A = ray1.OtherPoint(vertex);
         this.B = vertex;
@@ -73,7 +73,7 @@ public class Angle extends Figure
         this.ray2 = ray2;
         this.measure = toDegrees(findAngle(A, B, C));
 
-        if (measure <= 0) throw new IllegalArgumentException("Measure of " + this.toString() + " is ZERO");
+        if (measure <= 0) ExceptionHandler.throwException( new IllegalArgumentException("Measure of " + this.toString() + " is ZERO"));
     }
 
 
@@ -89,7 +89,7 @@ public class Angle extends Figure
         {
             return;
             //Commented out : Source Code ------
-            //throw new ArgumentException("Angle constructed with redundant vertices.");
+            //ExceptionHandler.throwException( new ArgumentException("Angle constructed with redundant vertices."));
         }
         this.A = a;
         this.B = b;
@@ -102,7 +102,7 @@ public class Angle extends Figure
         {
             //Commented out : Source Code ------
             //System.Diagnostics.Debug.WriteLine("NO-OP");
-            //throw new ArgumentException("Measure of " + this.toString() + " is ZERO");
+            //ExceptionHandler.throwException( new ArgumentException("Measure of " + this.toString() + " is ZERO")));
         }
     }
 
@@ -111,7 +111,7 @@ public class Angle extends Figure
     {
         if (pts.size() != 3)
         {
-            throw new IllegalArgumentException("Angle constructed with only " + pts.size() + " vertices.");
+            ExceptionHandler.throwException( new IllegalArgumentException("Angle constructed with only " + pts.size() + " vertices."));
         }
 
         this.A = pts.get(0);
@@ -120,7 +120,7 @@ public class Angle extends Figure
 
         if (A.structurallyEquals(B) || B.structurallyEquals(C) || A.structurallyEquals(C))
         {
-            throw new IllegalArgumentException("Angle constructed with redundant vertices.");
+            ExceptionHandler.throwException( new IllegalArgumentException("Angle constructed with redundant vertices."));
         }
 
         ray1 = new Segment(A, B);
@@ -129,7 +129,7 @@ public class Angle extends Figure
 
         if (measure <= 0)
         {
-            throw new IllegalArgumentException("Measure of " + this.toString() + " is ZERO");
+            ExceptionHandler.throwException( new IllegalArgumentException("Measure of " + this.toString() + " is ZERO"));
         }
     }
     /**

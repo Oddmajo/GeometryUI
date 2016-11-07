@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Strengthened;
@@ -97,17 +99,16 @@ public class Quadrilateral extends Polygon
         this.topLeft = left.SharedVertex(top);
         if (topLeft == null)
         {
-            return;
-            // throw new ArgumentException("Top left point is invalid: " + top + " " + left);
+            ExceptionHandler.throwException( new ArgumentException("Top left point is invalid: " + top + " " + left));
         }
         this.topRight = right.SharedVertex(top);
-        if (topRight == null) throw new IllegalArgumentException("Top left point is invalid: " + top + " " + right);
+        if (topRight == null) ExceptionHandler.throwException( new IllegalArgumentException("Top left point is invalid: " + top + " " + right));
 
         this.bottomLeft = left.SharedVertex(bottom);
-        if (bottomLeft == null) throw new IllegalArgumentException("Bottom left point is invalid: " + bottom + " " + left);
+        if (bottomLeft == null) ExceptionHandler.throwException( new IllegalArgumentException("Bottom left point is invalid: " + bottom + " " + left));
 
         this.bottomRight = right.SharedVertex(bottom);
-        if (bottomRight == null) throw new IllegalArgumentException("Bottom right point is invalid: " + bottom + " " + right);
+        if (bottomRight == null) ExceptionHandler.throwException( new IllegalArgumentException("Bottom right point is invalid: " + bottom + " " + right));
 
         points = new ArrayList<Point>();
         points.add(topLeft);
@@ -122,7 +123,7 @@ public class Quadrilateral extends Polygon
             {
                 if (points.get(i).structurallyEquals(points.get(j)))
                 {
-                    throw new IllegalArgumentException("Points of quadrilateral are not distinct: " + points.get(i) + " " + points.get(j));
+                    ExceptionHandler.throwException( new IllegalArgumentException("Points of quadrilateral are not distinct: " + points.get(i) + " " + points.get(j)));
                 }
             }
         }
@@ -159,7 +160,7 @@ public class Quadrilateral extends Polygon
     {
         this(segs.get(0), segs.get(1), segs.get(2), segs.get(3));
         
-        if (segs.size() != 4) throw new IllegalArgumentException("Quadrilateral constructed with " + segs.size() + " segments.");
+        if (segs.size() != 4) ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral constructed with " + segs.size() + " segments."));
     }
 
     public static Quadrilateral MakeQuadrilateral(Point a, Point b, Point c, Point d)

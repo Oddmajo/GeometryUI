@@ -6,6 +6,7 @@ import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
 import backend.utilities.Pair;
+import backend.utilities.exception.ExceptionHandler;
 
 public class Trapezoid extends Quadrilateral
 {
@@ -84,7 +85,7 @@ public class Trapezoid extends Quadrilateral
         }
         else
         {
-            throw new IllegalArgumentException("Quadrilateral does not define a trapezoid; no sides are parallel: " + this);
+            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral does not define a trapezoid; no sides are parallel: " + this));
         }
 
         topLeftBaseAngle = GetAngle(new Angle(leftLeg, oppBaseSegment));

@@ -197,7 +197,6 @@ public abstract class GroundedClause implements Cloneable
             }
             catch (CloneNotSupportedException e)
             {
-                // TODO Auto-generated catch block
                 ExceptionHandler.throwException(e);
             } 
             return this;

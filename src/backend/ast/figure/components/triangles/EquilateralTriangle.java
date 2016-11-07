@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.Triangle;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
 public class EquilateralTriangle extends IsoscelesTriangle
@@ -26,17 +27,17 @@ public class EquilateralTriangle extends IsoscelesTriangle
         super(t.getSegmentA(), t.getSegmentB(), t.getSegmentC());
         if (!MathUtilities.doubleEquals(t.getSegmentA().length(), t.getSegmentB().length()))
         {
-            throw new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentA().toString() + " " + t.getSegmentB().toString());
+            ExceptionHandler.throwException( new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentA().toString() + " " + t.getSegmentB().toString()));
         }
 
         if (!MathUtilities.doubleEquals(t.getSegmentA().length(), t.getSegmentC().length()))
         {
-            throw new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentA().toString() + " " + t.getSegmentC().toString());
+            ExceptionHandler.throwException( new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentA().toString() + " " + t.getSegmentC().toString()));
         }
 
         if (!MathUtilities.doubleEquals(t.getSegmentB().length(), t.getSegmentC().length()))
         {
-            throw new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentB().toString() + " " + t.getSegmentC().toString());
+            ExceptionHandler.throwException( new IllegalArgumentException("Equilateral Triangle constructed with non-congruent segments " + t.getSegmentB().toString() + " " + t.getSegmentC().toString()));
         }
 
         provenIsosceles = true;
@@ -49,7 +50,7 @@ public class EquilateralTriangle extends IsoscelesTriangle
     public EquilateralTriangle(ArrayList<Segment> segs)
     {
         this(segs.get(0), segs.get(1), segs.get(2));
-        if (segs.size() != 3) throw new IllegalArgumentException("Equilateral Triangle constructed with " + segs.size() + " segments.");
+        if (segs.size() != 3) ExceptionHandler.throwException( new IllegalArgumentException("Equilateral Triangle constructed with " + segs.size() + " segments."));
     }
 
     @Override
