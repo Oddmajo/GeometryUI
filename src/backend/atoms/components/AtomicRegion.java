@@ -15,6 +15,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
 import backend.atoms.components.Connection.ConnectionType;
+import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.NotImplementedException;
 import backend.utilities.translation.OutPair;
 import backend.utilities.translation.OutSingle;
@@ -178,19 +179,25 @@ public class AtomicRegion
 
     public Figure GetTopMostShape() { return topOwner; }
 
-//    // Add a shape to the list which contains this region.
-//    public virtual void AddOwner(Figure f)
-//    {
-//        if (!Utilities.AddStructurallyUnique<Figure>(owners, f)) return;
-//
-//        // Check if this new atomic region is the outermost owner.
-//        if (topOwner == null || f.Contains(topOwner)) topOwner = f;
-//    }
-//
-//    public virtual void AddOwners(List<Figure> fs)
-//    {
-//        foreach (Figure f in fs) AddOwner(f);
-//    }
+    // Add a shape to the list which contains this region.
+    public void AddOwner(Figure f)
+    {
+        if (!Utilities.AddStructurallyUnique(owners, f)) return;
+
+        // Check if this new atomic region is the outermost owner.
+        if (topOwner == null || f.Contains(topOwner)) 
+        {
+            topOwner = f;
+        }
+    }
+
+    public void AddOwners(ArrayList<Figure> fs)
+    {
+        for (Figure f : fs) 
+        {
+            AddOwner(f);
+        }
+    }
 
     public void ClearOwners()
     {
@@ -435,24 +442,24 @@ public class AtomicRegion
         return true;
     }
 
-//    //
-//    // Do all the endpoints in that region lie within this region?
-//    // There should be no intersection points.
-//    //
-//    public bool StrictlyContains(AtomicRegion that)
-//    {
-//        //
-//        // Do all vertices of that lie on the interior of this atomic region?
-//        //
-//        List<Point> thatVertices = that.GetVertices();
-//        foreach (Point vertex in thatVertices)
-//        {
-//            if (!this.PointLiesInside(vertex)) return false;
-//        }
-//
-//        // There should be no intersections
-//        return !this.GetIntersections(that).Any();
-//    }
+    //
+    // Do all the endpoints in that region lie within this region?
+    // There should be no intersection points.
+    //
+    public boolean StrictlyContains(AtomicRegion that)
+    {
+        //
+        // Do all vertices of that lie on the interior of this atomic region?
+        //
+        ArrayList<Point> thatVertices = that.GetVertices();
+        for (Point vertex : thatVertices)
+        {
+            if (!this.PointLiesInside(vertex)) return false;
+        }
+
+        // There should be no intersections
+        return this.GetIntersections(that).isEmpty();
+    }
 //
     //
     // A region (that) lies inside this with one intersection.
@@ -525,36 +532,36 @@ public class AtomicRegion
 //        return false;
 //    }
 //
-//    //
-//    // If there is no interaction between these atomic regions OR just touching
-//    //
-//    public bool OnExteriorOf(AtomicRegion that)
-//    {
-//        List<IntersectionAgg> intersections = this.GetIntersections(that);
-//
-//        // All vertices cannot be interior to the region.
-//        List<Point> thatVertices = that.GetVertices();
-//        foreach (Point vertex in thatVertices)
-//        {
-//            if (this.PointLiesInside(vertex)) return false;
-//        }
-//
-//        // All intersections must be overlap; only point-based intersections which are on the perimeter.
-//        foreach (IntersectionAgg agg in intersections)
-//        {
-//            if (!agg.overlap)
-//            {
-//                if (agg.intersection2 != null) return false;
-//                if (!this.PointLiesOn(agg.intersection1)) return false;
-//            }
-//            else // agg.overlap
-//            {
-//                // No-Op
-//            }
-//        }
-//
-//        return true;
-//    }
+    //
+    // If there is no interaction between these atomic regions OR just touching
+    //
+    public boolean OnExteriorOf(AtomicRegion that)
+    {
+        ArrayList<IntersectionAgg> intersections = this.GetIntersections(that);
+
+        // All vertices cannot be interior to the region.
+        ArrayList<Point> thatVertices = that.GetVertices();
+        for (Point vertex : thatVertices)
+        {
+            if (this.PointLiesInside(vertex)) return false;
+        }
+
+        // All intersections must be overlap; only point-based intersections which are on the perimeter.
+        for (IntersectionAgg agg : intersections)
+        {
+            if (!agg.overlap)
+            {
+                if (agg.intersection2 != null) return false;
+                if (!this.PointLiesOn(agg.intersection1)) return false;
+            }
+            else // agg.overlap
+            {
+                // No-Op
+            }
+        }
+
+        return true;
+    }
 //
 //    //
 //    // If there is no interaction between these atomic regions OR just touching

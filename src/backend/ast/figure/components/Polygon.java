@@ -205,9 +205,10 @@ public class Polygon extends Figure
     public ArrayList<Connection> MakeAtomicConnections()
     {
         ArrayList<Connection> connections = new ArrayList<Connection>();
-
+        System.out.println("MakeAtomicConnections: orderedSides = " + orderedSides);
         for (Segment side : orderedSides)
         {
+            System.out.println("MakeAtomicConnections: in loop body");
             connections.add(new Connection(side.getPoint1(), side.getPoint2(), ConnectionType.SEGMENT, side));
         }
 
@@ -481,7 +482,7 @@ public class Polygon extends Figure
         //
         //
         //
-        // Interioir tangent circles are such that the approximations are extremely close to each other.
+        // Interior tangent circles are such that the approximations are extremely close to each other.
         // Do not perform this check if this polygon construction is an approximation.
         //
         if (theseSegs.size() < Point.NUM_SEGS_TO_APPROX_ARC)

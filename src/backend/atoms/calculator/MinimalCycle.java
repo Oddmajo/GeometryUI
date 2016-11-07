@@ -52,8 +52,10 @@ public class MinimalCycle extends Primitive
 
     public Segment GetExtendedSegment(PlanarGraph graph)
     {
-        for (int p = 0; p < points.size(); p++)
+        for (int p = 0; p < points.size() - 1; p++)
         {
+            System.out.println("GetExtendedSegment: from = " + p);
+            System.out.println("GetExtendedSegment: to = " + (p + 1) % points.size());
             if (graph.getEdgeType(points.get(p), points.get((p + 1) % points.size())) == EdgeType.EXTENDED_SEGMENT)
             {
                 return new Segment(points.get(p), points.get(p + 1 < points.size() ? p + 1 : 0));
@@ -229,8 +231,8 @@ public class MinimalCycle extends Primitive
         // Make the Polygon
         //
         Polygon poly = Polygon.MakePolygon(sides);
-
-        if (poly == null) throw new ArgumentException("Real segments should define a polygon; they did not.");
+        System.out.println("MinimalCycle.PolygonDefinesRegion: poly.orderedSides = " + poly.getOrderedSides());
+        if (poly == null) ExceptionHandler.throwException(new ArgumentException("Real segments should define a polygon; they did not."));
 
         return new ShapeAtomicRegion(poly);
     }

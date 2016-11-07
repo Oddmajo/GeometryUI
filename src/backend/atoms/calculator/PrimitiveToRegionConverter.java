@@ -35,15 +35,16 @@ public class PrimitiveToRegionConverter
                 filaments.add(filprim);
             }
         }
-
+        
         //
         // Convert the filaments to atomic regions.
         //
         ArrayList<AtomicRegion> regions = new ArrayList<AtomicRegion>();
         if (!filaments.isEmpty())
         {
-            throw new Exception("A filament occurred in conversion to atomic regions.");
+            ExceptionHandler.throwException(new Exception("A filament occurred in conversion to atomic regions."));
         }
+        // why is this commented out? *****************************************************************************************
         // regions.AddRange(HandleFilaments(graph, circles, filaments));
 
 
