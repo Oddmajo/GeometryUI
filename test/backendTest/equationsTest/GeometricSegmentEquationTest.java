@@ -7,10 +7,10 @@ import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
-public class SegmentEquationTest
+public class GeometricSegmentEquationTest
 {
     @Test
-    public void segmentEquationTest()
+    public void geometricSegmentEquation()
     {
         System.out.println("Running SegmentEquation...");
         SegmentEquation eq = null, eq2 = null;
