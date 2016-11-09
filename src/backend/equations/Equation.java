@@ -22,6 +22,12 @@ public class Equation extends ArithmeticNode
         lhs = left;
         rhs = right;
     }
+    
+    public Equation(Equation eq)
+    {
+        lhs = eq.lhs;
+        rhs = eq.rhs;
+    }
 
     //public Equation(GroundedClause l, GroundedClause r, string just) : base()
     //{

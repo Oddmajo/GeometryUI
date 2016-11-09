@@ -76,7 +76,7 @@ public abstract class GroundedClause implements Cloneable
     public void setClearDefinition() { isObviousDefinition = true; }
     public boolean isClearDefinition() { return isObviousDefinition; }
     
-    protected ArrayList<Character> variables = new ArrayList<Character>();
+   
     
     /**
      * I am commenting this out because I am currently working on FacetIdentification

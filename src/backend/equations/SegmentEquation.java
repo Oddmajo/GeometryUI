@@ -1,12 +1,10 @@
 package backend.equations;
 
 import java.util.List;
-import javax.swing.text.Segment;
 import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.*;
 import backend.ast.GroundedClause;
-import backend.ast.figure.components.*;
 
 public class SegmentEquation extends Equation
 {
@@ -15,6 +13,11 @@ public class SegmentEquation extends Equation
         super();
     }
 
+    public SegmentEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
     public SegmentEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());

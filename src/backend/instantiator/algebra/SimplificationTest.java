@@ -1,35 +1,36 @@
 package backend.instantiator.algebra;
 
 import backend.instantiator.algebra.Simplification;
-import backend.equations.*;
-import backend.instantiator.GenericRule;
-import backend.utilities.Pair;
-import backend.utilities.exception.ArgumentException;
-import backend.utilities.exception.ExceptionHandler;
-import backend.utilities.list.Utilities;
-import backend.equations.operations.*; 
 
+import org.junit.*;
+
+import backend.equations.*;
+import backend.utilities.test.TestManager;
+import backend.equations.operations.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import backendTest.equationsTest.*;
 /*
  * NOTES FROM RYAN:  
  * 1) Simplify apparently doesn't work with my operations, even though they derive from Equation...
  * 
  */
-@SuppressWarnings("unused")
+
 public class SimplificationTest 
 {
-
-    public static void main(String[] args) throws CloneNotSupportedException, ArgumentException
+    @Test
+    public static void main(String[] args) throws Exception
     {
+        TestManager.run();
         List<NumericValue> testList = new ArrayList<NumericValue>();
         for (int i = -100; i < 100; i++)
         {
             testList.add(new NumericValue(i));
         }
         long testsPassed = 0, totalTests = 0;
-        /*
-        System.out.println("\t---NUMERIC VALUE TESTS---");
+
+        System.out.print("Running NumericValue Tests...");
 
         for (int i = 0; i < 200; i++)
         {
@@ -44,9 +45,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -61,9 +59,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -78,9 +73,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("getDoubleValue() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
 
         for (int i = 0; i < 200; i++)
@@ -96,9 +88,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("getIntValue() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -116,11 +105,13 @@ public class SimplificationTest
             }
         }
 
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
 
-        System.out.println("\n\t---ADDITION TESTS---");
+        System.out.print("Running Addition Tests...");
 
         for (int i = 0; i < 200; i++)
         {
@@ -138,9 +129,6 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
 
         for (int i = 0; i < 200; i++)
@@ -159,9 +147,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -179,11 +165,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
-        //System.out.println("Simplification of 2+3: " + Simplification.simplify((additionEquation)));
 
         for (int i = 0; i < 200; i++)
         {
@@ -204,27 +186,6 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
-
-        for (int i = 0; i < 200; i++)
-        {
-            for (int j = 0; j < 200; j++)
-            {
-
-                Addition eq = new Addition(testList.get(i), testList.get(j));
-                String test = "Simplification of " + eq.toPrettyString() + ":";
-                if (!test.equals(null))
-                    testsPassed++;
-                else
-                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: ERROR 404" + "; found " + test);
-                totalTests++;
-            }
-        }
-        System.out.println("simplify() tests \"passed\": " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
 
         for (int i = 0; i < 200; i++)
@@ -252,11 +213,15 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("Multi-clause tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
-        System.out.println("\n\t---SUBTRACTION TESTS---");
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
+
+        System.out.print("Running Subtraction Tests...");
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -274,9 +239,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -294,9 +257,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
 
         for (int i = 0; i < 200; i++)
@@ -315,11 +276,6 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
-
-        //System.out.println("Simplification of 2+3: " + Simplification.simplify((subtract)));
 
         for (int i = 0; i < 200; i++)
         {
@@ -340,9 +296,9 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
+
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -369,11 +325,15 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("Multi-clause tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
-        System.out.println("\n\t---MULTIPLICATION TESTS---");
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
+        
+        System.out.print("Running Multiplication Tests...");
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -391,9 +351,6 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -411,9 +368,6 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
 
         for (int i = 0; i < 200; i++)
@@ -432,11 +386,6 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
-
-
 
         for (int i = 0; i < 200; i++)
         {
@@ -457,9 +406,8 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -486,13 +434,14 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("Multi-clause tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
 
-        System.out.println("\n\t---EQUATION TESTS---");
-
+        System.out.print("Running Equation Tests...");
         for (int i = 0; i < 200; i++)
         {
             for (int j = 0; j < 200; j++)
@@ -509,9 +458,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+        
 
         for (int i = 0; i < 200; i++)
         {
@@ -529,9 +476,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
 
         for (int i = 0; i < 200; i++)
@@ -550,9 +495,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
 
 
@@ -575,9 +518,7 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -585,18 +526,17 @@ public class SimplificationTest
             {
 
                 Equation eq = new Equation(testList.get(i), testList.get(j));
-                String test = "Simplification of " + eq.toPrettyString() + ": " + Simplification.simplify((eq));
-                if (!test.equals(null))
+                String expectedResult = eq.toString();
+                String test = Simplification.simplify((eq)).toString();
+                if (test.equals(expectedResult))
                     testsPassed++;
                 else
-                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: ERROR 404" + "; found " + test);
+                    System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
                 totalTests++;
 
             }
         }
-        System.out.println("simplify() tests \"passed\": " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -623,20 +563,21 @@ public class SimplificationTest
                 }
             }
         }
-        System.out.println("Multi-clause tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0; 
-         */
+        
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
 
-        System.out.println("\n\t---VARIABLE TESTS---");
+        System.out.print("Running Variable Tests...");
+
         List<Character> testChars = new ArrayList<Character>();
         for  (int i = 0; i < 26; i++)
         {
             char x = (char) (i + 97);
             testChars.add(x);
         }
-
-        System.out.println(testChars);
 
 
         for (int i = 0; i < 200; i++)
@@ -656,10 +597,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("toString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
-
         for (int i = 0; i < 200; i++)
         {
             ArrayList<Character> sample = new ArrayList<Character>();
@@ -677,9 +614,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("toPrettyString() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -697,10 +631,6 @@ public class SimplificationTest
             }
             totalTests++;
         }
-
-        System.out.println("getDoubleValue() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
 
         for (int i = 0; i < 200; i++)
@@ -720,9 +650,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("getIntValue() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -744,9 +671,6 @@ public class SimplificationTest
             totalTests++;
         }
 
-        System.out.println("getVariables() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -768,9 +692,6 @@ public class SimplificationTest
             }
         }
 
-        System.out.println("containsClause() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
@@ -796,16 +717,13 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        System.out.println("containsVariable() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
 
         for (int i = 0; i < 200; i++)
         {
             ArrayList<Character> sample = new ArrayList<Character>();
             sample.add('x');
             sample.add('y');
-            
+
             for (int j = 0; j < 200; j++)
             {
                 NumericValue eq = new NumericValue(testList.get(i), sample);
@@ -819,13 +737,35 @@ public class SimplificationTest
                 } 
                 totalTests++;
 
+                for (int k = 0; k < 26; k++)
+                {
+                    String expected = eq.toPrettyString(), result;
+                    if (eq.containsVariable('x'))
+                    {
+                        expected = expected.replace('x', 'a');
+                    }
+
+                    eq.substitute('x', 'a');
+                    result = eq.toPrettyString();
+                    if (result.equals(expected))
+                        testsPassed++;
+                    else
+                    {
+                        System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expected + "; found " + result);
+                    } 
+                    totalTests++;
+                }
+
             }
         }
-        System.out.println("substitute() tests passed: " + testsPassed + "/" + totalTests);
-        testsPassed = 0;
-        totalTests = 0;
+        if (totalTests == testsPassed)
+            System.out.println("Done");
+        else
+            System.out.println("Failed");
+        totalTests = testsPassed = 0;
 
     }
+
 
 }
 

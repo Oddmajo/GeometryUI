@@ -2,9 +2,10 @@ package backend.equations.operations;
 
 import backend.ast.GroundedClause;
 
+
 public class Addition extends ArithmeticOperation
 {
-    public Addition() 
+    public Addition()
     { 
         super();
 
@@ -38,4 +39,7 @@ public class Addition extends ArithmeticOperation
             return true;
         return false;
     }
+    
+  
+    
 }

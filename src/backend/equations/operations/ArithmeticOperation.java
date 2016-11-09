@@ -113,4 +113,9 @@ public class ArithmeticOperation extends ArithmeticNode
         //Change this if the object is no longer immutable!!!
         return super.getHashCode();
     }
+    
+    public void simplify()
+    {
+        
+    }
 }

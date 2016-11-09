@@ -44,6 +44,10 @@ public class Segment extends Figure
         collinear.add(p2);
     }
     
+    public Segment(Segment in)
+    {
+        new Segment(in._point1, in._point2);
+    }
     /**
      * Method to compare two double with the given accuracy
      * @param accuracy      accuracy used to compare the doubles

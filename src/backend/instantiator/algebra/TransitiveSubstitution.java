@@ -9,11 +9,14 @@ import backend.instantiator.EdgeAggregator;
 import backend.instantiator.GenericRule;
 import backend.equations.*;
 import backend.utilities.ast_helper.*;
+import backend.utilities.exception.ExceptionHandler;
+import backend.ast.GroundedClause;
+import backend.hypergraph.*;
 
 @SuppressWarnings("unused")
 public class TransitiveSubstitution extends GenericRule
 {
-    /*
+ /*   
     private static String NAME = "Transitive Substitution";
     private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_SUBSTITUTION);
 
@@ -1155,7 +1158,7 @@ public class TransitiveSubstitution extends GenericRule
             if (newEquation == null)
             {
                 //debug.writeLine("");
-                throw new NullReferenceException("Unexpected Problem : Non-atomic substitution (equation)...");
+                ExceptionHandler.throwException(new NullReferenceException("Unexpected Problem : Non-atomic substitution (equation)..."));
             }
 
             newEdge = new EdgeAggregator(antecedent, newEquation, annotation);
@@ -1175,7 +1178,7 @@ public class TransitiveSubstitution extends GenericRule
             if (newCongruent == null)
             {
                 Debug.WriteLine("");
-                throw new NullReferenceException("Unexpected Problem : Non-atomic substitution (Congruence)...");
+                ExceptionHandler.throwException(new NullReferenceException("Unexpected Problem : Non-atomic substitution (Congruence)..."));
             }
 
             newEdge = new EdgeAggregator(antecedent, newCongruent, annotation);
