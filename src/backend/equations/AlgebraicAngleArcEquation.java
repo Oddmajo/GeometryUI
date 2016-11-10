@@ -12,6 +12,10 @@ public class AlgebraicAngleArcEquation extends AngleArcEquation
         super();
     }
     
+    public AlgebraicAngleArcEquation(Equation eq)
+    {
+        super(eq);
+    }
     public AlgebraicAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);

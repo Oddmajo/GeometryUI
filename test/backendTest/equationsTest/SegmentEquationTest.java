@@ -37,7 +37,5 @@ public class SegmentEquationTest
             }
         }
         System.out.println("Done");
-       
     }
-
 }

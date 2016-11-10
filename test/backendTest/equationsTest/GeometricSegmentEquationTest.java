@@ -3,7 +3,6 @@ package backendTest.equationsTest;
 import org.junit.*;
 
 import backend.equations.GeometricSegmentEquation;
-import backend.equations.SegmentEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
@@ -16,7 +15,7 @@ public class GeometricSegmentEquationTest
         System.out.println("Running GeometricSegmentEquation Test...");
         for (int i = 0; i < 100; i++)
         {
-            SegmentEquation eq = null, eq2 = null;
+            GeometricSegmentEquation eq = null, eq2 = null;
             try
             {
                 eq = new GeometricSegmentEquation(EquationGenerator.genAdditionEquationPair());
@@ -38,7 +37,5 @@ public class GeometricSegmentEquationTest
             }
         }
         System.out.println("Done");
-
     }
-
 }

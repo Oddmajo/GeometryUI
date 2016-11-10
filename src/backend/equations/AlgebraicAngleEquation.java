@@ -11,6 +11,10 @@ public class AlgebraicAngleEquation extends AngleArcEquation implements Cloneabl
         super();
     }
     
+    public AlgebraicAngleEquation(Equation eq)
+    {
+        super(eq);
+    }
     public AlgebraicAngleEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);

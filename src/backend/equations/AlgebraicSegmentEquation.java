@@ -9,6 +9,11 @@ public class AlgebraicSegmentEquation extends SegmentEquation
         super();
     }
     
+    public AlgebraicSegmentEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
     public AlgebraicSegmentEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);

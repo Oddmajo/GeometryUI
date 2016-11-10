@@ -7,6 +7,11 @@ public class AlgebraicArcEquation extends ArcEquation
     {
         super();
     }
+    
+    public AlgebraicArcEquation(Equation eq)
+    {
+        super(eq);
+    }
 
     public AlgebraicArcEquation(GroundedClause left, GroundedClause right)
     {

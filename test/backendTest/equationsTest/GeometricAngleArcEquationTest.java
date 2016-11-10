@@ -1,9 +1,9 @@
 package backendTest.equationsTest;
 
-public class GeometricAngleArcEquation
+public class GeometricAngleArcEquationTest
 {
 
-    public GeometricAngleArcEquation()
+    public GeometricAngleArcEquationTest()
     {
         // TODO Auto-generated constructor stub
     }

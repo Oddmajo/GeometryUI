@@ -15,6 +15,12 @@ public class AngleArcEquation extends Equation
         super();
     }
     
+    public AngleArcEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
+    
     public AngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         double sumL = SumSide(left.collectTerms());
