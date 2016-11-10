@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import mainNonUI.Main;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.PointObject;
+
+
 
 /**
  *
@@ -81,30 +85,44 @@ public class monkey {
         ZC.repaint();
     }
 
-    public void start() {
-        if (shakeThread!=null) return;
-        inprogress=true;
-        shakeThread=new Thread() {
-
-            public void run() {
-                while (inprogress) {
-                    long t0=System.currentTimeMillis();
-                    move1step();
-                    long t1=System.currentTimeMillis();
-                    try {
-                        long time=waitTime-t1+t0;
-                        if (time>0) {
-                            Thread.sleep(time);
-                        }
-                    } catch (Exception ex) {
-                    }
-                }
-                reset();
-                shakeThread=null;
-            }
-        };
-        shakeThread.setPriority(Thread.MIN_PRIORITY);
-        shakeThread.start();
+    public void start() 
+    {
+        String[] arguments = new String[] {"123"};
+        try
+        {
+            Main.main(arguments);
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Uh Oh");
+        }
+//*******************************************************************************************************************************************
+// Jay Nash - The following is the original code for the 'monkey' feature within the UI.  It is removed until a custom button can be added 
+//          for the 'send to backend' feature
+//*******************************************************************************************************************************************
+//        if (shakeThread!=null) return;
+//        inprogress=true;
+//        shakeThread=new Thread() {
+//
+//            public void run() {
+//                while (inprogress) {
+//                    long t0=System.currentTimeMillis();
+//                    move1step();
+//                    long t1=System.currentTimeMillis();
+//                    try {
+//                        long time=waitTime-t1+t0;
+//                        if (time>0) {
+//                            Thread.sleep(time);
+//                        }
+//                    } catch (Exception ex) {
+//                    }
+//                }
+//                reset();
+//                shakeThread=null;
+//            }
+//        };
+//        shakeThread.setPriority(Thread.MIN_PRIORITY);
+//        shakeThread.start();
     }
 
     public void stop() {
