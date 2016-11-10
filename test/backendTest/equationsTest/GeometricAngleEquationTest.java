@@ -2,24 +2,25 @@ package backendTest.equationsTest;
 
 import org.junit.*;
 
-import backend.equations.AngleArcEquation;
+import backend.equations.GeometricAngleEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
-public class AngleArcEquationTest
+public class GeometricAngleEquationTest
 {
     @Test
-    public void angleArcEquationTest()
+    public void geometricAngleEquationTest()
     {
-        System.out.println("Running AngleArcEquation Test...");
+        System.out.println("Running GeometricAngleEquation Test...");
         for (int i = 0; i < 100; i++)
         {
-            AngleArcEquation eq = null, eq2 = null;
+            
+            GeometricAngleEquation eq = null, eq2 = null;
             try
             {
-                eq = new AngleArcEquation(EquationGenerator.genAdditionEquationPair());
-                eq2 = new AngleArcEquation(eq);
+                eq = new GeometricAngleEquation(EquationGenerator.genAdditionEquationPair());
+                eq2 = new GeometricAngleEquation(eq);
                 Simplification.simplify(eq);
             }
             catch (ArgumentException e)
@@ -30,7 +31,7 @@ public class AngleArcEquationTest
             {
                 ExceptionHandler.throwException(new CloneNotSupportedException());
             }
-
+            
             if (eq == null)
             {
                 System.out.println("Failed from eq being null at iteration " + i + "...");
@@ -46,6 +47,7 @@ public class AngleArcEquationTest
                 System.out.println("Failed from eq != eq2 at iteration " + i + "...");
                 break;
             }
+
         }
         System.out.println("Done");
     }

@@ -20,7 +20,6 @@ public class ArcEquation extends Equation
     
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
-        System.out.println(left + " and " + right);
         double sumL = SumSide(left.collectTerms());
         double sumR = SumSide(right.collectTerms());
        

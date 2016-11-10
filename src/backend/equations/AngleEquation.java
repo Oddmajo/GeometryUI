@@ -97,7 +97,7 @@ public class AngleEquation extends Equation
 
     public boolean equals(Object obj)
     {
-        if (obj == null || (AngleEquation)obj == null)
+        if (obj == null)
         {
             return false;
         }

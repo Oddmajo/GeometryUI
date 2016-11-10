@@ -114,7 +114,7 @@ public class Simplification extends GenericRule
 
         if (original.equals(inflated))
         {
-            return null;
+            return inflated;
         }
 
         return inflated;
