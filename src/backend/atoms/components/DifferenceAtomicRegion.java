@@ -81,6 +81,15 @@ public class DifferenceAtomicRegion extends AtomicRegion
 //        // return null;
 //    }
 
+    public boolean HasInnerAtom(AtomicRegion that)
+    {
+        for (AtomicRegion inner : innerShapes)
+        {
+            if (inner.Equals(that)) return true;
+        }
+
+        return false;
+    }
 
     @Override
     public boolean Equals(Object obj)
@@ -102,6 +111,8 @@ public class DifferenceAtomicRegion extends AtomicRegion
     
             return true;
         }
+        
+        return false;
     }
 
     @Override

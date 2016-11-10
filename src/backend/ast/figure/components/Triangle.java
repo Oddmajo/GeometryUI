@@ -119,6 +119,11 @@ public class Triangle extends Polygon
 
         congruencePairs = new ArrayList<Triangle>();
         similarPairs = new ArrayList<Triangle>();
+        
+        orderedSides = new ArrayList<Segment>();
+        orderedSides.add(a);
+        orderedSides.add(b);
+        orderedSides.add(c);
 
         addSuperFigureToDependencies();
     }

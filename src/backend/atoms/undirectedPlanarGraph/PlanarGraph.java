@@ -271,8 +271,8 @@ public class PlanarGraph
     public EdgeType getEdgeType(Point from, Point to)
     {
         int fromNodeIndex = indexOf(from);
-        System.out.println("getEdgeType: Point from = " + from.toString());
-        System.out.println("getEdgeType: fromNodeIndex = " + fromNodeIndex);
+        //System.out.println("getEdgeType: Point from = " + from.toString());
+        //System.out.println("getEdgeType: fromNodeIndex = " + fromNodeIndex);
 
         return nodes.get(fromNodeIndex).GetEdge(to).edgeType;
     }

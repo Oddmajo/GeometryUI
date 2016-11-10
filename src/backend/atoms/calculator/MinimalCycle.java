@@ -19,6 +19,7 @@ import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutSingle;
 import backend.atoms.components.AtomicRegion;
+import backend.atoms.components.AtomicRegionException;
 import backend.atoms.components.Connection;
 import backend.atoms.components.Connection.ConnectionType;
 import backend.atoms.components.ShapeAtomicRegion;
@@ -54,8 +55,8 @@ public class MinimalCycle extends Primitive
     {
         for (int p = 0; p < points.size() - 1; p++)
         {
-            System.out.println("GetExtendedSegment: from = " + p);
-            System.out.println("GetExtendedSegment: to = " + (p + 1) % points.size());
+            //System.out.println("GetExtendedSegment: from = " + p);
+            //System.out.println("GetExtendedSegment: to = " + (p + 1) % points.size());
             if (graph.getEdgeType(points.get(p), points.get((p + 1) % points.size())) == EdgeType.EXTENDED_SEGMENT)
             {
                 return new Segment(points.get(p), points.get(p + 1 < points.size() ? p + 1 : 0));
@@ -160,7 +161,7 @@ public class MinimalCycle extends Primitive
     //   We need to check to see if any of the cycle segments are based on arcs.
     //   We have to handle the degree of each segment: do many circles intersect at these points?
     //
-    public ArrayList<AtomicRegion> ConstructAtomicRegions(ArrayList<Circle> circles, PlanarGraph graph) throws Exception
+    public ArrayList<AtomicRegion> ConstructAtomicRegions(ArrayList<Circle> circles, PlanarGraph graph)
     {
         ArrayList<AtomicRegion> regions = new ArrayList<>();
 
@@ -194,7 +195,8 @@ public class MinimalCycle extends Primitive
         return regions;
     }
 
-    private AtomicRegion PolygonDefinesRegion(PlanarGraph graph) throws ArgumentException
+    @SuppressWarnings("unused")
+    private AtomicRegion PolygonDefinesRegion(PlanarGraph graph)
     {
         ArrayList<Segment> sides = new ArrayList<Segment>();
 
@@ -230,14 +232,15 @@ public class MinimalCycle extends Primitive
         //
         // Make the Polygon
         //
+        //System.out.println("MinimalCycle.PolygonDefinesRegion: sides = " + sides);
         Polygon poly = Polygon.MakePolygon(sides);
-        System.out.println("MinimalCycle.PolygonDefinesRegion: poly.orderedSides = " + poly.getOrderedSides());
-        if (poly == null) ExceptionHandler.throwException(new ArgumentException("Real segments should define a polygon; they did not."));
+        //System.out.println("MinimalCycle.PolygonDefinesRegion: poly.orderedSides = " + poly.getOrderedSides());
+        if (poly == null) ExceptionHandler.throwException(new AtomicRegionException("Real segments should define a polygon; they did not."));
 
         return new ShapeAtomicRegion(poly);
     }
 
-    private ArrayList<AtomicRegion> SectorOrTruncationDefinesRegion(ArrayList<Circle> circles, PlanarGraph graph) throws Exception
+    private ArrayList<AtomicRegion> SectorOrTruncationDefinesRegion(ArrayList<Circle> circles, PlanarGraph graph) 
     {
         //
         // Do there exist any real-dual edges or extended segments? If so, this is not a sector.
@@ -362,7 +365,7 @@ public class MinimalCycle extends Primitive
     // Split the segments into sets of collinear segments.
     // NOTE: This code assumes an input ordering of segments and returns sets of ordered collinear segments.
     //
-    private ArrayList<ArrayList<MinorArc>> SplitArcsIntoCollinearSequences(ArrayList<MinorArc> minors) throws Exception
+    private ArrayList<ArrayList<MinorArc>> SplitArcsIntoCollinearSequences(ArrayList<MinorArc> minors) 
     {
         ArrayList<ArrayList<MinorArc>> collinearSet = new ArrayList<ArrayList<MinorArc>>();
 
@@ -408,7 +411,7 @@ public class MinimalCycle extends Primitive
     //
     // Order the arcs so the endpoints are clear in the first in last positions.
     //
-    private ArrayList<MinorArc> SortArcSet(ArrayList<MinorArc> arcs) throws Exception
+    private ArrayList<MinorArc> SortArcSet(ArrayList<MinorArc> arcs) 
     {
         if (arcs.size() <= 2) return arcs;
 
@@ -438,7 +441,7 @@ public class MinimalCycle extends Primitive
         switch(sharedCount)
         {
             case 0:
-                throw new Exception("Expected a shared count of 1 or 2, not 0");
+                ExceptionHandler.throwException(new ArgumentException("Expected a shared count of 1 or 2, not 0"));
             case 1:
                 sorted.add(arcs.get(arcIndex));
                 marked[arcIndex] = true;
@@ -447,7 +450,7 @@ public class MinimalCycle extends Primitive
                 // Middle arc
                 break;
             default:
-                throw new Exception("Expected a shared count of 1 or 2, not (" + sharedCount + ")");
+                ExceptionHandler.throwException(new ArgumentException("Expected a shared count of 1 or 2, not (" + sharedCount + ")"));
         }
 
         MinorArc working = sorted.get(0);
@@ -470,7 +473,7 @@ public class MinimalCycle extends Primitive
         return sorted;
     }
 
-    private ArrayList<AtomicRegion> ConvertToGeneralSector(ArrayList<Segment> sideSet1, ArrayList<Segment> sideSet2, ArrayList<MinorArc> arcs) throws Exception
+    private ArrayList<AtomicRegion> ConvertToGeneralSector(ArrayList<Segment> sideSet1, ArrayList<Segment> sideSet2, ArrayList<MinorArc> arcs)
     {
         Segment side1 = ComposeSegmentsIntoSegment(sideSet1);
         Segment side2 = ComposeSegmentsIntoSegment(sideSet2);
@@ -486,12 +489,12 @@ public class MinimalCycle extends Primitive
         Point sharedCenter = side1.SharedVertex(side2);
         if (sharedCenter == null)
         {
-            throw new Exception("Sides do not share a vertex as expected; they share " + sharedCenter);
+            ExceptionHandler.throwException(new AtomicRegionException("Sides do not share a vertex as expected; they share " + sharedCenter));
         }
 
         if (!sharedCenter.structurallyEquals(theArc.getCircle().getCenter()))
         {
-            throw new Exception("Center and deduced center do not equate: " + sharedCenter + " " + theArc.getCircle().getCenter());
+            ExceptionHandler.throwException(new Exception("Center and deduced center do not equate: " + sharedCenter + " " + theArc.getCircle().getCenter()));
         }
 
         Point segEndpoint1 = side1.OtherPoint(sharedCenter);
@@ -499,7 +502,7 @@ public class MinimalCycle extends Primitive
 
         if (!theArc.HasEndpoint(segEndpoint1) || !theArc.HasEndpoint(segEndpoint2))
         {
-            throw new Exception("Side endpoints do not equate to the arc endpoints");
+            ExceptionHandler.throwException(new Exception("Side endpoints do not equate to the arc endpoints"));
         }
 
         // Satisfied constraints, create the actual sector.
@@ -508,7 +511,7 @@ public class MinimalCycle extends Primitive
         return Utilities.MakeList(new ShapeAtomicRegion(sector));
     }
 
-    private ArrayList<AtomicRegion> ConvertToTruncationOrSemicircle(ArrayList<Segment> sideSet, ArrayList<MinorArc> arcs) throws Exception
+    private ArrayList<AtomicRegion> ConvertToTruncationOrSemicircle(ArrayList<Segment> sideSet, ArrayList<MinorArc> arcs) 
     {
         Segment side = ComposeSegmentsIntoSegment(sideSet);
         Arc theArc = ComposeArcsIntoArc(arcs);
@@ -516,7 +519,7 @@ public class MinimalCycle extends Primitive
         // Verification Step 1.
         if (!theArc.HasEndpoint(side.getPoint1()) || !theArc.HasEndpoint(side.getPoint2()))
         {
-            throw new Exception("Semicircle / Truncation: Side endpoints do not equate to the arc endpoints");
+            ExceptionHandler.throwException(new AtomicRegionException("Semicircle / Truncation: Side endpoints do not equate to the arc endpoints"));
         }
 
         if (theArc != null && theArc instanceof Semicircle) 
@@ -546,12 +549,12 @@ public class MinimalCycle extends Primitive
         return Utilities.MakeList(atom);
     }
 
-    private ArrayList<AtomicRegion> ConvertToSemicircle(Segment diameter, Semicircle semi) throws Exception
+    private ArrayList<AtomicRegion> ConvertToSemicircle(Segment diameter, Semicircle semi) 
     {
         // Verification Step 2.
         if (!diameter.pointLiesOnAndExactlyBetweenEndpoints(semi.getCircle().getCenter()))
         {
-            throw new Exception("Semicircle: expected center between endpoints.");
+            ExceptionHandler.throwException(new AtomicRegionException("Semicircle: expected center between endpoints."));
         }
 
         Sector sector = new Sector(semi);
@@ -713,7 +716,7 @@ public class MinimalCycle extends Primitive
                 ArrayList<Circle> circles = GetAllApplicableCircles(thatCircles, points.get(p), points.get((p + 1) % points.size()));
 
                 if (circles.size() != 1) 
-                    ExceptionHandler.throwException( new Exception("Need ONLY 1 circle for REAL_ARC atom id; found (" + circles.size() + ")") );
+                    ExceptionHandler.throwException( new AtomicRegionException("Need ONLY 1 circle for REAL_ARC atom id; found (" + circles.size() + ")") );
 
                 arcSegments[currCounter++] = new MinorArc(circles.get(0), points.get(p), points.get((p + 1) % points.size()));
 

@@ -206,10 +206,10 @@ public class Polygon extends Figure
     public ArrayList<Connection> MakeAtomicConnections()
     {
         ArrayList<Connection> connections = new ArrayList<Connection>();
-        System.out.println("MakeAtomicConnections: orderedSides = " + orderedSides);
+        //System.out.println("MakeAtomicConnections: orderedSides = " + orderedSides);
         for (Segment side : orderedSides)
         {
-            System.out.println("MakeAtomicConnections: in loop body");
+            //System.out.println("MakeAtomicConnections: in loop body");
             connections.add(new Connection(side.getPoint1(), side.getPoint2(), ConnectionType.SEGMENT, side));
         }
 
@@ -502,6 +502,8 @@ public class Polygon extends Figure
 
         // If we are given the sides already ordered, just make the polygon straight-away.
         Polygon simple = MakeOrderedPolygon(theseSegs);
+        //System.out.println("Polygon.MakePolygon: simple = " + simple);
+        //System.out.println("Polygon.MakePolygon: simple.orderedSides = " + simple.orderedSides);
         if (simple != null) return simple;
 
         // These segments make a polygon; the Polygon class will order the segments appropriately.

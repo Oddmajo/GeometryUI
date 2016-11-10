@@ -17,7 +17,7 @@ public class PrimitiveToRegionConverter
     // Take the cycle-based representation and convert in into AtomicRegion objects.
     //
     public static ArrayList<AtomicRegion> Convert(PlanarGraph graph,
-                                             ArrayList<Primitive> primitives, ArrayList<Circle> circles) throws Exception
+                                             ArrayList<Primitive> primitives, ArrayList<Circle> circles) 
     {
         ArrayList<MinimalCycle> cycles = new ArrayList<MinimalCycle>();
         ArrayList<Filament> filaments = new ArrayList<Filament>();

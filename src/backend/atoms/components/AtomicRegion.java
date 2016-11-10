@@ -213,12 +213,15 @@ public class AtomicRegion
         else { return GetPolygonalized().IsInPolygon(pt); }
     }
 
-//    public virtual bool PointLiesInOrOn(Point pt)
-//    {
-//        if (pt == null) return false;
-//
-//        return PointLiesOn(pt) || PointLiesInside(pt);
-//    }
+    public boolean PointLiesInOrOn(Point pt)
+    {
+        if (pt != null) 
+        {
+            return (PointLiesOn(pt) || PointLiesInside(pt));
+        }
+        
+        return false;
+    }
 
     //
     // Can the area of this region be calculated?
