@@ -11,6 +11,10 @@ public class GeometricAngleArcEquation extends AngleArcEquation
         super();
     }
     
+    public GeometricAngleArcEquation(Equation eq)
+    {
+        super(eq);
+    }
     public GeometricAngleArcEquation(GroundedClause left, GroundedClause right) throws ArgumentException
     {
         super(left, right);

@@ -20,12 +20,13 @@ public class ArcEquation extends Equation
     
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
+        System.out.println(left + " and " + right);
         double sumL = SumSide(left.collectTerms());
         double sumR = SumSide(right.collectTerms());
-
+       
         //if (!Utilities.CompareValues(sumL, sumR))
         //{
-        //    throw new ArgumentException("Segment equation is inaccurate; sums differ: " + l + " = " + r);
+        //    ExceptionHandler.throwException( new ArgumentException("Segment equation is inaccurate; sums differ: " + l + " = " + r));
         //}
 
         if (Utilities.CompareValues(sumL, 0) && Utilities.CompareValues(sumR, 0))
@@ -43,12 +44,14 @@ public class ArcEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
-            
             else if (clause instanceof Arc)
             {
                 sum += clause.getMulitplier() * ((Arc)clause).getLength();
             }
-            
+            else if (clause instanceof Segment)
+            {
+                sum += clause.getMulitplier() * ((Segment)clause).length();
+            }
         }
         return sum;
     }

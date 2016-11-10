@@ -70,8 +70,8 @@ public class AngleArcEquation extends Equation
 
     public boolean equals(Object obj)
     {
-        if (obj == null || (AngleArcEquation)obj == null) { return false;  }
-        AngleArcEquation thatEquation = (AngleArcEquation) obj;
+        if (obj == null || !(obj instanceof Equation)) { return false;  }
+        AngleArcEquation thatEquation = new AngleArcEquation((Equation) obj);
 
         //
         // Collect all basic terms on the left and right hand sides of both equations.

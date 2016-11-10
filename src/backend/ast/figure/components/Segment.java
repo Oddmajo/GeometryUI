@@ -46,7 +46,7 @@ public class Segment extends Figure
     
     public Segment(Segment in)
     {
-        new Segment(in._point1, in._point2);
+        this(in._point1, in._point2);
     }
     /**
      * Method to compare two double with the given accuracy
@@ -61,7 +61,8 @@ public class Segment extends Figure
         return false;
     }
     
-    // slope calculator to handle vertical slope
+    // slope calculator to handle vertical slope 
+    //Dr. Alvin sees this and says this is "hack crap" -Ryan
     private Double getSlope()
     {
         if (doubleCompare(0.00000001, _point2.getX(), _point1.getX()))

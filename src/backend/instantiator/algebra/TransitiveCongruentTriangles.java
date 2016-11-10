@@ -4,8 +4,11 @@ import backend.equations.*;
 import backend.instantiator.EdgeAggregator;
 import backend.instantiator.GenericRule;
 import backend.hypergraph.*;
+import backend.ast.GroundedClause;
+import backend.ast.figure.components.*;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import backend.utilities.Pair;
 import backend.utilities.exception.ArgumentException;
@@ -74,7 +77,7 @@ public class TransitiveCongruentTriangles extends GenericRule
                 newGrounded.addRange(InstantiateTransitive(oldGCTS, newACTS));
             }
 
-            candidateAlgCongruentTriangles.Add(newACTS);
+            candidateAlgCongruentTriangles.add(newACTS);
         }
 
         return newGrounded;
@@ -82,7 +85,7 @@ public class TransitiveCongruentTriangles extends GenericRule
 
     public static List<EdgeAggregator> instantiateTransitive(CongruentTriangles cts1, CongruentTriangles cts2)
     {
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
+        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
 
         Dictionary<Point, Point> firstTriangleCorrespondence = cts1.hasTriangle(cts2.ct1);
         Dictionary<Point, Point> secondTriangleCorrespondence = cts1.hasTriangle(cts2.ct2);
@@ -110,7 +113,7 @@ public class TransitiveCongruentTriangles extends GenericRule
             Point otherCpt;
             if (!otherCorrCTSpts.TryGetValue(linkPt, out otherCpt)) ExceptionHandler.throwException(new ArgumentException("Something strange happened in Triangle correspondence."));
 
-            newCorrespondence.Add(otherGpt, otherCpt);
+            newCorrespondence.add(otherGpt, otherCpt);
         }
 
         List<Point> triOne = new List<Point>(); 
@@ -133,6 +136,7 @@ public class TransitiveCongruentTriangles extends GenericRule
         newGrounded.add(new EdgeAggregator(antecedent, acts, annotation));
 
         return newGrounded;
+        
     }
     */
 }

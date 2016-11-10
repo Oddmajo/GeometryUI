@@ -1,13 +1,10 @@
 package backendTest.equationsTest;
 
 import backend.equations.Equation;
-import backend.equations.SegmentEquation;
 import backend.equations.operations.Addition;
-import backend.instantiator.algebra.Simplification;
 import backend.ast.figure.components.Point;
 import backend.utilities.exception.ArgumentException;
 import backend.ast.figure.components.*;
-import backend.utilities.Pair;
 
 import java.util.Random;
 

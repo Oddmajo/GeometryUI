@@ -76,7 +76,7 @@ public class SegmentEquation extends Equation
     
     public boolean equals(Object obj)
     {
-        if (obj == null || (SegmentEquation) obj == null)
+        if (obj == null)
         {
             return false;
         }

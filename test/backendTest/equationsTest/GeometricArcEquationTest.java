@@ -19,7 +19,8 @@ public class GeometricArcEquationTest
             try
             {
                 eq = new GeometricArcEquation(EquationGenerator.genAdditionEquationPair());
-                eq2 = (GeometricArcEquation) Simplification.simplify(eq);
+                eq2 = new GeometricArcEquation(eq);
+                Simplification.simplify(eq);
             }
             catch (ArgumentException e)
             {
@@ -30,9 +31,19 @@ public class GeometricArcEquationTest
                 ExceptionHandler.throwException(new CloneNotSupportedException());
             }
 
-            if (eq == null || !eq.equals(eq2))
+            if (eq == null)
             {
-                System.out.println("Failed at iteration " + i + "...");
+                System.out.println("Failed from eq being null at iteration " + i + "...");
+                break;
+            }
+            if (eq2 == null)
+            {
+                System.out.println("Failed from eq2 being null at iteration " + i + "...");
+                break;
+            }
+            else if (!eq.equals(eq2))
+            {
+                System.out.println("Failed from eq != eq2 at iteration " + i + "...");
                 break;
             }
         }

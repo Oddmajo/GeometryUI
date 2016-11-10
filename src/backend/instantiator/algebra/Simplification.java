@@ -26,16 +26,17 @@ public class Simplification extends GenericRule
     public static Equation simplify(Equation original) throws CloneNotSupportedException, ArgumentException
     {
         //Do we have an equation?
-        if (original.equals(null))
+        if (original == null)
         {
             ExceptionHandler.throwException(new ArgumentException(""));
         }
 
         //Is the equation 0=0?  This should be allowed as it indicates a tautology.
+        //NOTE:  This should be reviewed as to whether an exception should be thrown or not
         if (original.lhs.equals(new NumericValue(0)) && original.rhs.equals(new NumericValue(0)))
         {
-            return original;
             //ExceptionHandler.throwException(new ArgumentException("Should not have an equation that is 0 = 0: " + original.toString()));
+            return original;
         }
 
         //
@@ -63,53 +64,42 @@ public class Simplification extends GenericRule
 
         Equation inflated;
         GroundedClause singleLeftExp = inflateEntireSide(constSimplify.lhsExps);
-        System.out.println(singleLeftExp);
-        
+
         GroundedClause singleRightExp = inflateEntireSide(constSimplify.rhsExps);
-        System.out.println(singleRightExp);
         if (original instanceof AlgebraicSegmentEquation)
         {
-            System.out.println("a");
             inflated = new AlgebraicSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricSegmentEquation)
         {
-            System.out.println("b");
             inflated = new GeometricSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleEquation)
         {
-            System.out.println("c");
             inflated = new AlgebraicAngleEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricAngleEquation)
         {
-            System.out.println("d");
             inflated = new GeometricAngleEquation(singleLeftExp, singleRightExp);         
         }
         else if (original instanceof AlgebraicArcEquation)
         {
-            System.out.println("e");
             inflated = new AlgebraicArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricArcEquation)
         {
-            System.out.println("f");
             inflated = new GeometricArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleArcEquation)
         {
-            System.out.println("g");
             inflated = new AlgebraicAngleArcEquation(singleLeftExp, singleRightExp);
         }
         else if (original instanceof GeometricAngleArcEquation)
         {
-            System.out.println("h");
             inflated = new GeometricAngleArcEquation(singleLeftExp, singleRightExp); 
         }
         else
         {
-            System.out.println("i");
             inflated = new Equation(original);
         }
 
@@ -126,7 +116,7 @@ public class Simplification extends GenericRule
         {
             return null;
         }
-        
+
         return inflated;
     }
 
@@ -233,7 +223,7 @@ public class Simplification extends GenericRule
 
         if (sideExps.size() == 1)
         {
-                return Utilities.makeList((GroundedClause)sideExps.get(0).deepCopy());
+            return Utilities.makeList((GroundedClause)sideExps.get(0).deepCopy());
         }
 
         // The new simplified side of the equation

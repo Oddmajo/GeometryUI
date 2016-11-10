@@ -3,6 +3,7 @@ package backendTest.equationsTest;
 import org.junit.*;
 
 import backend.equations.AlgebraicAngleArcEquation;
+import backend.equations.AlgebraicArcEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
@@ -19,22 +20,31 @@ public class AlgebraicAngleArcEquationTest
             try
             {
                 eq = new AlgebraicAngleArcEquation(EquationGenerator.genAdditionEquationPair());
-                eq2 = (AlgebraicAngleArcEquation) Simplification.simplify(eq);
+                eq2 = new AlgebraicAngleArcEquation(eq);
+                Simplification.simplify(eq);
             }
             catch (ArgumentException e)
             {
-                System.out.println("Argument");
                 ExceptionHandler.throwException(new ArgumentException(e.toString()));
             }
             catch (CloneNotSupportedException e)
             {
-                System.out.println("Clone");
                 ExceptionHandler.throwException(new CloneNotSupportedException());
             }
 
-            if (eq == null || !eq.equals(eq2))
+            if (eq == null)
             {
-                System.out.println("Failed at iteration " + i + "...");
+                System.out.println("Failed from eq being null at iteration " + i + "...");
+                break;
+            }
+            if (eq2 == null)
+            {
+                System.out.println("Failed from eq2 being null at iteration " + i + "...");
+                break;
+            }
+            else if (!eq.equals(eq2))
+            {
+                System.out.println("Failed from eq != eq2 at iteration " + i + "...");
                 break;
             }
         }

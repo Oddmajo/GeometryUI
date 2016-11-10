@@ -2,6 +2,7 @@ package backend.instantiator.algebra;
 
 import backend.equations.*;
 import backend.instantiator.*;
+import backend.ast.GroundedClause;
 import backend.ast.Descriptors.*;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
 
