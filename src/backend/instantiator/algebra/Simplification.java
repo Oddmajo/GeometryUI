@@ -63,58 +63,70 @@ public class Simplification extends GenericRule
 
         Equation inflated;
         GroundedClause singleLeftExp = inflateEntireSide(constSimplify.lhsExps);
+        System.out.println(singleLeftExp);
+        
         GroundedClause singleRightExp = inflateEntireSide(constSimplify.rhsExps);
-
+        System.out.println(singleRightExp);
         if (original instanceof AlgebraicSegmentEquation)
         {
+            System.out.println("a");
             inflated = new AlgebraicSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricSegmentEquation)
         {
+            System.out.println("b");
             inflated = new GeometricSegmentEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleEquation)
         {
+            System.out.println("c");
             inflated = new AlgebraicAngleEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricAngleEquation)
         {
+            System.out.println("d");
             inflated = new GeometricAngleEquation(singleLeftExp, singleRightExp);         
         }
         else if (original instanceof AlgebraicArcEquation)
         {
+            System.out.println("e");
             inflated = new AlgebraicArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof GeometricArcEquation)
         {
+            System.out.println("f");
             inflated = new GeometricArcEquation(singleLeftExp, singleRightExp); 
         }
         else if (original instanceof AlgebraicAngleArcEquation)
         {
+            System.out.println("g");
             inflated = new AlgebraicAngleArcEquation(singleLeftExp, singleRightExp);
         }
         else if (original instanceof GeometricAngleArcEquation)
         {
+            System.out.println("h");
             inflated = new GeometricAngleArcEquation(singleLeftExp, singleRightExp); 
         }
         else
         {
-            inflated = original;
+            System.out.println("i");
+            inflated = new Equation(original);
         }
 
-        if (inflated.equals(original))
-        {
-            return original;
-        }
 
         //
         // 0 = 0 should not be allowable.
         //
-        if (inflated.lhs.equals(new NumericValue(0)) && inflated.rhs.equals(new NumericValue(0)))
+        if (inflated.lhs == null || inflated.rhs == null || inflated.lhs.equals(new NumericValue(0)) && inflated.rhs.equals(new NumericValue(0)))
         {
             return null;
         }
 
+        if (original.equals(inflated))
+        {
+            return null;
+        }
+        
         return inflated;
     }
 

@@ -8,15 +8,15 @@ public class GeometricSegmentEquation extends SegmentEquation
     {
         super();
     }
+
+    public GeometricSegmentEquation(Equation eq)
+    {
+        super(eq);
+    }
     
     public GeometricSegmentEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
-    }
-    
-    public GeometricSegmentEquation(Equation eq)
-    {
-        super(eq);
     }
     
     public GroundedClause deepCopy()

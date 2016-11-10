@@ -71,7 +71,7 @@ public class EquationGenerator
         Segment s = genSegment(q, rng.nextInt(MAX_COORD)); 
 
         Addition sumRHS = new Addition(r, s);
-
+        
         Equation original = new Equation(sumLHS, sumRHS);
     
         return original;

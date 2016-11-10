@@ -14,6 +14,11 @@ public class AngleEquation extends Equation
     {
         super();
     }
+    
+    public AngleEquation(Equation eq)
+    {
+        super(eq);
+    }
 
     public AngleEquation(GroundedClause left, GroundedClause right)
     {

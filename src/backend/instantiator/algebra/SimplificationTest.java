@@ -10,13 +10,6 @@ import backend.equations.operations.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import backendTest.equationsTest.*;
-/*
- * NOTES FROM RYAN:  
- * 1) Simplify apparently doesn't work with my operations, even though they derive from Equation...
- * 
- */
-
 public class SimplificationTest 
 {
     @Test

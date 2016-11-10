@@ -23,10 +23,12 @@ public class AlgebraicAngleArcEquationTest
             }
             catch (ArgumentException e)
             {
+                System.out.println("Argument");
                 ExceptionHandler.throwException(new ArgumentException(e.toString()));
             }
             catch (CloneNotSupportedException e)
             {
+                System.out.println("Clone");
                 ExceptionHandler.throwException(new CloneNotSupportedException());
             }
 

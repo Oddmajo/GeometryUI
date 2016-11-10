@@ -8,6 +8,11 @@ public class GeometricAngleEquation extends AngleEquation
         super();
     }
     
+    public GeometricAngleEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
     public GeometricAngleEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
