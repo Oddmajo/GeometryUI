@@ -264,9 +264,10 @@ public class Point extends Figure
     @Override
     public boolean structurallyEquals(Object obj)
     {
+        if (obj == null)
+            return false;
         Point pt =  (Point)obj;
 
-        if (pt == null) return false;
         return backend.utilities.math.MathUtilities.doubleEquals(pt.X, X) && backend.utilities.math.MathUtilities.doubleEquals(pt.Y, Y);
     }
 

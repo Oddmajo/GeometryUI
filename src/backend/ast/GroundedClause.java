@@ -9,6 +9,8 @@ You should have received a copy of the GNU Affero General Public License along w
 package backend.ast;
 
 import java.util.ArrayList;
+import java.util.Scanner;
+
 import backend.utilities.list.Utilities;
 import backend.ast.ASTException;
 import backend.utilities.exception.*;
@@ -207,11 +209,15 @@ public abstract class GroundedClause implements Cloneable
 
     public String toString()
     {
-        return this.getClass().toString();
+        return this.toString();
+    }
+    
+    public String toPrettyString()
+    {
+        return this.toString();
     }
     
     
 
-    public String toPrettyString() { return Integer.toString(clauseId); }
 
 }

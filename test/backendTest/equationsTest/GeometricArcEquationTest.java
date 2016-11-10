@@ -2,24 +2,24 @@ package backendTest.equationsTest;
 
 import org.junit.*;
 
-import backend.equations.SegmentEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
+import backend.equations.GeometricArcEquation;
 
-public class SegmentEquationTest
+public class GeometricArcEquationTest
 {
     @Test
-    public void segmentEquationTest()
+    public void geometricArcEquationTest()
     {
-        System.out.println("Running SegmentEquation Test...");
+        System.out.println("Running GeometricArcEquation Test...");
         for (int i = 0; i < 100; i++)
         {
-            SegmentEquation eq = null, eq2 = null;
+            GeometricArcEquation eq = null, eq2 = null;
             try
             {
-                eq = new SegmentEquation(EquationGenerator.genAdditionEquationPair());
-                eq2 = (SegmentEquation) Simplification.simplify(eq);
+                eq = new GeometricArcEquation(EquationGenerator.genAdditionEquationPair());
+                eq2 = (GeometricArcEquation) Simplification.simplify(eq);
             }
             catch (ArgumentException e)
             {

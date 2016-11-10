@@ -9,6 +9,10 @@ public class GeometricArcEquation extends ArcEquation
         super();
     }
     
+    public GeometricArcEquation(Equation eq)
+    {
+        super(eq);
+    }
     public GeometricArcEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);

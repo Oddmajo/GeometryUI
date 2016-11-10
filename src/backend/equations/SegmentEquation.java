@@ -5,6 +5,7 @@ import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.*;
 import backend.ast.GroundedClause;
+import backend.ast.figure.components.Segment;
 
 public class SegmentEquation extends Equation
 {
@@ -42,12 +43,12 @@ public class SegmentEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
-            /*
+            
             else if (clause instanceof Segment)
             {
                 sum += clause.getMulitplier() * ((Segment)clause).length();
             }
-            */
+            
             
         }
         return sum;
@@ -81,6 +82,11 @@ public class SegmentEquation extends Equation
         }
         
         return super.equals(obj);
+    }
+    
+    public String toPrettyString()
+    {
+        return lhs.getMulitplier() + "";
     }
 
 }

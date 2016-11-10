@@ -21,6 +21,7 @@ public class ArithmeticOperation extends ArithmeticNode
         leftExp = left;
         rightExp = right;
     }
+   
 
     public GroundedClause getLeftExp()
     {
@@ -99,6 +100,7 @@ public class ArithmeticOperation extends ArithmeticNode
     {
         return "(" + leftExp.toString() + " + " + rightExp.toString() + ")";
     }
+    
 
     public boolean equals(Object obj)
     {

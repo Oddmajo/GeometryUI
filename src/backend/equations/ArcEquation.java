@@ -13,6 +13,11 @@ public class ArcEquation extends Equation
         super();
     }
 
+    public ArcEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
         double sumL = SumSide(left.collectTerms());

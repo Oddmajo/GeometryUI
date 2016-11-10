@@ -63,7 +63,7 @@ public class EquationGenerator
         Segment q = genSegment(rng.nextInt(MAX_COORD));
 
         Addition sumLHS = new Addition(p, q);
-
+        
         //
         // RHS
         //
@@ -73,14 +73,14 @@ public class EquationGenerator
         Addition sumRHS = new Addition(r, s);
 
         Equation original = new Equation(sumLHS, sumRHS);
-        
+    
         return original;
         /*
         // Build simplified based on the math above (with gcd, etc.)
         SegmentEquation simp = new SegmentEquation(Simplification.simplify(original));
-        
+
         return new Pair<SegmentEquation, SegmentEquation>(original, simp);
-        */
+         */
     }
 
     //
@@ -88,6 +88,6 @@ public class EquationGenerator
     //
 
 
-    
+
 
 }

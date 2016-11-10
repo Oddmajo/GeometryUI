@@ -202,6 +202,7 @@ public class Segment extends Figure
     public String toString() { return "Segment(" + _point1.toString() + ", " + _point2.toString() + ")"; }
 
 
+
     // Does this segment contain a subsegment:
     // A-------B-------C------D
     // A subsegment is: AB, AC, AD, BC, BD, CD
@@ -793,10 +794,12 @@ public class Segment extends Figure
     @Override
     public boolean structurallyEquals(Object obj)
     {
-        if(obj == null) return false;
-        if(!(obj instanceof Segment)) return false;
+        if(obj == null || (Segment) obj == null) return false;
+        
         Segment segment = (Segment)obj;
 
+        if (segment._point1 == null || segment._point2 == null)
+            return false;
         return ((segment._point1.structurallyEquals(_point1) && segment._point2.structurallyEquals(_point2)) ||
                 (segment._point1.structurallyEquals(_point2) && segment._point2.structurallyEquals(_point1)));
     }

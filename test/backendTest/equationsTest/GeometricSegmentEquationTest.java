@@ -2,6 +2,7 @@ package backendTest.equationsTest;
 
 import org.junit.*;
 
+import backend.equations.GeometricSegmentEquation;
 import backend.equations.SegmentEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
@@ -10,32 +11,34 @@ import backend.utilities.exception.ExceptionHandler;
 public class GeometricSegmentEquationTest
 {
     @Test
-    public void geometricSegmentEquation()
+    public void geometricSegmentEquationTest()
     {
-        System.out.println("Running SegmentEquation...");
-        SegmentEquation eq = null, eq2 = null;
-        try
+        System.out.println("Running GeometricSegmentEquation Test...");
+        for (int i = 0; i < 100; i++)
         {
-            eq = new SegmentEquation(EquationGenerator.genAdditionEquationPair());
-            eq2 = (SegmentEquation) Simplification.simplify(eq);
-        }
-        catch (ArgumentException e)
-        {
-            ExceptionHandler.throwException(new ArgumentException(e.toString()));
-        }
-        catch (CloneNotSupportedException e)
-        {
-            ExceptionHandler.throwException(new CloneNotSupportedException());
-        }
+            SegmentEquation eq = null, eq2 = null;
+            try
+            {
+                eq = new GeometricSegmentEquation(EquationGenerator.genAdditionEquationPair());
+                eq2 = (GeometricSegmentEquation) Simplification.simplify(eq);
+            }
+            catch (ArgumentException e)
+            {
+                ExceptionHandler.throwException(new ArgumentException(e.toString()));
+            }
+            catch (CloneNotSupportedException e)
+            {
+                ExceptionHandler.throwException(new CloneNotSupportedException());
+            }
 
-        if (eq != null && eq.equals(eq2))
-        {
-            System.out.println("Done");
+            if (eq == null || !eq.equals(eq2))
+            {
+                System.out.println("Failed at iteration " + i + "...");
+                break;
+            }
         }
-        else
-        {
-            System.out.println("Failed...");
-        }
+        System.out.println("Done");
+
     }
 
 }

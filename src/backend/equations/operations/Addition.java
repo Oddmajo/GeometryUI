@@ -27,7 +27,7 @@ public class Addition extends ArithmeticOperation
 
     public  boolean equals(Object obj)
     {
-        if (obj == null || (Addition)obj == null) return false;
+        if (obj == null || (obj instanceof Addition) == false) return false;
         return super.equals((Addition)obj);
     }
 

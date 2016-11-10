@@ -14,6 +14,11 @@ public class GeometricSegmentEquation extends SegmentEquation
         super(left, right);
     }
     
+    public GeometricSegmentEquation(Equation eq)
+    {
+        super(eq);
+    }
+    
     public GroundedClause deepCopy()
     {
         return new GeometricSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
