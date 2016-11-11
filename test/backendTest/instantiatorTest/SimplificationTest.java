@@ -1,8 +1,6 @@
-package backend.instantiator.algebra;
+package backendTest.instantiatorTest;
 
 import backend.instantiator.algebra.Simplification;
-
-import org.junit.*;
 
 import backend.equations.*;
 import backend.utilities.test.TestManager;
@@ -12,7 +10,6 @@ import java.util.List;
 
 public class SimplificationTest 
 {
-    @Test
     public static void main(String[] args) throws Exception
     {
         TestManager.run();
@@ -324,7 +321,7 @@ public class SimplificationTest
         else
             System.out.println("Failed");
         totalTests = testsPassed = 0;
-        
+
         System.out.print("Running Multiplication Tests...");
 
 
@@ -451,7 +448,7 @@ public class SimplificationTest
                 totalTests++;
             }
         }
-        
+
 
         for (int i = 0; i < 200; i++)
         {
@@ -527,6 +524,7 @@ public class SimplificationTest
                     System.out.println("Test " + (totalTests+1) + " failed.  Expected: " + expectedResult + "; found " + test);
                 totalTests++;
 
+
             }
         }
 
@@ -556,7 +554,7 @@ public class SimplificationTest
                 }
             }
         }
-        
+
         if (totalTests == testsPassed)
             System.out.println("Done");
         else
