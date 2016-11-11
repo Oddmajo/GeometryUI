@@ -689,6 +689,14 @@ public class Segment extends Figure
 //        return new Segment(tail, rotatedPoint);
 //    }
     
+    //
+    // Is this segment congruent to the given segment in terms of the coordinatization from the UI?
+    //
+    public boolean CoordinateCongruent(Segment s)
+    {
+        return MathUtilities.doubleEquals(s.length(), this.length());
+    }
+    
    // Is this segment proportional to the given segment in terms of the coordinatization from the UI?
    //
     public Pair<Integer, Integer> CoordinateProportional(Segment s)
