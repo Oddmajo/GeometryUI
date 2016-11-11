@@ -7,7 +7,7 @@ import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
-public class AlgebraicArcEquationTest
+public class AlgebraicArcEquationtest
 {
     @Test
     public void algebraicArcEquationTest()

@@ -48,6 +48,7 @@ public class Segment extends Figure
     {
         this(in._point1, in._point2);
     }
+    
     /**
      * Method to compare two double with the given accuracy
      * @param accuracy      accuracy used to compare the doubles
@@ -59,20 +60,6 @@ public class Segment extends Figure
     {
         if (Math.abs(d1 - d2) < accuracy) { return true; }
         return false;
-    }
-    
-    // slope calculator to handle vertical slope 
-    //Dr. Alvin sees this and says this is "hack crap" -Ryan
-    private Double getSlope()
-    {
-        if (doubleCompare(0.00000001, _point2.getX(), _point1.getX()))
-        {
-            return null;
-        }
-        else
-        {
-            return (_point2.getY() - _point1.getY()) / (_point2.getX() - _point1.getX());
-        }
     }
 
     public boolean crosses(Segment that)
@@ -795,7 +782,7 @@ public class Segment extends Figure
     @Override
     public boolean structurallyEquals(Object obj)
     {
-        if(obj == null || (Segment) obj == null) return false;
+        if(obj == null || !(obj instanceof Segment)) return false;
         
         Segment segment = (Segment)obj;
 

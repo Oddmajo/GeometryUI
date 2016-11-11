@@ -7,6 +7,7 @@ import java.util.ArrayList;
 //import utilities.IdFactory;
 
 import backend.ast.ASTException;
+import backend.atoms.components.AtomicRegionException;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.GeometryException;
@@ -247,8 +248,8 @@ public class LoggerFactory
                 getLogger(astLogger.getLoggerId()));
         
         // atomic region loggers
-//        Logger atomsLogger = LoggerFactory.buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\AtomsLog.txt", 
-//                LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID));
+        Logger atomsLogger = LoggerFactory.buildLogger(path + "\\src\\backend\\logs\\exception\\AtomicRegionsLog.txt", 
+                LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID));
         
         // generic exception logger
         Logger generalExceptionLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\GeneralExceptionLog.txt", 
@@ -261,6 +262,7 @@ public class LoggerFactory
         NotImplementedException.setLoggerID(generalExceptionLogger);
         ArgumentException.setLoggerID(generalExceptionLogger);
         DebugException.setLoggerID(DEBUG_OUTPUT_ID);
+        AtomicRegionException.setLoggerID(atomsLogger);
         
     }
 

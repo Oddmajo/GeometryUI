@@ -12,6 +12,7 @@ import backend.atoms.calculator.PrimitiveToRegionConverter;
 import backend.atoms.components.AtomicRegion;
 import backend.atoms.undirectedPlanarGraph.EdgeType;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.utilities.logger.LoggerFactory;
 
 public class PrimitiveToRegionConverterTest
 {
@@ -152,6 +153,10 @@ public class PrimitiveToRegionConverterTest
     {
         System.out.println("Running PrimitiveToRegionConverter_Convert_TwoTriangleWithFilamanetGraphTest...");
         // create the graph
+        
+        // instantiate logger factory, as it should throw an exception for the filament
+        LoggerFactory.initialize();
+        
         PlanarGraph graph = new PlanarGraph();
         
         // create the Points
@@ -196,6 +201,9 @@ public class PrimitiveToRegionConverterTest
         {
             System.out.println("\t" + atom.ToString());
         }
+        
+        // close the logger factory
+        LoggerFactory.close();
         
         System.out.println("Done\n");
     }

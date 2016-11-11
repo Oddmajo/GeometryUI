@@ -38,10 +38,10 @@ public class AtomComposer
     // toadd refers to atomic regions that are new / modified. 
     // toRemove is a subset of the atoms that may be removed from the worklist since they have been replaced as a non-atomic.
     //
-    public static void Compose(ArrayList<Point> figurePoints, AtomicRegion thisAtom, AtomicRegion thatAtom, OutSingle<ArrayList<AtomicRegion>> toAdd, OutSingle<ArrayList<AtomicRegion>> toRemove) throws Exception
+    public static void Compose(ArrayList<Point> figurePoints, AtomicRegion thisAtom, AtomicRegion thatAtom, OutSingle<ArrayList<AtomicRegion>> toAdd, OutSingle<ArrayList<AtomicRegion>> toRemove) 
     {
-        toAdd = new OutSingle<ArrayList<AtomicRegion>>();
-        toRemove = new OutSingle<ArrayList<AtomicRegion>>();
+        //toAdd = new OutSingle<ArrayList<AtomicRegion>>();
+        //toRemove = new OutSingle<ArrayList<AtomicRegion>>();
 
         //
         // Do these regions interact at all?
@@ -54,6 +54,8 @@ public class AtomComposer
         //
         if (thisAtom.StrictlyContains(thatAtom) || thisAtom.ContainsWithOneInscription(thatAtom))
         {
+            // why are these commented out?
+            
             //AtomicRegion diff = GenerateDifferenceRegion(thisAtom, thatAtom);
             //toAdd(diff);
             //toRemove.Add(thisAtom);
@@ -61,6 +63,8 @@ public class AtomComposer
         }
         if (thatAtom.StrictlyContains(thisAtom) || thatAtom.ContainsWithOneInscription(thisAtom))
         {
+            // why is this commmented out?
+            
 //            return GenerateDifferenceRegion(thatAtom, thisAtom);
         }
 
@@ -190,7 +194,7 @@ public class AtomComposer
     //    return newAtoms;
     //}
 
-    public static void Overlap(ArrayList<Point> figurePoints, AtomicRegion thisAtom, AtomicRegion thatAtom, OutSingle<ArrayList<AtomicRegion>> toAdd, OutSingle<ArrayList<AtomicRegion>> toRemove) throws Exception
+    public static void Overlap(ArrayList<Point> figurePoints, AtomicRegion thisAtom, AtomicRegion thatAtom, OutSingle<ArrayList<AtomicRegion>> toAdd, OutSingle<ArrayList<AtomicRegion>> toRemove) 
     {
         //
         // Acquire all arcs and segments.
