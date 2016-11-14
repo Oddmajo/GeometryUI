@@ -54,6 +54,7 @@ public class EquationSegment extends Segment
     {
         // constant to exclude the lower bound
         final double EPSILON = 0.0000001;
+        
         // new random number generator
         Random generator = new Random();
         

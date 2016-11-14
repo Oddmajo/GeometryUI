@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class LexicographicPoints
 {
     
-    ArrayList<Point> ordered = null;
+    protected ArrayList<Point> ordered = null;
 
     /**
      * Creates the Min-heap array and places the smallest value possible in array position 0.
