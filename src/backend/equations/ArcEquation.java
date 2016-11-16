@@ -20,6 +20,7 @@ public class ArcEquation extends Equation
     
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
+        super(left, right);
         double sumL = SumSide(left.collectTerms());
         double sumR = SumSide(right.collectTerms());
        
@@ -32,6 +33,8 @@ public class ArcEquation extends Equation
         {
             ExceptionHandler.throwException(new ArgumentException("Should not have an equation that is 0 = 0: " + this.toString()));
         }
+        
+        
     }
 
     private double SumSide(List<GroundedClause> side)

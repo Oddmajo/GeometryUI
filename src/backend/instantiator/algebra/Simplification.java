@@ -107,7 +107,7 @@ public class Simplification extends GenericRule
         //
         // 0 = 0 should not be allowable.
         //
-        if (inflated.lhs == null || inflated.rhs == null || inflated.lhs.equals(new NumericValue(0)) && inflated.rhs.equals(new NumericValue(0)))
+        if (inflated.lhs == null || inflated.rhs == null || inflated.lhs.getMulitplier() == 0 && inflated.rhs.getMulitplier() == 0 )
         {
             return null;
         }

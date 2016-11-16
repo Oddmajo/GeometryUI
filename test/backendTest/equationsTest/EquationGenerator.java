@@ -15,7 +15,7 @@ public class EquationGenerator
 
     public static int genCoordinate()
     {
-        return rng.nextInt() % MAX_COORD;
+        return rng.nextInt() % MAX_COORD + 1;
     }
 
     public static String genName()

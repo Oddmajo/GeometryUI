@@ -5,6 +5,7 @@ import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.*;
 import backend.ast.GroundedClause;
+import backend.ast.figure.components.Arc;
 import backend.ast.figure.components.Segment;
 
 public class SegmentEquation extends Equation
@@ -21,6 +22,7 @@ public class SegmentEquation extends Equation
     
     public SegmentEquation(GroundedClause left, GroundedClause right)
     {
+        super(left, right);
         double sumL = SumSide(left.collectTerms());
         double sumR = SumSide(right.collectTerms());
 
@@ -43,13 +45,14 @@ public class SegmentEquation extends Equation
             {
                 sum += ((NumericValue)clause).getDoubleValue();
             }
-            
+            else if (clause instanceof Arc)
+            {
+                sum += clause.getMulitplier() * ((Arc)clause).getLength();
+            }
             else if (clause instanceof Segment)
             {
                 sum += clause.getMulitplier() * ((Segment)clause).length();
             }
-            
-            
         }
         return sum;
     }

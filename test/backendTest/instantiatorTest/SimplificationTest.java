@@ -3,6 +3,7 @@ package backendTest.instantiatorTest;
 import backend.instantiator.algebra.Simplification;
 
 import backend.equations.*;
+import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
 import backend.equations.operations.*;
 import java.util.ArrayList;
@@ -12,7 +13,10 @@ public class SimplificationTest
 {
     public static void main(String[] args) throws Exception
     {
+        LoggerFactory.initialize();
+       
         TestManager.run();
+         /*
         List<NumericValue> testList = new ArrayList<NumericValue>();
         for (int i = -100; i < 100; i++)
         {
@@ -755,8 +759,9 @@ public class SimplificationTest
             System.out.println("Failed");
         totalTests = testsPassed = 0;
 
+    */
+
+        LoggerFactory.close();
     }
-
-
 }
 

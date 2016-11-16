@@ -17,6 +17,7 @@ public class GeometricArcEquationTest
         
         for (int i = 0; i < 100; i++)
         {
+            
             GeometricArcEquation eq = null, eq2 = null;
             try
             {
@@ -49,7 +50,7 @@ public class GeometricArcEquationTest
                 break;
             }
         }
-        
         System.out.println("Done");
+        
     }
 }

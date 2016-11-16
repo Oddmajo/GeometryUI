@@ -104,7 +104,7 @@ public class ArithmeticOperation extends ArithmeticNode
 
     public boolean equals(Object obj)
     {
-        if (obj == null || (ArithmeticOperation)obj == null) return false;
+        if (obj == null) return false;
         ArithmeticOperation ao = (ArithmeticOperation) obj;
         return leftExp.equals(ao.leftExp) && rightExp.equals(ao.rightExp) ||
                 leftExp.equals(ao.rightExp) && rightExp.equals(ao.leftExp) && super.equals(obj);

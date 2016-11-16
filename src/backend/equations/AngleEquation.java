@@ -115,7 +115,7 @@ public class AngleEquation extends Equation
 
         //Check side length counts as a first step
         if (!((thisLHS.size() == thatLHS.size() && thisRHS.size() == thatRHS.size())) ||
-                (thisLHS.size() == thatRHS.size() && thisLHS.size() == thatLHS.size()))
+                !(thisLHS.size() == thatRHS.size() && thisLHS.size() == thatLHS.size()))
         {
             return false;
         }
