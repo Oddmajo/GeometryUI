@@ -2,7 +2,9 @@ package backendTest.equationsTest;
 
 import backend.equations.Equation;
 import backend.equations.operations.Addition;
+import backend.instantiator.algebra.Simplification;
 import backend.ast.figure.components.Point;
+import backend.utilities.Pair;
 import backend.utilities.exception.ArgumentException;
 import backend.ast.figure.components.*;
 
@@ -51,27 +53,35 @@ public class EquationGenerator
     // Construct a segment equation, also construct the simplified equation.
     // The result of simplification better match.
     //
-    public static Equation genAdditionEquationPair() throws ArgumentException, CloneNotSupportedException
+    public static Pair<Equation, Equation> genAdditionEquationPair() throws ArgumentException, CloneNotSupportedException
     {
         //
         // LHS
         //
         Segment p = genSegment(rng.nextInt(MAX_COORD));
+        System.out.println("P's Multiplier: " + p.getMulitplier());
         Segment q = genSegment(rng.nextInt(MAX_COORD));
-
+        System.out.println("Q's Multiplier: " + q.getMulitplier());
         Addition sumLHS = new Addition(p, q);
         
         //
         // RHS
         //
-        Segment r = genSegment(p, rng.nextInt(MAX_COORD)); 
+        Segment r = genSegment(p, rng.nextInt(MAX_COORD));
+        System.out.println("R's Multiplier: " + r.getMulitplier());
         Segment s = genSegment(q, rng.nextInt(MAX_COORD)); 
+        System.out.println("S's Multiplier: " + s.getMulitplier());
 
         Addition sumRHS = new Addition(r, s);
         
         Equation original = new Equation(sumLHS, sumRHS);
-    
-        return original;
+        
+        Equation simplified = null;
+        
+        simplified = Simplification.simplify(original);
+
+        Pair<Equation, Equation> equations = new Pair<Equation, Equation>(original, simplified);
+        return equations;
         /*
         // Build simplified based on the math above (with gcd, etc.)
         SegmentEquation simp = new SegmentEquation(Simplification.simplify(original));

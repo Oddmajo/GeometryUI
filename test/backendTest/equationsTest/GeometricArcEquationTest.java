@@ -5,7 +5,6 @@ import org.junit.*;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
-import backend.utilities.logger.LoggerFactory;
 import backend.equations.GeometricArcEquation;
 
 public class GeometricArcEquationTest
@@ -19,7 +18,6 @@ public class GeometricArcEquationTest
         
         for (int i = 0; i < 100; i++)
         {
-            
             GeometricArcEquation eq = null, eq2 = null;
             try
             {

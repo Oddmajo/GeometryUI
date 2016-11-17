@@ -43,7 +43,7 @@ public class AlgebraicSegmentEquation extends SegmentEquation
     
     public String toString()
     {
-        return "AlgebraicEquation(" + lhs + " = " + rhs + "): " + justification;
+        return "AlgebraicEquation("  + lhs + " = " + rhs + "): " + justification;
     }
 }
 

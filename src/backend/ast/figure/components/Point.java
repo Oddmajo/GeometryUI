@@ -299,7 +299,11 @@ public class Point extends Figure
     @Override
     public String toString()
     {
-        return name + "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
+        if (X == (int) X && Y == (int) Y)
+        {
+            return "(" + X + "," + Y + ")";
+        }
+        return "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
 
     @Override

@@ -187,7 +187,7 @@ public class Segment extends Figure
     }
 
     @Override
-    public String toString() { return "Segment(" + _point1.toString() + ", " + _point2.toString() + ")"; }
+    public String toString() { return getMulitplier() + " * Segment " + _point1.toString() + ", " + _point2.toString(); }
 
 
 
