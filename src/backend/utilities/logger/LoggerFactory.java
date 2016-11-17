@@ -30,6 +30,10 @@ public class LoggerFactory
 
     // A default logger where output goes to die
     protected static Logger _deathLogger;
+    
+    // A counter that is used to check if the logger factory should be
+    // initialized or closed
+    private static int init_close_count = 0;
 
     // This will be a static class
     protected LoggerFactory() {}
@@ -190,26 +194,32 @@ public class LoggerFactory
     // "Wouldn't this be a deconstructor of sorts?"  -Ryan Billingsly
     public static void close()
     {
-        try
+        // decrement the counter]
+        init_close_count--;
+        
+        if (init_close_count == 0)
         {
-            for (Logger logger : _loggers)
+            try
             {
-                try
+                for (Logger logger : _loggers)
                 {
-                    if (logger != null) logger.close();
+                    try
+                    {
+                        if (logger != null) logger.close();
+                    }
+                    catch (IOException ioe)
+                    {
+                        System.err.println(ioe.getMessage());
+                        ioe.printStackTrace();
+                    }
                 }
-                catch (IOException ioe)
-                {
-                    System.err.println(ioe.getMessage());
-                    ioe.printStackTrace();
-                }
+                _deathLogger.close();
             }
-            _deathLogger.close();
-        }
-        catch (IOException ioe)
-        {
-            System.err.println(ioe.getMessage());
-            ioe.printStackTrace();
+            catch (IOException ioe)
+            {
+                System.err.println(ioe.getMessage());
+                ioe.printStackTrace();
+            }
         }
     }
     
@@ -219,50 +229,57 @@ public class LoggerFactory
      */
     public static void initialize() throws IOException
     {
-        // *****default loggers
-        File dir = new File(".");
-        String path = dir.getCanonicalPath();
-        _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
-        _loggers = new ArrayList<Logger>();
-        buildLogger(path + "\\src\\backend\\logs\\DebugLog.txt");                     // debug logger id 0
-        buildLogger(path + "\\src\\backend\\logs\\MatlabLog.txt");                     // matlab logger id 1
+        // increment the counter\
+        init_close_count++;
         
-        // default logger id 2
-        //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"));     
-        buildLogger(path + "\\src\\backend\\logs\\DefaultLog.txt"); 
-        
-        // exception default logger id 3
-        //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID)));    
-        buildLogger(path + "\\src\\backend\\logs\\exception\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID));    
-        
-        // Initializing the null output stream
-        //_deathLogger = new Logger(new NullOutputStreamWriter());
-        _deathLogger = new Logger();
-        
-        // ****build the Loggers****
-        // AST Loggers
-        Logger astLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\ASTLog.txt", 
-                getLogger(EXCEPTION_OUTPUT_ID));
-        
-        Logger geometryLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\GeometryLog.txt", 
-                getLogger(astLogger.getLoggerId()));
-        
-        // atomic region loggers
-        Logger atomsLogger = LoggerFactory.buildLogger(path + "\\src\\backend\\logs\\exception\\AtomicRegionsLog.txt", 
-                LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID));
-        
-        // generic exception logger
-        Logger generalExceptionLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\GeneralExceptionLog.txt", 
-                getLogger(EXCEPTION_OUTPUT_ID));
-        
-        
-        // ***set the Exception classes' static logger IDs***
-        ASTException.setLoggerID(astLogger);
-        GeometryException.setLoggerID(geometryLogger);
-        NotImplementedException.setLoggerID(generalExceptionLogger);
-        ArgumentException.setLoggerID(generalExceptionLogger);
-        DebugException.setLoggerID(DEBUG_OUTPUT_ID);
-        AtomicRegionException.setLoggerID(atomsLogger);
+        // if the logger factory is uninitialized
+        if (init_close_count == 1)
+        {
+            // *****default loggers
+            File dir = new File(".");
+            String path = dir.getCanonicalPath();
+            _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
+            _loggers = new ArrayList<Logger>();
+            buildLogger(path + "\\src\\backend\\logs\\DebugLog.txt");                     // debug logger id 0
+            buildLogger(path + "\\src\\backend\\logs\\MatlabLog.txt");                     // matlab logger id 1
+            
+            // default logger id 2
+            //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"));     
+            buildLogger(path + "\\src\\backend\\logs\\DefaultLog.txt"); 
+            
+            // exception default logger id 3
+            //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID)));    
+            buildLogger(path + "\\src\\backend\\logs\\exception\\DefaultExceptionLog.txt", getLogger(DEFAULT_OUTPUT_ID));    
+            
+            // Initializing the null output stream
+            //_deathLogger = new Logger(new NullOutputStreamWriter());
+            _deathLogger = new Logger();
+            
+            // ****build the Loggers****
+            // AST Loggers
+            Logger astLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\ASTLog.txt", 
+                    getLogger(EXCEPTION_OUTPUT_ID));
+            
+            Logger geometryLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\ast\\GeometryLog.txt", 
+                    getLogger(astLogger.getLoggerId()));
+            
+            // atomic region loggers
+            Logger atomsLogger = LoggerFactory.buildLogger(path + "\\src\\backend\\logs\\exception\\AtomicRegionsLog.txt", 
+                    LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID));
+            
+            // generic exception logger
+            Logger generalExceptionLogger = buildLogger(path + "\\src\\backend\\logs\\exception\\GeneralExceptionLog.txt", 
+                    getLogger(EXCEPTION_OUTPUT_ID));
+            
+            
+            // ***set the Exception classes' static logger IDs***
+            ASTException.setLoggerID(astLogger);
+            GeometryException.setLoggerID(geometryLogger);
+            NotImplementedException.setLoggerID(generalExceptionLogger);
+            ArgumentException.setLoggerID(generalExceptionLogger);
+            DebugException.setLoggerID(DEBUG_OUTPUT_ID);
+            AtomicRegionException.setLoggerID(atomsLogger);
+        }
         
     }
 

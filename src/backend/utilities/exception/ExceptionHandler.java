@@ -56,33 +56,7 @@ public class ExceptionHandler
             // get current stack trace 
             output += "\r\n\tat " + Thread.currentThread().getStackTrace()[i];
 
-            // get stack trace class and check if there's a logger for it
-            // if a loggerID hasn't already been found
-//            if (loggerID != -1)
-//            {
-//                loggerClass = Thread.currentThread().getStackTrace()[i].getClass();
-//
-//                if (loggerClass.isInstance(new GeometryException())) 
-//                {
-//                    loggerID = GeometryException.loggerID;
-//                }
-//                else if(loggerClass.isInstance(new ASTException()))
-//                {
-//                    loggerID = ASTException.loggerID;
-//                }
-//                // other checks to come
-//            }
         }
-
-//        // write to the logger if one was found
-//        if (loggerID != -1) {
-//            LoggerFactory.getLogger(loggerID).writeln(output);
-//        }
-//        else // write to the default logger
-//        {
-//            loggerID = DEFAULT_LOGGER_ID;
-//            LoggerFactory.getLogger(DEFAULT_LOGGER_ID).writeln(output);
-//        }
         
         // write to the default exception logger
         loggerID = DEFAULT_LOGGER_ID;
@@ -106,12 +80,10 @@ public class ExceptionHandler
         int loggerID = -1;
         
         // check if the exception inherits from a packages Exception
-        //if (new GeometryException().getClass().isInstance(except))
         if (except instanceof GeometryException)
         {
             loggerID = GeometryException.getLoggerID();
         }
-        //else if(new ASTException().getClass().isInstance(except) )
         else if (except instanceof ASTException)
         {
             loggerID = ASTException.getLoggerID();
@@ -124,6 +96,14 @@ public class ExceptionHandler
         {
             loggerID = ArgumentException.getLoggerID();
         }
+        else if (except instanceof DebugException)
+        {
+            loggerID = DebugException.getLoggerID();
+        }
+        else if (except instanceof NotImplementedException)
+        {
+            loggerID = NotImplementedException.getLoggerID();
+        }
         // more checks to come
 
         // get the message and stack trace from the exception
@@ -134,24 +114,6 @@ public class ExceptionHandler
         for (int i = 1; i < Thread.currentThread().getStackTrace().length; i++)
         {
             output += "\r\n\tat " + Thread.currentThread().getStackTrace()[i];
-
-            // get stack trace class and check if there's a logger for it
-            // if a loggerID hasn't already been found
-            // should I even do this?
-//            if (loggerID != -1)
-//            {
-//                loggerClass = Thread.currentThread().getStackTrace()[i].getClass();
-//
-//                if (loggerClass.isInstance(new GeometryException())) 
-//                {
-//                    loggerID = GeometryException.loggerID;
-//                }
-//                else if(loggerClass.isInstance(new ASTException()))
-//                {
-//                    loggerID = ASTException.loggerID;
-//                }
-//                // other checks to come
-//            }
         }
 
         // write to the logger if one was found
@@ -165,30 +127,5 @@ public class ExceptionHandler
 
         return output += "\n\tloggerID = " + loggerID;
     }
-
-    /**
-     * Static method to throw Exceptions to a Logger with a
-     * GeometryException input.
-     * <p>
-     * This method is currently unnecessary, it is handled by the 
-     * throwException method that takes an Exception argument.
-     * @param geoexception  the input GeometryException to be logged
-     * @return  the exception message and the stack trace as a string
-     * @author Drew Whitmire
-     */
-//    public static String throwException(GeometryException geoexcept)
-//    {
-//        // get the message and stack trace from the geometry exception
-//        // turn the GeometryException message into a string and add to the output
-//        String output = "EXCEPTION: (" + geoexcept.getClass().getSimpleName() + ") " + geoexcept.getMessage();
-//
-//        // loop through the Stack Trace array and add each one to the output
-//        // skip the first trace (the getStackTrace()'s trace)
-//        for (int i = 1; i < Thread.currentThread().getStackTrace().length; i++)
-//        {
-//            output += "\n\tat " + Thread.currentThread().getStackTrace()[i];
-//        }
-//        return output;
-//    }
 
 }

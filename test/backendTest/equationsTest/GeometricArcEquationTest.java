@@ -15,6 +15,8 @@ public class GeometricArcEquationTest
     {
         System.out.println("Running GeometricArcEquation Test...");
         
+        LoggerFactory.initialize();
+        
         for (int i = 0; i < 100; i++)
         {
             
@@ -50,6 +52,9 @@ public class GeometricArcEquationTest
                 break;
             }
         }
+        
+        LoggerFactory.close();
+        
         System.out.println("Done");
         
     }

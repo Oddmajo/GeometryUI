@@ -1,18 +1,24 @@
 package backendTest.equationsTest;
 
+import java.io.IOException;
+
 import org.junit.*;
 
 import backend.equations.GeometricSegmentEquation;
 import backend.instantiator.algebra.Simplification;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.logger.LoggerFactory;
 
 public class GeometricSegmentEquationTest
 {
     @Test
-    public void geometricSegmentEquationTest()
+    public void geometricSegmentEquationTest() throws IOException
     {
         System.out.println("Running GeometricSegmentEquation Test...");
+        
+        LoggerFactory.initialize();
+        
         for (int i = 0; i < 100; i++)
         {
             GeometricSegmentEquation eq = null, eq2 = null;
@@ -47,6 +53,9 @@ public class GeometricSegmentEquationTest
                 break;
             }
         }
+        
+        LoggerFactory.close();
+        
         System.out.println("Done");
     }
 }

@@ -26,9 +26,7 @@ public class ComplexTriangleGeneratorTest
 
         // get segment 1 and 2 points and segments
         LexicographicPoints seg1points = triGen.getS1points();
-        HashMap<Point, EquationSegment> hashS1Points = triGen.getHashS1Points();
         LexicographicPoints seg2points = triGen.getS2points();
-        HashMap<Point, EquationSegment> hashS2Points = triGen.getHashS2Points();
         
         // print segment 1 points
         //System.out.println("Segment 1 Points: ");
