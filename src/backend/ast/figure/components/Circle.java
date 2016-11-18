@@ -102,10 +102,10 @@ public class Circle extends Figure
 
         inscribedPolys = new ArrayList<ArrayList<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
         circumPolys = new ArrayList<ArrayList<Polygon>>(Polygon.MAX_EXC_POLY_INDEX);
-        for (int n = Polygon.MIN_POLY_INDEX; n < Polygon.MAX_EXC_POLY_INDEX; n++)
+        for (int n = 0; n < Polygon.MAX_EXC_POLY_INDEX; n++)
         {
-            inscribedPolys.set(n, new ArrayList<Polygon>());
-            circumPolys.set(n, new ArrayList<Polygon>());
+            inscribedPolys.add(new ArrayList<Polygon>());
+            circumPolys.add(new ArrayList<Polygon>());
         }
 
         pointsOnCircle = new ArrayList<Point>();
