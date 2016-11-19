@@ -6,6 +6,7 @@ import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
 import backend.atoms.undirectedPlanarGraph.EdgeType;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.utilities.GeometryVector;
 import backendTest.atomsTest.calculatorTest.lexicographicPointsTest.LexicographicPointsByY;
 
 /**
@@ -166,13 +167,15 @@ public class ComplexCircleGenerator
         // add middle points, so each arc is comprised of two arcs
         
         // top segment
-        Point topSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(rightPoints.size()-1));
+        //Point topSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(rightPoints.size()-1));
+        Point topSegmentMidpoint = ComplexCircleGenerator.vectorArcMidpoint(theCircle, leftPoint, rightPoints.get(rightPoints.size()-1));
         theGraph.addNode(topSegmentMidpoint);
         theGraph.addUndirectedEdge(leftPoint, topSegmentMidpoint, 0, EdgeType.REAL_ARC);
         theGraph.addUndirectedEdge(topSegmentMidpoint, rightPoints.get(rightPoints.size()-1), 0, EdgeType.REAL_ARC);
         
         // bottom segment
-        Point bottomSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(0));
+        //Point bottomSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(0));
+        Point bottomSegmentMidpoint = ComplexCircleGenerator.vectorArcMidpoint(theCircle, leftPoint, rightPoints.get(0));
         theGraph.addNode(bottomSegmentMidpoint);
         theGraph.addUndirectedEdge(leftPoint, bottomSegmentMidpoint, 0, EdgeType.REAL_ARC);
         theGraph.addUndirectedEdge(bottomSegmentMidpoint, rightPoints.get(0), 0, EdgeType.REAL_ARC);
@@ -189,6 +192,25 @@ public class ComplexCircleGenerator
         {
             theGraph.addUndirectedEdge(rightPoints.get(i), rightPoints.get(i + 1), 0, EdgeType.REAL_ARC);
         }
+        
+    }
+    
+    public static Point vectorArcMidpoint(Circle c, Point p1, Point p2)
+    {
+        // get vectors for the two given points
+        GeometryVector vec1 = new GeometryVector(p1);
+        GeometryVector vec2 = new GeometryVector(p2);
+        
+        // get a normalized midpoint vector
+        GeometryVector midpoint = vec1.add(vec2);
+        midpoint.scale(0.5);
+        midpoint.normalize();
+        
+        // put the vector on the circle
+        midpoint.scale(c.getRadius());
+        
+        // return the point
+        return new Point("arc midpoint", midpoint.getX(), midpoint.getY());
         
     }
 

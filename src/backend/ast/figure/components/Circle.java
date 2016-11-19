@@ -8,6 +8,7 @@ import java.util.List;
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
 import backend.utilities.Pair;
+import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 import backend.utilities.translation.OutSingle;
@@ -977,7 +978,7 @@ public class Circle extends Figure
         double angle2 = new Angle(b, _center, theMidpoint).measure;
         if (!backend.utilities.math.MathUtilities.doubleEquals(angle1, angle2))
         {
-            ExceptionHandler.throwException( new IllegalArgumentException("Midpoint is incorrect; angles do not equate: " + angle1 + " " + angle2));
+            ExceptionHandler.throwException( new ArgumentException("Midpoint is incorrect; angles do not equate: " + angle1 + " " + angle2));
         }
 
         return theMidpoint;
