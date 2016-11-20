@@ -100,7 +100,7 @@ public class Simplification extends GenericRule
         }
         else
         {
-            inflated = new Equation(original);
+            inflated = new Equation(singleLeftExp, singleRightExp);
         }
 
 

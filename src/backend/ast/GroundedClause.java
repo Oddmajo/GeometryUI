@@ -9,7 +9,6 @@ You should have received a copy of the GNU Affero General Public License along w
 package backend.ast;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import backend.utilities.list.Utilities;
 import backend.ast.ASTException;

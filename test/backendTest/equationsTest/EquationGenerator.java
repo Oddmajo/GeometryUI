@@ -35,6 +35,12 @@ public class EquationGenerator
         Point p = genPoint();
         Point q = genPoint();
 
+        //Prevents these points from creating a segment of zero length
+        while (p.equals(q))
+        {
+            p = genPoint();
+            q = genPoint();
+        }
         Segment pg = new Segment(p, q);
         pg.setMultiplier(multiplier);
 
@@ -59,27 +65,124 @@ public class EquationGenerator
         // LHS
         //
         Segment p = genSegment(rng.nextInt(MAX_COORD));
-        System.out.println("P's Multiplier: " + p.getMulitplier());
         Segment q = genSegment(rng.nextInt(MAX_COORD));
-        System.out.println("Q's Multiplier: " + q.getMulitplier());
-        Addition sumLHS = new Addition(p, q);
-        
+
         //
         // RHS
         //
         Segment r = genSegment(p, rng.nextInt(MAX_COORD));
-        System.out.println("R's Multiplier: " + r.getMulitplier());
         Segment s = genSegment(q, rng.nextInt(MAX_COORD)); 
-        System.out.println("S's Multiplier: " + s.getMulitplier());
 
+        while (p.getMulitplier() == r.getMulitplier() && q.getMulitplier() == s.getMulitplier())
+        {
+            p = genSegment(rng.nextInt(MAX_COORD));
+            q = genSegment(rng.nextInt(MAX_COORD));
+
+            r = genSegment(p, rng.nextInt(MAX_COORD));
+            s = genSegment(q, rng.nextInt(MAX_COORD)); 
+        }
+        System.out.println("P's Multiplier: " + p.getMulitplier());
+        System.out.println("Q's Multiplier: " + q.getMulitplier());
+        System.out.println("R's Multiplier: " + r.getMulitplier());
+        System.out.println("S's Multiplier: " + s.getMulitplier());
+        Addition sumLHS = new Addition(p, q);
         Addition sumRHS = new Addition(r, s);
-        
+
         Equation original = new Equation(sumLHS, sumRHS);
-        
+
         Equation simplified = null;
+        Segment simpleLeft = null, simpleRight = null;
+
+        
+
+
+        if (p.getPoint1().getX() == r.getPoint1().getX() && p.getPoint1().getY() == r.getPoint1().getY()
+                && p.getPoint2().getX() == r.getPoint2().getX())
+        {
+            Segment a = new Segment(p);
+            Segment b = new Segment(r);
+            if (p.getPoint1().getMulitplier() < r.getPoint1().getMulitplier())
+            {
+                b.getPoint1().setMultiplier(b.getMulitplier() - a.getMulitplier());
+                simpleRight = b;
+            }
+            else if (p.getPoint1().getMulitplier() > r.getPoint1().getMulitplier())
+            {
+                a.getPoint1().setMultiplier(a.getMulitplier() - b.getMulitplier());
+                simpleLeft = a;
+            }
+            else
+            {
+                a.getPoint1().setMultiplier(0);
+                simpleLeft = a;
+            }
+        }
+        if (p.getPoint1().getX() == s.getPoint1().getX() && p.getPoint1().getY() == s.getPoint1().getY()
+                && p.getPoint2().getX() == s.getPoint2().getX())
+        {
+            Segment a = new Segment(p);
+            Segment b = new Segment(s);
+            if (s.getPoint1().getMulitplier() < p.getPoint1().getMulitplier())
+            {
+                a.getPoint1().setMultiplier(a.getMulitplier() - b.getMulitplier());
+                simpleRight = a;
+            }
+            else if (s.getPoint1().getMulitplier() > p.getPoint1().getMulitplier())
+            {
+                b.getPoint1().setMultiplier(b.getMulitplier() - a.getMulitplier());
+                simpleLeft = b;
+            }
+            else
+            {
+                a.getPoint1().setMultiplier(0);
+                simpleLeft = a;
+            }
+        }
+        if (q.getPoint1().getX() == r.getPoint1().getX() && q.getPoint1().getY() == r.getPoint1().getY() 
+                && q.getPoint2().getX() == r.getPoint2().getX() && q.getPoint2().getY() == r.getPoint2().getY())
+        {
+            Segment a = new Segment(q);
+            Segment b = new Segment(r);
+            if (q.getPoint1().getMulitplier() < r.getPoint1().getMulitplier())
+            {
+                b.getPoint1().setMultiplier(b.getMulitplier() - a.getMulitplier());
+                simpleRight = b;
+            }
+            else if (q.getPoint1().getMulitplier() > r.getPoint1().getMulitplier())
+            {
+                a.getPoint1().setMultiplier(a.getMulitplier() - b.getMulitplier());
+                simpleLeft = a;
+            }
+            else
+            {
+                a.getPoint1().setMultiplier(0);
+                simpleRight = a;
+            }
+        }
+        if (q.getPoint1().getX() == s.getPoint1().getX() && q.getPoint1().getY() == s.getPoint1().getY()
+                && q.getPoint2().getX() == s.getPoint2().getX() && q.getPoint2().getY() == s.getPoint2().getY())
+        {
+            Segment a = new Segment(q);
+            Segment b = new Segment(s);
+            if (q.getPoint1().getMulitplier() < s.getPoint1().getMulitplier())
+            {
+                b.getPoint1().setMultiplier(b.getMulitplier() - a.getMulitplier());
+                simpleRight = b;
+            }
+            else if (q.getPoint1().getMulitplier() > s.getPoint1().getMulitplier())
+            {
+                a.getPoint1().setMultiplier(a.getMulitplier() - b.getMulitplier());
+                simpleRight = a;
+            }
+            else
+            {
+                //This should be zero, but on which side?
+            }
+        }
+
+        //simplified = new Equation(simpleLeft, simpleRight);
         
         simplified = Simplification.simplify(original);
-
         Pair<Equation, Equation> equations = new Pair<Equation, Equation>(original, simplified);
         return equations;
         /*

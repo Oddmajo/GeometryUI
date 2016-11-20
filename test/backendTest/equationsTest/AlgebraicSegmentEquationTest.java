@@ -15,7 +15,7 @@ public class AlgebraicSegmentEquationTest
     public void algebraicSegmentEquationTest()
     {
         System.out.println("Running AlgebraicSegmentEquation Test...");
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10000; i++)
         {
             AlgebraicSegmentEquation eq = null, eq2 = null, key = null, value = null;
             try
@@ -24,18 +24,16 @@ public class AlgebraicSegmentEquationTest
                 
                 key = new AlgebraicSegmentEquation(tests.getKey());
                 value = new AlgebraicSegmentEquation(tests.getValue());
-                System.out.println(key);
-                System.out.println(value);
+                System.out.println("Originally Generated Equation: " + key);
+                System.out.println("Originally Generated Equation (simplified):" + value);
                 eq = new AlgebraicSegmentEquation(tests.getKey());
-                System.out.println(eq);
-                
+                System.out.println("eq (before): " + eq);
                 eq2 = new AlgebraicSegmentEquation(tests.getValue());
-                System.out.println(eq2);
-                
+                System.out.println("eq2 (before): " + eq2);
                 eq = (AlgebraicSegmentEquation) Simplification.simplify(eq);
                 
-                System.out.println(eq);
-                System.out.println(eq2);
+                System.out.println("eq (after): " + eq);
+                System.out.println("eq2 (after): " + eq2);
             }
             catch (ArgumentException e)
             {
@@ -56,7 +54,7 @@ public class AlgebraicSegmentEquationTest
                 System.out.println("Failed from eq2 being null at iteration " + i + "...");
                 break;
             }
-            else if (!eq.equals(key) || !eq2.equals(value))
+            else if (!eq.equals(value))
             {
                 System.out.println("Failed from eq != eq2 at iteration " + i + "...");
                 break;
