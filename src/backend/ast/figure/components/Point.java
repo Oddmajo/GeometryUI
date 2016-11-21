@@ -301,7 +301,7 @@ public class Point extends Figure
     {
         if (X == (int) X && Y == (int) Y)
         {
-            return "(" + X + "," + Y + ")";
+            return "(" + X + ", " + Y + ")";
         }
         return "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
