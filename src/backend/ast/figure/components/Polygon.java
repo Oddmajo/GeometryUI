@@ -23,6 +23,7 @@ import backend.atoms.components.Connection.ConnectionType;
 import backend.utilities.Pair;
 import backend.utilities.PointFactory;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 import backend.utilities.translation.OutSingle;
@@ -226,7 +227,7 @@ public class Polygon extends Figure
     {
         if (thatPoint == null)
         {
-//            System.Diagnostics.Debug.WriteLine(new System.Diagnostics.StackTrace(true).ToString());
+            ExceptionHandler.throwException( new DebugException(Thread.currentThread().getStackTrace().toString()));
             ExceptionHandler.throwException( new IllegalArgumentException("Null passed to isInPolygon"));
         }
 

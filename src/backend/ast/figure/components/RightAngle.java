@@ -2,6 +2,7 @@ package backend.ast.figure.components;
 
 
 import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -15,7 +16,7 @@ public class RightAngle extends Angle
         super(a, b, c);
         if (!MathUtilities.doubleEquals(this.measure, 90))
         {
-            //                System.Diagnostics.Debug.WriteLine("Problem");
+             ExceptionHandler.throwException(new DebugException("Problem"));
              ExceptionHandler.throwException( new ArgumentException("Right angles should measure 90 degrees, not (" + this.measure + ") degrees."));
         }
     }
@@ -24,7 +25,7 @@ public class RightAngle extends Angle
         super(angle.A, angle.B, angle.C);
         if (!MathUtilities.doubleEquals(angle.measure, 90))
         {
-            //                System.Diagnostics.Debug.WriteLine("Problem");
+             ExceptionHandler.throwException(new DebugException(("Problem")));
              ExceptionHandler.throwException( new ArgumentException("Right angles should measure 90 degrees, not (" + angle.measure + ") degrees."));
         }
     }

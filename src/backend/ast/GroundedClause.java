@@ -98,7 +98,7 @@ public abstract class GroundedClause implements Cloneable
     {
         if (gc.clauseId == -1)
         {
-            //Debug.WriteLine("ERROR: id is -1: " + gc.toString());
+            ExceptionHandler.throwException(new DebugException("ERROR: id is -1: " + gc.toString()));
             ExceptionHandler.throwException(new ASTException("ERROR: id is -1: " + gc.toPrettyString()));
         }
         Utilities.addUnique(relationPredecessors, gc.clauseId);
