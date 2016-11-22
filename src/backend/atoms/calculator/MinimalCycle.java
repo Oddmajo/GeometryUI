@@ -591,6 +591,7 @@ public class MinimalCycle extends Primitive
         //
 
         // Determine the proper endpoints.
+        if (minors.isEmpty()) { return null; }
         Point endpt1 = minors.get(0).OtherEndpoint(minors.get(0).SharedEndpoint(minors.get(1)));
         Point endpt2 = minors.get(minors.size()-1).OtherEndpoint(minors.get(minors.size()-1).SharedEndpoint(minors.get(minors.size()-2)));
 

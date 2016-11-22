@@ -56,8 +56,12 @@ public class ComplexCircleGenerator
         theCircle = c;
         numPoints = n;
         
-        // instantiate the rightPoints list, generator, and graph
+        // instantiate everything
         rightPoints = new LexicographicPointsByY();
+        rightSegs = new HashMap<Point, EquationSegment>();
+        bottomPoints = new LexicographicPoints();
+        bottomSegs = new HashMap<Point, EquationSegment>();
+        hashgraph = new HashMap<Point, LexicographicPoints>();
         generator = new Random();
         theGraph = new PlanarGraph();
         
@@ -261,48 +265,169 @@ public class ComplexCircleGenerator
         //
         // First add all Nodes (points)
         // 
-        // add the left point
+        // add the left point and top points
         theGraph.addNode(leftPoint);
+        theGraph.addNode(topPoint);
         
-        // add all rightPoints
+        // add all rightPoints and bottom points
         for (int i = 0; i < rightPoints.size(); i++)
         {
             theGraph.addNode(rightPoints.get(i));
+            theGraph.addNode(bottomPoints.get(i));
+            
+            // then add all of the inner points
+            LexicographicPoints nodeList = hashgraph.get(bottomPoints.get(i));
+            for (int k = 0; k < nodeList.size(); k++)
+            {
+                theGraph.addNode(nodeList.get(k));
+            }
         }
+        
+        
+        
         
         //
         // Then add edges between Nodes
         //
         
-        // first add arcs to first and last Nodes in rightPoints from leftPoint
-        // these are outer circle edges
-        // add middle points, so each arc is comprised of two arcs
-        
-        // top segment
-        //Point topSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(rightPoints.size()-1));
-        Point topSegmentMidpoint = ComplexCircleGenerator.vectorArcMidpoint(theCircle, leftPoint, rightPoints.get(rightPoints.size()-1));
-        theGraph.addNode(topSegmentMidpoint);
-        theGraph.addUndirectedEdge(leftPoint, topSegmentMidpoint, 0, EdgeType.REAL_ARC);
-        theGraph.addUndirectedEdge(topSegmentMidpoint, rightPoints.get(rightPoints.size()-1), 0, EdgeType.REAL_ARC);
-        
-        // bottom segment
-        //Point bottomSegmentMidpoint = theCircle.Midpoint(leftPoint, rightPoints.get(0));
-        Point bottomSegmentMidpoint = ComplexCircleGenerator.vectorArcMidpoint(theCircle, leftPoint, rightPoints.get(0));
-        theGraph.addNode(bottomSegmentMidpoint);
-        theGraph.addUndirectedEdge(leftPoint, bottomSegmentMidpoint, 0, EdgeType.REAL_ARC);
-        theGraph.addUndirectedEdge(bottomSegmentMidpoint, rightPoints.get(0), 0, EdgeType.REAL_ARC);
-        
-        
-        // then add straight edges from the leftPoint to each rightPoint
-        for (int i = 0; i < rightPoints.size(); i++)
+        // these facets are triangles instead of quadrilaterals
+        int keyCount = 0;
+        Point currentKey = bottomPoints.get(keyCount);
+        LexicographicPoints currentList = hashgraph.get(currentKey);
+        for (int i = 0; i < currentList.size(); i++)
         {
-            theGraph.addUndirectedEdge(leftPoint, rightPoints.get(i), 0, EdgeType.REAL_SEGMENT);
+            theGraph.addUndirectedEdge(leftPoint, currentList.get(i), 0, EdgeType.REAL_SEGMENT);
         }
         
-        // finally add arcs between neighboring rightPoints
+        // add the arc from leftPoint to the current Key and to topPoint
+        //theGraph.addUndirectedEdge(leftPoint, currentKey, 0, EdgeType.REAL_SEGMENT);
+        addMidpointArc(theGraph, theCircle, leftPoint, currentKey);
+        addMidpointArc(theGraph, theCircle, leftPoint, topPoint);
+        
+        
+        
+        
+        
+        //
+        // add all edges that interconnect the inner points in the triangle
+        //
+        LexicographicPoints nextList = hashgraph.get(bottomPoints.get(keyCount));
+        Point nextKey = bottomPoints.get(keyCount);
+        for ( ; keyCount < bottomPoints.size() - 1; keyCount++)
+        {
+            // increment current and next lists
+            currentList = nextList;
+            currentKey = nextKey;
+            nextList = hashgraph.get(bottomPoints.get(keyCount+1));
+            nextKey = bottomPoints.get(keyCount+1);
+            
+            // add the edges
+            
+            // if both keys' x values are <= than the point2 x value
+            if (currentKey.getX() <= topPoint.getX() && nextKey.getX() <= topPoint.getX())
+            {
+                //theGraph.addUndirectedEdge(currentKey, nextKey, 0, EdgeType.REAL_SEGMENT);
+                addMidpointArc(theGraph, theCircle, currentKey, nextKey);
+                theGraph.addUndirectedEdge(currentKey, currentList.get(0), 0, EdgeType.REAL_SEGMENT);
+                for (int i = 0; i < currentList.size(); i++)
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), nextList.get(i), 0, EdgeType.REAL_SEGMENT);
+                    if (i != currentList.size() - 1)
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), currentList.get(i+1), 0, EdgeType.REAL_SEGMENT);
+                    }
+                    else
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), topPoint, 0, EdgeType.REAL_SEGMENT);
+                    }
+                }
+            }
+            
+            // only the current key value is <= point2 x value
+            else if (currentKey.getX() <= topPoint.getX())
+            {
+                addMidpointArc(theGraph, theCircle, currentKey, nextKey);
+                theGraph.addUndirectedEdge(currentKey, currentList.get(0), 0, EdgeType.REAL_SEGMENT);
+                for (int i = 0; i < currentList.size(); i++)
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), nextList.get(nextList.size() - (i+1)), 0, EdgeType.REAL_SEGMENT);
+                    if (i != currentList.size() - 1)
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), currentList.get(i+1), 0, EdgeType.REAL_SEGMENT);
+                    }
+                    else
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), topPoint, 0, EdgeType.REAL_SEGMENT);
+                    }
+                }
+            }
+            
+            // neither keys' x values are <= point2 x value
+            else
+            {
+                addMidpointArc(theGraph, theCircle, currentKey, nextKey);
+                theGraph.addUndirectedEdge(currentKey, currentList.get(currentList.size() - 1), 0, EdgeType.REAL_SEGMENT);
+                for (int i = currentList.size() - 1; i >= 0; i--)
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), nextList.get(i), 0, EdgeType.REAL_SEGMENT);
+                    if (i != 0)
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), currentList.get(i-1), 0, EdgeType.REAL_SEGMENT);
+                    }
+                    else
+                    {
+                        theGraph.addUndirectedEdge(currentList.get(i), topPoint, 0, EdgeType.REAL_SEGMENT);
+                    }
+                }
+            }
+        }
+        
+        
+        //
+        // add the edges from the right-most inner Lexicographic Point list to the rightPoints
+        //
+        
+        // increment current lists
+        currentList = nextList;
+        currentKey = nextKey;
+        
+        // add arcs
+        addMidpointArc(theGraph, theCircle, currentKey, rightPoints.get(0));
+        addMidpointArc(theGraph, theCircle, topPoint, rightPoints.get(rightPoints.size() - 1));
         for (int i = 0; i < rightPoints.size() - 1; i++)
         {
-            theGraph.addUndirectedEdge(rightPoints.get(i), rightPoints.get(i + 1), 0, EdgeType.REAL_ARC);
+            addMidpointArc(theGraph, theCircle, rightPoints.get(i), rightPoints.get(i+1));
+        }
+        
+        // add segments
+        if (currentKey.getX() > topPoint.getX())
+        {
+            theGraph.addUndirectedEdge(currentKey, currentList.get(currentList.size()-1), 0, EdgeType.REAL_SEGMENT);
+            theGraph.addUndirectedEdge(topPoint, currentList.get(0), 0, EdgeType.REAL_SEGMENT);
+            for (int i = 0; i < currentList.size(); i++)
+            {
+                theGraph.addUndirectedEdge(currentList.get(i), rightPoints.get(rightPoints.size()-(i+1)), 0, EdgeType.REAL_SEGMENT);
+                if (i != currentList.size() - 1)
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), currentList.get(i+1), 0, EdgeType.REAL_SEGMENT);
+                }
+            }
+        }
+        else
+        {
+            theGraph.addUndirectedEdge(currentKey, currentList.get(0), 0, EdgeType.REAL_SEGMENT);
+            for (int i = 0; i < currentList.size(); i++)
+            {
+                theGraph.addUndirectedEdge(currentList.get(i), rightPoints.get(i), 0, EdgeType.REAL_SEGMENT);
+                if (i != currentList.size() - 1)
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), currentList.get(i+1), 0, EdgeType.REAL_SEGMENT);
+                }
+                else
+                {
+                    theGraph.addUndirectedEdge(currentList.get(i), topPoint, 0, EdgeType.REAL_SEGMENT);
+                }
+            }
         }
         
     }
@@ -324,6 +449,14 @@ public class ComplexCircleGenerator
         // return the point
         return new Point("arc midpoint", midpoint.getX(), midpoint.getY());
         
+    }
+    
+    private void addMidpointArc(PlanarGraph g, Circle c, Point p1, Point p2)
+    {
+        Point topSegmentMidpoint = ComplexCircleGenerator.vectorArcMidpoint(c, p1, p2);
+        g.addNode(topSegmentMidpoint);
+        g.addUndirectedEdge(p1, topSegmentMidpoint, 0, EdgeType.REAL_ARC);
+        g.addUndirectedEdge(topSegmentMidpoint, p2, 0, EdgeType.REAL_ARC);
     }
 
 }
