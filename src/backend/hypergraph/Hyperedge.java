@@ -1,4 +1,4 @@
-package hypergraph;
+package backend.hypergraph;
 import java.util.ArrayList;
 
 public class Hyperedge<A>

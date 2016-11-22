@@ -1,10 +1,10 @@
-package hypergraph;
+package backend.hypergraph;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import pebbler.PebblerHyperedge;
-import pebbler.PebblerHypergraph;
-import pebbler.PebblerHypernode;
+//import pebbler.PebblerHyperedge;
+//import pebbler.PebblerHypergraph;
+//import pebbler.PebblerHypernode;
 
 public class Hypergraph<T, A>
 {
@@ -58,40 +58,40 @@ public class Hypergraph<T, A>
         return vertices.get(id);
     }
     
-    //return integer-based representation of hypergraph
-    public PebblerHypergraph<T, A> getPebbledHypergraph() throws Exception
-    {
-        //
-        // Create the nodes
-        //
-        ArrayList<PebblerHypernode<A>> pebbledNodes = new ArrayList<PebblerHypernode<A>>(vertices.size());
-
-        for (int v = 0; v < vertices.size(); v++)
-        {
-            pebbledNodes.add(v, vertices.get(v).createPebbledNode());
-        }
-
-        //
-        // Create the hyperedges
-        //
-        for (int v = 0; v < vertices.size(); v++)
-        {
-            for(Hyperedge<A>currEdge: vertices.get(v).outEdges)
-            {
-                //only add if it is the "minimum" source node, so the edge is not added twice to any node
-                if(v == Collections.min(currEdge.sourceNodes))
-                {
-                    PebblerHyperedge<A> newEdge = new PebblerHyperedge<A>(currEdge.sourceNodes, currEdge.targetNode, currEdge.annot);
-                    for(int src: currEdge.sourceNodes)
-                    {
-                        pebbledNodes.get(src).addEdge(newEdge);
-                    }
-                }
-            }
-        }
-
-        return new PebblerHypergraph<T, A>(this, pebbledNodes);
-    }
+//    //return integer-based representation of hypergraph
+//    public PebblerHypergraph<T, A> getPebbledHypergraph() throws Exception
+//    {
+//        //
+//        // Create the nodes
+//        //
+//        ArrayList<PebblerHypernode<A>> pebbledNodes = new ArrayList<PebblerHypernode<A>>(vertices.size());
+//
+//        for (int v = 0; v < vertices.size(); v++)
+//        {
+//            pebbledNodes.add(v, vertices.get(v).createPebbledNode());
+//        }
+//
+//        //
+//        // Create the hyperedges
+//        //
+//        for (int v = 0; v < vertices.size(); v++)
+//        {
+//            for(Hyperedge<A>currEdge: vertices.get(v).outEdges)
+//            {
+//                //only add if it is the "minimum" source node, so the edge is not added twice to any node
+//                if(v == Collections.min(currEdge.sourceNodes))
+//                {
+//                    PebblerHyperedge<A> newEdge = new PebblerHyperedge<A>(currEdge.sourceNodes, currEdge.targetNode, currEdge.annot);
+//                    for(int src: currEdge.sourceNodes)
+//                    {
+//                        pebbledNodes.get(src).addEdge(newEdge);
+//                    }
+//                }
+//            }
+//        }
+//
+//        return new PebblerHypergraph<T, A>(this, pebbledNodes);
+//    }
     
     @Override
     public String toString()

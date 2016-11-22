@@ -1,8 +1,10 @@
-package hypergraph;
+package backend.hypergraph;
 
 import java.util.ArrayList;
 
-import pebbler.PebblerHypernode;
+import backend.utilities.exception.ExceptionHandler;
+
+//import pebbler.PebblerHypernode;
 
 public class Hypernode<T, A>
 {
@@ -23,24 +25,24 @@ public class Hypernode<T, A>
         inEdges = new ArrayList<Hyperedge<A>>();
     }
     
-    public boolean addInEdge(Hyperedge<A> edge) throws Exception
+    public boolean addInEdge(Hyperedge<A> edge)
     {
-        if(edge.targetNode != this.id) throw new Exception("Hyperedge<A>: " + edge.toString() + "has a different target node than expected " + this.id);
+        if(edge.targetNode != this.id) ExceptionHandler.throwException(new Exception("Hyperedge<A>: " + edge.toString() + "has a different target node than expected " + this.id));
         //for performance, comment out the next line
         if(inEdges.contains(edge)) return false;
         return inEdges.add(edge);
     }
     
-    public boolean addOutEdge(Hyperedge<A> edge) throws Exception
+    public boolean addOutEdge(Hyperedge<A> edge)
     {
-        if(!edge.sourceNodes.contains(this.id)) throw new Exception("Hyperedge<A>: " + edge.toString() + "is not incident to " + this.id);
+        if(!edge.sourceNodes.contains(this.id)) ExceptionHandler.throwException(new Exception("Hyperedge<A>: " + edge.toString() + "is not incident to " + this.id));
         //for performance, comment out the next line
         if(outEdges.contains(edge)) return false;
         return outEdges.add(edge);
     }
     
-    public PebblerHypernode<A> createPebbledNode() 
-    {
-        return new PebblerHypernode<A>(id);
-    }
+//    public PebblerHypernode<A> createPebbledNode() 
+//    {
+//        return new PebblerHypernode<A>(id);
+//    }
 }
