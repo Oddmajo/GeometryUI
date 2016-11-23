@@ -59,6 +59,8 @@ public class EquationGenerator
     // Construct a segment equation, also construct the simplified equation.
     // The result of simplification better match.
     //
+    
+   
     public static Pair<Equation, Equation> genAdditionEquationPair() throws ArgumentException, CloneNotSupportedException
     {
         //
@@ -176,13 +178,14 @@ public class EquationGenerator
             }
             else
             {
-                //This should be zero, but on which side?
+                a.getPoint1().setMultiplier(0);
+                simpleRight = a;
             }
         }
 
-        //simplified = new Equation(simpleLeft, simpleRight);
+        simplified = new Equation(simpleLeft, simpleRight);
         
-        simplified = Simplification.simplify(original);
+       // simplified = Simplification.simplify(original);
         Pair<Equation, Equation> equations = new Pair<Equation, Equation>(original, simplified);
         return equations;
         /*

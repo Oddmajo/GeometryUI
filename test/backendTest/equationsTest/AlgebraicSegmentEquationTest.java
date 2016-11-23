@@ -24,8 +24,6 @@ public class AlgebraicSegmentEquationTest
                 
                 key = new AlgebraicSegmentEquation(tests.getKey());
                 value = new AlgebraicSegmentEquation(tests.getValue());
-                System.out.println("Originally Generated Equation: " + key);
-                System.out.println("Originally Generated Equation (simplified):" + value);
                 eq = new AlgebraicSegmentEquation(tests.getKey());
                 System.out.println("eq (before): " + eq);
                 eq2 = new AlgebraicSegmentEquation(tests.getValue());
