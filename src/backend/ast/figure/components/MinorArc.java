@@ -24,7 +24,7 @@ public class MinorArc extends Arc
     public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
-        if (obj instanceof MinorArc) return false;
+        if (!(obj instanceof MinorArc)) return false;
         MinorArc arc = (MinorArc)obj;
 
         return this._theCircle.structurallyEquals(arc._theCircle) && ((this._endpoint1.structurallyEquals(arc._endpoint1)

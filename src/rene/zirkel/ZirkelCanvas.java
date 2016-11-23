@@ -749,13 +749,14 @@ public class ZirkelCanvas extends javax.swing.JPanel implements MouseListener,
      * Add an item to the construction and re-paint the construction.
      */
     public void addObject(final ConstructionObject o) { // called by the ObjectConstructor
-	if(!Preview && !(o instanceof AreaObject)){
+	if(!Preview && !(o instanceof AreaObject))
+	{
 	    update_distant(o, 1);
 	}
         C.add(o);
         if (Preview) {
             o.setIndicated(true);
-            o.setSelectable(false);
+            o.setSelectable(false); 
         }
         C.updateCircleDep();
     }

@@ -5,6 +5,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -83,7 +84,7 @@ public class Kite extends Quadrilateral
 //        // Acquire the diagonals.
 //        if (this.topLeftBottomRightDiagonal == null || this.bottomLeftTopRightDiagonal == null)
 //        {
-////            System.Diagnostics.Debug.WriteLine("No-Op");
+//            ExceptionHandler.throwException(new DebugException(("No-Op")));
 //        }
 //
 //        double diag1Length = known.GetSegmentLength(this.bottomLeftTopRightDiagonal);

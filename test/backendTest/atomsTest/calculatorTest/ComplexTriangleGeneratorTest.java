@@ -30,7 +30,6 @@ public class ComplexTriangleGeneratorTest
         
         // print segment 1 points
         //System.out.println("Segment 1 Points: ");
-        int i = 0;
         while (!seg1points.isEmpty())
         {
             Point p = seg1points.extractMin();
@@ -38,12 +37,10 @@ public class ComplexTriangleGeneratorTest
 //            System.out.println(" segment: " + hashS1Points.get(p).toString());
             assert(p.getX() > 7 && p.getX() < 14);
             assert(p.getY() > 1 && p.getY() < 8);
-            i++;
         }
         
         // print segment 2 points
         //System.out.println("Segment 2 Points: ");
-        i = 0;
         while (!seg2points.isEmpty())
         {
             Point p = seg2points.extractMin();
@@ -51,10 +48,9 @@ public class ComplexTriangleGeneratorTest
             //System.out.println(" segment: " + hashS2Points.get(p).toString());
             assert(p.getX() > 1 && p.getX() < 14);
             assert(p.getY() == 1);
-            i++;
         }
         
-        System.out.println("Done");
+        System.out.println("Passed");
     }
     
     @Test public void intersectionCalculatorTest()
@@ -80,11 +76,14 @@ public class ComplexTriangleGeneratorTest
         Point intersect3 = ComplexTriangleGenerator.getIntersectionOfSegments(s3, s2);
         
         // make assertions
-        assert(intersect1.toString().equals("intersection(2.143, 1.857)"));
-        assert(intersect2.toString().equals("intersection(3.000, 1.000)"));
-        assert(intersect3.toString().equals("intersection(3.000, 2.200)"));
+//        System.out.println(intersect1.toString());
+//        System.out.println(intersect2.toString());
+//        System.out.println(intersect3.toString());
+        assert(intersect1.toString().equals("(2.143, 1.857)"));
+        assert(intersect2.toString().equals("(3.0, 1.0)"));
+        assert(intersect3.toString().equals("(3.000, 2.200)"));
         
-        System.out.println("Done");
+        System.out.println("Passed");
     }
     
     @Test public void calculateCrossPointsTest()
@@ -103,9 +102,7 @@ public class ComplexTriangleGeneratorTest
         HashMap<Point, LexicographicPoints> hashgraph = triGen.getHashgraph();
         // get segment 1 and 2 points and segments
         LexicographicPoints seg1points = triGen.getS1points();
-        HashMap<Point, EquationSegment> hashS1Points = triGen.getHashS1Points();
         LexicographicPoints seg2points = triGen.getS2points();
-        HashMap<Point, EquationSegment> hashS2Points = triGen.getHashS2Points();
         
         // print segment 1 points
         //System.out.println("Segment 1 Points: ");
@@ -140,7 +137,7 @@ public class ComplexTriangleGeneratorTest
             }
         }
         
-        System.out.println("Done");
+        System.out.println("Passed");
         
     }
     
@@ -164,7 +161,7 @@ public class ComplexTriangleGeneratorTest
         //System.out.println("graph.count(): " + graph.count());
         assert(graph.count() == ((n*n) + (2*n) + 3));
         
-        System.out.println("Done");
+        System.out.println("Passed");
     }
 
 }

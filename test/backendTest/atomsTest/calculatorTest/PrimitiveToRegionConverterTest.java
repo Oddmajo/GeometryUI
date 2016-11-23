@@ -1,5 +1,6 @@
 package backendTest.atomsTest.calculatorTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -206,6 +207,84 @@ public class PrimitiveToRegionConverterTest
         LoggerFactory.close();
         
         System.out.println("Done\n");
+    }
+    
+    @Test public void PrimitiveToRegionConverter_Convert_ComplexTriangleGeneratorGraphTest()
+    {
+        System.out.print("PrimitiveToRegionConverter_Convert_ComplexTriangleGeneratorGraphTest...");
+        
+        // variable declarations/instantiations
+        int n = 10;
+        Point p1 = new Point("p1", 1, 1);
+        Point p2 = new Point("p2", 7, 8);
+        Point p3 = new Point("p3", 14, 1);
+        
+        // create complex triangle generator
+        ComplexTriangleGenerator triGen = new ComplexTriangleGenerator(p1, p2, p3, n);
+        
+        // get the generated graph
+        PlanarGraph graph = triGen.getGraph();
+        
+        // create a copy of the graph for the atom converter
+        PlanarGraph graphCopy = new PlanarGraph(graph);
+        
+        // create the facet calculator and get the primitives
+        FacetCalculator calc = new FacetCalculator(graph);
+        ArrayList<Primitive> primitives = calc.GetPrimitives();
+        
+     // convert the primitives to atomic regions
+        ArrayList<AtomicRegion> atoms = PrimitiveToRegionConverter.Convert(graphCopy, primitives, new ArrayList<Circle>());
+        
+        // print out the atoms
+        System.out.println("AtomicRegions: ");
+        for (AtomicRegion atom : atoms)
+        {
+            System.out.println("\t" + atom.ToString());
+        }
+    }
+    
+    @Test public void PrimitiveToRegionConverter_Convert_ComplexCircleGeneratorGraphTest() throws IOException
+    {
+        System.out.print("\nPrimitiveToRegionConverter_Convert_ComplexCircleGeneratorGraphTest...");
+        
+        LoggerFactory.initialize();
+        
+        // create the circle
+        Point center = new Point("center", 0, 0);
+        int radius = 4;
+        Circle theCircle = new Circle(center, radius);
+        
+        // number of points to generate
+        int n = 3;
+        
+        // generate the circle
+        ComplexCircleGenerator circleGen = new ComplexCircleGenerator(theCircle, n);
+        
+        // get the graph
+        PlanarGraph graph = circleGen.getGraph();
+        
+        // create a copy of the graph for the atom converter
+        PlanarGraph graphCopy = new PlanarGraph(graph);
+        
+        // create the facet calculator and get the primitives
+        FacetCalculator calc = new FacetCalculator(graph);
+        ArrayList<Primitive> primitives = calc.GetPrimitives();
+        
+        // create a circle array for atomic region converter
+        ArrayList<Circle> circles = new ArrayList<Circle>();
+        circles.add(theCircle);
+        
+        // convert the primitives to atomic regions
+        ArrayList<AtomicRegion> atoms = PrimitiveToRegionConverter.Convert(graphCopy, primitives, circles);
+        
+        // print out the atoms
+        System.out.println("AtomicRegions: ");
+        for (AtomicRegion atom : atoms)
+        {
+            System.out.println("\t" + atom.ToString());
+        }
+        
+        LoggerFactory.close();
     }
 
 }

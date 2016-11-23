@@ -7,6 +7,8 @@ public class Main
 
     public static void main(String[] args) throws Exception
     {
+        //Notion of receiving UI stuff
+        //default, hardcoded Diagram for UI-less testing
 
         TestManager managerBob = new TestManager();
         

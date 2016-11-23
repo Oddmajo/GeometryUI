@@ -9,10 +9,16 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import channels.fromUI.FromUI;
+import eric.JZirkelCanvas;
 import mainNonUI.Main;
 import rene.zirkel.ZirkelCanvas;
+import rene.zirkel.ZirkelFrame;
+import rene.zirkel.construction.Construction;
 import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.PointObject;
+import rene.zirkel.objects.PrimitiveLineObject;
+import rene.zirkel.objects.SegmentObject;
 
 
 
@@ -90,7 +96,14 @@ public class monkey {
         String[] arguments = new String[] {"123"};
         try
         {
-            Main.main(arguments);
+            // 11/21/2016
+            //Not sure what ZirkelFrame is for, but it is called whenever a file is saved
+            //Might be required later on
+//            ZirkelFrame ZF = JZirkelCanvas.getCurrentZF();
+            ZirkelCanvas ZC = JZirkelCanvas.getCurrentZC();
+            
+            FromUI.sendToBackend(ZC);
+            
         }
         catch (Exception ex)
         {
