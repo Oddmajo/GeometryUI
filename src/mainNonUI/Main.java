@@ -1,6 +1,7 @@
 package mainNonUI;
 
 import backend.utilities.test.TestManager;
+import channels.fromUI.Diagram;
 
 public class Main
 {
@@ -17,6 +18,15 @@ public class Main
         long timeEnd = System.nanoTime();
         
         System.out.println("Run time: " + (timeEnd - timeStart)/1000000000 + "seconds");
+    }
+    
+    public static void receiveDiagram(Diagram d)
+    {
+        //Do stuff with the Diagram
+        //Currently there is an 
+        //      Arraylist<Segment> of Segments
+        //      Arraylist<Point> of Points
+        System.out.println(d.toString());
     }
 
 }
