@@ -8,16 +8,17 @@ public class Main
 
     public static void main(String[] args) throws Exception
     {
-        //Notion of receiving UI stuff
-        //default, hardcoded Diagram for UI-less testing
-
-        TestManager managerBob = new TestManager();
+        //TestManager managerBob = new TestManager();
         
-        long timeStart = System.nanoTime();
-        managerBob.run();
-        long timeEnd = System.nanoTime();
+        //long timeStart = System.nanoTime();
+        //managerBob.run();
+        //long timeEnd = System.nanoTime();
         
-        System.out.println("Run time: " + (timeEnd - timeStart)/1000000000 + "seconds");
+        //System.out.println("Run time: " + (timeEnd - timeStart)/1000000000 + "seconds");
+        
+        Diagram test = new Diagram();
+        test.premade_Triangles();
+        System.out.println(test.toString());
     }
     
     public static void receiveDiagram(Diagram d)
