@@ -2,6 +2,7 @@ package mainNonUI;
 
 import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
+import channels.fromUI.Diagram;
 
 public class Main
 {
@@ -23,5 +24,11 @@ public class Main
         long timeEnd = System.nanoTime();
         
         System.out.println("Run time: " + (timeEnd - timeStart)/1000000000 + "seconds");
+    }
+
+    public static void receiveDiagram(Diagram backendRepresentation)
+    {
+        // TODO Auto-generated method stub
+        
     }
 }
