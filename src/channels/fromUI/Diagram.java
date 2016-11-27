@@ -81,7 +81,43 @@ public class Diagram
     
     
     //-----------------------------------------------------------------------------------------------------------------------
-    
+    /**
+     * This method will purge the diagram of any components, and then create a default diagram for testing purposes.
+     * 		Specifically, this will create a large triangle, with a segment connecting the midpoints of two sides, 
+     * 		and segments from each midpoint to the opposing corner of the large triangle.
+     */
+    public void premade_Triangles()
+    {
+    	this.lineSegments.clear();
+    	this.points.clear();
+    	
+    	Point A = new Point("A", 0.0, 0.0);
+    	Point B = new Point("B", 4.0, 0.0);
+    	Point C = new Point("C", 2.0, 4.0);
+    	Point D = new Point("D", 1.0, 2.0);
+    	Point E = new Point("E", 3.0, 2.0);
+    	
+    	this.points.add(A);
+    	this.points.add(B);
+    	this.points.add(C);
+    	this.points.add(D);
+    	this.points.add(E);
+    	
+    	Segment one = new Segment(A,B);
+    	Segment two = new Segment(A,C);
+    	Segment three = new Segment(B,C);
+    	Segment four = new Segment(D,E);
+    	Segment five = new Segment(A,E);
+    	Segment six = new Segment(D,B);
+    	
+    	this.lineSegments.add(one);
+    	this.lineSegments.add(two);
+    	this.lineSegments.add(three);
+    	this.lineSegments.add(four);
+    	this.lineSegments.add(five);
+    	this.lineSegments.add(six);
+    	
+    }
     
     
     

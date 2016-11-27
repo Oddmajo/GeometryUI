@@ -5,7 +5,7 @@ import backend.ast.figure.components.Segment;
 import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.SegmentObject;
 
-public class fromUITranslate
+public class FromUITranslate
 {
     public static Point translatePoint(PointObject p)
     {
