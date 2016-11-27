@@ -1,44 +1,31 @@
 package backend.hypergraph;
-public class Annotation 
+
+public class Annotation
 {
-    private String name;
-    private boolean active;
-    
-    public Annotation()
+    // The string version of the reason that the edge was created.
+    private String justification;    
+    public String getJustification() { return justification; }
+
+    // Has the user indicated that the use of this 
+    protected boolean active;
+    public boolean IsActive() { return active; }
+
+    // Disallow a generic edge annotation; force the use of parameters
+    private Annotation()
     {
-        name = null;
-        active = true;
-    }
-    
-    public Annotation(String theName)
-    {
-        name = theName;
-        active = true;
-    }
-    
-    public Annotation(String theName, boolean active)
-    {
-        name = theName;
-        this.active = active;
-    }
-    
-    public boolean isActive()
-    {
-        return active;
-    }
-    
-    public void inactivate()
-    {
+        justification = "";
         active = false;
     }
-    
-    public void activate()
+
+    public Annotation(String just, boolean active)
     {
-        active = true;
+        justification = just;
+        this.active = active;
     }
-    
-    public String getName()
+
+    @Override
+    public String toString()
     {
-        return name;
+        return justification;
     }
 }

@@ -1,22 +1,27 @@
 package mainNonUI;
 
+import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
 
 public class Main
 {
-
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
         //Notion of receiving UI stuff
         //default, hardcoded Diagram for UI-less testing
 
-        TestManager managerBob = new TestManager();
-        
         long timeStart = System.nanoTime();
-        managerBob.run();
+        try
+        {
+            TestManager.run();
+        }
+        catch (Exception e)
+        {
+        	LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID).write("Test Manager unexpectedly threw an exception.");
+        	e.printStackTrace();
+        }
         long timeEnd = System.nanoTime();
         
         System.out.println("Run time: " + (timeEnd - timeStart)/1000000000 + "seconds");
     }
-
 }

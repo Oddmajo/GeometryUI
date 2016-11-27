@@ -14,7 +14,7 @@ import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.MidPoint;
+import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
