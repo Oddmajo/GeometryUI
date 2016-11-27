@@ -3,17 +3,29 @@ package backendTest.symbolicAlgebraTest.equationsTest.generator;
 import backend.ast.figure.components.Segment;
 import backend.symbolicAlgebra.NumericValue;
 import backend.symbolicAlgebra.equations.*;
+import backend.symbolicAlgebra.equations.operations.Multiplication;
 import backend.utilities.Pair;
 
 public class SegmentEquationGenerator extends EquationGenerator
 {
-    protected static Segment copySegmentWithNewMultiplier(Segment in, int mult)
+//    protected static Segment copySegmentWithNewMultiplier(Segment in, int mult)
+//    {
+//        Segment seg = new Segment(in);
+//        
+//        seg.setMultiplier(mult);
+//
+//        return seg; 
+//    }
+    
+    protected static Multiplication copyAndBuildProduct(Segment in, int multiplier)
     {
         Segment seg = new Segment(in);
-        
-        seg.setMultiplier(mult);
 
-        return seg; 
+        NumericValue num = new NumericValue(multiplier);
+        
+        Multiplication product = new Multiplication(num, seg);
+
+        return product;
     }
     
     //
@@ -26,25 +38,26 @@ public class SegmentEquationGenerator extends EquationGenerator
         int b = EquationGenerator.genCoordinate();
         
         // Generate equation variable: LHS
-        Segment x = EquationGenerator.genSegment(a);
+        Segment x = EquationGenerator.genSegment();
+        Multiplication lhs = copyAndBuildProduct(x, a);
 
         // Generate RHS numeric constant
         NumericValue rhs = new NumericValue(b);
 
         // Original
-        GeometricSegmentEquation original = new GeometricSegmentEquation(x, rhs);
+        GeometricSegmentEquation original = new GeometricSegmentEquation(lhs, rhs);
 
         // Simplified
         Pair<Integer, Integer> reduced = EquationGenerator.reduce(a, b);
 
         // Simplified: LHS
-        Segment xSim = copySegmentWithNewMultiplier(x, reduced.first());
+        Multiplication lhsSim = copyAndBuildProduct(x, reduced.first());
 
         // Simplified: RHS
         NumericValue rhsSim = new NumericValue(reduced.second());
 
         // Simplified: Final
-        SegmentEquation simplified = new SegmentEquation(xSim, rhsSim);
+        SegmentEquation simplified = new SegmentEquation(lhsSim, rhsSim);
 
         return new Pair<Equation, Equation>(original, simplified);
     }

@@ -8,23 +8,37 @@ public class Subtraction extends ArithmeticOperation
 {
     protected Subtraction() { super(); }
 
-
     public Subtraction(GroundedClause left, GroundedClause right)
     {
         super(left, right);
     }
 
-
+    @Override
     public ArrayList<GroundedClause> collectTerms()
     {
         ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
 
         list.addAll(leftExp.collectTerms());
-        list.addAll(rightExp.collectTerms());
+
+        for (GroundedClause gc : rightExp.collectTerms())
+        {
+            GroundedClause copyGC = gc.deepCopy();
+
+            copyGC.setMultiplier(-1 * copyGC.getMulitplier());
+
+            list.add(copyGC);
+        }
 
         return list;
     }
 
+    // Make a deep copy of this object
+    @Override
+    public GroundedClause deepCopy()
+    {
+        return new Subtraction(leftExp.deepCopy(), rightExp.deepCopy());
+    }
+    
     public String toString()
     {
         return "(" + leftExp.toString() + " - " + rightExp.toString() + ")";
@@ -37,61 +51,11 @@ public class Subtraction extends ArithmeticOperation
 
     public boolean equals(Object obj)
     {
-
-        if (obj == null) return false;
-        
+        if (obj == null) return false;        
         if (!(obj instanceof Subtraction)) return false;
 
         Subtraction that = (Subtraction)obj;
         
         return (this.leftExp.equals(that.leftExp) && this.rightExp.equals(that.rightExp));
     }
-
-//    public void simplify()
-//    {
-//        if (leftExp.getClass().equals(rightExp.getClass()))
-//        {
-//            if (leftExp instanceof AlgebraicSegmentEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricSegmentEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicAngleEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricAngleEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicAngleArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricAngleArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof NumericValue)
-//            {
-//
-//            }
-//            else if (leftExp instanceof ArithmeticOperation)
-//            {
-//                ((ArithmeticOperation) leftExp).simplify();
-//                ((ArithmeticOperation) rightExp).simplify();
-//            }
-//        }
-//    }
 }

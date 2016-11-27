@@ -11,14 +11,11 @@ import backend.symbolicAlgebra.NumericValue;
 
 public class SegmentEquation extends Equation
 {
-    public SegmentEquation()
-    {
-        super();
-    }
+    protected SegmentEquation() { super(); }
 
     public SegmentEquation(Equation eq)
     {
-        super(eq);
+        this(eq.lhs, eq.rhs);
     }
     
     public SegmentEquation(GroundedClause left, GroundedClause right)
@@ -72,18 +69,12 @@ public class SegmentEquation extends Equation
     //        throw new ArgumentException("Should not have an equation that is 0 = 0: " + this.ToString());
     //    }
     //}
-
-    public int getHashCode()
-    {
-        return super.getHashCode(); 
-    }
     
     public boolean equals(Object obj)
     {
-        if (obj == null)
-        {
-            return false;
-        }
+        if (obj == null) return false;
+        
+        if (!(obj instanceof SegmentEquation)) return false;
         
         return super.equals(obj);
     }
@@ -92,5 +83,4 @@ public class SegmentEquation extends Equation
     {
         return lhs.getMulitplier() + "";
     }
-
 }

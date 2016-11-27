@@ -82,12 +82,12 @@ public abstract class EquationGenerator
     
     
     
-    protected static Random rng = new Random();
+    protected static Random rng = new Random(0);
     protected static final int MAX_COORD = 10;
 
     public static int genCoordinate()
     {
-        return rng.nextInt() % MAX_COORD + 1;
+        return rng.nextInt(MAX_COORD) + 1;
     }
 
     public static String genName()
@@ -100,7 +100,7 @@ public abstract class EquationGenerator
         return new Point(genName(), genCoordinate(), genCoordinate());
     }
 
-    public static Segment genSegment(int multiplier)
+    public static Segment genSegment()
     {
         Point p = genPoint();
         Point q = genPoint();
@@ -111,10 +111,8 @@ public abstract class EquationGenerator
             p = genPoint();
             q = genPoint();
         }
-        Segment pg = new Segment(p, q);
-        pg.setMultiplier(multiplier);
 
-        return pg;
+        return new Segment(p, q);
     }
 
 
