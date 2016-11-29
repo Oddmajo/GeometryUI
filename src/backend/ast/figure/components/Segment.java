@@ -17,12 +17,12 @@ public class Segment extends Figure
     protected Point _point1;
     protected Point _point2;
     protected double _length;
-    protected Double _slope;
+    protected double _slope;
 
     public Point getPoint1() { return _point1; }
     public Point getPoint2() { return _point2; }
     public double length() { return _length; }
-    public Double slope() { return _slope; }
+    public double slope() { return _slope; }
     
     public boolean DefinesCollinearity() { return collinear.size() > 2; }
 
@@ -187,7 +187,7 @@ public class Segment extends Figure
     }
 
     @Override
-    public String toString() { return "(" + getMulitplier() + ")" + " * Segment " + _point1.toString() + ", " + _point2.toString(); }
+    public String toString() { return "(" + getMulitplier() + ")" + " * Segment(" + _point1.toString() + ", " + _point2.toString() + ")"; }
 
 
 

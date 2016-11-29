@@ -2,6 +2,7 @@ package channels.fromUI;
 
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import mainNonUI.Main;
 import rene.zirkel.ZirkelCanvas;
 import rene.zirkel.construction.Construction;
 import rene.zirkel.objects.ConstructionObject;
@@ -22,7 +23,7 @@ public class FromUI
         Construction uiRepresentation = zc.getConstruction();
         Diagram backendRepresentation = translateToDiagram(uiRepresentation);
         
-        System.out.println(backendRepresentation.toString());
+        Main.receiveDiagram(backendRepresentation);
         return false;
     }
     
@@ -55,7 +56,7 @@ public class FromUI
                 else
                 {
                     PointObject point = (PointObject) co;
-                    D.addPoint(fromUITranslate.translatePoint(point));
+                    D.addPoint(FromUITranslate.translatePoint(point));
                 }
             }
             
@@ -75,7 +76,7 @@ public class FromUI
                         else
                         {
                             SegmentObject segment = (SegmentObject) co;
-                            D.addSegment(fromUITranslate.translateSegment(segment));
+                            D.addSegment(FromUITranslate.translateSegment(segment));
                         }
                     }
                     else if(co instanceof RayObject)

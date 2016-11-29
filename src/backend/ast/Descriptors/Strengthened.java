@@ -52,14 +52,7 @@ public class Strengthened extends Descriptor
         super();
         original = orig;
         strengthened = streng;
-    }
-    
-    @Override
-    public int getHashCode()
-    {
-        return super.getHashCode();
-    }
-    
+    }    
     
     @Override
     public boolean structurallyEquals(Object obj)

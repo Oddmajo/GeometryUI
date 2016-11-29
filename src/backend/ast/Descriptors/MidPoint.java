@@ -30,9 +30,9 @@ package backend.ast.Descriptors;
 /// <summary>
 /// Represents an angle (degrees), defined by 3 points.
 /// </summary>
-public class MidPoint extends InMiddle
+public class Midpoint extends InMiddle
 {
-	public MidPoint(InMiddle im)
+	public Midpoint(InMiddle im)
 	{
 		super(im.point, im.segment);
 	}
@@ -40,9 +40,9 @@ public class MidPoint extends InMiddle
 	@Override
 	public boolean structurallyEquals(Object obj)
 	{
-		if(obj != null && obj instanceof MidPoint)
+		if(obj != null && obj instanceof Midpoint)
 		{
-			MidPoint midptObj = (MidPoint)obj;
+			Midpoint midptObj = (Midpoint)obj;
 			return point.structurallyEquals(midptObj.point) && segment.structurallyEquals(midptObj.segment);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
@@ -52,19 +52,13 @@ public class MidPoint extends InMiddle
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(obj != null && obj instanceof MidPoint)
+		if(obj != null && obj instanceof Midpoint)
 		{
-			MidPoint midptObj = (MidPoint)obj;
+			Midpoint midptObj = (Midpoint)obj;
 			return point.equals(midptObj.point) && segment.equals(midptObj.segment) && super.equals(obj);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
-	}
-	
-	@Override
-	public int getHashCode()
-	{
-		return super.getHashCode();
 	}
 	
 	@Override

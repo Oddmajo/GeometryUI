@@ -27,18 +27,19 @@
 // */
 package backend.ast.Descriptors;
 
-import java.util.ArrayList;
-
 import backend.ast.GroundedClause;
 import backend.ast.figure.components.Point;
-import backend.ast.Descriptors.MidPoint;
+import backend.ast.Descriptors.Midpoint;
 import backend.ast.figure.components.Segment;
 import backend.utilities.ast_helper.Utilities;
 
 public class InMiddle extends Descriptor
 {
-    public Point point;
-    public Segment segment;
+    protected Point point;
+    public Point getPoint() { return point; }
+
+    protected Segment segment;
+    public Segment getSegment() { return segment; }
     
     /// <summary>
     /// Create a new InMiddle statement
@@ -66,7 +67,7 @@ public class InMiddle extends Descriptor
     {
     	if (Utilities.CompareValues(Point.calcDistance(point, segment.getPoint1()), Point.calcDistance(point, segment.getPoint2())))
         {
-            return new Strengthened(this, new MidPoint(this));
+            return new Strengthened(this, new Midpoint(this));
         }
     	
     	return null;
@@ -75,9 +76,9 @@ public class InMiddle extends Descriptor
     @Override	
     public boolean canBeStrengthenedTo(GroundedClause gc)
     {
-    	if(gc != null && gc instanceof MidPoint)
+    	if(gc != null && gc instanceof Midpoint)
     	{
-    		MidPoint midpoint = (MidPoint)gc;
+    		Midpoint midpoint = (Midpoint)gc;
     		return this.point.structurallyEquals(midpoint.point) && this.segment.structurallyEquals(midpoint.segment);
     	}
     	

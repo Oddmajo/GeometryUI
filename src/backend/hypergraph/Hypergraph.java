@@ -8,7 +8,7 @@ import java.util.Collections;
 
 public class Hypergraph<T, A>
 {
-    public ArrayList<Hypernode<T, A>> vertices;
+    protected ArrayList<Hypernode<T, A>> vertices;
     
     public Hypergraph()
     {
