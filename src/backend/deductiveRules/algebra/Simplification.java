@@ -42,32 +42,27 @@ public class Simplification
         // Distribute subtraction or multiplication over addition
         //
         // Flatten the equation so that each side is a sum of atomic expressions
-        Equation copyEq = (Equation) original.deepCopy();
-        
-        System.out.println("Copy of original (prior to simplification): " + copyEq);
-        
-        FlatEquation flattened = new FlatEquation(copyEq.getLHS().collectTerms(), copyEq.getRHS().collectTerms());
+        //   Equation copyEq = (Equation) original.deepCopy();
+        FlatEquation flattened = new FlatEquation(original.getLHS().collectTerms(), original.getRHS().collectTerms());
 
-        System.out.println("Flattened equation prior to simplification: " + flattened);
+        //Debug.WriteLine("Equation prior to simplification: " + flattened.ToString());
 
         // Combine terms only on each side (do not cross =)
         FlatEquation combined = combineLikeTerms(flattened);
 
-        System.out.println("Equation after like terms combined on both sides: " + combined);
+        //Debug.WriteLine("Equation after like terms combined on both sides: " + combined);
 
         // Combine terms across the equal sign
         FlatEquation across = combineLikeTermsAcrossEqual(combined);
 
-        System.out.println("Equation after simplifying both sides: " + across);
+        //Debug.WriteLine("Equation after simplifying both sides: " + across);
 
         FlatEquation constSimplify = SimplifyForMultipliersAndConstants(across);
 
-        System.out.println("Equation after simplifying for multipliers and constants: " + constSimplify);
-        
         Equation inflated;
-        GroundedClause singleLeftExp = inflateEntireSide(constSimplify.getLhsExps());
+        GroundedClause singleLeftExp = inflateEntireSide(constSimplify.lhsExps);
 
-        GroundedClause singleRightExp = inflateEntireSide(constSimplify.getRhsExps());
+        GroundedClause singleRightExp = inflateEntireSide(constSimplify.rhsExps);
         if (original instanceof AlgebraicSegmentEquation)
         {
             inflated = new AlgebraicSegmentEquation(singleLeftExp, singleRightExp); 
@@ -128,7 +123,7 @@ public class Simplification
     //
     private static FlatEquation SimplifyForMultipliersAndConstants(FlatEquation inEq)
     {
-        if (inEq.getLhsExps().size() != 1 || inEq.getRhsExps().size() != 1) return inEq;
+        if (inEq.lhsExps.size() != 1 || inEq.rhsExps.size() != 1) return inEq;
 
         //
         // Figure out what we're looking at.
@@ -217,7 +212,7 @@ public class Simplification
 
     private static FlatEquation combineLikeTerms(FlatEquation eq)
     {
-        return new FlatEquation(combineSideLikeTerms(eq.getLhsExps()), combineSideLikeTerms(eq.getRhsExps()));
+        return new FlatEquation(combineSideLikeTerms(eq.lhsExps), combineSideLikeTerms(eq.rhsExps));
     }
 
     private static List<GroundedClause> combineSideLikeTerms(List<GroundedClause> sideExps)
@@ -320,13 +315,13 @@ public class Simplification
         // The resultant constant values on the left / right sides
         Pair<Double, Double> constantPair = handleConstants(eq);
 
-        boolean[] rightCheckedExp = new boolean[eq.getRhsExps().size()];
-        for (GroundedClause leftExp : eq.getLhsExps())
+        boolean[] rightCheckedExp = new boolean[eq.rhsExps.size()];
+        for (GroundedClause leftExp : eq.lhsExps)
         {
             if (!(leftExp instanceof NumericValue))
             {
                 //HALP
-                int rightExpIndex = backend.utilities.ast_helper.Utilities.StructuralIndex(eq.getRhsExps(), leftExp);
+                int rightExpIndex = backend.utilities.ast_helper.Utilities.StructuralIndex(eq.rhsExps, leftExp);
 
                 //
                 // Left expression has like term on the right?
@@ -342,7 +337,7 @@ public class Simplification
                 else
                 {
                     rightCheckedExp[rightExpIndex] = true;
-                    GroundedClause rightExp = eq.getRhsExps().get(rightExpIndex);
+                    GroundedClause rightExp = eq.rhsExps.get(rightExpIndex);
                     GroundedClause copyExp = leftExp.deepCopy();
 
                     // Seek to keep positive values for the resultant, simplified expression
@@ -363,11 +358,11 @@ public class Simplification
             }
         }
         // Pick up all the expressions on the right hand side which were not like terms of those on the left
-        for (int i = 0; i < eq.getRhsExps().size(); i++)
+        for (int i = 0; i < eq.rhsExps.size(); i++)
         {
-            if (!rightCheckedExp[i] && !(eq.getRhsExps().get(i) instanceof NumericValue))
+            if (!rightCheckedExp[i] && !(eq.rhsExps.get(i) instanceof NumericValue))
             {
-                rightSimp.add(eq.getRhsExps().get(i));
+                rightSimp.add(eq.rhsExps.get(i));
             }
         }
 
@@ -417,8 +412,8 @@ public class Simplification
     //
     private static Pair<Double, Double> handleConstants(FlatEquation eq)
     {
-        double lhs = collectConstants(eq.getLhsExps());
-        double rhs = collectConstants(eq.getRhsExps());
+        double lhs = collectConstants(eq.lhsExps);
+        double rhs = collectConstants(eq.rhsExps);
 
         double simpLeft = lhs > rhs ? lhs - rhs : 0;
         double simpRight = rhs > lhs ? rhs - lhs : 0;

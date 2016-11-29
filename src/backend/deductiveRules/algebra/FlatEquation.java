@@ -7,19 +7,21 @@ import backend.symbolicAlgebra.equations.Equation;
 
 public class FlatEquation extends Equation
 {
-    private List<GroundedClause> lhsExps;
-    public List<GroundedClause> getLhsExps() { return lhsExps; }
+    public List<GroundedClause> lhsExps;
+    public List<GroundedClause> rhsExps;
 
-    private List<GroundedClause> rhsExps;
-    public List<GroundedClause> getRhsExps() { return rhsExps; }
-
-    protected FlatEquation() { super(); }
-
-    public FlatEquation(List<GroundedClause> left, List<GroundedClause> right) 
+    public List<GroundedClause> getLhsExps()
     {
+        return lhsExps;
+    }
+    public List<GroundedClause> getRhsExps()
+    {
+        return rhsExps;
+    }
+
+    public FlatEquation(){
+
         super();
-        lhsExps = left;
-        rhsExps = right;
     }
     
     public GroundedClause lhsTermAt(int i)
@@ -32,7 +34,12 @@ public class FlatEquation extends Equation
         return rhsExps.get(i);
     }
     
-
+    public FlatEquation(List<GroundedClause> left, List<GroundedClause> right) 
+    {
+        super();
+        lhsExps = left;
+        rhsExps = right;
+    }
 
     public GroundedClause deepCopy()
     {

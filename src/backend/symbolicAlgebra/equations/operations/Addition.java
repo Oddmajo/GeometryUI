@@ -5,20 +5,16 @@ import backend.ast.GroundedClause;
 
 public class Addition extends ArithmeticOperation
 {
-    protected Addition() { super(); }
+    public Addition()
+    { 
+        super();
 
+    }
     public Addition(GroundedClause left, GroundedClause right)
     {
         super(left, right);
     }
 
-    // Make a deep copy of this object
-    @Override
-    public GroundedClause deepCopy()
-    {
-        return new Addition(leftExp.deepCopy(), rightExp.deepCopy());
-    }
-    
     public String toString()
     {
         return "(" + leftExp.toString() + " + " + rightExp.toString() + ")";
@@ -31,9 +27,7 @@ public class Addition extends ArithmeticOperation
 
     public  boolean equals(Object obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof Addition)) return false;
-
-        return super.equals(obj);
+        if (obj == null || (obj instanceof Addition) == false) return false;
+        return super.equals((Addition)obj);
     }
 }

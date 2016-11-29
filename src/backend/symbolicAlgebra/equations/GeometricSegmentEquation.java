@@ -21,6 +21,11 @@ public class GeometricSegmentEquation extends SegmentEquation
         return new GeometricSegmentEquation(this.lhs.deepCopy(), this.rhs.deepCopy());
     }
     
+    public int getHashCode()
+    {
+        return super.getHashCode();
+    }
+    
     public String toString()
     {
         return "GeometricEquation(" + lhs + " = " + rhs + "): " + justification;

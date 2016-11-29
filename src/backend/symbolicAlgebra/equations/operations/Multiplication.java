@@ -26,13 +26,6 @@ public class Multiplication extends ArithmeticOperation
         return leftExp.toPrettyString() + " * " + rightExp.toPrettyString();
     }
 
-    // Make a deep copy of this object
-    @Override
-    public GroundedClause deepCopy()
-    {
-        return new Multiplication(leftExp.deepCopy(), rightExp.deepCopy());
-    }
-    
     //
     // In an attempt to avoid issues, all terms collected are copies of the originals.
     //
@@ -40,49 +33,34 @@ public class Multiplication extends ArithmeticOperation
     {
         ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
 
-        //
-        // Two constants are multiplied
-        //
         if (leftExp instanceof NumericValue && rightExp instanceof NumericValue)
         {
-            NumericValue left = (NumericValue)leftExp;
-            NumericValue right = (NumericValue)rightExp;
-            
-            list.add(new NumericValue(left.getDoubleValue() * right.getDoubleValue()));
-            
+            list.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
             return list;
         }
 
-        //
-        // A constant (on the left) multiplied by another expression
-        //
         if (leftExp instanceof NumericValue)
         {
-            NumericValue left = (NumericValue)leftExp;
-            
             for (GroundedClause gc : rightExp.collectTerms())
             {
-                GroundedClause copyGC = gc.deepCopy();
+                GroundedClause copyGC = null;
 
-                copyGC.setMultiplier(copyGC.getMulitplier() * left.getIntValue());
+                copyGC = gc.deepCopy();
 
+                copyGC.setMultiplier(((NumericValue)leftExp).getIntValue());
                 list.add(copyGC);
             }
         }
 
-        //
-        // A constant (on the left) multiplied by another expression
-        //
         if (rightExp instanceof NumericValue)
         {
-            NumericValue right = (NumericValue)rightExp;
-
             for (GroundedClause gc : leftExp.collectTerms())
             {
-                GroundedClause copyGC = gc.deepCopy();
+                GroundedClause copyGC = null;
 
-                copyGC.setMultiplier(copyGC.getMulitplier() * right.getIntValue());
+                copyGC = gc.deepCopy();
 
+                copyGC.setMultiplier(((NumericValue)rightExp).getIntValue());
                 list.add(copyGC);
             }
         }
@@ -90,12 +68,13 @@ public class Multiplication extends ArithmeticOperation
         return list;
     }
 
-    public boolean equals(Object obj)
+    public boolean Equals(Object obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof Multiplication)) return false;
+        if (obj == null || (Multiplication)obj == null) return false;
+        return super.equals((Multiplication)obj);
+    }
 
-        return super.equals(obj);
-    }    
+    public int getHashCode() { return super.getHashCode(); }
+    
 }
 
