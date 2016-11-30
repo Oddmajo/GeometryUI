@@ -66,12 +66,12 @@ public class FromUI
                 {
                     if(co instanceof SegmentObject)
                     {
-                        //Do something
-                        //This is extended by
-                        //  VectorObject
+                        
                         if(co instanceof VectorObject)
                         {
-                            //Do something
+                            System.out.println("Vector Detected...Converting to Segment.");
+                            SegmentObject segment = (SegmentObject) co;
+                            D.addSegment(FromUITranslate.translateSegment(segment));
                         }
                         else
                         {
