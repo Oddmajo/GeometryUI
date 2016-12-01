@@ -1,5 +1,10 @@
 package mainNonUI;
 
+import java.util.ArrayList;
+
+import backend.ast.figure.Figure;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
 import channels.fromUI.Diagram;
@@ -8,9 +13,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        //Notion of receiving UI stuff
-        //default, hardcoded Diagram for UI-less testing
-
         long timeStart = System.nanoTime();
         try
         {
@@ -28,7 +30,13 @@ public class Main
 
     public static void receiveDiagram(Diagram backendRepresentation)
     {
-        // TODO Auto-generated method stub
+        //This method is called by the fromUI channel
+        //Do stuff with the Diagram Starting here
+        //Currently the Diagram has two ArrayLists
+        //  ArrayList<Point>
+        //  ArrayList<Segment>
+        
+        System.out.println(backendRepresentation.toString());
         
     }
 }
