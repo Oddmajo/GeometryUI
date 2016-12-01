@@ -164,6 +164,8 @@ public class PlanarGraph
             PlanarGraphEdge toFromEdge = nodes.get(toNodeIndex).GetEdge(from);
 
             fromToEdge.edgeType = updateEdge(fromToEdge.edgeType, eType);
+            System.out.println("PlanarGraph.addUndirectedEdge: fromToEdge.edgeType = " + fromToEdge.edgeType);
+            System.out.println("PlanarGraph.addUndirectedEdge: toFromEdge.edgeType = " + toFromEdge.edgeType);
             toFromEdge.edgeType = fromToEdge.edgeType;
 
             // Increment the degree if it is an arc.
@@ -171,6 +173,11 @@ public class PlanarGraph
             {
                 fromToEdge.degree++;
                 toFromEdge.degree++;
+            }
+            // else do not add
+            else
+            {
+                return;
             }
         }
         //
