@@ -1,23 +1,26 @@
 package backendTest.symbolicAlgebraTest.equationsTest;
 
+import java.io.IOException;
+
 import org.junit.*;
 
 import backend.deductiveRules.algebra.Simplification;
 import backend.symbolicAlgebra.equations.*;
 import backend.utilities.Pair;
 import backend.utilities.exception.ArgumentException;
-import backend.utilities.exception.ExceptionHandler;
-import backendTest.symbolicAlgebraTest.equationsTest.generator.EquationGenerator;
+import backend.utilities.logger.LoggerFactory;
 import backendTest.symbolicAlgebraTest.equationsTest.generator.SegmentEquationGenerator;
 
 public class SegmentEquationTest extends EquationTest
 {
     @Test
-    public void segmentEquationTest()
+    public void segmentEquationTest() throws IOException
     {
+        LoggerFactory.initialize();
         System.out.println("Running SegmentEquation Test...");
         axEqualsB();
         System.out.println("Done");
+        LoggerFactory.close();
     }
     
     public void axEqualsB()

@@ -4,6 +4,7 @@ import backend.utilities.Pair;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.list.Utilities;
+import backendTest.symbolicAlgebraTest.equationsTest.generator.VariableFactory;
 import backend.ast.GroundedClause;
 import backend.symbolicAlgebra.NumericValue;
 import backend.symbolicAlgebra.equations.*;
@@ -22,6 +23,7 @@ public class Simplification
     //
     public static Equation simplify(Equation original) throws CloneNotSupportedException, ArgumentException
     {
+        VariableFactory variableFactory = new VariableFactory();
         //Do we have an equation?
         if (original == null)
         {
@@ -43,6 +45,8 @@ public class Simplification
         //
         // Flatten the equation so that each side is a sum of atomic expressions
         //   Equation copyEq = (Equation) original.deepCopy();
+        
+        
         FlatEquation flattened = new FlatEquation(original.getLHS().collectTerms(), original.getRHS().collectTerms());
 
         //Debug.WriteLine("Equation prior to simplification: " + flattened.ToString());
