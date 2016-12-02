@@ -34,17 +34,10 @@ public class PlanarGraphConstructor
         
         // find intersections between segments
         // if there are intersections, add points and segments
-        System.out.println("PlanarGraphConstructor: finding intersections...");
         for (int i = 0; i < num_original_segments - 1; i++)
         {
-            System.out.println("PlanarGraphConstructor: outer loop " + i);
-            System.out.println("PlanarGraphConstructor: _segments size = " + _segments.size());
             for (int j = i + 1; j < num_original_segments; j++)
             {
-                //System.out.println("PlanarGraphConstructor: inner loop " + j);
-                if (j < 100)System.out.println("PlanarGraphConstructor: _segments size = " + _segments.size());
-                if (j < 100) System.out.println("PlanarGraphConstructor: inner loop " + j);
-                if (j < 100) System.out.println("PlanarGraphConstructor: " + (j < _segments.size()));
                 OutPair<Point, Point> out = new OutPair<>();
                 if (_segments.get(i).crosses(_segments.get(j)))
                 {
@@ -73,9 +66,7 @@ public class PlanarGraphConstructor
                             _segments.add(new Segment(out.getValue(), _segments.get(j).getPoint2()));
                         }
                     }
-                    if (j > 100) break;
                 }
-                if (i > 100) break;
             }
         }
         System.out.println("PlanarGraphConstructor: Done finding intersections...");
