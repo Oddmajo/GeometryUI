@@ -1,3 +1,11 @@
+/*
+iTutor – an intelligent tutor of mathematics
+Copyright (C) 2016-2017 C. Alvin and Bradley University CS Students (list of students)
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package backend.atoms.calculator;
 
 import java.util.ArrayList;
@@ -32,8 +40,10 @@ public class PlanarGraphConstructor
         _segments = diagram.getSegments();
         int num_original_segments = _segments.size();
         
+        //
         // find intersections between segments
         // if there are intersections, add points and segments
+        //
         for (int i = 0; i < num_original_segments - 1; i++)
         {
             for (int j = i + 1; j < num_original_segments; j++)
@@ -42,28 +52,36 @@ public class PlanarGraphConstructor
                 if (_segments.get(i).crosses(_segments.get(j)))
                 {
                     _segments.get(i).FindIntersection(_segments.get(j), out);
-                    if (out.getKey() != null && _segments.get(i).pointLiesOnAndExactlyBetweenEndpoints(out.getKey())
-                            && _segments.get(j).pointLiesOnAndExactlyBetweenEndpoints(out.getKey()))
+                    if (out.getKey() != null && ( _segments.get(i).pointLiesOnAndExactlyBetweenEndpoints(out.getKey())
+                            || _segments.get(j).pointLiesOnAndExactlyBetweenEndpoints(out.getKey())) )
                     {
                         if (!_points.contains(out.getKey()))
                         {
                             _points.add(out.getKey());
-                            _segments.add(new Segment(out.getKey(), _segments.get(i).getPoint1()));
-                            _segments.add(new Segment(out.getKey(), _segments.get(i).getPoint2()));
-                            _segments.add(new Segment(out.getKey(), _segments.get(j).getPoint1()));
-                            _segments.add(new Segment(out.getKey(), _segments.get(j).getPoint2()));
+                            if (!(out.getKey().structurallyEquals(_segments.get(i).getPoint1())))
+                                _segments.add(new Segment(out.getKey(), _segments.get(i).getPoint1()));
+                            if (!(out.getKey().structurallyEquals(_segments.get(i).getPoint2())))
+                                _segments.add(new Segment(out.getKey(), _segments.get(i).getPoint2()));
+                            if (!(out.getKey().structurallyEquals(_segments.get(j).getPoint1())))
+                                _segments.add(new Segment(out.getKey(), _segments.get(j).getPoint1()));
+                            if (!(out.getKey().structurallyEquals(_segments.get(j).getPoint2())))
+                                _segments.add(new Segment(out.getKey(), _segments.get(j).getPoint2()));
                         }
                     }
-                    if (out.getValue() != null && _segments.get(i).pointLiesOnAndExactlyBetweenEndpoints(out.getValue())
-                            && _segments.get(j).pointLiesOnAndExactlyBetweenEndpoints(out.getValue()))
+                    if (out.getValue() != null && ( _segments.get(i).pointLiesOnAndExactlyBetweenEndpoints(out.getValue())
+                            || _segments.get(j).pointLiesOnAndExactlyBetweenEndpoints(out.getValue())) )
                     {
                         if (!_points.contains(out.getValue()))
                         {
                             _points.add(out.getValue());
-                            _segments.add(new Segment(out.getValue(), _segments.get(i).getPoint1()));
-                            _segments.add(new Segment(out.getValue(), _segments.get(i).getPoint2()));
-                            _segments.add(new Segment(out.getValue(), _segments.get(j).getPoint1()));
-                            _segments.add(new Segment(out.getValue(), _segments.get(j).getPoint2()));
+                            if (!(out.getValue().structurallyEquals(_segments.get(i).getPoint1())))
+                                _segments.add(new Segment(out.getValue(), _segments.get(i).getPoint1()));
+                            if (!(out.getValue().structurallyEquals(_segments.get(i).getPoint2())))
+                                _segments.add(new Segment(out.getValue(), _segments.get(i).getPoint2()));
+                            if (!(out.getValue().structurallyEquals(_segments.get(j).getPoint1())))
+                                _segments.add(new Segment(out.getValue(), _segments.get(j).getPoint1()));
+                            if (!(out.getValue().structurallyEquals(_segments.get(j).getPoint2())))
+                                _segments.add(new Segment(out.getValue(), _segments.get(j).getPoint2()));
                         }
                     }
                 }

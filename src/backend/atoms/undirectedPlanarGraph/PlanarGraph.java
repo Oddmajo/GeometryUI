@@ -185,6 +185,7 @@ public class PlanarGraph
         //
         else if (from.structurallyEquals(to) && eType != EdgeType.REAL_ARC)
         {
+            //System.out.println("PlanarGraph.addUndirectedEdge: Attempted to add self loop");
             return;
         }
         
