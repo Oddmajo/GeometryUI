@@ -7,7 +7,7 @@ public class Annotation
     public String getJustification() { return justification; }
 
     // Has the user indicated that the use of this 
-    protected boolean active;
+    public boolean active;
     public boolean IsActive() { return active; }
 
     // Disallow a generic edge annotation; force the use of parameters
