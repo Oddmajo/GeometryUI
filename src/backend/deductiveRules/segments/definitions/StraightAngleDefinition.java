@@ -83,7 +83,12 @@ public class StraightAngleDefinition extends Definition
      */
     public Set<Deduction> deduceStraightAngles()
     {
-        return null;
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
+        
+        // aquire all Node clauses from the hypergraph
+        
+        
+        return deductions;
     }
 
     /**
