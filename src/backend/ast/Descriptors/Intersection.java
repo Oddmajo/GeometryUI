@@ -1132,7 +1132,7 @@ public class Intersection extends Descriptor
     	return !standsOn() && !StandsOnEndpoint();
     }
     
-    public boolean IsStraightANgleIntersection()
+    public boolean IsStraightAngleIntersection()
     {
     	return !StandsOnEndpoint();
     }
