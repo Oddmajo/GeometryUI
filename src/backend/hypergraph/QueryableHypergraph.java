@@ -10,6 +10,7 @@ import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Perpendicular;
+import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.arcs.Arc;
@@ -270,6 +271,16 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedPerpendicular()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<PerpendicularBisector> getPerpendicularBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedPerpendicularBisectors()
     {
         // TODO Auto-generated method stub
         return null;
