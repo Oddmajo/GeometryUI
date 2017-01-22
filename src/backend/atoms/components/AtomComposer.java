@@ -10,10 +10,10 @@ package backend.atoms.components;
 
 import java.util.ArrayList;
 
-import backend.ast.figure.components.Arc;
 import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.arcs.Arc;
 import backend.atoms.calculator.FacetCalculator;
 import backend.atoms.calculator.Primitive;
 import backend.atoms.calculator.PrimitiveToRegionConverter;
@@ -269,15 +269,15 @@ public class AtomComposer
             if (agg.intersection1 != null)
             {
                 if (!Utilities.HasStructurally(allPoints, agg.intersection1)) intersectionPts.add(agg.intersection1);
-                agg.thisConn.segmentOrArc.AddCollinearPoint(agg.intersection1);
-                agg.thatConn.segmentOrArc.AddCollinearPoint(agg.intersection1);
+                agg.thisConn.segmentOrArc.addCollinearPoint(agg.intersection1);
+                agg.thatConn.segmentOrArc.addCollinearPoint(agg.intersection1);
             }
             if (agg.intersection2 != null)
             {
                 if (!Utilities.HasStructurally(allPoints, agg.intersection2)) intersectionPts.add(agg.intersection2);
                 intersectionPts.add(agg.intersection2);
-                agg.thisConn.segmentOrArc.AddCollinearPoint(agg.intersection2);
-                agg.thatConn.segmentOrArc.AddCollinearPoint(agg.intersection2);
+                agg.thisConn.segmentOrArc.addCollinearPoint(agg.intersection2);
+                agg.thatConn.segmentOrArc.addCollinearPoint(agg.intersection2);
             }
         }
 

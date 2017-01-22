@@ -2,8 +2,8 @@ package backend.precomputer;
 
 import java.util.ArrayList;
 
-import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.ast_helper.Utilities;
 
 /// <summary>
@@ -73,7 +73,7 @@ public class PolygonCalculator
                             indices.add(s3);
                             ArrayList<Segment> segs = MakeSegmentsList(indices);
                             //Added for testing purposes without the Implied Component Calculator. Nick 11/2/2016
-                            if(!(segs.get(0).IsCollinearWith(segs.get(1)) || segs.get(1).IsCollinearWith(segs.get(2)) || segs.get(0).IsCollinearWith(segs.get(2))))
+                            if(!(segs.get(0).isCollinearWith(segs.get(1)) || segs.get(1).isCollinearWith(segs.get(2)) || segs.get(0).isCollinearWith(segs.get(2))))
                             {
                                 Polygon poly = Polygon.MakePolygon(segs);
                                 if (poly == null)
@@ -88,9 +88,7 @@ public class PolygonCalculator
                                     // Keep track of all existent sets of segments which created polygons.
                                     constructedPolygonSets.add(indices);
                                 }
-                                
                             }
-                            
                         }
                     }
                 }
@@ -195,9 +193,9 @@ public class PolygonCalculator
             for (int s2 = s1 + 1; s2 < segments.size(); s2++)
             {
                 // Crossing
-                if (!segments.get(s1).Crosses(segments.get(s2)))
+                if (!segments.get(s1).middleCrosses(segments.get(s2)))
                 {
-                    if (!segments.get(s1).IsCollinearWith(segments.get(s2)))
+                    if (!segments.get(s1).isCollinearWith(segments.get(s2)))
                     {
                         eligible[s1][s2] = true;
                         eligible[s2][s1] = true;
@@ -211,9 +209,9 @@ public class PolygonCalculator
                         // Coinciding ; Can have something like :   |  |__|  |
                         //                                          |________|
                         //
-                        if (segments.get(s1).SharedVertex(segments.get(s2)) == null)
+                        if (segments.get(s1).sharedVertex(segments.get(s2)) == null)
                         {
-                            if (segments.get(s1).CoincidingWithoutOverlap(segments.get(s2)))
+                            if (segments.get(s1).coincideWithoutOverlap(segments.get(s2)))
                             {
                                 eligible[s1][s2] = true;
                                 eligible[s2][s1] = true;

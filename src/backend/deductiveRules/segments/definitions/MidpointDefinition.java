@@ -190,10 +190,10 @@ public class MidpointDefinition extends Definition
             if (css.isReflexive()) return deductions;
 
             // The congruence must relate two collinear segments...
-            if (!css.getcs1().IsCollinearWith(css.getcs2())) return deductions;
+            if (!css.getcs1().isCollinearWith(css.getcs2())) return deductions;
 
             // ...that share a vertex
-            if (css.getcs1().SharedVertex(css.getcs2()) == null) return deductions;
+            if (css.getcs1().sharedVertex(css.getcs2()) == null) return deductions;
 
             for (InMiddle im : candidateInMiddle)
             {
@@ -213,13 +213,13 @@ public class MidpointDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        Point midpoint = css.getcs1().SharedVertex(css.getcs2());
+        Point midpoint = css.getcs1().sharedVertex(css.getcs2());
 
         // Does this InMiddle relate to the congruent segments?
         if (!im.getPoint().structurallyEquals(midpoint)) return deductions;
 
         // Do the congruent segments combine into a single segment equating to the InMiddle?
-        Segment overallSegment = new Segment(css.getcs1().OtherPoint(midpoint), css.getcs2().OtherPoint(midpoint));
+        Segment overallSegment = new Segment(css.getcs1().other(midpoint), css.getcs2().other(midpoint));
         if (!im.getSegment().structurallyEquals(overallSegment)) return deductions;
 
         Strengthened newMidpoint = new Strengthened(im, new Midpoint(im)); 

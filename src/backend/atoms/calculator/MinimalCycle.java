@@ -10,16 +10,18 @@ package backend.atoms.calculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import backend.ast.ASTException;
-import backend.ast.figure.components.Arc;
 import backend.ast.figure.components.Circle;
-import backend.ast.figure.components.MajorArc;
-import backend.ast.figure.components.MinorArc;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Sector;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Semicircle;
+import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.arcs.Semicircle;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
 import backend.atoms.undirectedPlanarGraph.PlanarGraphEdge;
 import backend.utilities.ast_helper.Utilities;
@@ -320,7 +322,7 @@ public class MinimalCycle extends Primitive
             for (ArrayList<Segment> collinear : collinearSet)
             {
                 // Find the set of collinear segments
-                if (segment.IsCollinearWith(collinear.get(0)))
+                if (segment.isCollinearWith(collinear.get(0)))
                 {
                     collinearFound = true;
                     int i = 0;
@@ -491,10 +493,10 @@ public class MinimalCycle extends Primitive
         // Verify that both sides of the sector contains the center.
         // And many other tests to ensure proper sector acquisition.
         //
-        if (!side1.hasPoint(theArc.getCircle().getCenter())) return null;
-        if (!side2.hasPoint(theArc.getCircle().getCenter())) return null;
+        if (!side1.has(theArc.getCircle().getCenter())) return null;
+        if (!side2.has(theArc.getCircle().getCenter())) return null;
 
-        Point sharedCenter = side1.SharedVertex(side2);
+        Point sharedCenter = side1.sharedVertex(side2);
         if (sharedCenter == null)
         {
             ExceptionHandler.throwException(new AtomicRegionException("Sides do not share a vertex as expected; they share " + sharedCenter));
@@ -505,8 +507,8 @@ public class MinimalCycle extends Primitive
             ExceptionHandler.throwException(new Exception("Center and deduced center do not equate: " + sharedCenter + " " + theArc.getCircle().getCenter()));
         }
 
-        Point segEndpoint1 = side1.OtherPoint(sharedCenter);
-        Point segEndpoint2 = side2.OtherPoint(sharedCenter);
+        Point segEndpoint1 = side1.other(sharedCenter);
+        Point segEndpoint2 = side2.other(sharedCenter);
 
         if (!theArc.HasEndpoint(segEndpoint1) || !theArc.HasEndpoint(segEndpoint2))
         {
@@ -560,7 +562,7 @@ public class MinimalCycle extends Primitive
     private ArrayList<AtomicRegion> ConvertToSemicircle(Segment diameter, Semicircle semi) 
     {
         // Verification Step 2.
-        if (!diameter.pointLiesOnAndExactlyBetweenEndpoints(semi.getCircle().getCenter()))
+        if (!diameter.pointLiesBetweenEndpoints(semi.getCircle().getCenter()))
         {
             ExceptionHandler.throwException(new AtomicRegionException("Semicircle: expected center between endpoints."));
         }
@@ -618,7 +620,7 @@ public class MinimalCycle extends Primitive
 
         for (Circle circle : circles)
         {
-            if (circle.PointLiesOn(pt1) && circle.PointLiesOn(pt2))
+            if (circle.pointLiesOn(pt1) && circle.pointLiesOn(pt2))
             {
                 applicCircs.add(circle);
             }
@@ -664,7 +666,7 @@ public class MinimalCycle extends Primitive
                     // CTA: This criteria seems invalid in some cases....; may not have collinearity
 
                     // We hit the end of the line of collinear segments.
-                    if (!currSegment.IsCollinearWith(nextSeg)) break;
+                    if (!currSegment.isCollinearWith(nextSeg)) break;
 
                     collinearExists = true;
                     actualSeg = nextSeg;
@@ -808,9 +810,9 @@ public class MinimalCycle extends Primitive
 
                     if (circlesCutInsidePoly[p].DefinesDiameter(regionsSegments[p]))
                     {
-                        Point midpt = circlesCutInsidePoly[p].Midpoint(regionsSegments[p].getPoint1(), regionsSegments[p].getPoint2());
+                        Point midpt = circlesCutInsidePoly[p].getMidpoint(regionsSegments[p].getPoint1(), regionsSegments[p].getPoint2());
 
-                        if (!poly.IsInPolygon(midpt)) midpt = circlesCutInsidePoly[p].OppositePoint(midpt);
+                        if (!poly.pointLiesIn(midpt)) midpt = circlesCutInsidePoly[p].OppositePoint(midpt);
 
                         theArc = new Semicircle(circlesCutInsidePoly[p], regionsSegments[p].getPoint1(), regionsSegments[p].getPoint2(), midpt, regionsSegments[p]);
                     }
@@ -960,10 +962,10 @@ public class MinimalCycle extends Primitive
         else
         {
             // Is the midpoint on the interior of the polygon?
-            Point midpt = circle.Midpoint(pt1, pt2);
+            Point midpt = circle.getMidpoint(pt1, pt2);
 
             // Is this point in the interior of this polygon?
-            if (poly.IsInPolygon(midpt)) return circle;
+            if (poly.pointLiesIn(midpt)) return circle;
         }
 
         return null;
@@ -1014,13 +1016,13 @@ public class MinimalCycle extends Primitive
         Segment centerLine = new Segment(circles.get(0).getCenter(), circles.get(1).getCenter());
         for (int c = 2; c < circles.size(); c++)
         {
-            centerLine.AddCollinearPoint(circles.get(c).getCenter());
+            centerLine.addCollinearPoint(circles.get(c).getCenter());
         }
         // Find the intersection between the center-line and the chord; add that to the list.
-        Point intersection = centerLine.FindIntersection(chord);
-        centerLine.AddCollinearPoint(intersection);
+        Point intersection = centerLine.segmentIntersection(chord);
+        centerLine.addCollinearPoint(intersection);
 
-        ArrayList<Point> collPoints = centerLine.getCollinear();
+        List<Point> collPoints = centerLine.getCollinear();
         int interIndex = collPoints.indexOf(intersection);
 
         for (int i = 0; i < collPoints.size(); i++)
@@ -1100,7 +1102,7 @@ public class MinimalCycle extends Primitive
         // Semi-circles
         //
 
-        Point midpt = circle.Midpoint(chord.getPoint1(), chord.getPoint2());
+        Point midpt = circle.getMidpoint(chord.getPoint1(), chord.getPoint2());
         Arc semi1 = new Semicircle(circle, chord.getPoint1(), chord.getPoint2(), midpt, chord);
         ShapeAtomicRegion region1 = new ShapeAtomicRegion(new Sector(semi1));
 
@@ -1130,7 +1132,7 @@ public class MinimalCycle extends Primitive
         Arc arc1 = null;
         if (smaller.DefinesDiameter(chord))
         {
-            Point midpt = smaller.Midpoint(chord.getPoint1(), chord.getPoint2(), larger.Midpoint(chord.getPoint1(), chord.getPoint2()));
+            Point midpt = smaller.Midpoint(chord.getPoint1(), chord.getPoint2(), larger.getMidpoint(chord.getPoint1(), chord.getPoint2()));
 
             arc1 = new Semicircle(smaller, chord.getPoint1(), chord.getPoint2(), midpt, chord);
         }

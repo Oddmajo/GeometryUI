@@ -70,11 +70,11 @@ public class Collinear extends Descriptor
         
         for(Point pt : points)
         {
-        	if(!line.PointLiesOn(pt))
+        	if(!line.pointLiesOn(pt))
         	{
         		ExceptionHandler.throwException(new ArgumentException("Point " + pt + " is not collinear with line " + line.toString()));
         	}
-        	if(!line.PointLiesOnAndBetweenEndpoints(pt))
+        	if(!line.pointLiesBetweenEndpoints(pt))
         	{
         		ExceptionHandler.throwException(new ArgumentException("Point " + pt + " is not between the endpoints of segment " + line.toString()));
         	}

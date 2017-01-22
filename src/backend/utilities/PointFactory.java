@@ -5,16 +5,22 @@ import java.util.List;
 
 import backend.ast.figure.components.Point;
 
-//
-// Given a pair of coordinates; generate a unique name for it; return that point object.
-// Names go from A..Z..AA..ZZ..AAA...ZZZ
-//
+/*
+ * Given a pair of coordinates; generate a unique name for it; return that point object.
+ * Names go from A..Z..AA..ZZ..AAA...ZZZ
+ */
 public class PointFactory
 {
+    // This is a static class (one instance)
+    private PointFactory() {}
+    
     private static final String _prefix = "_*_";
     private static String currentName = "A";
     private static int numLetters = 1;
 
+    //
+    // CTA: This needs to be changed to a custom hashtable implementation
+    //
     private static ArrayList<Point> database = new ArrayList<Point>();
 
     public static void initialize(List<Point> initPoints)
@@ -22,6 +28,9 @@ public class PointFactory
         database.addAll(initPoints);
     }
 
+    /*
+     * Has this point been generated previously?
+     */
     public static boolean isGenerated(Point that)
     {
         if (that == null) return false;
@@ -46,6 +55,12 @@ public class PointFactory
         return newPt;
     }
 
+    /*
+     * Simple containment; no updating
+     */
+    public static boolean contains(double x, double y) { return database.indexOf(new Point("", x, y)) != -1; }
+    public static boolean contains(Point p) { return contains(p.getX(), p.getY()); }
+    
     public static Point generatePoint(Point pt)
     {
         return GeneratePoint(pt.getX(), pt.getY());

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.precomputer.PolygonCalculator;
 public class PolygonCalculatorTest
 {

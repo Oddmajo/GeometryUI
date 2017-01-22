@@ -1,9 +1,8 @@
 package backend.ast.figure.components.quadrilaterals;
 
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -69,18 +68,4 @@ public class IsoscelesTrapezoid extends Trapezoid
         }
         return "IsoTrap(" + str.toString() + ")";
     }
-
-    //
-    // Attempt trapezoidal formulas; if they fail, call the base method: splitting into triangles.
-    //
-//    @Override
-//    public double GetArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
-//    {
-//        if (calculatedHeight > 0)
-//        {
-//            double area = GetBaseBasedArea(calculatedHeight, known);
-//        }
-//
-//        return super.GetArea(known);
-//    }
 }

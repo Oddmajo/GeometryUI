@@ -1,6 +1,10 @@
 package backend.symbolicAlgebra.equations;
 
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.arcs.Semicircle;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;

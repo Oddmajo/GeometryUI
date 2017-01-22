@@ -11,16 +11,19 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
+import backend.ast.figure.components.angles.Angle;
 import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.math.MathUtilities;
 
 /**
- * A 2D Point
+ * A 2D Point (x, y) only
+ * Points are ordered lexicographically (thus implementing the Comparable interface)
+ * 
  * @author Nick Celiberti
- *
+ * @author C. Alvin
  */
-public class Point extends Figure
+public class Point extends Figure implements Comparable
 {
-
     public static final int NUM_SEGS_TO_APPROX_ARC = 0;
     private static int CURRENT_ID = 0;
     public static final double EPSILON = 0.0001;
@@ -109,7 +112,7 @@ public class Point extends Figure
         if (Segment.Between(thisPoint, origin, thatPoint)) return 0;
         if (Segment.Between(thatPoint, origin, thisPoint)) return 0;
 
-        return new Angle(thisPoint, origin, thatPoint).measure;
+        return new Angle(thisPoint, origin, thatPoint).getMeasure();
     }
 
     /**
@@ -213,27 +216,27 @@ public class Point extends Figure
         return angle < 0 ? angle + 2 * Math.PI : angle;
     }
 
-    /**
-     * Maintain a public repository of all segment objects in the figure.
-     */
-    public static void clear() { figurePoints.clear(); }
-    public static ArrayList<Point> figurePoints = new ArrayList<Point>();
-
-    public static void Record(GroundedClause clause)
-    {
-        // Record uniquely? For right angles, etc?
-        if (clause instanceof Point) figurePoints.add((Point)clause);
-    }
-
-    public static Point GetFigurePoint(Point candPoint)
-    {
-        for (Point p : figurePoints)
-        {
-            if (p.structurallyEquals(candPoint)) return p;
-        }
-
-        return null;
-    }
+    //    /**
+    //     * Maintain a public repository of all segment objects in the figure.
+    //     */
+    //    public static void clear() { figurePoints.clear(); }
+    //    public static ArrayList<Point> figurePoints = new ArrayList<Point>();
+    //
+    //    public static void Record(GroundedClause clause)
+    //    {
+    //        // Record uniquely? For right angles, etc?
+    //        if (clause instanceof Point) figurePoints.add((Point)clause);
+    //    }
+    //
+    //    public static Point GetFigurePoint(Point candPoint)
+    //    {
+    //        for (Point p : figurePoints)
+    //        {
+    //            if (p.structurallyEquals(candPoint)) return p;
+    //        }
+    //
+    //        return null;
+    //    }
 
     /**
      * Calculates the distance between 2 points
@@ -261,39 +264,38 @@ public class Point extends Figure
         return false;
     }
 
-    @Override
-    public boolean structurallyEquals(Object obj)
-    {
-        if (obj == null)
-            return false;
-        Point pt =  (Point)obj;
-
-        return backend.utilities.math.MathUtilities.doubleEquals(pt.X, X) && backend.utilities.math.MathUtilities.doubleEquals(pt.Y, Y);
-    }
-
     // Make a deep copy of this object; this is actually shallow, but is all that is required.
     public GroundedClause DeepCopy() 
     { 
-    try
-    {
-        return (Point)(this.clone());
-    }
-    catch (CloneNotSupportedException e)
-    {
-        // TODO Auto-generated catch block
-        ExceptionHandler.throwException(e);
-    }
-    return this; 
+        try
+        {
+            return (Point)(this.clone());
+        }
+        catch (CloneNotSupportedException e)
+        {
+            // TODO Auto-generated catch block
+            ExceptionHandler.throwException(e);
+        }
+        return this; 
     } 
 
     @Override
+    public boolean structurallyEquals(Object obj)
+    {
+        if (obj == null) return false;
+        if (!(obj instanceof Point)) return false;
+
+        Point pt =  (Point)obj;
+
+        return MathUtilities.doubleEquals(pt.X, X) && MathUtilities.doubleEquals(pt.Y, Y);
+    }
+    
+    @Override
     public boolean equals(Object obj)
     {
-        Point pt = (Point)obj;
+        if (!structurallyEquals(obj)) return false;
 
-        if (pt == null) return false;
-
-        return structurallyEquals(obj) && name.equals(pt.name);
+        return name.equals(((Point)obj).name);
     }
 
     @Override
@@ -325,27 +327,36 @@ public class Point extends Figure
      * 
      * @param p1 Point 1
      * @param p2 Point 2
-     * @return p1 < p2 return -1 : p1 == p2 return 0 : p1 > p2 return 1
+     * @return Lexicographically: p1 < p2 return -1 : p1 == p2 return 0 : p1 > p2 return 1
+     *         Order of X-coordinates first; order of Y-coordinates second
      */
     public static int LexicographicOrdering(Point p1, Point p2)
     {
-        if (!backend.utilities.math.MathUtilities.doubleEquals(p1.X, p2.X))
-        {
-            // X's first
-            if (p1.X < p2.X) return -1;
+        // Epsilon-based equality of both coordinates
+        if (MathUtilities.doubleEquals(p1.X, p2.X) &&
+            MathUtilities.doubleEquals(p1.Y, p2.Y)) return 0;
 
-            if (p1.X > p2.X) return 1;
-        }
+        // X's first
+        if (p1.X < p2.X) return -1;
 
-        if (backend.utilities.math.MathUtilities.doubleEquals(p1.Y, p2.Y)) return 0;
+        if (p1.X > p2.X) return 1;
 
         // Y's second
         if (p1.Y < p2.Y) return -1;
 
         if (p1.Y > p2.Y) return 1;
 
-        // Equal points
+        // Equal points: this should NOT happen
         return 0;
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        if (o == null) return 1;
+        if (!(o instanceof Point)) return 1;
+
+        return Point.LexicographicOrdering(this, (Point)o);
     }
 
 

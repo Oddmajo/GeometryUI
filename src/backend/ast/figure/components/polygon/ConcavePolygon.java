@@ -1,6 +1,10 @@
-package backend.ast.figure.components;
+package backend.ast.figure.components.polygon;
 
 import java.util.ArrayList;
+
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 
 /// <summary>
 /// Represents a concave polygon (which consists of n >= 4 segments)

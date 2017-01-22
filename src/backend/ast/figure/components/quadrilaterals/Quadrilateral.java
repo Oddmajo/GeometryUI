@@ -1,4 +1,4 @@
-package backend.ast.figure.components;
+package backend.ast.figure.components.quadrilaterals;
 
 import java.util.ArrayList;
 
@@ -7,16 +7,15 @@ import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.math.MathUtilities;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Strengthened;
-import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
-import backend.ast.figure.components.quadrilaterals.Kite;
-import backend.ast.figure.components.quadrilaterals.Parallelogram;
-import backend.ast.figure.components.quadrilaterals.Rectangle;
-import backend.ast.figure.components.quadrilaterals.Rhombus;
-import backend.ast.figure.components.quadrilaterals.Square;
-import backend.ast.figure.components.quadrilaterals.Trapezoid;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.polygon.Polygon;
+import backend.ast.figure.components.triangles.Triangle;
 
 
 /// <summary>
@@ -24,6 +23,9 @@ import backend.ast.figure.components.quadrilaterals.Trapezoid;
 /// </summary>
 public class Quadrilateral extends Polygon
 {
+    //
+    // CTA: WHy are these all public?
+    //
     public Point topLeft;
     public Point getTopLeft() { return topLeft; }
     public Point topRight;
@@ -96,18 +98,18 @@ public class Quadrilateral extends Polygon
         //
         // Points
         //
-        this.topLeft = left.SharedVertex(top);
+        this.topLeft = left.sharedVertex(top);
         if (topLeft == null)
         {
             ExceptionHandler.throwException( new ArgumentException("Top left point is invalid: " + top + " " + left));
         }
-        this.topRight = right.SharedVertex(top);
+        this.topRight = right.sharedVertex(top);
         if (topRight == null) ExceptionHandler.throwException( new IllegalArgumentException("Top left point is invalid: " + top + " " + right));
 
-        this.bottomLeft = left.SharedVertex(bottom);
+        this.bottomLeft = left.sharedVertex(bottom);
         if (bottomLeft == null) ExceptionHandler.throwException( new IllegalArgumentException("Bottom left point is invalid: " + bottom + " " + left));
 
-        this.bottomRight = right.SharedVertex(bottom);
+        this.bottomRight = right.sharedVertex(bottom);
         if (bottomRight == null) ExceptionHandler.throwException( new IllegalArgumentException("Bottom right point is invalid: " + bottom + " " + right));
 
         points = new ArrayList<Point>();
@@ -153,7 +155,7 @@ public class Quadrilateral extends Polygon
 
         // this.FigureSynthesizerConstructor();
 
-        addSuperFigureToDependencies();
+//        addSuperFigureToDependencies();
     }
 
     public Quadrilateral(ArrayList<Segment> segs)
@@ -188,21 +190,21 @@ public class Quadrilateral extends Polygon
         return quad;
     }
 
-    protected void addSuperFigureToDependencies()
-    {
-        backend.utilities.list.Utilities.addUniqueStructurally(topLeft.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topRight.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeft.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomRight.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(left.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(right.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottom.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(top.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topLeftAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(topRightAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeftAngle.getSuperFigures(), this);
-        backend.utilities.list.Utilities.addUniqueStructurally(bottomRightAngle.getSuperFigures(), this);
-    }
+//    protected void addSuperFigureToDependencies()
+//    {
+//        backend.utilities.list.Utilities.addUniqueStructurally(topLeft.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(topRight.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeft.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(bottomRight.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(left.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(right.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(bottom.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(top.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(topLeftAngle.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(topRightAngle.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(bottomLeftAngle.getSuperFigures(), this);
+//        backend.utilities.list.Utilities.addUniqueStructurally(bottomRightAngle.getSuperFigures(), this);
+//    }
 
     public boolean IsStrictQuadrilateral()
     {
@@ -259,7 +261,7 @@ public class Quadrilateral extends Polygon
     {
         for (Segment side : orderedSides)
         {
-            if (side.HasSubSegment(segment)) return side;
+            if (side.contains(segment)) return side;
         }
 
         return null;
@@ -288,11 +290,11 @@ public class Quadrilateral extends Polygon
     {
         if (this.HasSubsegmentSide(segment1) == null || this.HasSubsegmentSide(segment2) == null) return false;
 
-        if (top.HasSubSegment(segment1) && bottom.HasSubSegment(segment2)) return true;
-        if (top.HasSubSegment(segment2) && bottom.HasSubSegment(segment1)) return true;
+        if (top.contains(segment1) && bottom.contains(segment2)) return true;
+        if (top.contains(segment2) && bottom.contains(segment1)) return true;
 
-        if (left.HasSubSegment(segment1) && right.HasSubSegment(segment2)) return true;
-        if (left.HasSubSegment(segment2) && right.HasSubSegment(segment1)) return true;
+        if (left.contains(segment1) && right.contains(segment2)) return true;
+        if (left.contains(segment2) && right.contains(segment1)) return true;
 
         return false;
     }
@@ -460,14 +462,14 @@ public class Quadrilateral extends Polygon
     //
     public boolean VerifyParallelogram()
     {
-        if (!left.IsParallelWith(right)) return false;
-        if (!top.IsParallelWith(bottom)) return false;
+        if (!left.isParallel(right)) return false;
+        if (!top.isParallel(bottom)) return false;
 
-        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, right._length)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(top._length, bottom._length)) return false;
+        if (!MathUtilities.doubleEquals(left.length(), right.length())) return false;
+        if (!MathUtilities.doubleEquals(top.length(), bottom.length())) return false;
 
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, bottomRightAngle.measure)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, bottomLeftAngle.measure)) return false;
+        if (!MathUtilities.doubleEquals(topLeftAngle.getMeasure(), bottomRightAngle.getMeasure())) return false;
+        if (!MathUtilities.doubleEquals(topRightAngle.getMeasure(), bottomLeftAngle.getMeasure())) return false;
 
         return true;
     }
@@ -479,12 +481,12 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyParallelogram()) return false;
 
-        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, top._length)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, bottom._length)) return false;
+        if (!MathUtilities.doubleEquals(left.length(), top.length())) return false;
+        if (!MathUtilities.doubleEquals(left.length(), bottom.length())) return false;
 
         // Redundant
-        if (!backend.utilities.math.MathUtilities.doubleEquals(right._length, top._length)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(right._length, bottom._length)) return false;
+        if (!MathUtilities.doubleEquals(right.length(), top.length())) return false;
+        if (!MathUtilities.doubleEquals(right.length(), bottom.length())) return false;
 
         return true;
     }
@@ -496,10 +498,10 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyRhombus()) return false;
 
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+        if (!MathUtilities.doubleEquals(topLeftAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(topRightAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(bottomLeftAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(bottomRightAngle.getMeasure(), 90)) return false;
 
         return true;
     }
@@ -511,10 +513,10 @@ public class Quadrilateral extends Polygon
     {
         if (!VerifyParallelogram()) return false;
 
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(topRightAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomLeftAngle.measure, 90)) return false;
-        if (!backend.utilities.math.MathUtilities.doubleEquals(bottomRightAngle.measure, 90)) return false;
+        if (!MathUtilities.doubleEquals(topLeftAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(topRightAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(bottomLeftAngle.getMeasure(), 90)) return false;
+        if (!MathUtilities.doubleEquals(bottomRightAngle.getMeasure(), 90)) return false;
 
         return true;
     }
@@ -524,8 +526,8 @@ public class Quadrilateral extends Polygon
     //
     public boolean VerifyTrapezoid()
     {
-        boolean lrParallel = left.IsParallelWith(right);
-        boolean tbParallel = top.IsParallelWith(bottom);
+        boolean lrParallel = left.isParallel(right);
+        boolean tbParallel = top.isParallel(bottom);
 
         // XOR of parallel opposing sides
         if (lrParallel && tbParallel) return false;
@@ -544,13 +546,13 @@ public class Quadrilateral extends Polygon
         //
         // Determine parallel sides, then compare lengths of other sides
         //
-        if (left.IsParallelWith(right))
+        if (left.isParallel(right))
         {
-            if (!backend.utilities.math.MathUtilities.doubleEquals(top._length, bottom._length)) return false;
+            if (!MathUtilities.doubleEquals(top.length(), bottom.length())) return false;
         }
-        else if (top.IsParallelWith(bottom))
+        else if (top.isParallel(bottom))
         {
-            if (!backend.utilities.math.MathUtilities.doubleEquals(left._length, right._length)) return false;
+            if (!MathUtilities.doubleEquals(left.length(), right.length())) return false;
         }
 
         return true;
@@ -564,9 +566,9 @@ public class Quadrilateral extends Polygon
         //
         // Adjacent sides must equate : length
         //
-        if (backend.utilities.math.MathUtilities.doubleEquals(left._length, top._length) && backend.utilities.math.MathUtilities.doubleEquals(right._length, bottom._length)) return true;
+        if (MathUtilities.doubleEquals(left.length(), top.length()) && MathUtilities.doubleEquals(right.length(), bottom.length())) return true;
 
-        if (backend.utilities.math.MathUtilities.doubleEquals(left._length, bottom._length) && backend.utilities.math.MathUtilities.doubleEquals(right._length, top._length)) return true;
+        if (MathUtilities.doubleEquals(left.length(), bottom.length()) && MathUtilities.doubleEquals(right.length(), top.length())) return true;
 
         return false;
     }
@@ -687,7 +689,7 @@ public class Quadrilateral extends Polygon
         // A valid quadrilateral will have the intersections outside of the quad, that is defined
         // by the order of the three points: intersection and two endpts of the side
         //
-        Point intersection = top.FindIntersection(bottom);
+        Point intersection = top.lineIntersection(bottom);
 
         // Check for parallel lines, then in-betweenness
         if (intersection != null && !Double.isNaN(intersection.getX()) && !Double.isNaN(intersection.getY()))
@@ -697,7 +699,7 @@ public class Quadrilateral extends Polygon
         }
 
         // The left / right cannot cross; bowtie or hourglass shape
-        intersection = left.FindIntersection(right);
+        intersection = left.lineIntersection(right);
 
         // Check for parallel lines, then in-betweenness
         if (intersection != null && !Double.isNaN(intersection.getX()) && !Double.isNaN(intersection.getY()))
@@ -710,10 +712,10 @@ public class Quadrilateral extends Polygon
         // Verify that we have 4 unique points; And not different shapes (like a star, or triangle with another segment)
         //
         ArrayList<Point> pts = new ArrayList<Point>();
-        pts.add(left.SharedVertex(top));
-        pts.add(left.SharedVertex(bottom));
-        pts.add(right.SharedVertex(bottom));
-        pts.add(right.SharedVertex(top));
+        pts.add(left.sharedVertex(top));
+        pts.add(left.sharedVertex(bottom));
+        pts.add(right.sharedVertex(bottom));
+        pts.add(right.sharedVertex(top));
         for (int i = 0; i < pts.size() - 1; i++)
         {
             for (int j = i + 1; j < pts.size(); j++)
@@ -738,7 +740,7 @@ public class Quadrilateral extends Polygon
     {
         Segment top;
         Segment bottom;
-        if (seg1.SharedVertex(seg2) != null && seg1.SharedVertex(seg3) != null)
+        if (seg1.sharedVertex(seg2) != null && seg1.sharedVertex(seg3) != null)
         {
             top = seg2;
             bottom = seg3;
@@ -746,7 +748,7 @@ public class Quadrilateral extends Polygon
             return seg1;
         }
 
-        if (seg2.SharedVertex(seg1) != null && seg2.SharedVertex(seg3) != null)
+        if (seg2.sharedVertex(seg1) != null && seg2.sharedVertex(seg3) != null)
         {
             top = seg1;
             bottom = seg3;
@@ -754,7 +756,7 @@ public class Quadrilateral extends Polygon
             return seg2;
         }
 
-        if (seg3.SharedVertex(seg1) != null && seg3.SharedVertex(seg2) != null)
+        if (seg3.sharedVertex(seg1) != null && seg3.sharedVertex(seg2) != null)
         {
             top = seg1;
             bottom = seg2;
@@ -771,75 +773,31 @@ public class Quadrilateral extends Polygon
     }
 
 
-    //
-    // Area-Related Computations
-    //
-    @Override
-    public boolean IsComputableArea() { return true; }
+
 
 //    //
-//    // As a general mechanism, can we split up this quadrilateral into two triangles and find those individual areas?
-//    // We must try two combinations of triangle splitting.
+//    // Maintain a public repository of all triangles objects : the figure.
 //    //
-//    protected double SplitTriangleArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
+//    public static void clear()
 //    {
-//        //
-//        // Check the areas of each pairs, only if a diagonal is evident.
-//        //
-//        if (TopLeftDiagonalIsValid())
+//        figureQuadrilaterals.clear();
+//    }
+//    public static ArrayList<Quadrilateral> figureQuadrilaterals = new ArrayList<Quadrilateral>();
+//    public static void Record(GroundedClause clause)
+//    {
+//        // Record uniquely? For right angles, etc?
+//        if (clause instanceof Quadrilateral) figureQuadrilaterals.add((Quadrilateral)clause);
+//    }
+//    public static Quadrilateral GetFigureQuadrilateral(Quadrilateral q)
+//    {
+//        // Search for exact segment first
+//        for (Quadrilateral quad : figureQuadrilaterals)
 //        {
-//            double area1 = triPairTLBR.Key.GetArea(known);
-//            double area2 = triPairTLBR.Value.GetArea(known);
-//
-//            if (area1 > 0 && area2 > 0) return area1 + area2;
+//            if (quad.structurallyEquals(q)) return quad;
 //        }
 //
-//        if (BottomRightDiagonalIsValid())
-//        {
-//            double area1 = triPairBLTR.Key.GetArea(known);
-//            double area2 = triPairBLTR.Value.GetArea(known);
-//
-//            if (area1 > 0 && area2 > 0) return area1 + area2;
-//        }
-//
-//        return -1;
+//        return null;
 //    }
-
-//    @Override
-//    public boolean CanAreaBeComputed(Area_Based_Analyses.KnownMeasurementsAggregator known)
-//    {
-//        return SplitTriangleArea(known) > 0;
-//    }
-//
-//    @Override
-//    public double GetArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
-//    {
-//        return SplitTriangleArea(known);
-//    }
-
-    //
-    // Maintain a public repository of all triangles objects : the figure.
-    //
-    public static void clear()
-    {
-        figureQuadrilaterals.clear();
-    }
-    public static ArrayList<Quadrilateral> figureQuadrilaterals = new ArrayList<Quadrilateral>();
-    public static void Record(GroundedClause clause)
-    {
-        // Record uniquely? For right angles, etc?
-        if (clause instanceof Quadrilateral) figureQuadrilaterals.add((Quadrilateral)clause);
-    }
-    public static Quadrilateral GetFigureQuadrilateral(Quadrilateral q)
-    {
-        // Search for exact segment first
-        for (Quadrilateral quad : figureQuadrilaterals)
-        {
-            if (quad.structurallyEquals(q)) return quad;
-        }
-
-        return null;
-    }
 
     @Override
     public String toString()

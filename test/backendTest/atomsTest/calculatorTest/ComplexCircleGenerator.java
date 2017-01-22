@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Random;
 
 import backend.ast.figure.components.Circle;
-import backend.ast.figure.components.EquationSegment;
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.lexicographicPoints.LexicographicPoints;
 import backend.atoms.undirectedPlanarGraph.EdgeType;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
 import backend.utilities.GeometryVector;
+import backendTest.astTest.figure.EquationSegment;
 import backendTest.atomsTest.calculatorTest.lexicographicPointsTest.LexicographicPointsByY;
 
 /**

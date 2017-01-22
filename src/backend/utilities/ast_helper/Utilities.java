@@ -13,9 +13,9 @@ import java.util.List;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
-import backend.ast.figure.components.Arc;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.arcs.Arc;
 import backend.utilities.PointFactory;
 
 /**
@@ -199,7 +199,7 @@ public class Utilities
 
         if (pt == null) return null;
 
-        return !seg1.PointLiesOnAndBetweenEndpoints(pt) || !seg2.PointLiesOnAndBetweenEndpoints(pt) ? null : pt;
+        return !seg1.pointLiesBetweenEndpoints(pt) || !seg2.pointLiesBetweenEndpoints(pt) ? null : pt;
     }
     
     public static Point AcquireRestrictedPoint(List<Point> points, Point that,
@@ -209,7 +209,7 @@ public class Utilities
 
         if (pt == null) return null;
 
-        return !arc1.PointLiesOn(pt) || !arc2.PointLiesOn(pt) ? null : pt;
+        return !arc1.pointLiesOn(pt) || !arc2.pointLiesOn(pt) ? null : pt;
     }
 
     public static Point AcquireRestrictedPoint(List<Point> points, Point that,
@@ -219,7 +219,7 @@ public class Utilities
 
         if (pt == null) return null;
 
-        return !seg.PointLiesOnAndBetweenEndpoints(pt) || !arc.PointLiesOn(pt) ? null : pt;
+        return !seg.pointLiesBetweenEndpoints(pt) || !arc.pointLiesOn(pt) ? null : pt;
     }
     
     // Is smaller subset larger

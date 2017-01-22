@@ -57,9 +57,14 @@ import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.figure.components.*;
-import backend.ast.figure.components.Circle;
-import backend.ast.figure.components.Quadrilateral;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.angles.RightAngle;
+import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.arcs.Semicircle;
+import backend.ast.figure.components.quadrilaterals.Quadrilateral;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.DebugException;
@@ -223,24 +228,24 @@ public class CoordinatePrecomputer
     		for(int s2 = s1 + 1; s2 < segments.size(); s2++)
     		{
     			//Congruence
-    			if(segments.get(s1).CoordinateCongruent(segments.get(s2)))
+    			if(segments.get(s1).coordinateCongruent(segments.get(s2)))
     			{
     				descriptors.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
     			}
     			
     			//Parallel and Perpendicular lines
-    			if(segments.get(s1).CoordinateParallel(segments.get(s2)))
+    			if(segments.get(s1).isParallel(segments.get(s2)))
     			{
     				descriptors.add(new Parallel(segments.get(s1),segments.get(s2)));
     			}
     			
-    			//Perpendicular, bisector, perpendiculat bisector
+    			//Perpendicular, bisector, perpendicular bisector
     			else
     			{
     				//these are the general intersection points between the endpoints or on the endpoints of the segments (in some cases)
-    				Point intersectionPerp = segments.get(s1).CoordinatePerpendicular(segments.get(s2));
+    				Point intersectionPerp = segments.get(s1).coordinatePerpendicular(segments.get(s2));
     				// is segment[s2] a bisector of segment[s1]?
-    				Point intersectionBisec = segments.get(s1).CoordinateBisector(segments.get(s2));//return the actual intersection point
+    				Point intersectionBisec = segments.get(s1).coordinateBisector(segments.get(s2));//return the actual intersection point
     				if(intersectionPerp != null && intersectionBisec != null)
     				{
     					descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
@@ -255,7 +260,7 @@ public class CoordinatePrecomputer
     				}
     				
     				//we may have a bisector in the other direction
-    				intersectionBisec = segments.get(s2).CoordinateBisector(segments.get(s1));
+    				intersectionBisec = segments.get(s2).coordinateBisector(segments.get(s1));
     				if(intersectionPerp != null && intersectionBisec != null)
     				{
     							descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
@@ -268,7 +273,7 @@ public class CoordinatePrecomputer
     			
     			//Proportional line segments
     			//just generate if the ratio is really an integer or half-step
-    			Pair<Integer,Integer> proportion = segments.get(s1).CoordinateProportional(segments.get(s2));
+    			Pair<Integer,Integer> proportion = segments.get(s1).coordinateProportional(segments.get(s2));
     			if(proportion.getValue() != -1)
     			{
     				if(proportion.getValue() <=2 || proportion.getKey() <= 2)
@@ -357,13 +362,13 @@ public class CoordinatePrecomputer
     		for(Segment segment : segments)
     		{
     			//median
-    			if(tri.CoordinateMedian(segment))
+    			if(tri.isMedian(segment))
     			{
     				descriptors.add(new Median(segment, tri));
     			}
     			
     			//Altitude
-    			if(tri.CoordinateAltitude(segment))
+    			if(tri.isAltitude(segment))
     			{
     				descriptors.add(new Altitude(tri,segment));
     			}
@@ -436,7 +441,7 @@ public class CoordinatePrecomputer
     	//can a triangle be strengthened? scalene -> isosceles -> equilateral?
     	for(Triangle t : triangles)
     	{
-    		strengthened.addAll(Triangle.CanBeStrengthened(t));
+    		strengthened.addAll(Triangle.canBeStrengthened(t));
     	}
     	
     	//can an inMiddle relationship be classified as a midpoint?

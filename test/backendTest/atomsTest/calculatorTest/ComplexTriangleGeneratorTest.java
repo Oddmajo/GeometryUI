@@ -4,10 +4,10 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
-import backend.ast.figure.components.EquationSegment;
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.lexicographicPoints.LexicographicPoints;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backendTest.astTest.figure.EquationSegment;
 
 public class ComplexTriangleGeneratorTest
 {

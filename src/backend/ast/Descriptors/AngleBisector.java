@@ -1,8 +1,8 @@
 package backend.ast.Descriptors;
 
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 import backend.utilities.Pair;
 
 public class AngleBisector extends Bisector
@@ -28,10 +28,10 @@ public class AngleBisector extends Bisector
 	
 	public Pair<Angle, Angle> getBisectedAngles()
 	{
-		Point vertex = angle.GetVertex();
+		Point vertex = angle.getVertex();
 		Point interiorPt = angle.IsOnInterior(bisector.getPoint1()) ? bisector.getPoint1() : bisector.getPoint2();
-		Point exteriorPt1 = angle.getRay1().OtherPoint(vertex);
-		Point exteriorPt2 = angle.getRay2().OtherPoint(vertex);
+		Point exteriorPt1 = angle.getRay1().getNonOrigin();
+		Point exteriorPt2 = angle.getRay2().getNonOrigin();
 		
 		return new Pair<Angle, Angle>(new Angle(interiorPt, vertex, exteriorPt1) , new Angle(interiorPt, vertex, exteriorPt2));
 	}

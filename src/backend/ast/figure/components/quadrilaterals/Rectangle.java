@@ -1,11 +1,10 @@
 package backend.ast.figure.components.quadrilaterals;
 
 import backend.ast.Descriptors.Intersection;
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -93,40 +92,10 @@ public class Rectangle extends Parallelogram
     }
 
     @Override
-    public int getHashCode() { return super.getHashCode(); }
-
-    @Override
     public String CheapPrettyString()
     {
         StringBuilder str = new StringBuilder();
         for (Point pt : points) str.append(pt.CheapPrettyString());
         return "Rect(" + str.toString() + ")";
     }
-
-    //
-    // Calculate base * height ; defer to splitting triangles from there.
-    //
-    public double Area(double b, double h) { return b * h; }
-
-//    @Override
-//    public double GetArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
-//    {
-//        double[] sideVals = new double[orderedSides.size()];
-//
-//        for (int s = 0; s < orderedSides.size(); s++)
-//        {
-//            sideVals[s] = known.GetSegmentLength(orderedSides.get(s));
-//        }
-//
-//        // One pair of adjacent sides is required for the area computation.
-//        for (int s = 0; s < sideVals.length; s++)
-//        {
-//            double baseVal = sideVals[s];
-//            double heightVal = sideVals[(s+1) % sideVals.length];
-//
-//            if (baseVal > 0 && heightVal > 0) return Area(baseVal, heightVal);
-//        }
-//
-//        return SplitTriangleArea(known);
-//    }
 }

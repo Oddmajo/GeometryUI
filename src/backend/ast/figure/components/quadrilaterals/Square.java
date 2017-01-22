@@ -2,9 +2,8 @@ package backend.ast.figure.components.quadrilaterals;
 
 import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -27,21 +26,21 @@ public class Square extends Rhombus
         super(left, right, top, bottom);  
         if (!MathUtilities.doubleEquals(topLeftAngle.getMeasure(), 90))
         {
-            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topLeftAngle));
+            ExceptionHandler.throwException(new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topLeftAngle));
         }
         if (!MathUtilities.doubleEquals(topRightAngle.getMeasure(), 90))
         {
-            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topRightAngle));
+            ExceptionHandler.throwException(new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + topRightAngle));
         }
 
         if (!MathUtilities.doubleEquals(bottomLeftAngle.getMeasure(), 90))
         {
-            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomLeftAngle));
+            ExceptionHandler.throwException(new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomLeftAngle));
         }
 
         if (!MathUtilities.doubleEquals(bottomRightAngle.getMeasure(), 90))
         {
-            ExceptionHandler.throwException( new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomRightAngle));
+            ExceptionHandler.throwException(new IllegalArgumentException("Quadrilateral is not a Square; angle does not measure 90^o: " + bottomRightAngle));
         }
 
         //Set the diagonal and intersection values
@@ -50,17 +49,17 @@ public class Square extends Rhombus
          this.SetIntersection(inter);
     }
 
-    //
-    // Area-Related Computations
-    //
-    // Side-squared
-    protected double Area(double s)
-    {
-        return s * s;
-    }
-    protected double RationalArea(double s) { return Area(s); }
-    @Override
-    public boolean IsComputableArea() { return true; }
+//    //
+//    // Area-Related Computations
+//    //
+//    // Side-squared
+//    protected double Area(double s)
+//    {
+//        return s * s;
+//    }
+//    protected double RationalArea(double s) { return Area(s); }
+//    @Override
+//    public boolean IsComputableArea() { return true; }
 
 //    private double ClassicArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
 //    {
@@ -97,17 +96,17 @@ public class Square extends Rhombus
 //    }
 
 
-    public boolean IsStrongerThan(Polygon that)
-    {
-        if (that instanceof Trapezoid) return false;
-        if (that instanceof Kite) return false;
-        if (that instanceof Rectangle) return true;
-        if (that instanceof Rhombus) return true;
-        if (that instanceof Parallelogram) return true;
-        if (that instanceof Quadrilateral) return true;
-
-        return false;
-    }
+//    public boolean IsStrongerThan(Polygon that)
+//    {
+//        if (that instanceof Trapezoid) return false;
+//        if (that instanceof Kite) return false;
+//        if (that instanceof Rectangle) return true;
+//        if (that instanceof Rhombus) return true;
+//        if (that instanceof Parallelogram) return true;
+//        if (that instanceof Quadrilateral) return true;
+//
+//        return false;
+//    }
 
     @Override
     public boolean structurallyEquals(Object obj)

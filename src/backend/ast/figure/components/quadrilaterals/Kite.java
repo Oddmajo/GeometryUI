@@ -2,9 +2,8 @@ package backend.ast.figure.components.quadrilaterals;
 
 import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
@@ -77,27 +76,6 @@ public class Kite extends Quadrilateral
 
         return false;
     }
-
-//    @Override
-//    public double GetArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
-//    {
-//        // Acquire the diagonals.
-//        if (this.topLeftBottomRightDiagonal == null || this.bottomLeftTopRightDiagonal == null)
-//        {
-//            ExceptionHandler.throwException(new DebugException(("No-Op")));
-//        }
-//
-//        double diag1Length = known.GetSegmentLength(this.bottomLeftTopRightDiagonal);
-//        double diag2Length = known.GetSegmentLength(this.topLeftBottomRightDiagonal);
-//
-//        // Multiply base * height.
-//        double thisArea = -1;
-//
-//        if (diag1Length < 0 || diag2Length < 0) thisArea = -1;
-//        else thisArea = 0.5 * diag1Length * diag2Length;
-//
-//        return thisArea > 0 ? thisArea : SplitTriangleArea(known);
-//    }
 
     @Override
     public boolean structurallyEquals(Object obj)

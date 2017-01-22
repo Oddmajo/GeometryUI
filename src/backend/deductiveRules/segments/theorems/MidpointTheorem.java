@@ -40,7 +40,7 @@ public class MidpointTheorem extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
         deductions.addAll(deduceMidpoints());
-        
+        deductions.addAll(deduceStrengthened());        
         
         return deductions;
     }

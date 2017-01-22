@@ -28,7 +28,7 @@
 package backend.ast.Descriptors;
 
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.figure.components.Angle;
+import backend.ast.figure.components.angles.Angle;
 
 public abstract class AnglePairRelation extends Descriptor
 {
@@ -54,11 +54,11 @@ public abstract class AnglePairRelation extends Descriptor
 	//return the shared angle in both congruences
 	public Angle AngleShared(AnglePairRelation relation)
 	{
-		if (angle1.Equates(relation.angle1) || angle1.Equates(relation.angle2))
+		if (angle1.equates(relation.angle1) || angle1.equates(relation.angle2))
 		{
 			return angle1;
 		}
-        if (angle2.Equates(relation.angle1) || angle2.Equates(relation.angle2))
+        if (angle2.equates(relation.angle1) || angle2.equates(relation.angle2))
     	{
         	return angle2;
     	}
@@ -69,8 +69,8 @@ public abstract class AnglePairRelation extends Descriptor
 	// Return the shared angle in both congruences
     public Angle AngleShared(CongruentAngles cas)
     {
-        if (angle1.Equates(cas.GetFirstAngle()) || angle1.Equates(cas.GetSecondAngle())) return angle1;
-        if (angle2.Equates(cas.GetFirstAngle()) || angle2.Equates(cas.GetSecondAngle())) return angle2;
+        if (angle1.equates(cas.GetFirstAngle()) || angle1.equates(cas.GetSecondAngle())) return angle1;
+        if (angle2.equates(cas.GetFirstAngle()) || angle2.equates(cas.GetSecondAngle())) return angle2;
 
         return null;
     }
@@ -78,8 +78,8 @@ public abstract class AnglePairRelation extends Descriptor
  // Return the shared angle in both congruences
     public Angle OtherAngle(Angle thatAngle)
     {
-        if (angle1.Equates(thatAngle)) return angle2;
-        if (angle2.Equates(thatAngle)) return angle1;
+        if (angle1.equates(thatAngle)) return angle2;
+        if (angle2.equates(thatAngle)) return angle1;
 
         return null;
     }
@@ -87,7 +87,7 @@ public abstract class AnglePairRelation extends Descriptor
     // Return the shared angle in both congruences
     public boolean HasAngle(Angle thatAngle)
     {
-        return angle1.Equates(thatAngle) || angle2.Equates(thatAngle);
+        return angle1.equates(thatAngle) || angle2.equates(thatAngle);
     }
     
     @Override

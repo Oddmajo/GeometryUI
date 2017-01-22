@@ -1,6 +1,6 @@
 package backend.ast.Descriptors.Relations.Congruences;
 
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.NotImplementedException;

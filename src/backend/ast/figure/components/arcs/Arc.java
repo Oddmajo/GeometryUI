@@ -1,17 +1,22 @@
-﻿package backend.ast.figure.components;
+﻿package backend.ast.figure.components.arcs;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.delegates.intersections.IntersectionDelegate;
 import backend.ast.ASTException;
 import backend.ast.GroundedClause;
+import backend.ast.figure.DimensionalLength;
 import backend.ast.figure.Figure;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutPair;
 
-public abstract class Arc extends Figure implements Cloneable
+public abstract class Arc extends DimensionalLength implements Cloneable
 {
     public abstract Point Midpoint();
 
@@ -56,19 +61,33 @@ public abstract class Arc extends Figure implements Cloneable
         arcMinorPoints = new ArrayList<Point>(minorPts);
         arcMajorPoints = new ArrayList<Point>(majorPts);
 
-        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e1.getSuperFigures(), this);
-        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e2.getSuperFigures(), this);
+        //        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e1.getSuperFigures(), this);
+        //        backend.utilities.ast_helper.Utilities.AddStructurallyUnique(e2.getSuperFigures(), this);
 
         minorMeasure = CalculateArcMinorMeasureDegrees();
         length = CalculateArcMinorLength();
         approxPoints = new ArrayList<Point>();
         approxSegments = new ArrayList<Segment>();
 
-        collinear = new ArrayList<Point>();
-        // We add the two points arbitrarily since this list instanceof vacuously ordered.
-        collinear.add(_endpoint1);
-        collinear.add(_endpoint2);
+        //        // We add the two points arbitrarily since this list instanceof vacuously ordered.
+        _collinear.add(_endpoint1);
+        _collinear.add(_endpoint2);
     }
+
+    @Override
+    public boolean intersection(Arc that, OutPair<Point, Point> out) { return IntersectionDelegate.findIntersection(this, that, out); }
+
+    @Override
+    public boolean intersection(Segment that, OutPair<Point, Point> out) { return IntersectionDelegate.findIntersection(this, that, out); }
+
+    @Override
+    public void ClearCollinear()
+    {
+        super.ClearCollinear();
+        _collinear.add(_endpoint1);
+        _collinear.add(_endpoint2);
+    }
+    
 
     //
     // Do these arcs cross each other (pseudo-X)?
@@ -82,7 +101,7 @@ public abstract class Arc extends Figure implements Cloneable
         if (this.HasEndpoint(that._endpoint1) && this.HasEndpoint(that._endpoint2)) return false;
 
         OutPair<Point, Point> out = new OutPair<Point, Point>();
-        this.FindIntersection(that, out);
+        this.intersection(that, out);
         Point inter1 = out.first();
         Point inter2 = out.second();
 
@@ -150,79 +169,79 @@ public abstract class Arc extends Figure implements Cloneable
     public abstract boolean PointLiesStrictlyOn(Point pt);
     public abstract boolean HasSubArc(Arc that);
 
-    @Override
-    public void AddCollinearPoint(Point newPt)
-    {
-        if (backend.utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
-
-        collinear.add(newPt);
-
-        collinear = (ArrayList<Point>) _theCircle.OrderPoints(collinear);
-    }
-
+    //    //    @Override
+    //    //    public void AddCollinearPoint(Point newPt)
+    //    //    {
+    //    //        if (backend.utilities.list.Utilities.HasStructurally(collinear, newPt)) return;
+    //    //
+    //    //        collinear.add(newPt);
+    //    //
+    //    //        collinear = (ArrayList<Point>) _theCircle.OrderPoints(collinear);
+    //    //    }
     //
-    // The goal instanceof the return the set of collinear points such that the endpoints bookend the list.
+    //    //
+    //    // The goal instanceof the return the set of collinear points such that the endpoints bookend the list.
+    //    //
+    //    public List<Point> GetOrderedCollinearPointsByEndpoints(List<Point> given)
+    //    {
+    //        // Find only the points on this arc.
+    //        List<Point> applicable = new ArrayList<Point>();
     //
-    public List<Point> GetOrderedCollinearPointsByEndpoints(List<Point> given)
-    {
-        // Find only the points on this arc.
-        List<Point> applicable = new ArrayList<Point>();
+    //        for (Point pt : given)
+    //        {
+    //            if (this.pointLiesOn(pt)) applicable.add(pt);
+    //        }
+    //
+    //        List<Point> ordered = _theCircle.OrderPoints(applicable);
+    //
+    //        int index1 = ordered.indexOf(_endpoint1);
+    //        int index2 = ordered.indexOf(_endpoint2);
+    //
+    //        if ((index1 == 0 && index2 == ordered.size()-1) || (index2 == 0 && index1 == ordered.size()-1)) return ordered;
+    //
+    //        if (index1 + 1 != index2 && index2 + 1 != index1)  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
+    //
+    //        List<Point> bookend = new ArrayList<Point>();
+    //        int start = -1;
+    //        int end = -1;
+    //
+    //        if (index1 > index2)
+    //        {
+    //            start = index1;
+    //            end = index2;
+    //        }
+    //        else if (index2 > index1)
+    //        {
+    //            start = index2;
+    //            end = index1;
+    //        }
+    //        else  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
+    //
+    //        for (int i = start; i != end; )
+    //        {
+    //            bookend.add(ordered.get(i));
+    //            if (i + 1 == ordered.size()) i = 0;
+    //            else i++;
+    //        }
+    //        bookend.add(ordered.get(end));
+    //
+    //        return bookend;
+    //    }
+    //
+    //    public List<Point> GetOrderedByEndpointsWithMidpoints(List<Point> given)
+    //    {
+    //        List<Point> givenWithMidpoints = _theCircle.ConstructAllMidpoints(given);
+    //
+    //        return GetOrderedCollinearPointsByEndpoints(givenWithMidpoints);
+    //    }
 
-        for (Point pt : given)
-        {
-            if (this.PointLiesOn(pt)) applicable.add(pt);
-        }
-
-        List<Point> ordered = _theCircle.OrderPoints(applicable);
-
-        int index1 = ordered.indexOf(_endpoint1);
-        int index2 = ordered.indexOf(_endpoint2);
-
-        if ((index1 == 0 && index2 == ordered.size()-1) || (index2 == 0 && index1 == ordered.size()-1)) return ordered;
-
-        if (index1 + 1 != index2 && index2 + 1 != index1)  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
-
-        List<Point> bookend = new ArrayList<Point>();
-        int start = -1;
-        int end = -1;
-
-        if (index1 > index2)
-        {
-            start = index1;
-            end = index2;
-        }
-        else if (index2 > index1)
-        {
-            start = index2;
-            end = index1;
-        }
-        else  ExceptionHandler.throwException(new ASTException("Logic failure to order points..."));
-
-        for (int i = start; i != end; )
-        {
-            bookend.add(ordered.get(i));
-            if (i + 1 == ordered.size()) i = 0;
-            else i++;
-        }
-        bookend.add(ordered.get(end));
-
-        return bookend;
-    }
-
-    public List<Point> GetOrderedByEndpointsWithMidpoints(List<Point> given)
-    {
-        List<Point> givenWithMidpoints = _theCircle.ConstructAllMidpoints(given);
-
-        return GetOrderedCollinearPointsByEndpoints(givenWithMidpoints);
-    }
-
-    @Override
-    public void ClearCollinear()
-    {
-        collinear.clear();
-        collinear.add(_endpoint1);
-        collinear.add(_endpoint2);
-    }
+    //    @Override
+    //    public void ClearCollinear()
+    //    {
+    //        collinear.clear();
+    //        collinear.add(_endpoint1);
+    //        collinear.add(_endpoint2);
+    //    }
 
     //
     // Calculate the length of the arc: s = r * theta (radius * central angle)
@@ -235,18 +254,18 @@ public abstract class Arc extends Figure implements Cloneable
     //
     private double CalculateArcMinorMeasureDegrees()
     {
-        return new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).measure;
+        return new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).getMeasure();
     }
     @SuppressWarnings("unused")
     private double CalculateArcMinorMeasureRadians()
     {
-        return Angle.toRadians(new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).measure);
+        return Math.toRadians(new Angle(new Segment(_theCircle.getCenter(), _endpoint1), new Segment(_theCircle.getCenter(), _endpoint2)).getMeasure());
     }
 
     public double GetMinorArcMeasureDegrees() { return minorMeasure; }
-    public double GetMinorArcMeasureRadians() { return Angle.toRadians(GetMinorArcMeasureDegrees()); }
+    public double GetMinorArcMeasureRadians() { return Math.toRadians(GetMinorArcMeasureDegrees()); }
     public double GetMajorArcMeasureDegrees() { return 360 - minorMeasure; }
-    public double GetMajorArcMeasureRadians() { return Angle.toRadians(GetMajorArcMeasureDegrees()); }
+    public double GetMajorArcMeasureRadians() { return Math.toRadians(GetMajorArcMeasureDegrees()); }
 
     //
     // Maintain a public repository of all segment objects : the figure.
@@ -309,23 +328,23 @@ public abstract class Arc extends Figure implements Cloneable
 
 
         OutPair<Point, Point> out = new OutPair<Point, Point>();
-        circle.FindIntersection(angle.ray1, out);
+        circle.findIntersection(angle.getRay1().asSegment(), out);
         Point pt1 = out.first();
         Point pt2 = out.second();
 
-        endpt1 = pt1.structurallyEquals(angle.GetVertex()) ? pt2 : pt1;
+        endpt1 = pt1.structurallyEquals(angle.getVertex()) ? pt2 : pt1;
 
-        circle.FindIntersection(angle.ray2, out);
+        circle.findIntersection(angle.getRay2().asSegment(), out);
         pt1 = out.first();
         pt2 = out.second();
 
-        endpt2 = pt1.structurallyEquals(angle.GetVertex()) ? pt2 : pt1;
+        endpt2 = pt1.structurallyEquals(angle.getVertex()) ? pt2 : pt1;
 
         // Need to check if the angle instanceof a diameter and create a semicircle
         Segment chord = new Segment(endpt1, endpt2);
         if (circle.DefinesDiameter(chord))
         {
-            Point opp = circle.Midpoint(endpt1, endpt2, angle.GetVertex());
+            Point opp = circle.Midpoint(endpt1, endpt2, angle.getVertex());
             Semicircle semi = new Semicircle(circle, endpt1, endpt2, circle.OppositePoint(opp), chord);
             //Find a defined semicircle of the figure that lies on the same side
             Semicircle sameSideSemi = null;
@@ -346,7 +365,7 @@ public abstract class Arc extends Figure implements Cloneable
         Arc intercepted = null;
         intercepted = new MinorArc(circle, endpt1, endpt2);
         //Verify assumption, create major arc if necessary
-        if (Arc.BetweenMinor(angle.GetVertex(), intercepted)) intercepted = new MajorArc(circle, endpt1, endpt2);
+        if (Arc.BetweenMinor(angle.getVertex(), intercepted)) intercepted = new MajorArc(circle, endpt1, endpt2);
         return intercepted;
     }
 
@@ -374,23 +393,23 @@ public abstract class Arc extends Figure implements Cloneable
         // Get the intersection points of the rays of the angle.
         //
         OutPair<Point, Point> out = new OutPair<Point, Point>();
-        circle.FindIntersection(angle.ray1, out);
+        circle.findIntersection(angle.getRay1().asSegment(), out);
         Point interRay11 = out.first();
         Point interRay12 = out.second();
 
-        if (!angle.ray1.PointLiesOnAndBetweenEndpoints(interRay11)) interRay11 = null;
-        if (!angle.ray1.PointLiesOnAndBetweenEndpoints(interRay12)) interRay12 = null;
+        if (!angle.getRay1().asSegment().pointLiesBetweenEndpoints(interRay11)) interRay11 = null;
+        if (!angle.getRay1().asSegment().pointLiesBetweenEndpoints(interRay12)) interRay12 = null;
         if (interRay11 == null && interRay12 != null) interRay11 = interRay12;
 
         // non-intersection
         if (interRay11 == null && interRay12 == null) return nullPair;
 
-        circle.FindIntersection(angle.ray2, out);
+        circle.findIntersection(angle.getRay2().asSegment(), out);
         Point interRay21 = out.first();
         Point interRay22 = out.second();
 
-        if (!angle.ray2.PointLiesOnAndBetweenEndpoints(interRay21)) interRay21 = null;
-        if (!angle.ray2.PointLiesOnAndBetweenEndpoints(interRay22)) interRay22 = null;
+        if (!angle.getRay2().asSegment().pointLiesBetweenEndpoints(interRay21)) interRay21 = null;
+        if (!angle.getRay2().asSegment().pointLiesBetweenEndpoints(interRay22)) interRay22 = null;
         if (interRay21 == null && interRay22 != null) interRay21 = interRay22;
 
         // non-intersection
@@ -399,8 +418,8 @@ public abstract class Arc extends Figure implements Cloneable
         //
         // Split the rays into cases based on if they are secants or not.
         //
-        boolean isSecRay1 = angle.ray1.IsSecant(circle);
-        boolean isSecRay2 = angle.ray2.IsSecant(circle);
+        boolean isSecRay1 = angle.getRay1().asSegment().isSecant(circle);
+        boolean isSecRay2 = angle.getRay2().asSegment().isSecant(circle);
 
         //
         // One Arc: No secants
@@ -422,20 +441,20 @@ public abstract class Arc extends Figure implements Cloneable
 
             if (isSecRay1)
             {
-                secant = angle.ray1;
-                nonSecant = angle.ray2;
+                secant = angle.getRay1().asSegment();
+                nonSecant = angle.getRay2().asSegment();
                 endPtNonSecant = interRay21;
             }
             else
             {
-                secant = angle.ray2;
-                nonSecant = angle.ray1;
+                secant = angle.getRay2().asSegment();
+                nonSecant = angle.getRay1().asSegment();
                 endPtNonSecant = interRay11;
             }
 
             Segment chordOfSecant = circle.ContainsChord(secant);
 
-            Point endptSecant = Segment.Between(chordOfSecant.getPoint1(), angle.GetVertex(), chordOfSecant.getPoint2()) ?
+            Point endptSecant = Segment.Between(chordOfSecant.getPoint1(), angle.getVertex(), chordOfSecant.getPoint2()) ?
                     chordOfSecant.getPoint1() : chordOfSecant.getPoint2();
 
                     return new Pair<Arc,Arc>(Arc.GetFigureMinorArc(circle, endPtNonSecant, endptSecant), null);
@@ -452,7 +471,7 @@ public abstract class Arc extends Figure implements Cloneable
             Point closeRay1, farRay1;
             Point closeRay2, farRay2;
 
-            if (Segment.Between(interRay11, angle.GetVertex(), interRay12))
+            if (Segment.Between(interRay11, angle.getVertex(), interRay12))
             {
                 closeRay1 = interRay11;
                 farRay1 = interRay12;
@@ -463,7 +482,7 @@ public abstract class Arc extends Figure implements Cloneable
                 farRay1 = interRay11;
             }
 
-            if (Segment.Between(interRay21, angle.GetVertex(), interRay22))
+            if (Segment.Between(interRay21, angle.getVertex(), interRay22))
             {
                 closeRay2 = interRay21;
                 farRay2 = interRay22;
@@ -552,7 +571,7 @@ public abstract class Arc extends Figure implements Cloneable
         if (m == null) return false;
 
         // Is the point on this circle?
-        if (!originalArc._theCircle.PointLiesOn(m)) return false;
+        if (!originalArc._theCircle.pointLiesOn(m)) return false;
 
         // Create two arcs from this new point to the endpoints; just like with segments,
         // the sum of the arc measures must equate to the overall arc measure.
@@ -581,7 +600,7 @@ public abstract class Arc extends Figure implements Cloneable
         if (m == null) return false;
 
         // Is the point on this circle?
-        if (!originalArc._theCircle.PointLiesOn(m)) return false;
+        if (!originalArc._theCircle.pointLiesOn(m)) return false;
 
         // Is it on the arc minor?
         if (BetweenMinor(m, originalArc)) return false;
@@ -641,7 +660,7 @@ public abstract class Arc extends Figure implements Cloneable
 
         // Find the intersection points
         OutPair<Point, Point> out = new OutPair<Point, Point>();
-        this._theCircle.FindIntersection(thatArc._theCircle, out);
+        this._theCircle.findIntersection(thatArc._theCircle, out);
         Point inter1 = out.first();
         Point inter2 = out.second();
 
@@ -680,86 +699,7 @@ public abstract class Arc extends Figure implements Cloneable
         out.set(radius1, radius2);
     }
 
-    @Override
-    public void FindIntersection(Arc that, OutPair<Point, Point> out)
-    {
-        // Find the points of intersection
-        OutPair<Point, Point> localOut = new OutPair<Point, Point>();
-        this._theCircle.FindIntersection(that._theCircle, localOut);
-        Point inter1 = localOut.first();
-        Point inter2 = localOut.second();
 
-
-        // The points must be on this minor arc.
-        if (this instanceof MinorArc)
-        {
-            if (!Arc.BetweenMinor(inter1, this)) inter1 = null;
-            if (!Arc.BetweenMinor(inter2, this)) inter2 = null;
-        }
-        else
-        {
-            if (!Arc.BetweenMajor(inter1, this)) inter1 = null;
-            if (!Arc.BetweenMajor(inter2, this)) inter2 = null;
-        }
-
-        // The points must be on thatArc
-        if (that instanceof MinorArc)
-        {
-            if (!Arc.BetweenMinor(inter1, that)) inter1 = null;
-            if (!Arc.BetweenMinor(inter2, that)) inter2 = null;
-        }
-        else
-        {
-            if (!Arc.BetweenMajor(inter1, that)) inter1 = null;
-            if (!Arc.BetweenMajor(inter2, that)) inter2 = null;
-        }
-
-        if (inter1 == null && inter2 != null)
-        {
-            inter1 = inter2;
-            inter2 = null;
-        }
-
-        out.set(inter1, inter2);
-    }
-
-    @Override
-    public void FindIntersection(Segment that, OutPair<Point, Point> out) // out Point inter1, out Point inter2)
-    {
-        // Find the points of intersection
-        OutPair<Point, Point> localOut = new OutPair<Point, Point>();
-        this._theCircle.FindIntersection(that, localOut);
-        Point inter1 = localOut.first();
-        Point inter2 = localOut.second();
-
-        // The points must be on this minor arc.
-        if (this instanceof MinorArc)
-        {
-            if (!Arc.BetweenMinor(inter1, this)) inter1 = null;
-            if (!Arc.BetweenMinor(inter2, this)) inter2 = null;
-        }
-        else if (this instanceof MajorArc)
-        {
-            if (!Arc.BetweenMajor(inter1, this)) inter1 = null;
-            if (!Arc.BetweenMajor(inter2, this)) inter2 = null;
-        }
-        else if (this instanceof Semicircle)
-        {
-            if (!((Semicircle)this).PointLiesOn(inter1)) inter1 = null;
-            if (!((Semicircle)this).PointLiesOn(inter2)) inter2 = null;
-        }
-
-        if (!that.PointLiesOnAndBetweenEndpoints(inter1)) inter1 = null;
-        if (!that.PointLiesOnAndBetweenEndpoints(inter2)) inter2 = null;
-
-        if (inter1 == null && inter2 != null)
-        {
-            inter1 = inter2;
-            inter2 = null;
-        }
-
-        out.set(inter1, inter2);
-    }
 
     public boolean Covers(Segment that)
     {

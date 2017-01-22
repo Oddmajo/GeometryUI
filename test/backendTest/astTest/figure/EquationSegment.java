@@ -1,6 +1,9 @@
-package backend.ast.figure.components;
+package backendTest.astTest.figure;
 
 import java.util.Random;
+
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 
 /**
  * This class is to construct test graphs in which the equation of a line segment

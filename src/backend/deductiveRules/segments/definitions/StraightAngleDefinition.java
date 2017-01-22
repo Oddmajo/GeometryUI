@@ -29,7 +29,7 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Collinear;
-import backend.ast.figure.components.Angle;
+import backend.ast.figure.components.angles.Angle;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;

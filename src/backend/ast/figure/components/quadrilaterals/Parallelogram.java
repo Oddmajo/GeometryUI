@@ -1,9 +1,8 @@
 package backend.ast.figure.components.quadrilaterals;
 
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.ExceptionHandler;
 
 public class Parallelogram extends Quadrilateral 
@@ -16,12 +15,12 @@ public class Parallelogram extends Quadrilateral
     public Parallelogram(Segment left, Segment right, Segment top, Segment bottom)
     {
         super(left, right, top, bottom);
-        if (!left.IsParallelWith(right))
+        if (!left.isParallel(right))
         {
             ExceptionHandler.throwException( new IllegalArgumentException("Given opposing segments are not parallel: " + left + " " + right));
         }
 
-        if (!top.IsParallelWith(bottom))
+        if (!top.isParallel(bottom))
         {
             ExceptionHandler.throwException( new IllegalArgumentException("Given opposing segments are not parallel: " + top + " " + bottom));
         }

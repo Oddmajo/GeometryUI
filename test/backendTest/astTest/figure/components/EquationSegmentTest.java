@@ -2,8 +2,8 @@ package backendTest.astTest.figure.components;
 
 import org.junit.Test;
 
-import backend.ast.figure.components.EquationSegment;
 import backend.ast.figure.components.Point;
+import backendTest.astTest.figure.EquationSegment;
 
 public class EquationSegmentTest
 {

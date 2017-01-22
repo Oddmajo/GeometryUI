@@ -58,5 +58,4 @@ public class PlanarGraphConstructorTest
             assert(false);
         }
     }
-
 }

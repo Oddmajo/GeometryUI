@@ -4,9 +4,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.triangles.*;
 import backend.symbolicAlgebra.equations.*;
 
@@ -235,4 +239,10 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     public ArcEquation getArcEquation(ArcEquation eq) { return _equationHandler.getArcEquation(eq); }
     public AngleArcEquation getAngleArcEquation(AngleArcEquation eq) { return _equationHandler.getAngleArcEquation(eq); }
     public Equation getGneralEquation(Equation eq) { return _equationHandler.getGeneralEquation(eq); }
+
+    public Set<AngleBisector> getAngleBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

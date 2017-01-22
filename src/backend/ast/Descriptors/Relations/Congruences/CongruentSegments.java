@@ -28,7 +28,7 @@
 package backend.ast.Descriptors.Relations.Congruences;
 
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
@@ -134,10 +134,10 @@ public class CongruentSegments extends Congruent
 		return ct1.HasSegment(cs1) && ct2.HasSegment(cs2) || ct1.HasSegment(cs2) && ct2.HasSegment(cs1);
 	}
 	
-	public boolean SharedVertex(CongruentSegments ccs)
+	public boolean sharedVertex(CongruentSegments ccs)
 	{
-		return ccs.cs1.SharedVertex(cs1) != null || ccs.cs1.SharedVertex(cs2) != null ||
-                ccs.cs2.SharedVertex(cs1) != null || ccs.cs2.SharedVertex(cs2) != null;
+		return ccs.cs1.sharedVertex(cs1) != null || ccs.cs1.sharedVertex(cs2) != null ||
+                ccs.cs2.sharedVertex(cs1) != null || ccs.cs2.sharedVertex(cs2) != null;
 	}
 	
 	public Segment SharedSegment(CongruentSegments ccs)

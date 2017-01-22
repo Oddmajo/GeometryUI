@@ -1,6 +1,6 @@
 package backend.ast.Descriptors.Relations.Congruences;
 
-import backend.ast.figure.components.Arc;
+import backend.ast.figure.components.arcs.Arc;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;

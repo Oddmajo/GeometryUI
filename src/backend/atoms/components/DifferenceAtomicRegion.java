@@ -11,7 +11,7 @@ package backend.atoms.components;
 import java.util.ArrayList;
 
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 

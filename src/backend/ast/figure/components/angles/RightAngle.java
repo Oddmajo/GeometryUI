@@ -1,6 +1,7 @@
-package backend.ast.figure.components;
+package backend.ast.figure.components.angles;
 
 
+import backend.ast.figure.components.Point;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;

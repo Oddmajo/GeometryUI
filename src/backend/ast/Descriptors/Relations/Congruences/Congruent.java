@@ -31,8 +31,8 @@ import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Descriptor;
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 
 public abstract class Congruent extends Descriptor
 {

@@ -27,9 +27,9 @@
 // */
 package backend.ast.Descriptors.Relations.Congruences;
 
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
@@ -106,8 +106,8 @@ public class CongruentAngles extends Congruent
 		{
 			CongruentAngles ccas = (CongruentAngles)thatCC;
 			
-			int numShared = ca1.Equates(ccas.ca1) || ca1.Equates(ccas.ca2) ? 1: 0;
-			numShared += ca2.Equates(ccas.ca1) || ca2.Equates(ccas.ca2) ? 1 : 0;
+			int numShared = ca1.equates(ccas.ca1) || ca1.equates(ccas.ca2) ? 1: 0;
+			numShared += ca2.equates(ccas.ca1) || ca2.equates(ccas.ca2) ? 1 : 0;
 			return numShared;
 		}
 		
@@ -119,13 +119,13 @@ public class CongruentAngles extends Congruent
 	public Segment SegmentShared()
 	{
 		
-		if (ca1.getRay1().IsCollinearWith(ca2.getRay1()) || ca1.getRay1().IsCollinearWith(ca2.getRay2()))
+		if (ca1.getRay1().asSegment().isCollinearWith(ca2.getRay1().asSegment()) || ca1.getRay1().asSegment().isCollinearWith(ca2.getRay2().asSegment()))
 		{
-			return ca1.getRay1();
+			return ca1.getRay1().asSegment();
 		}
-        if (ca1.getRay2().IsCollinearWith(ca2.getRay1()) || ca1.getRay2().IsCollinearWith(ca2.getRay2())) 
+        if (ca1.getRay2().asSegment().isCollinearWith(ca2.getRay1().asSegment()) || ca1.getRay2().asSegment().isCollinearWith(ca2.getRay2().asSegment())) 
         {
-        	return ca1.getRay2();
+        	return ca1.getRay2().asSegment();
         }
         return null;
 	}
@@ -133,11 +133,11 @@ public class CongruentAngles extends Congruent
 	//return the shared angle in both congruences
 	public Angle AngleShared(CongruentAngles cas)
 	{
-		if (ca1.Equates(cas.ca1) || ca1.Equates(cas.ca2))
+		if (ca1.equates(cas.ca1) || ca1.equates(cas.ca2))
 		{
 			return ca1;
 		}
-        if (ca2.Equates(cas.ca1) || ca2.Equates(cas.ca2))
+        if (ca2.equates(cas.ca1) || ca2.equates(cas.ca2))
     	{
     		return ca2;
     	}
@@ -153,11 +153,11 @@ public class CongruentAngles extends Congruent
 	//given one of the angles in the pair, return the other
 	public Angle OtherAngle(Angle cs)
 	{
-		if (cs.Equates(ca1))
+		if (cs.equates(ca1))
 		{
 			return ca2;
 		}
-        if (cs.Equates(ca2))
+        if (cs.equates(ca2))
     	{
     		return ca1;
     	}
@@ -167,11 +167,11 @@ public class CongruentAngles extends Congruent
 	//given one of the angles in the pair, return the other
 	public boolean HasAngle(Angle cs)
 	{
-		if (cs.Equates(ca1))
+		if (cs.equates(ca1))
 		{
 			return true;
 		}
-        if (cs.Equates(ca2))
+        if (cs.equates(ca2))
     	{
     		return true;
     	}

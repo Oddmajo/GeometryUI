@@ -11,13 +11,14 @@ package backend.atoms.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import backend.ast.figure.DimensionalLength;
 import backend.ast.figure.Figure;
-import backend.ast.figure.components.Arc;
-import backend.ast.figure.components.MajorArc;
-import backend.ast.figure.components.MinorArc;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Semicircle;
+import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.arcs.Semicircle;
 import backend.utilities.translation.OutPair;
 
 //
@@ -32,9 +33,10 @@ public class Connection
     public ConnectionType type;
 
     // The shape which has this connection. 
-    public Figure segmentOrArc;
-
-    public Connection(Point e1, Point e2, ConnectionType t, Figure so)
+    public DimensionalLength segmentOrArc;
+    public Figure owner;                    // CTA: added for more information
+    
+    public Connection(Point e1, Point e2, ConnectionType t, DimensionalLength so)
     {
         endpoint1 = e1;
         endpoint2 = e2;
@@ -88,11 +90,11 @@ public class Connection
     {
         if (this.type == ConnectionType.SEGMENT)
         {
-            return ((Segment)this.segmentOrArc).PointLiesOnAndBetweenEndpoints(pt);
+            return ((Segment)this.segmentOrArc).pointLiesBetweenEndpoints(pt);
         }
         else if (this.type == ConnectionType.ARC)
         {
-            return ((Arc)segmentOrArc).PointLiesOn(pt);
+            return ((Arc)segmentOrArc).pointLiesOn(pt);
         }
 
         return false;
@@ -109,7 +111,7 @@ public class Connection
     {
         if (this.type == ConnectionType.SEGMENT)
         {
-            return ((Segment)segmentOrArc).Midpoint();
+            return ((Segment)segmentOrArc).getMidpoint();
         }
         else if (this.type == ConnectionType.ARC)
         {
@@ -120,21 +122,14 @@ public class Connection
     }
 
     //
-    // Find the intersection points between this conenction and that; 2 points may result. (2 with arc / segment)
+    // Find the intersection points between this connection and that; 2 points may result. (2 with arc / segment)
     //
     public void FindIntersection(ArrayList<Point> figurePoints, Connection that, OutPair<Point, Point> out)
     {
         OutPair<Point, Point> localOut = new OutPair<Point, Point>(); 
 
-        if (that.type == ConnectionType.ARC)
-        {
-            this.segmentOrArc.FindIntersection((Arc)that.segmentOrArc, localOut);
-        }
-        else
-        {
-            this.segmentOrArc.FindIntersection((Segment)that.segmentOrArc, localOut);
-        }
-
+        this.segmentOrArc.findIntersection((DimensionalLength)that.segmentOrArc, localOut);
+        
         Segment thatSeg = (that.segmentOrArc instanceof Segment) ? (Segment)that.segmentOrArc : null;
         Arc thatArc = (that.segmentOrArc instanceof Arc) ? (Arc)that.segmentOrArc : null;
 
@@ -173,14 +168,8 @@ public class Connection
     public void FindIntersection(Connection that, OutPair<Point, Point> out)
     {
         OutPair<Point, Point> localOut = new OutPair<Point, Point>();
-        if (that.type == ConnectionType.ARC)
-        {
-            this.segmentOrArc.FindIntersection((Arc)that.segmentOrArc, localOut);
-        }
-        else
-        {
-            this.segmentOrArc.FindIntersection((Segment)that.segmentOrArc, localOut);
-        }
+        
+        this.segmentOrArc.findIntersection(that.segmentOrArc, localOut);
 
         out.set(localOut.first(), localOut.second());
     }
@@ -199,7 +188,7 @@ public class Connection
         }
         else if (this.type == ConnectionType.SEGMENT)
         {
-            return ((Segment)this.segmentOrArc).HasSubSegment((Segment)that.segmentOrArc);
+            return ((Segment)this.segmentOrArc).containedIn((Segment)that.segmentOrArc);
         }
 
         return false;
@@ -239,9 +228,9 @@ public class Connection
             Segment thisSegment = (Segment)this.segmentOrArc;
             Segment thatSegment = (Segment)that.segmentOrArc;
 
-            if (!thisSegment.IsCollinearWith(thatSegment)) return false;
+            if (!thisSegment.isCollinearWith(thatSegment)) return false;
 
-            return thisSegment.CoincidingWithOverlap(thatSegment);
+            return thisSegment.coincidingWithoutOverlap(thatSegment);
         }
 
         return false;

@@ -1,10 +1,9 @@
 package backend.ast.figure.components.quadrilaterals;
 
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
-import backend.ast.figure.components.Quadrilateral;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -49,7 +48,7 @@ public class Trapezoid extends Quadrilateral
     public Trapezoid(Segment left, Segment right, Segment top, Segment bottom)
     {
         super(left, right, top, bottom);
-        if (left.IsParallelWith(right))
+        if (left.isParallel(right))
         {
             if (left.length() > right.length())
             {
@@ -66,7 +65,7 @@ public class Trapezoid extends Quadrilateral
                 rightLeg = bottom;
             }
         }
-        else if (top.IsParallelWith(bottom))
+        else if (top.isParallel(bottom))
         {
             if (top.length() > bottom.length())
             {
@@ -111,7 +110,7 @@ public class Trapezoid extends Quadrilateral
 //        for(Segment medianCand : Segment.figureSegments)
 //        {
 //            // The median is parallel to the bases.
-//            if (medianCand.IsParallelWith(this.baseSegment) && medianCand.IsParallelWith(this.oppBaseSegment))
+//            if (medianCand.isParallel(this.baseSegment) && medianCand.isParallel(this.oppBaseSegment))
 //            {
 //                // The median must be between the bases and connect to the legs.
 //                Point leftIntersection = leftLeg.FindIntersection(medianCand);
@@ -166,82 +165,20 @@ public class Trapezoid extends Quadrilateral
     //                return false;
     //            }
 
-    //            @Override
-    //            public boolean CanAreaBeComputed(Area_Based_Analyses.KnownMeasurementsAggregator known)
-    //            {
-    //                return GetArea(known) > 0;
-    //            }
-
     private boolean IsHeight(Segment that)
     {
         //
         // Is this segment perpendicular to the bases?
         //
-        if (!baseSegment.IsPerpendicularTo(that)) return false;
-        if (!oppBaseSegment.IsPerpendicularTo(that)) return false;
+        if (!baseSegment.isSegmentPerpendicular(that)) return false;
+        if (!oppBaseSegment.isSegmentPerpendicular(that)) return false;
 
         // Are the endpoints on / or extensions of the trapezoid bases?
-        if (baseSegment.PointLiesOn(that.getPoint1()) && oppBaseSegment.PointLiesOn(that.getPoint2())) return true;
-        if (baseSegment.PointLiesOn(that.getPoint2()) && oppBaseSegment.PointLiesOn(that.getPoint1())) return true;
+        if (baseSegment.pointLiesOn(that.getPoint1()) && oppBaseSegment.pointLiesOn(that.getPoint2())) return true;
+        if (baseSegment.pointLiesOn(that.getPoint2()) && oppBaseSegment.pointLiesOn(that.getPoint1())) return true;
 
         return false;
     }
-
-    //
-    // Compute the area of the trapezoid using the A = 1/2 * (b_1 + b_2) * h
-    //
-    //            public double GetBaseBasedArea(double height, Area_Based_Analyses.KnownMeasurementsAggregator known)
-    //            {
-    //                double baseLength1 = known.GetSegmentLength(baseSegment);
-    //                if (baseLength1 < 0) return -1;
-    //
-    //                double baseLength2 = known.GetSegmentLength(oppBaseSegment);
-    //                if (baseLength2 < 0) return -1;
-    //
-    //                return 0.5 * (baseLength1 + baseLength2) * height;
-    //            }
-
-    //
-    // Compute the area of the trapezoid using the A = median * height
-    //
-    //            public double GetMedianBasedArea(double height, Area_Based_Analyses.KnownMeasurementsAggregator known)
-    //            {
-    //                if (!IsMedianValid()) return -1;
-    //
-    //                double medianLength = known.GetSegmentLength(median);
-    //                if (medianLength < 0) return -1;
-    //
-    //                return medianLength * height;
-    //            }
-
-    //            public double GetHeight(Area_Based_Analyses.KnownMeasurementsAggregator known)
-    //            {
-    //                for (Pair<Segment, Double> pair : known.GetKnownSegments())
-    //                {
-    //                    if (this.IsHeight(pair.getKey())) return pair.getValue();
-    //                }
-    //
-    //                return -1;
-    //            }
-
-    //
-    // Attempt trapezoidal formulas; if they fail, call the base method: splitting into triangles.
-    //
-    //            @Override
-    //            public double GetArea(Area_Based_Analyses.KnownMeasurementsAggregator known)
-    //            {
-    //                // Acquire the height of the trapezoid: if it's a known value.
-    //                double height = GetHeight(known);
-    //                if (height < 0) return -1;
-    //
-    //                double area = GetBaseBasedArea(height, known);
-    //                if (area > 0) return area;
-    //
-    //                area = GetMedianBasedArea(height, known);
-    //                if (area > 0) return area;
-    //
-    //                return super.GetArea(known);
-    //            }
 
     @Override
     public boolean structurallyEquals(Object obj)

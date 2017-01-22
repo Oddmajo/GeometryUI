@@ -9,8 +9,9 @@ You should have received a copy of the GNU Affero General Public License along w
 package backend.atoms.components;
 
 import backend.ast.figure.Figure;
+import backend.ast.figure.Shape;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.polygon.Polygon;
 
 /**
  * @author Drew W
@@ -19,27 +20,27 @@ import backend.ast.figure.components.Polygon;
 public class ShapeAtomicRegion extends AtomicRegion
 {
     // Variables
-    private Figure shape;
-    public Figure getShape() { return shape; }
+    private Shape _shape;
+    public Shape getShape() { return _shape; }
 
     /**
      * Constructs a ShapeAtomicRegion from a Figure
      * @param f     the given Figure
      */
-    public ShapeAtomicRegion(Figure f)
+    public ShapeAtomicRegion(Shape s)
     {
         super();
-        shape = f;
-        connections = f.MakeAtomicConnections();
+        _shape = s;
+        connections = s.MakeAtomicConnections();
     }
 
     /**
      * Changes the shape to the given Figure
      * @param f     the given Figure
      */
-    public void ReshapeForStrenghthening(Figure f)
+    public void ReshapeForStrenghthening(Shape s)
     {
-        shape = f;
+        _shape = s;
     }
 
     /* 
@@ -48,7 +49,7 @@ public class ShapeAtomicRegion extends AtomicRegion
      */
     public boolean CoordinateCongruent(Figure that)
     {
-        return shape.CoordinateCongruent(that);
+        return _shape.CoordinateCongruent(that);
     }
     
     /**
@@ -61,7 +62,7 @@ public class ShapeAtomicRegion extends AtomicRegion
         if (that != null && that instanceof ShapeAtomicRegion)
         {
         ShapeAtomicRegion shapeAtom = (ShapeAtomicRegion) that;
-        return this.shape.CoordinateCongruent(shapeAtom.shape);
+        return this._shape.CoordinateCongruent(shapeAtom._shape);
         }
         
         else { return false; }
@@ -90,7 +91,7 @@ public class ShapeAtomicRegion extends AtomicRegion
     {
         if (pt == null) return false;
 
-        return shape.PointLiesOn(pt);
+        return _shape.pointLiesOn(pt);
     }
 
     /* 
@@ -100,7 +101,7 @@ public class ShapeAtomicRegion extends AtomicRegion
     {
         if (pt == null || this.PointLiesOn(pt)) { return false; }
         
-        else { return shape.PointLiesInside(pt); }
+        else { return _shape.pointLiesInside(pt); }
     }
 
     /* Takes a shape turns it into an approximate polygon (if needed)
@@ -110,7 +111,7 @@ public class ShapeAtomicRegion extends AtomicRegion
     {
         if (polygonalized != null) { return polygonalized; }
 
-        polygonalized = shape.GetPolygonalized();
+        polygonalized = _shape.GetPolygonalized();
 
         return polygonalized;
     }
@@ -128,7 +129,7 @@ public class ShapeAtomicRegion extends AtomicRegion
         if (obj != null && obj instanceof ShapeAtomicRegion)
         {
             ShapeAtomicRegion thatAtom = (ShapeAtomicRegion) obj;
-            return (shape.structurallyEquals(thatAtom.shape) && super.Equals(obj) );
+            return (_shape.structurallyEquals(thatAtom._shape) && super.Equals(obj) );
         }
         else { return false; }
     }
@@ -138,7 +139,7 @@ public class ShapeAtomicRegion extends AtomicRegion
      */
     public String ToString()
     {
-        return "ShapeAtom: (" + shape.toString() + ")";
+        return "ShapeAtom: (" + _shape.toString() + ")";
     }
 
     /* 
@@ -146,7 +147,7 @@ public class ShapeAtomicRegion extends AtomicRegion
      */
     public String CheapPrettyString()
     {
-        return shape.CheapPrettyString();
+        return _shape.CheapPrettyString();
     }
 
     /* 
@@ -159,7 +160,7 @@ public class ShapeAtomicRegion extends AtomicRegion
         {
             ShapeAtomicRegion thatAtom = (ShapeAtomicRegion) that;
             
-            return this.shape.Contains(thatAtom.shape);
+            return this._shape.contains(thatAtom._shape);
             
         }
         else

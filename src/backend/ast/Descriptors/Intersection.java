@@ -28,9 +28,9 @@ package backend.ast.Descriptors;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 import backend.utilities.Pair;
 
 public class Intersection extends Descriptor
@@ -91,10 +91,10 @@ public class Intersection extends Descriptor
         }
 
         // Find the non-collinear end-point
-        if (lhs.PointLiesOnAndBetweenEndpoints(rhs.getPoint1())) return rhs.getPoint2();
-        if (lhs.PointLiesOnAndBetweenEndpoints(rhs.getPoint2())) return rhs.getPoint1();
-        if (rhs.PointLiesOnAndBetweenEndpoints(lhs.getPoint1())) return lhs.getPoint2();
-        if (rhs.PointLiesOnAndBetweenEndpoints(lhs.getPoint2())) return lhs.getPoint1();
+        if (lhs.pointLiesBetweenEndpoints(rhs.getPoint1())) return rhs.getPoint2();
+        if (lhs.pointLiesBetweenEndpoints(rhs.getPoint2())) return rhs.getPoint1();
+        if (rhs.pointLiesBetweenEndpoints(lhs.getPoint1())) return lhs.getPoint2();
+        if (rhs.pointLiesBetweenEndpoints(lhs.getPoint2())) return lhs.getPoint1();
 
         return null;
     }
@@ -169,7 +169,7 @@ public class Intersection extends Descriptor
         //
         // Also avoid Simple F-Shape
         //
-        if(transversal.hasPoint(top) || transversal.hasPoint(bottom))
+        if(transversal.has(top) || transversal.has(bottom))
         {
         	return nullPair;
         }
@@ -178,13 +178,13 @@ public class Intersection extends Descriptor
         Point offStands = standsInter.CreatesTShape();
         
         Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
-        Point offEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect);
+        Point offEndpoint = parallelEndpoint.other(endpointInter.intersect);
         
         Segment crossingTester = new Segment(offStands, offEndpoint);
-        Point intersection = transversal.FindIntersection(crossingTester);
+        Point intersection = transversal.lineIntersection(crossingTester);
         
         															// S-shape    // PI-Shape
-        return transversal.PointLiesOnAndBetweenEndpoints(intersection) ? nullPair : new Pair<Point, Point>(offEndpoint, offStands);
+        return transversal.pointLiesBetweenEndpoints(intersection) ? nullPair : new Pair<Point, Point>(offEndpoint, offStands);
     }
     
     //
@@ -250,13 +250,13 @@ public class Intersection extends Descriptor
     	
     	// Avoid: ____  Although this shouldn't happen since both intersections do not stand on endpoints
         //        ____|
-    	if(transversal.hasPoint(top) && transversal.hasPoint(bottom))
+    	if(transversal.has(top) && transversal.has(bottom))
     	{
     		return nullPair;
     	}
     	
     	//Also avoid simple PI shape
-    	if(!transversal.hasPoint(top) && !transversal.hasPoint(bottom))
+    	if(!transversal.has(top) && !transversal.has(bottom))
     	{
     		return nullPair;
     	}
@@ -265,8 +265,8 @@ public class Intersection extends Descriptor
     	Segment parallelEndPt = endpt.OtherSegment(transversal);
     	Segment parallelStands = standsOn.OtherSegment(transversal);
     	
-    	Point offEnd = transversal.PointLiesOn(parallelEndPt.getPoint1()) ? parallelEndPt.getPoint2() : parallelEndPt.getPoint1();
-    	Point offStands = transversal.PointLiesOn(parallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
+    	Point offEnd = transversal.pointLiesOn(parallelEndPt.getPoint1()) ? parallelEndPt.getPoint2() : parallelEndPt.getPoint1();
+    	Point offStands = transversal.pointLiesOn(parallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
     	
     	// Check this is not a crazy F
         //        _____
@@ -274,9 +274,9 @@ public class Intersection extends Descriptor
         //   ____| 
         //       |
         //       | 
-    	Point intersection = transversal.FindIntersection(new Segment(offEnd, offStands));
+    	Point intersection = transversal.lineIntersection(new Segment(offEnd, offStands));
     	
-    	if(transversal.PointLiesOnAndBetweenEndpoints(intersection))
+    	if(transversal.pointLiesBetweenEndpoints(intersection))
     	{
     		return nullPair;
     	}
@@ -327,8 +327,8 @@ public class Intersection extends Descriptor
     	
     	
     	//The below may be a logic error since there are two if statements that can result in the same thing happening
-    	if(transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThis.getPoint1()) ||
-    		transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThis.getPoint2()))
+    	if(transversal.pointLiesBetweenEndpoints(nonTransversalThis.getPoint1()) ||
+    		transversal.pointLiesBetweenEndpoints(nonTransversalThis.getPoint2()))
     	{
     		//             |
             //         ____|                <--- Stands on
@@ -336,16 +336,16 @@ public class Intersection extends Descriptor
             //             |_____ off       <--- Stands on 
             //             |
             //             | 
-    		if(transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThat.getPoint1()) ||
-    				transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThat.getPoint2()))
+    		if(transversal.pointLiesBetweenEndpoints(nonTransversalThat.getPoint1()) ||
+    				transversal.pointLiesBetweenEndpoints(nonTransversalThat.getPoint2()))
     		{
     			return nullPair;
     		}
     		standsOnBottom = this;
     		standsOnTop = thatInter;
     	}
-    	else if(transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThat.getPoint1()) ||
-    			transversal.PointLiesOnAndBetweenEndpoints(nonTransversalThat.getPoint2()))
+    	else if(transversal.pointLiesBetweenEndpoints(nonTransversalThat.getPoint1()) ||
+    			transversal.pointLiesBetweenEndpoints(nonTransversalThat.getPoint2()))
     	{
     		standsOnBottom = this;
     		standsOnTop= thatInter;
@@ -356,12 +356,12 @@ public class Intersection extends Descriptor
     	}
     	
     	//check that the bottom extends the transversal
-    	if(!standsOnBottom.GetCollinearSegment(transversal).HasStrictSubSegment(transversal))
+    	if(!standsOnBottom.GetCollinearSegment(transversal).strictContains(transversal))
     	{
     		return nullPair;
     	}
     	
-    	Point off = standsOnBottom.OtherSegment(transversal).OtherPoint(standsOnBottom.intersect);
+    	Point off = standsOnBottom.OtherSegment(transversal).other(standsOnBottom.intersect);
     	
     	return new Pair<Intersection, Point>(standsOnBottom, off);
     }
@@ -397,10 +397,10 @@ public class Intersection extends Descriptor
         //
         // The transversal should be valid
     	Segment transversal = this.AcquireTransversal(thatInter);
-    	Point intersection = transversal.FindIntersection(new Segment(thisNonCollinear, thatNonCollinear));
+    	Point intersection = transversal.lineIntersection(new Segment(thisNonCollinear, thatNonCollinear));
     	
     	//S-Shape
-    	if(transversal.PointLiesOnAndBetweenEndpoints(intersection)) 
+    	if(transversal.pointLiesBetweenEndpoints(intersection)) 
     	{
     		return nullPair;
     	}
@@ -464,12 +464,12 @@ public class Intersection extends Descriptor
     	Point offStands = standsInter.CreatesTShape();
     	Segment transversal = this.AcquireTransversal(thatInter);
     	Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
-    	Point offEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect);
+    	Point offEndpoint = parallelEndpoint.other(endpointInter.intersect);
     	
     	Segment crossingTester = new Segment(offStands, offEndpoint);
-    	Point intersection = transversal.FindIntersection(crossingTester);
+    	Point intersection = transversal.lineIntersection(crossingTester);
     	
-    	return transversal.PointLiesOnAndBetweenEndpoints(intersection) ? new Pair<Point, Point>(offEndpoint,offStands) : nullPair;
+    	return transversal.pointLiesBetweenEndpoints(intersection) ? new Pair<Point, Point>(offEndpoint,offStands) : nullPair;
     }
     
     //
@@ -520,14 +520,14 @@ public class Intersection extends Descriptor
     	Segment transversal = this.AcquireTransversal(thatInter);
     	Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
     	
-    	Point tipEndpoint = parallelEndpoint.OtherPoint(endpointInter.intersect);
+    	Point tipEndpoint = parallelEndpoint.other(endpointInter.intersect);
     	
     	//Determine sides
     	Segment crossingTester = new Segment(tipEndpoint, tipStands);
-    	Point intersection = transversal.FindIntersection(crossingTester);
+    	Point intersection = transversal.lineIntersection(crossingTester);
     	
     	//F-shape
-    	if(!transversal.PointLiesOnAndBetweenEndpoints(intersection))
+    	if(!transversal.pointLiesBetweenEndpoints(intersection))
     	{
     		return nullPair;
     	}
@@ -568,10 +568,10 @@ public class Intersection extends Descriptor
         //
         // The transversal should be valid
     	Segment transversal = this.AcquireTransversal(thatInter);
-    	Point intersection = transversal.FindIntersection(new Segment(thisNonCollinear, thatNonCollinear));
+    	Point intersection = transversal.lineIntersection(new Segment(thisNonCollinear, thatNonCollinear));
     	
     	//PI-Shape
-    	if(!transversal.PointLiesOnAndBetweenEndpoints(intersection))
+    	if(!transversal.pointLiesBetweenEndpoints(intersection))
     	{
     		return nullPair;
     	}
@@ -613,15 +613,15 @@ public class Intersection extends Descriptor
     	Segment parallelThis = this.OtherSegment(transversal);
     	Segment parallelThat = thatInter.OtherSegment(transversal);
     	
-    	Point offThis = transversal.PointLiesOnAndBetweenEndpoints(parallelThis.getPoint1()) ? parallelThis.getPoint2() : parallelThis.getPoint1();
-    	Point offThat = transversal.PointLiesOnAndBetweenEndpoints(parallelThat.getPoint1()) ? parallelThat.getPoint2() : parallelThat.getPoint1();
+    	Point offThis = transversal.pointLiesBetweenEndpoints(parallelThis.getPoint1()) ? parallelThis.getPoint2() : parallelThis.getPoint1();
+    	Point offThat = transversal.pointLiesBetweenEndpoints(parallelThat.getPoint1()) ? parallelThat.getPoint2() : parallelThat.getPoint1();
     	
     	//Avoid C-like scenario
     	Segment crossingTester = new Segment(offThis, offThat);
-    	Point intersection = transversal.FindIntersection(crossingTester);
+    	Point intersection = transversal.lineIntersection(crossingTester);
     	
     	//C-shape
-    	if(!transversal.PointLiesOnAndBetweenEndpoints(intersection))
+    	if(!transversal.pointLiesBetweenEndpoints(intersection))
     	{
     		return nullPair;
     	}
@@ -663,21 +663,21 @@ public class Intersection extends Descriptor
     	Segment parallelThis = this.OtherSegment(transversal);
     	Segment parallelThat = thatInter.OtherSegment(transversal);
     	
-    	Point offThis = transversal.PointLiesOnAndBetweenEndpoints(parallelThis.getPoint1()) ? parallelThis.getPoint2() : parallelThis.getPoint1();
-    	Point offThat = transversal.PointLiesOnAndBetweenEndpoints(parallelThat.getPoint1()) ? parallelThat.getPoint2() : parallelThat.getPoint1();
+    	Point offThis = transversal.pointLiesBetweenEndpoints(parallelThis.getPoint1()) ? parallelThis.getPoint2() : parallelThis.getPoint1();
+    	Point offThat = transversal.pointLiesBetweenEndpoints(parallelThat.getPoint1()) ? parallelThat.getPoint2() : parallelThat.getPoint1();
     	
     	//Avoid S-shape scenario
     	Segment crossingTester = new Segment(offThis, offThat);
-    	Point intersection = transversal.FindIntersection(crossingTester);
+    	Point intersection = transversal.lineIntersection(crossingTester);
     	
     	//We may have parallel crossingTester and transversal; that's ok
-    	if(crossingTester.IsParallelWith(transversal))
+    	if(crossingTester.isParallel(transversal))
     	{
     		return new Pair<Point, Point>(offThis, offThat);
     	}
     	
     	//S-Shape
-    	if(transversal.PointLiesOnAndBetweenEndpoints(intersection))
+    	if(transversal.pointLiesBetweenEndpoints(intersection))
     	{
     		return nullPair;
     	}
@@ -734,9 +734,9 @@ public class Intersection extends Descriptor
         // |     |
         // this is leftInter
     	Point bottomTip = null;
-    	if(transversal.PointLiesOn(thisTipOfT))
+    	if(transversal.pointLiesOn(thisTipOfT))
     	{
-    		if(transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT))
+    		if(transversal.pointLiesBetweenEndpoints(thisTipOfT))
     		{
     			return nullPair;
     		}
@@ -747,9 +747,9 @@ public class Intersection extends Descriptor
     	}
     	
     	//thatInter is leftiner
-    	else if(transversal.PointLiesOn(thatTipOfT))
+    	else if(transversal.pointLiesOn(thatTipOfT))
     	{
-    		if(transversal.PointLiesOnAndBetweenEndpoints(thatTipOfT))
+    		if(transversal.pointLiesBetweenEndpoints(thatTipOfT))
     		{
     			return nullPair;
     		}
@@ -766,9 +766,9 @@ public class Intersection extends Descriptor
     	//Returns the bottom of the legs of the chair
     	Segment ParallelLeft = leftInter.OtherSegment(transversal);
     	Segment crossingTester = new Segment(ParallelLeft.getPoint1(), bottomTip);
-    	Point intersection = transversal.FindIntersection(crossingTester);
+    	Point intersection = transversal.lineIntersection(crossingTester);
     	
-    	Point off = transversal.PointLiesOnAndBetweenEndpoints(intersection) ? ParallelLeft.getPoint2() : ParallelLeft.getPoint1();
+    	Point off = transversal.pointLiesBetweenEndpoints(intersection) ? ParallelLeft.getPoint2() : ParallelLeft.getPoint1();
     	
     	return new Pair<Point, Point>(off, bottomTip);
     }
@@ -805,11 +805,11 @@ public class Intersection extends Descriptor
 		Segment transversal = this.AcquireTransversal(thatInter);
 		
 		//The tips of the intersections must be within the transversal (at the endpoint) for an H
-		if(!transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT))
+		if(!transversal.pointLiesBetweenEndpoints(thisTipOfT))
 		{
 			return false;
 		}
-		if(!transversal.PointLiesOnAndBetweenEndpoints(thatTipOfT))
+		if(!transversal.pointLiesBetweenEndpoints(thatTipOfT))
 		{
 			return false;
 		}
@@ -854,14 +854,14 @@ public class Intersection extends Descriptor
     	Segment transversal = this.AcquireTransversal(thatInter);
     	
     	//we have an H-Shape if the tips of the intersections are at the endpoints of the transversal
-    	if(transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT) && transversal.PointLiesOnAndBetweenEndpoints(thatTipOfT))
+    	if(transversal.pointLiesBetweenEndpoints(thisTipOfT) && transversal.pointLiesBetweenEndpoints(thatTipOfT))
     	{
     		return nullPair;
     	}
     	
     	Intersection retInter = null;
     	Point off = null;
-    	if(transversal.PointLiesOnAndBetweenEndpoints(thisTipOfT))
+    	if(transversal.pointLiesBetweenEndpoints(thisTipOfT))
     	{
     		retInter = thatInter;
     		off = thatTipOfT;
@@ -923,16 +923,16 @@ public class Intersection extends Descriptor
     	Segment transversal = this.AcquireTransversal(thatInter);
     	Segment transversalEndpoint = endpointInter.GetCollinearSegment(transversal);
     	
-    	if(transversal.PointLiesOnAndBetweenEndpoints(transversalEndpoint.getPoint1()) &&
-    		transversal.PointLiesOnAndBetweenEndpoints(transversalEndpoint.getPoint2()))
+    	if(transversal.pointLiesBetweenEndpoints(transversalEndpoint.getPoint1()) &&
+    		transversal.pointLiesBetweenEndpoints(transversalEndpoint.getPoint2()))
     	{
     		return nullPair;
     	}
     	
     	//Acquire the returning points
     	Segment parallelEndpoint = endpointInter.OtherSegment(transversal);
-    	Point offLeftEnd = transversalEndpoint.OtherPoint(endpointInter.intersect);
-    	Point offRightEnd = parallelEndpoint.OtherPoint(endpointInter.intersect);
+    	Point offLeftEnd = transversalEndpoint.other(endpointInter.intersect);
+    	Point offRightEnd = parallelEndpoint.other(endpointInter.intersect);
     	
     	return new Pair<Point, Point>(offLeftEnd, offRightEnd);
     		
@@ -979,7 +979,7 @@ public class Intersection extends Descriptor
     	Segment transversal = this.AcquireTransversal(thatInter);
     	
     	Segment parallelStands = standsInter.OtherSegment(transversal);
-    	Point offStands = transversal.PointLiesOn(parallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
+    	Point offStands = transversal.pointLiesOn(parallelStands.getPoint1()) ? parallelStands.getPoint2() : parallelStands.getPoint1();
     	
     	Segment transversalCross = crossingInter.GetCollinearSegment(transversal);
     	Point offCross = Segment.Between(crossingInter.intersect, transversalCross.getPoint1(), standsInter.intersect) ? transversalCross.getPoint1() : transversalCross.getPoint2();
@@ -1038,7 +1038,7 @@ public class Intersection extends Descriptor
         //        |_____
         //        |
         //        |
-    	if(!transversal.PointLiesOn(standsInter.CreatesTShape()))
+    	if(!transversal.pointLiesOn(standsInter.CreatesTShape()))
     	{
     		return null;
     	}
@@ -1101,7 +1101,7 @@ public class Intersection extends Descriptor
         //  ______|______
         //        |
         //   _____|_____
-    	if(transversal.PointLiesOn(standsInter.CreatesTShape()))
+    	if(transversal.pointLiesOn(standsInter.CreatesTShape()))
     	{
     		return null;
     	}
@@ -1146,16 +1146,16 @@ public class Intersection extends Descriptor
     //if an endpoint of one segment is on the other segment
     public boolean HasSubSegment(Segment s)
     {
-    	return lhs.HasSubSegment(s) ||rhs.HasSubSegment(s);
+    	return lhs.contains(s) ||rhs.contains(s);
     }
     
     public Segment GetCollinearSegment(Segment thatSegment)
     {
-    	if(lhs.IsCollinearWith(thatSegment))
+    	if(lhs.isCollinearWith(thatSegment))
     	{
     		return lhs;
     	}
-    	if(rhs.IsCollinearWith(thatSegment))
+    	if(rhs.isCollinearWith(thatSegment))
     	{
     		return rhs;
     	}
@@ -1166,19 +1166,19 @@ public class Intersection extends Descriptor
     //if a common segment exists (a transversal that cuts across both intersections), return that common segment
     public Segment CommonSegment(Intersection thatInter)
     {
-    	if (lhs.structurallyEquals(thatInter.lhs) || lhs.IsCollinearWith(thatInter.lhs))
+    	if (lhs.structurallyEquals(thatInter.lhs) || lhs.isCollinearWith(thatInter.lhs))
 		{
 			return lhs;
 		}
-        if (lhs.structurallyEquals(thatInter.rhs) || lhs.IsCollinearWith(thatInter.rhs))
+        if (lhs.structurallyEquals(thatInter.rhs) || lhs.isCollinearWith(thatInter.rhs))
     	{
         	return lhs;
     	}
-        if (rhs.structurallyEquals(thatInter.lhs) || rhs.IsCollinearWith(thatInter.lhs))
+        if (rhs.structurallyEquals(thatInter.lhs) || rhs.isCollinearWith(thatInter.lhs))
     	{
         	return rhs;
     	}
-        if (rhs.structurallyEquals(thatInter.rhs) || rhs.IsCollinearWith(thatInter.rhs))
+        if (rhs.structurallyEquals(thatInter.rhs) || rhs.isCollinearWith(thatInter.rhs))
     	{
         	return rhs;
     	}
@@ -1188,19 +1188,19 @@ public class Intersection extends Descriptor
     //If a common segment exists( a transversal that cuts across both intersections), retuyrn that common segment
     public Segment CommonSegment(Parallel thatParallel)
     {
-    	if (lhs.structurallyEquals(thatParallel.getSegment1()) || lhs.IsCollinearWith(thatParallel.getSegment1()))
+    	if (lhs.structurallyEquals(thatParallel.getSegment1()) || lhs.isCollinearWith(thatParallel.getSegment1()))
 		{
     		return lhs;
 		}
-        if (lhs.structurallyEquals(thatParallel.getSegment2()) || lhs.IsCollinearWith(thatParallel.getSegment2()))
+        if (lhs.structurallyEquals(thatParallel.getSegment2()) || lhs.isCollinearWith(thatParallel.getSegment2()))
     	{
         	return lhs;
     	}
-        if (rhs.structurallyEquals(thatParallel.getSegment1()) || rhs.IsCollinearWith(thatParallel.getSegment1()))
+        if (rhs.structurallyEquals(thatParallel.getSegment1()) || rhs.isCollinearWith(thatParallel.getSegment1()))
     	{
         	return rhs;
     	}
-        if (rhs.structurallyEquals(thatParallel.getSegment2()) || rhs.IsCollinearWith(thatParallel.getSegment2()))
+        if (rhs.structurallyEquals(thatParallel.getSegment2()) || rhs.isCollinearWith(thatParallel.getSegment2()))
     	{
         	return rhs;
     	}
@@ -1212,7 +1212,7 @@ public class Intersection extends Descriptor
     public boolean InducesNonStraightAngle(Angle thatAngle)
     {
     	// The given vertex must match the intersection point of the two lines intersection
-    	if(!intersect.equals(thatAngle.GetVertex()))
+    	if(!intersect.equals(thatAngle.getVertex()))
     	{
     		return false;
     	}
@@ -1222,7 +1222,7 @@ public class Intersection extends Descriptor
         //
         if (this.StandsOnEndpoint())
         {
-            return thatAngle.Equates(new Angle(lhs.OtherPoint(intersect), intersect, rhs.OtherPoint(intersect)));
+            return thatAngle.equates(new Angle(lhs.other(intersect), intersect, rhs.other(intersect)));
         }
         //          /
         //         /
@@ -1231,13 +1231,13 @@ public class Intersection extends Descriptor
         else if (this.standsOn())
         {
             Point off = this.CreatesTShape();
-            Segment baseSegment = lhs.pointLiesOnAndExactlyBetweenEndpoints(intersect) ? lhs : rhs;
+            Segment baseSegment = lhs.pointLiesBetweenEndpoints(intersect) ? lhs : rhs;
 
-            if (thatAngle.Equates(new Angle(baseSegment.getPoint1(), intersect, off)))
+            if (thatAngle.equates(new Angle(baseSegment.getPoint1(), intersect, off)))
     		{
             	return true;
     		}
-            if (thatAngle.Equates(new Angle(baseSegment.getPoint2(), intersect, off)))
+            if (thatAngle.equates(new Angle(baseSegment.getPoint2(), intersect, off)))
         	{
             	return true;
         	}
@@ -1248,19 +1248,19 @@ public class Intersection extends Descriptor
         //      /
         else if (this.Crossing())
         {
-            if (thatAngle.Equates(new Angle(lhs.getPoint1(), intersect, rhs.getPoint1())))
+            if (thatAngle.equates(new Angle(lhs.getPoint1(), intersect, rhs.getPoint1())))
         	{
             	return true;
         	}
-            if (thatAngle.Equates(new Angle(lhs.getPoint1(), intersect, rhs.getPoint2())))
+            if (thatAngle.equates(new Angle(lhs.getPoint1(), intersect, rhs.getPoint2())))
         	{
             	return true;
         	}
-            if (thatAngle.Equates(new Angle(lhs.getPoint2(), intersect, rhs.getPoint1())))
+            if (thatAngle.equates(new Angle(lhs.getPoint2(), intersect, rhs.getPoint1())))
         	{
             	return true;
         	}
-            if (thatAngle.Equates(new Angle(lhs.getPoint2(), intersect, rhs.getPoint2())))
+            if (thatAngle.equates(new Angle(lhs.getPoint2(), intersect, rhs.getPoint2())))
         	{
             	return true;
         	}
@@ -1316,11 +1316,11 @@ public class Intersection extends Descriptor
         	return lhs;
     	}
 
-        if (lhs.IsCollinearWith(thatSegment))
+        if (lhs.isCollinearWith(thatSegment))
     	{
         	return rhs;
     	}
-        if (rhs.IsCollinearWith(thatSegment))
+        if (rhs.isCollinearWith(thatSegment))
     	{
         	return lhs;
     	}
@@ -1352,7 +1352,7 @@ public class Intersection extends Descriptor
         	return false;
     	}
 
-        return lhs.IsCollinearWith(s) || rhs.IsCollinearWith(s);
+        return lhs.isCollinearWith(s) || rhs.isCollinearWith(s);
     }
     
     public boolean DefinesBothRays(Segment thatSeg1, Segment thatSeg2)
@@ -1376,7 +1376,7 @@ public class Intersection extends Descriptor
         Segment thatTransversalSegment = thatInter.OtherSegment(nonTransversalThat);
 
         // Parallel lines should not coincide
-        if (nonTransversalThis.IsCollinearWith(nonTransversalThat))
+        if (nonTransversalThis.isCollinearWith(nonTransversalThat))
     	{
         	return false;
     	}
@@ -1388,7 +1388,7 @@ public class Intersection extends Descriptor
         //      |            |
 
         // Both intersections (transversal segments) must contain the actual transversal
-        return thatTransversalSegment.HasSubSegment(transversal) && thisTransversalSegment.HasSubSegment(transversal);
+        return thatTransversalSegment.contains(transversal) && thisTransversalSegment.contains(transversal);
     }
     
     //
@@ -1414,11 +1414,11 @@ public class Intersection extends Descriptor
         Segment thisTransversal = this.GetCollinearSegment(transversal);
         Segment thatTransversal = thatInter.GetCollinearSegment(transversal);
 
-        if (!thisTransversal.HasSubSegment(transversal))
+        if (!thisTransversal.contains(transversal))
     	{
         	return null;
     	}
-        if (!thatTransversal.HasSubSegment(transversal))
+        if (!thatTransversal.contains(transversal))
     	{
         	return null;
     	}
@@ -1426,9 +1426,9 @@ public class Intersection extends Descriptor
         return transversal;
     }
     
-    public boolean IsPerpendicular()
+    public boolean isPerpendicular()
     {
-        return lhs.CoordinatePerpendicular(rhs) != null;
+        return lhs.isSegmentPerpendicular(rhs);
     }
     
     @Override

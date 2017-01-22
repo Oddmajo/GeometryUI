@@ -3,6 +3,8 @@ package backend.symbolicAlgebra.equations;
 import java.util.ArrayList;
 import java.util.List;
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.ArithmeticNode;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.Pair;

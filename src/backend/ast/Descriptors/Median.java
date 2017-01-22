@@ -1,7 +1,7 @@
 package backend.ast.Descriptors;
 
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.triangles.Triangle;
 
 public class Median extends Descriptor
 {

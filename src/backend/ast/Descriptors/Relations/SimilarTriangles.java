@@ -1,7 +1,7 @@
 package backend.ast.Descriptors.Relations;
 
 import backend.ast.Descriptors.Descriptor;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.triangles.Triangle;
 
 public class SimilarTriangles extends Descriptor
 {

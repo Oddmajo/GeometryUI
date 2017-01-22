@@ -11,9 +11,10 @@ package backend.atoms.components;
 import java.util.ArrayList;
 
 import backend.ast.figure.Figure;
+import backend.ast.figure.Shape;
 import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.atoms.components.Connection.ConnectionType;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.NotImplementedException;
@@ -185,7 +186,7 @@ public class AtomicRegion
         if (!Utilities.AddStructurallyUnique(owners, f)) return;
 
         // Check if this new atomic region is the outermost owner.
-        if (topOwner == null || f.Contains(topOwner)) 
+        if (topOwner == null || f.contains(topOwner)) 
         {
             topOwner = f;
         }
@@ -210,7 +211,7 @@ public class AtomicRegion
     {
         if (pt == null || PointLiesOn(pt)) { return false; }
 
-        else { return GetPolygonalized().IsInPolygon(pt); }
+        else { return GetPolygonalized().pointLiesIn(pt); }
     }
 
     public boolean PointLiesInOrOn(Point pt)
@@ -255,7 +256,8 @@ public class AtomicRegion
 
     public void addConnection(Point e1, Point e2, ConnectionType t, Figure owner)
     {
-        connections.add(new Connection(e1, e2, t, owner));
+        // CTA: Compilation problem needs attention ; owner needs to be a Shape
+        // connections.add(new Connection(e1, e2, t, owner));
     }
 
     public void AddConnection(Connection conn)

@@ -2,8 +2,8 @@ package backend.ast.Descriptors.Relations.Proportionalities;
 
 import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.figure.components.Angle;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.math.MathUtilities;

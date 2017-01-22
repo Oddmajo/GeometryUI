@@ -1,33 +1,31 @@
 package backend.ast.figure.components.triangles;
 
-import backend.ast.figure.components.Polygon;
+import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.math.MathUtilities;
 
 public class RightTriangle extends Triangle
 {
+    protected Angle _rightAngle;
+
     /// <summary>
     /// Represents a right triangle, FOR PRECOMPTUATION purposes only now.
     /// </summary>
     public RightTriangle(Segment a, Segment b, Segment c)
     {
         super(a,b,c);
-        provenRight = true;
 
-        rightAngle = MathUtilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
-        rightAngle = MathUtilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
-        rightAngle = MathUtilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
+        if (MathUtilities.doubleEquals(this.getAngleA().getMeasure(), 90)) _rightAngle = getAngleA();
+        if (MathUtilities.doubleEquals(this.getAngleB().getMeasure(), 90)) _rightAngle = getAngleB();
+        if (MathUtilities.doubleEquals(this.getAngleC().getMeasure(), 90)) _rightAngle = getAngleC();
     }
 
-    public RightTriangle(Triangle t) 
+    public RightTriangle(Triangle t) { this(t.getSegmentA(), t.getSegmentB(), t.getSegmentC()); }
+    public RightTriangle(Point pt1, Point pt2, Point pt3)
     {
-        super(t.getSegmentA(), t.getSegmentB(), t.getSegmentC());
-        provenRight = true;
-
-        rightAngle = MathUtilities.doubleEquals(this.getAngleA().getMeasure(), 90) ? getAngleA() : rightAngle;
-        rightAngle = MathUtilities.doubleEquals(this.getAngleB().getMeasure(), 90) ? getAngleB() : rightAngle;
-        rightAngle = MathUtilities.doubleEquals(this.getAngleC().getMeasure(), 90) ? getAngleC() : rightAngle;
+        this(new Segment(pt1, pt2), new Segment(pt1, pt3), new Segment(pt2, pt3));
     }
 
     @Override
@@ -67,14 +65,11 @@ public class RightTriangle extends Triangle
 //    }
 
     @Override
-    public int getHashCode() { return super.getHashCode(); }
-
-    @Override
     public boolean equals(Object obj)
     {
         if (obj == null) return false;
+
         if (!(obj instanceof RightTriangle)) return false;
-//        RightTriangle triangle = (RightTriangle)obj;
         
         return super.equals(obj);
     }

@@ -44,18 +44,12 @@ public class Perpendicular extends Intersection
     	super(inter.intersect, inter.lhs, inter.rhs);
     	
     	//check if truly perpendicular
-    	if(lhs.CoordinatePerpendicular(rhs) == null)
+    	if(inter.isPerpendicular())    	    
     	{
     		ExceptionHandler.throwException(new ArgumentException("Intersection is not perpendicular: " + inter.toString()));
     	}
     	
     	originalInter = inter;
-    }
-    
-    @Override
-    public int getHashCode()
-    {
-    	return super.getHashCode();
     }
     
     @Override

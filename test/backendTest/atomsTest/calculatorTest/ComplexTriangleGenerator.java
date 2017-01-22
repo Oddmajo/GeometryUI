@@ -2,11 +2,11 @@ package backendTest.atomsTest.calculatorTest;
 
 import java.util.HashMap;
 
-import backend.ast.figure.components.EquationSegment;
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.lexicographicPoints.LexicographicPoints;
 import backend.atoms.undirectedPlanarGraph.EdgeType;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backendTest.astTest.figure.EquationSegment;
 
 /**
  * Generates and constructs a PlanarGraph with (n+1)(n+1) facets

@@ -57,7 +57,7 @@ public class Parallel extends Descriptor
         this.segment1 = segment1;
         this.segment2 = segment2;
         
-        if(!segment1.IsParallelWith(segment2))
+        if(!segment1.isParallel(segment2))
         {
             ExceptionHandler.throwException(new ArgumentException("Given lines are not parallel: " + segment1 +
                         " ; " + segment2));
@@ -91,11 +91,11 @@ public class Parallel extends Descriptor
     }
     public Segment CoincidesWith(Segment that)
     {
-        if (segment1.IsCollinearWith(that)) 
+        if (segment1.isCollinearWith(that)) 
         {
             return segment1;
         }
-        if (segment2.IsCollinearWith(that))
+        if (segment2.isCollinearWith(that))
         {
             return segment2;
         }
@@ -105,11 +105,11 @@ public class Parallel extends Descriptor
     
     public Segment SharedSegment(Parallel thatParallel)
     {
-        if (segment1.IsCollinearWith(thatParallel.segment1) && segment1.IsCollinearWith(thatParallel.segment2))
+        if (segment1.isCollinearWith(thatParallel.segment1) && segment1.isCollinearWith(thatParallel.segment2))
         {
             return segment1;
         }
-        if (segment2.IsCollinearWith(thatParallel.segment1) && segment2.IsCollinearWith(thatParallel.segment2))
+        if (segment2.isCollinearWith(thatParallel.segment1) && segment2.isCollinearWith(thatParallel.segment2))
         {
             return segment2;
         }
@@ -119,8 +119,8 @@ public class Parallel extends Descriptor
     
     public int SharesNumClauses(Parallel thatParallel)
     {
-        int shared = segment1.IsCollinearWith(thatParallel.segment1) && segment1.IsCollinearWith(thatParallel.segment2) ? 1 : 0;
-        shared += segment2.IsCollinearWith(thatParallel.segment1) && segment2.IsCollinearWith(thatParallel.segment2) ? 1 : 0;
+        int shared = segment1.isCollinearWith(thatParallel.segment1) && segment1.isCollinearWith(thatParallel.segment2) ? 1 : 0;
+        shared += segment2.isCollinearWith(thatParallel.segment1) && segment2.isCollinearWith(thatParallel.segment2) ? 1 : 0;
 
         return shared;
     }

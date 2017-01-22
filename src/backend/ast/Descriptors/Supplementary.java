@@ -27,7 +27,7 @@
 // */
 package backend.ast.Descriptors;
 
-import backend.ast.figure.components.Angle;
+import backend.ast.figure.components.angles.Angle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;

@@ -2,6 +2,7 @@ package backend.symbolicAlgebra.equations;
 
 import java.util.List;
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.exception.*;
 import backend.utilities.ast_helper.*;

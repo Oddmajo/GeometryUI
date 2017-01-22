@@ -172,10 +172,13 @@ public abstract class GroundedClause implements Cloneable
     
     public boolean equals(Object obj)
     {
-        if (obj == null || (GroundedClause)obj == null)
-            return false;
+        if (obj == null) return false;
+        
+        if (!(obj instanceof GroundedClause)) return false;
+
         GroundedClause that = (GroundedClause) obj;
-        return multiplier == that.multiplier; // && clauseId == that.clauseId;
+
+        return multiplier == that.multiplier;
     }
 
     public boolean structurallyEquals(Object obj) { return false; }

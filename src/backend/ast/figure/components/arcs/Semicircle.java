@@ -1,9 +1,13 @@
-package backend.ast.figure.components;
+package backend.ast.figure.components.arcs;
 
 import java.util.List;
 
 import backend.ast.ASTException;
 import backend.ast.figure.Figure;
+import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 import backend.atoms.components.Connection;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutTriple;
@@ -63,8 +67,8 @@ public class Semicircle extends Arc
     {
         return Area(radius) / Math.PI;
     }
-    @Override
-    public boolean IsComputableArea() { return true; }
+//    @Override
+//    public boolean IsComputableArea() { return true; }
 //    @Override
 //    public boolean CanAreaBeComputed(Area_Based_Analyses.KnownMeasurementsAggregator known)
 //    {
@@ -84,7 +88,7 @@ public class Semicircle extends Arc
 //    }
 
     @Override
-    public boolean PointLiesOn(Point pt)
+    public boolean pointLiesOn(Point pt)
     {
         return Arc.BetweenMinor(pt, new MinorArc(_theCircle, _endpoint1, _middlePoint)) ||
                Arc.BetweenMinor(pt, new MinorArc(_theCircle, _endpoint2, _middlePoint));
@@ -135,13 +139,13 @@ public class Semicircle extends Arc
         // Verify that angle points match _diameter endpoints
         Point endpt1, endpt2;
 
-        endpt1 = angle.ray1.getPoint1().structurallyEquals(angle.GetVertex()) ? angle.ray1.getPoint2() : angle.ray1.getPoint1();
-        endpt2 = angle.ray2.getPoint2().structurallyEquals(angle.GetVertex()) ? angle.ray2.getPoint2() : angle.ray2.getPoint1();
-
-        if (!this._diameter.hasPoint(endpt1) || !this._diameter.hasPoint(endpt2)) return false;
+        endpt1 = angle.getRay1().getNonOrigin();
+        endpt2 = angle.getRay2().getNonOrigin();
+        
+        if (!this._diameter.has(endpt1) || !this._diameter.has(endpt2)) return false;
 
         // Verify that the vertex is within the semicircle
-        if (!this.arcMajorPoints.contains(angle.GetVertex())) return false;
+        if (!this.arcMajorPoints.contains(angle.getVertex())) return false;
 
         return true;
     }
@@ -149,9 +153,9 @@ public class Semicircle extends Arc
     @Override
     public Point Midpoint()
     {
-        Point midpt = _theCircle.Midpoint(_endpoint1, _endpoint2);
+        Point midpt = _theCircle.getMidpoint(_endpoint1, _endpoint2);
 
-        if (!this.PointLiesOn(midpt)) midpt = _theCircle.OppositePoint(midpt);
+        if (!this.pointLiesOn(midpt)) midpt = _theCircle.OppositePoint(midpt);
 
         return midpt;
     }

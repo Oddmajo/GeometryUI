@@ -13,8 +13,8 @@ import java.util.List;
 
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
-import backend.ast.figure.components.Angle;
 import backend.ast.figure.components.Point;
+import backend.ast.figure.components.angles.Angle;
 import backend.utilities.Pair;
 
 /**

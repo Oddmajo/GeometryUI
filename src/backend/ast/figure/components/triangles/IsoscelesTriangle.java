@@ -1,34 +1,53 @@
 package backend.ast.figure.components.triangles;
 
-import backend.ast.figure.components.Angle;
-import backend.ast.figure.components.Polygon;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Triangle;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.polygon.Polygon;
 import backend.utilities.math.MathUtilities;
 
+/*
+ * Represents a triangle, which consists of 3 segments in which 2 are of equal length
+ * 
+ * @author C. Alvin
+ */
 public class IsoscelesTriangle extends Triangle
 {
-    /// <summary>
-    /// Represents a triangle, which consists of 3 segments where 2 are of equal length
-    /// </summary>
     //
     // Although some of this information is redundant to what is stored in the superclass, it makes the information easily accessible
     //
     private Segment leg1;
     private Segment leg2;
-    private Segment baseSegment;
-    private Angle baseAngleOppositeLeg1;
-    private Angle baseAngleOppositeLeg2;
-    private Angle vertexAngle;
-
     public Segment getLeg1() { return leg1; }
     public Segment getLeg2() { return leg2; }
+
+    private Segment baseSegment;
     public Segment getBaseSegment() { return baseSegment; }
+
+    private Angle baseAngleOppositeLeg1;
+    private Angle baseAngleOppositeLeg2;
     public Angle getBaseAngleOppositeLeg1() { return baseAngleOppositeLeg1; }
     public Angle getBaseAngleOppositeLeg2() { return baseAngleOppositeLeg2; }
-    public Angle getVertexAngle() { return vertexAngle; }
 
-    private void DetermineIsoscelesValues()
+    private Angle vertexAngle;
+    public Angle getVertexAngle() { return vertexAngle; }
+    
+    /*
+     * Create a new isosceles triangle bounded by the 3 given segments.
+     * The set of points that define these segments should have only 3 distinct elements.
+     * @param a segment opposite vertex A
+     * @param b segment opposite vertex B
+     * @param c segment opposite vertex C
+     */
+    public IsoscelesTriangle(Segment a, Segment b, Segment c)
+    {
+        super(a, b, c);
+
+        if (!this.isEquilateral()) initialize();
+    }
+
+    public IsoscelesTriangle(Triangle tri) { this(tri.getSegmentA(), tri.getSegmentB(), tri.getSegmentC()); }
+
+    private void initialize()
     {
         Segment[] segments = new Segment[3];
         segments[0] = getSegmentA();
@@ -44,44 +63,16 @@ public class IsoscelesTriangle extends Triangle
                 leg1 = segments[i];
                 leg2 = segments[otherSegment];
 
-                baseAngleOppositeLeg1 = GetOppositeAngle(leg1);
-                baseAngleOppositeLeg2 = GetOppositeAngle(leg2);
+                baseAngleOppositeLeg1 = oppositeAngle(leg1);
+                baseAngleOppositeLeg2 = oppositeAngle(leg2);
                 vertexAngle = OtherAngle(baseAngleOppositeLeg1, baseAngleOppositeLeg2);
-                baseSegment = GetOppositeSide(vertexAngle);
+                baseSegment = oppositeSide(vertexAngle);
 
                 break;
             }
         }
     }
-
-    /// <summary>
-    /// Create a new isosceles triangle bounded by the 3 given segments. The set of points that define these segments should have only 3 distinct elements.
-    /// </summary>
-    /// <param name="a">The segment opposite point a</param>
-    /// <param name="b">The segment opposite point b</param>
-    /// <param name="c">The segment opposite point c</param>
-    public IsoscelesTriangle(Segment a, Segment b, Segment c)
-    {
-        super(a, b, c);
-        if (!this.isEquilateral)
-        {
-            DetermineIsoscelesValues();
-        }
-        provenIsosceles = true;
-    }
-
-    public IsoscelesTriangle(Triangle tri) 
-    {
-        super(tri.getSegmentA(), tri.getSegmentB(), tri.getSegmentC());
-        DetermineIsoscelesValues();
-        provenIsosceles = true;
-    }
-
-    public Angle GetVertexAngle()
-    {
-        return vertexAngle;
-    }
-
+    
     @Override
     public boolean IsStrongerThan(Polygon that)
     {
@@ -91,9 +82,9 @@ public class IsoscelesTriangle extends Triangle
         {
             Triangle tri = (Triangle)that;
 
-            if (tri.provenIsosceles()) return false;
-            if (tri.provenEquilateral()) return false;
-            if (tri.provenRight()) return true;
+//            if (tri.provenIsosceles()) return false;
+//            if (tri.provenEquilateral()) return false;
+//            if (tri.provenRight()) return true;
 
             return true;
         }
@@ -102,15 +93,11 @@ public class IsoscelesTriangle extends Triangle
     }
 
     @Override
-    public int getHashCode() { return super.getHashCode(); }
-
-    @Override
     public boolean equals(Object obj)
     {
         if (obj == null) return false;
         if (!(obj instanceof IsoscelesTriangle)) return false;
-//        IsoscelesTriangle triangle = (IsoscelesTriangle)obj;
+
         return super.equals(obj);
     }
-
 }

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 import backend.ast.ASTException;
 import backend.ast.figure.components.Circle;
-import backend.ast.figure.components.MajorArc;
-import backend.ast.figure.components.MinorArc;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Sector;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.Semicircle;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.arcs.Semicircle;
 import backend.atoms.components.AtomicRegion;
 import backend.atoms.components.Connection.ConnectionType;
 import backend.atoms.components.ShapeAtomicRegion;
@@ -127,7 +127,7 @@ public class Filament extends Primitive
         Circle outerCircle = null;
         for (Circle circle : circles)
         {
-            if (circle.PointLiesOn(points.get(beginIndex)) && circle.PointLiesOn(points.get(endIndex))) outerCircle = circle;
+            if (circle.pointLiesOn(points.get(beginIndex)) && circle.pointLiesOn(points.get(endIndex))) outerCircle = circle;
         }
         
         // Base Case: Gap between the given indices is 1
@@ -224,7 +224,7 @@ public class Filament extends Primitive
         
         for (Circle circle : circles)
         {
-            if (circle.PointLiesOn(pt1) && circle.PointLiesOn(pt2))
+            if (circle.pointLiesOn(pt1) && circle.pointLiesOn(pt2))
             {
                 theCircle = circle;
             }
@@ -263,7 +263,7 @@ public class Filament extends Primitive
         
         if (circle.DefinesDiameter(diameter))
         {
-            Point midpt = circle.Midpoint(pt1, pt2);
+            Point midpt = circle.getMidpoint(pt1, pt2);
             atoms.add(new ShapeAtomicRegion(new Sector(new Semicircle(circle, pt1, pt2, midpt, diameter))));
             atoms.add(new ShapeAtomicRegion(new Sector(new Semicircle(circle, pt1, pt2, circle.OppositePoint(midpt), diameter))));
         }
