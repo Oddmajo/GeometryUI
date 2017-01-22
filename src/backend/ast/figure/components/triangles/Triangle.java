@@ -76,7 +76,7 @@ public class Triangle extends Polygon
     public Triangle(Segment ... segs) { setTriangle(segs[0], segs[1], segs[2]); }
 
     public Triangle(Point ... pts) { setTriangle(pts[0], pts[1], pts[2]); }
-    
+
     //public Triangle(List<Point> points) { setTriangle(points.get(0), points.get(1), points.get(2)); }
 
     public <T> Triangle(List<T> obj) 
@@ -92,7 +92,7 @@ public class Triangle extends Polygon
             if (obj.size() != 3) ExceptionHandler.throwException( new IllegalArgumentException("Triangle constructed with " + obj.size() + " segments."));
         }
     }
-    
+
     /*
      * @param a -- a point
      * @param b -- a point
@@ -786,6 +786,20 @@ public class Triangle extends Polygon
         out = new OutPair<Angle, Angle>(remote1, remote2);
     }
 
+    /*
+     * @param thatSegment -- an arbitrary segment
+     * @return the vertex of this triangle in which thatSegment passes through (if it does);
+     *  Technique uses coinciding method since two triangle sides and the given segment may pass through that single vertex
+     */
+    public Point getVertexOn(Segment thatSegment)
+    {
+        if (Segment.coincident(this._segmentA, this._segmentB, thatSegment) != null) return _segmentA.sharedVertex(_segmentB);
+        if (Segment.coincident(this._segmentA, this._segmentC, thatSegment) != null) return _segmentA.sharedVertex(_segmentC);
+        if (Segment.coincident(this._segmentB, this._segmentC, thatSegment) != null) return _segmentB.sharedVertex(_segmentC);
+
+        return null;
+    }
+
     //    //
     //    // Have we deduced a congrunence between this triangle and t already?
     //    //
@@ -814,14 +828,7 @@ public class Triangle extends Polygon
     //        similarPairs.add(t);
     //    }
 
-    //    public Point getVertexOn(Segment thatSegment)
-    //    {
-    //        if (Segment.coincident(this._segmentA, this._segmentB, thatSegment)) return _segmentA.sharedVertex(_segmentB);
-    //        if (Segment.coincident(this._segmentA, this._segmentC, thatSegment)) return _segmentA.sharedVertex(_segmentC);
-    //        if (Segment.coincident(this._segmentB, this._segmentC, thatSegment)) return _segmentB.sharedVertex(_segmentC);
-    //
-    //        return null;
-    //    }
+
 
 
 

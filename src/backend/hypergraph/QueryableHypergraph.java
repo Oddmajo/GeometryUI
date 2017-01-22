@@ -7,10 +7,13 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
+import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
+import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
+import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.arcs.Arc;
@@ -281,6 +284,26 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedPerpendicularBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<InMiddle> getInMiddles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Median> getMedians()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<SegmentBisector> getSegmentBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedSegmentBisectors()
     {
         // TODO Auto-generated method stub
         return null;
