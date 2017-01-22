@@ -1,11 +1,15 @@
 package backend.hypergraph;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
+import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Midpoint;
+import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.arcs.Arc;
@@ -241,6 +245,31 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     public Equation getGneralEquation(Equation eq) { return _equationHandler.getGeneralEquation(eq); }
 
     public Set<AngleBisector> getAngleBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Altitude> getAltitudes()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Intersection> getIntersections()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Triangle> getTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Perpendicular> getPerpendicular()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedPerpendicular()
     {
         // TODO Auto-generated method stub
         return null;
