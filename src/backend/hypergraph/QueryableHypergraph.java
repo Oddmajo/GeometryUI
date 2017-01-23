@@ -23,6 +23,8 @@ import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
+import backend.ast.figure.components.quadrilaterals.Kite;
+import backend.ast.figure.components.quadrilaterals.Quadrilateral;
 import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.symbolicAlgebra.equations.*;
@@ -356,6 +358,21 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     }
 	
     public Set<RightAngle> getRightAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Kite> getKites()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedKites()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Quadrilateral> getQuadrilaterals()
     {
         // TODO Auto-generated method stub
         return null;

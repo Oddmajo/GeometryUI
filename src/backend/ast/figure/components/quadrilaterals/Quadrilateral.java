@@ -11,6 +11,7 @@ import backend.utilities.math.MathUtilities;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -369,13 +370,13 @@ public class Quadrilateral extends Polygon
 //        return AreOppositeAngles(cas.ca1, cas.ca2);
 //    }
 //
-//    //
-//    // Does this parallel set apply to this quadrilateral?
-//    //
-//    public boolean HasAdjacentCongruentSides(CongruentSegments cs)
-//    {
-//        return AreAdjacentSides(cs.cs1, cs.cs2);
-//    }
+    //
+    // Does this parallel set apply to this quadrilateral?
+    //
+    public boolean hasAdjacentCongruentSides(CongruentSegments cs)
+    {
+        return AreAdjacentSides(cs.getcs1(), cs.getcs2());
+    }
 
     //
     // Acquire the other 2 sides not : this parallel relationship; works for a n-gon (polygon) as well.
