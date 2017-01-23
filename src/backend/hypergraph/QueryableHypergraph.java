@@ -15,10 +15,13 @@ import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
+import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
+import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.symbolicAlgebra.equations.*;
 
@@ -304,6 +307,31 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedSegmentBisectors()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<IsoscelesTrapezoid> getIsoscelesTrapezoids()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedIsoscelesTrapezoids()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Trapezoid> getTrapezoids()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<CongruentSegments> getCongruentSegments()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;

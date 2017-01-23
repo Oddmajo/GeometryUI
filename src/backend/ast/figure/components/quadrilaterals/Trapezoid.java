@@ -1,5 +1,6 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -92,68 +93,57 @@ public class Trapezoid extends Quadrilateral
         bottomLeftBaseAngle = GetAngle(new Angle(leftLeg, baseSegment));
         bottomRightBaseAngle = GetAngle(new Angle(rightLeg, baseSegment));
 
-//        FindMedian();
+        //        FindMedian();
     }
 
     //
     // Find the figure segment which acts as the median of this trapezoid
     //
-//    public void FindMedian()
-//    {
-//        if (Segment.figureSegments.size() == 0)
-//        {
-//            //Segments have not yet been recorded for the figure, wait to check for median
-//            SetMedianChecked(false);
-//            return;
-//        }
-//
-//        for(Segment medianCand : Segment.figureSegments)
-//        {
-//            // The median is parallel to the bases.
-//            if (medianCand.isParallel(this.baseSegment) && medianCand.isParallel(this.oppBaseSegment))
-//            {
-//                // The median must be between the bases and connect to the legs.
-//                Point leftIntersection = leftLeg.FindIntersection(medianCand);
-//                if (leftLeg.PointLiesOnAndExactlyBetweenEndpoints(leftIntersection))
-//                {
-//                    Point rightIntersection = rightLeg.FindIntersection(medianCand);
-//                    if (rightLeg.PointLiesOnAndExactlyBetweenEndpoints(rightIntersection))
-//                    {
-//                        // Success, we have a median
-//                        // Acquire the exact figure segment (if it exists) otherwise the segment which contains the median
-//                        this.median = Segment.GetFigureSegment(leftIntersection, rightIntersection);
-//
-//                        // If we have a median at all in the figure
-//                        if (this.median != null)
-//                        {
-//                            // If this is not the exact median, create the exact median. 
-//                            Segment actualMedian = new Segment(leftIntersection, rightIntersection);
-//                            if (!this.median.StructurallyEquals(actualMedian))
-//                            {
-//                                this.median = actualMedian;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//        if (this.median == null) this.SetMedianInvalid();
-//
-//        SetMedianChecked(true);
-//    }
-
+    //    public void FindMedian()
+    //    {
+    //        if (Segment.figureSegments.size() == 0)
+    //        {
+    //            //Segments have not yet been recorded for the figure, wait to check for median
+    //            SetMedianChecked(false);
+    //            return;
+    //        }
     //
-    // Are the legs congruent (for an isosceles trapezoid)?
-    //
-    //            public boolean CreatesCongruentLegs(CongruentSegments css)
+    //        for(Segment medianCand : Segment.figureSegments)
+    //        {
+    //            // The median is parallel to the bases.
+    //            if (medianCand.isParallel(this.baseSegment) && medianCand.isParallel(this.oppBaseSegment))
     //            {
-    //                if (leftLeg.StructurallyEquals(css.cs1) && rightLeg.StructurallyEquals(css.cs2)) return true;
-    //                if (leftLeg.StructurallyEquals(css.cs2) && rightLeg.StructurallyEquals(css.cs1)) return true;
+    //                // The median must be between the bases and connect to the legs.
+    //                Point leftIntersection = leftLeg.FindIntersection(medianCand);
+    //                if (leftLeg.PointLiesOnAndExactlyBetweenEndpoints(leftIntersection))
+    //                {
+    //                    Point rightIntersection = rightLeg.FindIntersection(medianCand);
+    //                    if (rightLeg.PointLiesOnAndExactlyBetweenEndpoints(rightIntersection))
+    //                    {
+    //                        // Success, we have a median
+    //                        // Acquire the exact figure segment (if it exists) otherwise the segment which contains the median
+    //                        this.median = Segment.GetFigureSegment(leftIntersection, rightIntersection);
     //
-    //                return false;
+    //                        // If we have a median at all in the figure
+    //                        if (this.median != null)
+    //                        {
+    //                            // If this is not the exact median, create the exact median. 
+    //                            Segment actualMedian = new Segment(leftIntersection, rightIntersection);
+    //                            if (!this.median.StructurallyEquals(actualMedian))
+    //                            {
+    //                                this.median = actualMedian;
+    //                                break;
+    //                            }
+    //                        }
+    //                    }
+    //                }
     //            }
+    //        }
+    //
+    //        if (this.median == null) this.SetMedianInvalid();
+    //
+    //        SetMedianChecked(true);
+    //    }
 
     //            @Override
     //            public boolean IsStrongerThan(Polygon that)
@@ -180,6 +170,17 @@ public class Trapezoid extends Quadrilateral
         return false;
     }
 
+    //
+    // Are the legs congruent (for an isosceles trapezoid)?
+    //
+    public boolean createsCongruentLegs(CongruentSegments css)
+    {
+        if (leftLeg.structurallyEquals(css.getcs1()) && rightLeg.structurallyEquals(css.getcs2())) return true;
+        if (leftLeg.structurallyEquals(css.getcs2()) && rightLeg.structurallyEquals(css.getcs1())) return true;
+
+        return false;
+    }
+    
     @Override
     public boolean structurallyEquals(Object obj)
     {

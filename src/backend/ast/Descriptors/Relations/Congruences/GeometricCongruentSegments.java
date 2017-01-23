@@ -35,26 +35,26 @@ import backend.ast.figure.components.Segment;
 // 2) To avoid redundancy and bloat in the hypergraph, it also mimics a basic Algebraic equation
 // So AB \cong CD also means AB = CD (as a Algebraic equation)
 //
-public class AlgebraicCongruentSegments extends CongruentSegments
+public class GeometricCongruentSegments extends CongruentSegments
 {
-	public AlgebraicCongruentSegments(Segment s1, Segment s2)
-	{
-		super(s1,s2);
-	}
-	
-	@Override
-	public boolean isAlgebraic()
-	{
-		return true;
-	}
-	@Override
-	public boolean isGeometric()
-	{
-		return false;
-	}
-	@Override
-	public String toString()
-	{
-		return "AlgebraicCongruent(" + super.getcs1().toString() + ", " + super.getcs2().toString() + ") " + justification;
-	}
+    public GeometricCongruentSegments(Segment s1, Segment s2)
+    {
+        super(s1,s2);
+    }
+    
+    @Override
+    public boolean isAlgebraic()
+    {
+        return false;
+    }
+    @Override
+    public boolean isGeometric()
+    {
+        return true;
+    }
+    @Override
+    public String toString()
+    {
+        return "GeometricCongruent(" + super.getcs1().toString() + ", " + super.getcs2().toString() + ") " + justification;
+    }
 }
