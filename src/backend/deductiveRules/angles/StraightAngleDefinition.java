@@ -21,13 +21,14 @@
 //
 //details.
 
-package backend.deductiveRules.segments.definitions;
+package backend.deductiveRules.angles;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.Collinear;
 import backend.ast.figure.components.angles.Angle;
 import backend.deductiveRules.Deduction;
@@ -35,6 +36,7 @@ import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
+import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.list.Utilities;
 
 /**
@@ -44,7 +46,7 @@ import backend.utilities.list.Utilities;
 public class StraightAngleDefinition extends Definition
 {
 
-    private static final String NAME = "Definition of Straight Angle";
+    private static final String NAME = "Straight Angle Definition";
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
     
@@ -63,8 +65,13 @@ public class StraightAngleDefinition extends Definition
      *  <p>
      *  @return
      */
+    //
+    // Collinear(A, B, C, D, ...) -> Angle(A, B, C), Angle(A, B, D), Angle(A, C, D), Angle(B, C, D),...
+    // All angles will have measure 180^o
+    // There will be nC3 resulting clauses.
+    //
     @Override
-    public Set<Deduction> deduce()
+    public HashSet<Deduction> deduce()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
@@ -81,12 +88,19 @@ public class StraightAngleDefinition extends Definition
      * <p>
      * @return
      */
-    public Set<Deduction> deduceStraightAngles()
+    public HashSet<Deduction> deduceStraightAngles()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        // aquire all Node clauses from the hypergraph
-        
+     // Acquire all Midpoint clauses from the hypergraph
+        Set<Collinear> straightAngles = _qhg.getCollinear();
+                
+        for (Collinear sa : straightAngles)
+        {
+           Set<Deduction> returned = deduceFromStraightAngle(sa);
+            
+           deductions.addAll(returned);
+        }
         
         return deductions;
     }
@@ -102,13 +116,13 @@ public class StraightAngleDefinition extends Definition
      * @param clause
      * @return
      */
-    public static Set<Deduction> deduceFromStraightAngle(GroundedClause clause)
+    public static HashSet<Deduction> deduceFromStraightAngle(Collinear clause)
     {
        annotation.active = RuleFactory.JustificationSwitch.STRAIGHT_ANGLE_DEFINITION;
 
        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
         
-        if (clause != null && clause instanceof Collinear)
+        if (clause != null)
         {
             Collinear cc = (Collinear) clause;
 

@@ -59,6 +59,7 @@ public class FacetCalculator
 
     //
     // We want our first vector to be downward (-90 degrees std unit circle)
+    // (this returns the clockwise-most neighbor)
     //
     private Point GetFirstNeighbor(Point currentPt)
     {
@@ -122,6 +123,7 @@ public class FacetCalculator
 
     //
     // With respect to the given vector (based on prevPt and currentPt), return the tightest counter-clockwise neighbor.
+    // (this returns the counter-clockwise most neighbor)
     //
     private Point GetTightestCounterClockwiseNeighbor(Point prevPt, Point currentPt)
     {
@@ -186,7 +188,7 @@ public class FacetCalculator
                     }
                 }
                 // should this be else if?
-                if (angleMeasure < currentAngle)
+                else if (angleMeasure < currentAngle)
                 {
                     currentAngle = angleMeasure;
                     currentNextPoint = neighbor;
@@ -220,7 +222,7 @@ public class FacetCalculator
         //
         // Exhaustively analyze all points in the graph.
         //
-        int count = 0;
+        // int count = 0;
         while (!heap.isEmpty())
         {
             

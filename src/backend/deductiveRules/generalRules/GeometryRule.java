@@ -6,7 +6,7 @@ import backend.hypergraph.QueryableHypergraph;
 
 public abstract class GeometryRule implements Rule
 {
-    protected QueryableHypergraph<GroundedClause, Annotation> _qhg;
+    protected static QueryableHypergraph<GroundedClause, Annotation> _qhg;
     
     public GeometryRule(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {

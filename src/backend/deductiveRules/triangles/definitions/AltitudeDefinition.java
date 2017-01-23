@@ -47,28 +47,6 @@ public class AltitudeDefinition extends Definition
         return deductions;
     }
 
-    //    //
-    //    // This implements forward and Backward instantiation
-    //    //
-    //    public static List<EdgeAggregator> Instantiate(GroundedClause clause)
-    //    {
-    //        annotation.active = EngineUIBridge.JustificationSwitch.ALTITUDE_DEFINITION;
-    //
-    //        List<EdgeAggregator> deductions = new List<EdgeAggregator>();
-    //
-    //        if (clause is Triangle || clause is Perpendicular || clause is Strengthened)
-    //        {
-    //            deductions.AddRange(InstantiateToAltitude(clause));
-    //        }
-    //
-    //        else if (clause is Altitude || clause is Intersection)
-    //        {
-    //            deductions.AddRange(InstantiateFromAltitude(clause));
-    //        }
-    //
-    //        return deductions;
-    //    }
-
     //
     //       A
     //      /|\

@@ -7,6 +7,7 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
+import backend.ast.Descriptors.Collinear;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
@@ -17,6 +18,7 @@ import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
@@ -311,7 +313,14 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         // TODO Auto-generated method stub
         return null;
     }
+
     public List<IsoscelesTrapezoid> getIsoscelesTrapezoids()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+	
+    public Set<Collinear> getCollinear()
     {
         // TODO Auto-generated method stub
         return null;
@@ -321,17 +330,32 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         // TODO Auto-generated method stub
         return null;
     }
+	
+    public Set<Strengthened> getStrengthenedRightAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+	
     public List<Trapezoid> getTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;
     }
+	
     public List<CongruentSegments> getCongruentSegments()
     {
         // TODO Auto-generated method stub
         return null;
     }
+	
     public List<Strengthened> getStrengthenedTrapezoids()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+	
+    public Set<RightAngle> getRightAngles()
     {
         // TODO Auto-generated method stub
         return null;
