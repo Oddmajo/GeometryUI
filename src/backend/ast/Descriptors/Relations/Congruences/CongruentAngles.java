@@ -42,8 +42,8 @@ import backend.utilities.exception.ExceptionHandler;
 //
 public class CongruentAngles extends Congruent
 {
-	private Angle ca1;
-	private Angle ca2;
+	protected Angle ca1;
+	protected Angle ca2;
 	
 	//the original code had these getters even though that it was a public property in C#. So i did not make two getters
 	public Angle GetFirstAngle()
