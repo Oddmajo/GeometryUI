@@ -9,6 +9,7 @@ import backend.utilities.math.MathUtilities;
 public class RightTriangle extends Triangle
 {
     protected Angle _rightAngle;
+    public Angle getRightAngle() { return _rightAngle; }
 
     /// <summary>
     /// Represents a right triangle, FOR PRECOMPTUATION purposes only now.
@@ -79,4 +80,5 @@ public class RightTriangle extends Triangle
     {
         return "RightTriangle(" + getPoint1().toString() + ", " + getPoint2().toString() + ", " + getPoint3().toString() + ")";
     }
+    
 }

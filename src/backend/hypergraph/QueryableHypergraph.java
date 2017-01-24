@@ -357,7 +357,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
 	
-    public Set<RightAngle> getRightAngles()
+    public List<RightAngle> getRightAngles()
     {
         // TODO Auto-generated method stub
         return null;
@@ -373,6 +373,16 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Quadrilateral> getQuadrilaterals()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<RightTriangle> getRightTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedRightTriangle()
     {
         // TODO Auto-generated method stub
         return null;
