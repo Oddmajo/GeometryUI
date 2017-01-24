@@ -1,5 +1,6 @@
 package backend.hypergraph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,7 @@ import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
@@ -433,6 +435,32 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedSquares()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Circle> getCircles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Segment> getRadii(Circle circle)
+    {
+        List<Segment> radii = new ArrayList<Segment>();
+        
+        for (Segment segment : this.getSegments())
+        {
+            if (circle.isRadius(segment)) radii.add(segment);
+        }
+
+        return radii;
+    }
+    private List<Segment> getSegments()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<CongruentCircles> getCongruentCircles()
     {
         // TODO Auto-generated method stub
         return null;
