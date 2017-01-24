@@ -19,7 +19,7 @@ import backend.hypergraph.QueryableHypergraph;
 
 public class KiteDefinition extends Definition
 {
-    private static final String NAME = "Kite Definition";
+    private static final String NAME = "Definition of Kite";
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 

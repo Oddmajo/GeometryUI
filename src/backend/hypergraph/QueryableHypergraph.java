@@ -12,6 +12,7 @@ import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Midpoint;
+import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
@@ -24,7 +25,10 @@ import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
 import backend.ast.figure.components.quadrilaterals.Kite;
+import backend.ast.figure.components.quadrilaterals.Parallelogram;
 import backend.ast.figure.components.quadrilaterals.Quadrilateral;
+import backend.ast.figure.components.quadrilaterals.Rectangle;
+import backend.ast.figure.components.quadrilaterals.Rhombus;
 import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.symbolicAlgebra.equations.*;
@@ -322,7 +326,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
 	
-    public Set<Collinear> getCollinear()
+    public List<Collinear> getCollinear()
     {
         // TODO Auto-generated method stub
         return null;
@@ -333,7 +337,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
 	
-    public Set<Strengthened> getStrengthenedRightAngles()
+    public List<Strengthened> getStrengthenedRightAngles()
     {
         // TODO Auto-generated method stub
         return null;
@@ -383,6 +387,41 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedRightTriangle()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedParallelograms()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Parallelogram> getParallelograms()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Parallel> getParallels()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Rectangle> getRectangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedRectangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Rhombus> getRhombuses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedRhombuses()
     {
         // TODO Auto-generated method stub
         return null;

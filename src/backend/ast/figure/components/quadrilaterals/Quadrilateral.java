@@ -10,6 +10,7 @@ import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
+import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.Point;
@@ -338,13 +339,13 @@ public class Quadrilateral extends Polygon
         return false;
     }
 
-//    //
-//    // Does this parallel set apply to this quadrilateral?
-//    //
-//    public boolean HasOppositeParallelSides(Parallel parallel)
-//    {
-//        return AreOppositeSides(parallel.segment1, parallel.segment2);
-//    }
+    //
+    // Does this parallel set apply to this quadrilateral?
+    //
+    public boolean hasOppositeParallelSides(Parallel parallel)
+    {
+        return AreOppositeSides(parallel.getSegment1(), parallel.getSegment2());
+    }
 //
 //    //
 //    // Does this parallel set apply to this quadrilateral?
@@ -354,13 +355,13 @@ public class Quadrilateral extends Polygon
 //        return AreOppositeSubsegmentSides(parallel.segment1, parallel.segment2);
 //    }
 //
-//    //
-//    // Does this congruent pair apply to this quadrilateral?
-//    //
-//    public boolean HasOppositeCongruentSides(CongruentSegments cs)
-//    {
-//        return AreOppositeSides(cs.cs1, cs.cs2);
-//    }
+    //
+    // Does this congruent pair apply to this quadrilateral?
+    //
+    public boolean hasOppositeCongruentSides(CongruentSegments cs)
+    {
+        return AreOppositeSides(cs.getcs1(), cs.getcs2());
+    }
 //
 //    //
 //    // Does this congruent pair of angles apply to this quadrilateral?
