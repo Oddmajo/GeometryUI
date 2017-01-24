@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.quadrilaterals.Rectangle;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
@@ -74,7 +74,7 @@ public class RectangleDefinition extends Definition
         return deductions;
     }
 
-    private static HashSet<Deduction> deduceFromRectangle(Rectangle rectangle, GroundedClause original)
+    private HashSet<Deduction> deduceFromRectangle(Rectangle rectangle, GroundedClause original)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
@@ -143,7 +143,7 @@ public class RectangleDefinition extends Definition
         return deductions;
     }
 
-    private static HashSet<Deduction> deduceToRectangle(Parallelogram parallelogram, RightAngle ra,
+    private HashSet<Deduction> deduceToRectangle(Parallelogram parallelogram, RightAngle ra,
                                                         GroundedClause originalPara, GroundedClause originalRightAngle)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();

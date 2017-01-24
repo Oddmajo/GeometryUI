@@ -1,6 +1,7 @@
 package backend.ast.figure.components.quadrilaterals;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import backend.ast.GroundedClause;
 import backend.utilities.Pair;
@@ -10,9 +11,9 @@ import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -346,15 +347,15 @@ public class Quadrilateral extends Polygon
     {
         return AreOppositeSides(parallel.getSegment1(), parallel.getSegment2());
     }
-//
-//    //
-//    // Does this parallel set apply to this quadrilateral?
-//    //
-//    public boolean HasOppositeParallelSubsegmentSides(Parallel parallel)
-//    {
-//        return AreOppositeSubsegmentSides(parallel.segment1, parallel.segment2);
-//    }
-//
+
+    //
+    // Does this parallel set apply to this quadrilateral?
+    //
+    public boolean hasOppositeParallelSubsegmentSides(Parallel parallel)
+    {
+        return AreOppositeSubsegmentSides(parallel.getSegment1(), parallel.getSegment2());
+    }
+
     //
     // Does this congruent pair apply to this quadrilateral?
     //
@@ -382,7 +383,7 @@ public class Quadrilateral extends Polygon
     //
     // Acquire the other 2 sides not : this parallel relationship; works for a n-gon (polygon) as well.
     //
-    public ArrayList<Segment> GetOtherSides(ArrayList<Segment> inSegments)
+    public ArrayList<Segment> GetOtherSides(List<Segment> inSegments)
     {
         ArrayList<Segment> outSegments = new ArrayList<Segment>();
 
@@ -409,7 +410,7 @@ public class Quadrilateral extends Polygon
     //
     // Acquire the other 2 sides not : this parallel relationship; works for a n-gon (polygon) as well.
     //
-    public ArrayList<Segment> GetOtherSubsegmentSides(ArrayList<Segment> inSegments)
+    public List<Segment> GetOtherSubsegmentSides(List<Segment> inSegments)
     {
         // This quadrilateral must have these given segments to return valid data.
         ArrayList<Segment> inSegsMappedToQuad = new ArrayList<Segment>();
@@ -435,29 +436,29 @@ public class Quadrilateral extends Polygon
         return outSegments;
     }
 
-//    //
-//    // Acquire the other 2 sides not : this parallel relationship.
-//    //
-//    public List<Segment> GetOtherSides(Parallel parallel)
-//    {
-//        List<Segment> segs = new ArrayList<Segment>();
-//        segs.add(parallel.segment1);
-//        segs.add(parallel.segment2);
-//
-//        return GetOtherSides(segs);
-//    }
-//
-//    //
-//    // Acquire the other 2 sides not : this parallel relationship.
-//    //
-//    public List<Segment> GetOtherSubsegmentSides(Parallel parallel)
-//    {
-//        List<Segment> segs = new ArrayList<Segment>();
-//        segs.add(parallel.segment1);
-//        segs.add(parallel.segment2);
-//
-//        return GetOtherSubsegmentSides(segs);
-//    }
+    //
+    // Acquire the other 2 sides not : this parallel relationship.
+    //
+    public List<Segment> GetOtherSides(Parallel parallel)
+    {
+        List<Segment> segs = new ArrayList<Segment>();
+        segs.add(parallel.getSegment1());
+        segs.add(parallel.getSegment2());
+
+        return GetOtherSides(segs);
+    }
+
+    //
+    // Acquire the other 2 sides not : this parallel relationship.
+    //
+    public List<Segment> GetOtherSubsegmentSides(Parallel parallel)
+    {
+        List<Segment> segs = new ArrayList<Segment>();
+        segs.add(parallel.getSegment1());
+        segs.add(parallel.getSegment2());
+
+        return GetOtherSubsegmentSides(segs);
+    }
 
     //
     // Coordinate-based determination if we have a parallelogram.

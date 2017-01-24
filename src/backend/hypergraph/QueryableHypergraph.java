@@ -12,12 +12,12 @@ import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Midpoint;
-import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
@@ -29,6 +29,7 @@ import backend.ast.figure.components.quadrilaterals.Parallelogram;
 import backend.ast.figure.components.quadrilaterals.Quadrilateral;
 import backend.ast.figure.components.quadrilaterals.Rectangle;
 import backend.ast.figure.components.quadrilaterals.Rhombus;
+import backend.ast.figure.components.quadrilaterals.Square;
 import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.symbolicAlgebra.equations.*;
@@ -422,6 +423,16 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<Strengthened> getStrengthenedRhombuses()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Square> getSquares()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedSquares()
     {
         // TODO Auto-generated method stub
         return null;

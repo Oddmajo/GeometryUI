@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.Parallel;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.quadrilaterals.Parallelogram;
 import backend.ast.figure.components.quadrilaterals.Quadrilateral;
 import backend.deductiveRules.Deduction;

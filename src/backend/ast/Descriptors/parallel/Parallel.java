@@ -25,11 +25,12 @@
 // * @author Tom_Nielsen
 // *
 // */
-package backend.ast.Descriptors;
+package backend.ast.Descriptors.parallel;
 
 import java.util.ArrayList;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Descriptor;
 import backend.ast.figure.components.Segment;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.ArgumentException;
@@ -39,8 +40,8 @@ import backend.utilities.exception.ArgumentException;
 /// </summary>
 public class Parallel extends Descriptor
 {
-    private Segment segment1;
-    private Segment segment2;
+    protected Segment segment1;
+    protected Segment segment2;
     
     public Segment getSegment1()
     {

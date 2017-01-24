@@ -28,6 +28,7 @@ package backend.ast.Descriptors;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
