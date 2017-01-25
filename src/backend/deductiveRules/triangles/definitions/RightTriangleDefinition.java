@@ -41,7 +41,7 @@ public class RightTriangleDefinition extends Definition
     public RightTriangleDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-        // TODO Auto-generated constructor stub
+        ANNOTATION.active = RuleFactory.JustificationSwitch.RIGHT_TRIANGLE_DEFINITION;
     }
 
     @Override

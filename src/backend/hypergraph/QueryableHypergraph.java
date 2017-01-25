@@ -9,6 +9,7 @@ import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.Collinear;
+import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
@@ -461,6 +462,41 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         return null;
     }
     public List<CongruentCircles> getCongruentCircles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<EquilateralTriangle> getEquilateralTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedEquilateralTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedRightTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedIsoscelesTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<AngleEquation> getAngleEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Strengthened> getStrengthenedAngleEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public List<Complementary> getComplementaryAngles()
     {
         // TODO Auto-generated method stub
         return null;

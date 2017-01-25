@@ -38,10 +38,10 @@ public class Triangle extends Polygon
 
     //    protected boolean isRight;
     //    public boolean givenRight;
-    //    protected boolean provenRight;
+        protected boolean provenRight;
     //    protected Angle rightAngle;
     //    protected boolean isIsosceles;
-    //    protected boolean provenIsosceles;
+        protected boolean provenIsosceles;
     //    protected boolean isEquilateral;
     //    protected boolean provenEquilateral;
     //    private ArrayList<Triangle> congruencePairs;
@@ -159,8 +159,8 @@ public class Triangle extends Polygon
     //        Utilities.AddUniqueStructurally(_angleC.getSuperFigures(), this);
     //    }
     //
-    //    public void SetProvenToBeRight() { provenRight = true; }
-    //    public void SetProvenToBeIsosceles() { provenIsosceles = true; } 
+        public void SetProvenToBeRight() { provenRight = true; }
+        public void SetProvenToBeIsosceles() { provenIsosceles = true; } 
     //    public void SetProvenToBeEquilateral() { provenEquilateral = true; }
 
     //    //

@@ -595,10 +595,20 @@ public class Angle extends Figure
         return false;
     }
 
-//    public boolean HasSegment(Segment seg)
-//    {
-//        return _ray1.overlays(seg) || _ray2.overlays(seg);
-//    }
+    
+    /**
+     * This needs to be checked for correctness
+     * @param seg
+     * @return true if the segment is contained in the angle
+     * @author Drew Whitmire
+     */
+    public boolean HasSegment(Segment seg)
+    {
+        // create ray from seg to use overlays() method
+        Ray segment = new Ray(seg.getPoint1(), seg.getPoint2());
+        
+        return _ray1.overlays(segment) || _ray2.overlays(segment);
+    }
 
     // CTA: Be careful with equality; this is object-based equality
     // If we check for angle measure equality that is distinct.
