@@ -25,6 +25,7 @@ package backend.deductiveRules.angles;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -56,6 +57,7 @@ public class StraightAngleDefinition extends Definition
     public StraightAngleDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg) 
     { 
         super(qhg); 
+        annotation.active = RuleFactory.JustificationSwitch.STRAIGHT_ANGLE_DEFINITION;
     }
     
     /* 
@@ -93,7 +95,7 @@ public class StraightAngleDefinition extends Definition
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
      // Acquire all Midpoint clauses from the hypergraph
-        Set<Collinear> straightAngles = _qhg.getCollinear();
+        List<Collinear> straightAngles = _qhg.getCollinear();
                 
         for (Collinear sa : straightAngles)
         {
@@ -118,8 +120,6 @@ public class StraightAngleDefinition extends Definition
      */
     public static HashSet<Deduction> deduceFromStraightAngle(Collinear clause)
     {
-       annotation.active = RuleFactory.JustificationSwitch.STRAIGHT_ANGLE_DEFINITION;
-
        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
         
         if (clause != null)
