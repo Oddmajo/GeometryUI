@@ -2,6 +2,7 @@ package backend.deductiveRules.angles;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -27,6 +28,7 @@ public class CongruentAdjacentAnglesImplyPerpendicular extends Theorem
     public CongruentAdjacentAnglesImplyPerpendicular(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
+        ANNOTATION.active = RuleFactory.JustificationSwitch.CONGRUENT_ADJACENT_ANGLES_IMPLY_PERPENDICULAR;
         // TODO Auto-generated constructor stub
     }
 
@@ -40,19 +42,6 @@ public class CongruentAdjacentAnglesImplyPerpendicular extends Theorem
         return deductions;
     }
 
-    public Set<Deduction> duduceImpliedPerpendiculars()
-    {
-        HashSet<Deduction> deductions = new HashSet<Deduction>();
-        
-        Set<CongruentAngles> ca = _qhg.getCongruentAngles();
-        
-        for(GroundedClause clause : ca)
-        {
-            deductions.addAll(deduceFromCongruentAngles(clause));
-        }
-        
-        return deductions;
-    }
     //
     // Intersection(M, Segment(A,B), Segment(C, D)),
     // Congruent(Angle(C, M, B), Angle(D, M, B)) -> Perpendicular(Segment(A, B), Segment(C, D))
@@ -62,48 +51,31 @@ public class CongruentAdjacentAnglesImplyPerpendicular extends Theorem
     //                              C-----------/-----------D
     //                                         / M
     //                                        /
-    //                                       A
-    public static Set<Deduction> deduceFromCongruentAngles(GroundedClause c)
+    //  
+    public Set<Deduction> duduceImpliedPerpendiculars()
     {
-        ANNOTATION.active = RuleFactory.JustificationSwitch.CONGRUENT_ADJACENT_ANGLES_IMPLY_PERPENDICULAR;
-
-        // The list of new grounded clauses if they are deduced
-        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
-
-        if (c instanceof CongruentAngles)
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
+        
+        Set<CongruentAngles> conAngles = _qhg.getCongruentAngles();
+        List<Intersection> inters = _qhg.getIntersections();
+        
+        for(CongruentAngles ca : conAngles)
         {
-            CongruentAngles conAngles = (CongruentAngles)c;
-
             // We are interested in adjacent angles, not reflexive
-            if (conAngles.isReflexive()) return newGrounded;
+            if (ca.isReflexive()) return deductions;
 
-            // Any candidates congruent angles need to be adjacent to each other.
-            if (conAngles.AreAdjacent() == null) return newGrounded;
-
-            // Find two candidate lines cut by the same transversal
-            for (Intersection inter : candIntersection)
+            // Any congruent angles need to be adjacent to each other.
+            if (ca.AreAdjacent() == null) return deductions;
+            
+            for(Intersection inter : inters)
             {
-                newGrounded.addAll(CheckAndGenerateCongruentAdjacentImplyPerpendicular(inter, conAngles));
+                deductions.addAll(CheckAndGenerateCongruentAdjacentImplyPerpendicular(inter, ca));
             }
-
-            candAngles.Add(conAngles);
-        }
-        else if (c instanceof Intersection)
-        {
-            Intersection newIntersection = (Intersection)c;
-
-            if (!newIntersection.IsStraightAngleIntersection()) return newGrounded;
-
-            for (CongruentAngles cas : candAngles)
-            {
-                newGrounded.addAll(CheckAndGenerateCongruentAdjacentImplyPerpendicular(newIntersection, cas));
-            }
-
-            candIntersection.Add(newIntersection);
         }
 
-        return newGrounded;
+        return deductions;
     }
+    
 
     private static Set<Deduction> CheckAndGenerateCongruentAdjacentImplyPerpendicular(Intersection intersection, CongruentAngles conAngles)
     {
