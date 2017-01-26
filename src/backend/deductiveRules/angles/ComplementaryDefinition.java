@@ -106,7 +106,7 @@ public class ComplementaryDefinition extends Definition
 
         List<RightAngle> rightAngles = _qhg.getRightAngles();      
         List<AngleEquation> angleEquations = _qhg.getAngleEquations();
-        List<Strengthened> strengs = _qhg.getStrengthenedAngleEquations();
+        List<Strengthened> strengs = _qhg.getStrengthenedRightAngles();
 
         for (RightAngle rightAngle : rightAngles)
         {
@@ -116,11 +116,11 @@ public class ComplementaryDefinition extends Definition
             }
         }
 
-        for (RightAngle rightAngle : rightAngles)
+        for (AngleEquation angleEquation : angleEquations)
         {
             for (Strengthened streng : strengs)
             {
-                deductions.addAll(deduceToComplementary((AngleEquation)streng.getStrengthened(), rightAngle, streng));
+                deductions.addAll(deduceToComplementary(angleEquation, (RightAngle)streng.getStrengthened(), streng));
             }
         }
 

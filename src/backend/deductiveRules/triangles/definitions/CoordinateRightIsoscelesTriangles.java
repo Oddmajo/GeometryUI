@@ -14,6 +14,7 @@ import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
+import backend.utilities.exception.ExceptionHandler;
 
 public class CoordinateRightIsoscelesTriangles extends Definition
 {
@@ -94,14 +95,17 @@ public class CoordinateRightIsoscelesTriangles extends Definition
     // shouldn't this return a deductions HashSet so the triangles actually get added to deductions?
     private static void deduceCoordinateRightIsoscelesTriangles(Strengthened right, Strengthened iso)
     {
-        Triangle rightTri = (Triangle) right.getStrengthened();
-        Triangle isoTri = (Triangle) iso.getStrengthened();
-
-        if (!rightTri.structurallyEquals(isoTri)) return;
-
-        rightTri.SetProvenToBeIsosceles();
-        rightTri.SetProvenToBeRight();
-        isoTri.SetProvenToBeRight();
-        isoTri.SetProvenToBeIsosceles();
+        
+        ExceptionHandler.throwException("Unimplemented: Dr. Alvin Needs to look at this");
+        
+//        Triangle rightTri = (Triangle) right.getStrengthened();
+//        Triangle isoTri = (Triangle) iso.getStrengthened();
+//
+//        if (!rightTri.structurallyEquals(isoTri)) return;
+//
+//        rightTri.SetProvenToBeIsosceles();
+//        rightTri.SetProvenToBeRight();
+//        isoTri.SetProvenToBeRight();
+//        isoTri.SetProvenToBeIsosceles();
     }
 }
