@@ -1,4 +1,4 @@
-package backend.deductiveRules.angles;
+package backend.deductiveRules.angles.definitions;
 
 import java.util.HashSet;
 import java.util.List;

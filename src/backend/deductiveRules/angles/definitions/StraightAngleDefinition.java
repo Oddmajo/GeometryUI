@@ -21,7 +21,7 @@
 //
 //details.
 
-package backend.deductiveRules.angles;
+package backend.deductiveRules.angles.definitions;
 
 import java.util.ArrayList;
 import java.util.HashSet;
