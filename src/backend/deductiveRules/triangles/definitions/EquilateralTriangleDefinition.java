@@ -29,7 +29,7 @@ public class EquilateralTriangleDefinition extends Definition
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.EQUILATERAL_TRIANGLE_DEFINITION);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public EquilateralTriangleDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)

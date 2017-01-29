@@ -1,4 +1,4 @@
-package backend.deductiveRules.segments.theorems;
+package backend.deductiveRules.angles.theorems;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class PerpendicularImplyCongruentAdjacentAngles extends Theorem
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.PERPENDICULAR_IMPLY_CONGRUENT_ADJACENT_ANGLES);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
 

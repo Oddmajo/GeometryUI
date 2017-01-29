@@ -22,7 +22,7 @@ public class CoordinateRightIsoscelesTriangles extends Definition
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.RIGHT_TRIANGLE_DEFINITION);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public CoordinateRightIsoscelesTriangles(QueryableHypergraph<GroundedClause, Annotation> qhg)

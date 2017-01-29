@@ -27,7 +27,7 @@ public class SegmentBisectorDefinition extends Definition
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.SEGMENT_BISECTOR_DEFINITION);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public SegmentBisectorDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)

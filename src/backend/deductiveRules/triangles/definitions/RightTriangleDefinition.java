@@ -35,7 +35,7 @@ public class RightTriangleDefinition extends Definition
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.STRAIGHT_ANGLE_DEFINITION);
+    private static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.RIGHT_TRIANGLE_DEFINITION);
     public Annotation getAnnotation() { return ANNOTATION; }
 
     public RightTriangleDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)

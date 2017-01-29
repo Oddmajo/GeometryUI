@@ -26,7 +26,7 @@ public class AdjacentAnglesPerpendicularImplyComplementary extends Theorem
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.ADJACENT_ANGLES_PERPENDICULAR_IMPLY_COMPLEMENTARY);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public AdjacentAnglesPerpendicularImplyComplementary(QueryableHypergraph<GroundedClause, Annotation> qhg)

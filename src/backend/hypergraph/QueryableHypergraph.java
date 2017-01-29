@@ -8,6 +8,7 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
+import backend.ast.Descriptors.AnglePairRelation;
 import backend.ast.Descriptors.Collinear;
 import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.InMiddle;

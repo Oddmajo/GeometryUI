@@ -1,8 +1,12 @@
 package backend.deductiveRules.segments.theorems;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.InMiddle;
+import backend.ast.Descriptors.Median;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Theorem;
@@ -16,7 +20,7 @@ public class ParallelSegmentsTransitivity extends Theorem
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.PARALLEL_SEGMENTS_TRANSITIVITY);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public ParallelSegmentsTransitivity(QueryableHypergraph<GroundedClause, Annotation> qhg)
@@ -28,13 +32,34 @@ public class ParallelSegmentsTransitivity extends Theorem
     @Override
     public Set<Deduction> deduce()
     {
-        // TODO Auto-generated method stub
-        return null;
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
+
+        deductions.addAll(deduceParallelSegmentsTransitivity());
+
+        return deductions;
     }
     
+    //
     // Parallel(Segment(A, B), Segment(C, D))  && Parallel(Segment(A, B), Segment(E, F) -> 
     //                                              Parallel(Segment(C, D), Segment(E, F)
     //                                               
+    public Set<Deduction> deduceParallelSegmentsTransitivity()
+    {
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
+
+//        List<InMiddle> inMiddles = _qhg.getInMiddles();      
+//        List<Median> medians = _qhg.getMedians();
+//
+//        for (Median median : medians)
+//        {
+//            for (InMiddle inMiddle : inMiddles)
+//            {
+//                deductions.addAll(deduceParallelSegmentsTransitivity(inMiddle, median));
+//            }
+//        }
+
+        return deductions;
+    }
     
     public static List<KeyValuePair<List<GroundedClause>, GroundedClause>> Instantiate(GroundedClause c)
     {
