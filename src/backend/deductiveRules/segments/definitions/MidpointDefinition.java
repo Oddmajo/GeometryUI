@@ -2,6 +2,7 @@ package backend.deductiveRules.segments.definitions;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -17,7 +18,6 @@ import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
 import backend.utilities.ast_helper.Utilities;
-import backend.utilities.exception.ExceptionHandler;
 
 public class MidpointDefinition extends Definition
 {
@@ -32,24 +32,13 @@ public class MidpointDefinition extends Definition
     public MidpointDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-    }
-    
-    public static void Clear()
-    {
-        candidateCongruent.clear();
-        candidateSegments.clear();
-        candidateInMiddle.clear();
-        candidateMidpoint.clear();
-        candidateStrengthened.clear();
-    }
+    } 
 
-    private static ArrayList<Segment> candidateSegments = new ArrayList<Segment>();
-    private static ArrayList<CongruentSegments> candidateCongruent = new ArrayList<CongruentSegments>();
-    private static ArrayList<InMiddle> candidateInMiddle = new ArrayList<InMiddle>();
-    private static ArrayList<Strengthened> candidateStrengthened = new ArrayList<Strengthened>();
-    private static ArrayList<Midpoint> candidateMidpoint = new ArrayList<Midpoint>();
-
-    
+    //
+    // This implements forward and Backward instantiation
+    // Forward is Midpoint -> Congruent Clause
+    // Backward is Congruent -> Midpoint Clause
+    //
     @Override
     public Set<Deduction> deduce()
     {
@@ -60,88 +49,50 @@ public class MidpointDefinition extends Definition
         
         return deductions;
     }
-    private Set<Deduction> deduceMidpoints()
+    
+    
+    //
+    // Midpoint(M, Segment(A, B)) -> InMiddle(A, M, B)
+    // Midpoint(M, Segment(A, B)) -> Congruent(Segment(A,M), Segment(M,B)); This implies: AM = MB
+    //
+    public Set<Deduction> deduceMidpoints()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         // Acquire all Midpoint clauses from the hypergraph
         Set<Midpoint> midpoints = _qhg.getMidpoints();
-                
-        for (GroundedClause clause : midpoints)
+        Set<Strengthened> strengs = _qhg.getStrengthenedMidpoints();
+        List<InMiddle> inMiddles = _qhg.getInMiddles();
+        List<CongruentSegments> conSegs= _qhg.getCongruentSegments();
+        
+        for (InMiddle im : inMiddles)
         {
-            ArrayList<Deduction> returned = new ArrayList<Deduction>();
-
-            if (clause instanceof Midpoint || clause instanceof Strengthened || clause instanceof InMiddle)
-            {
-                returned.addAll(deduceFromMidpoint(clause));
-            }
-
-            if (clause instanceof CongruentSegments || (clause instanceof InMiddle && !(clause instanceof Midpoint)))
-            {
-                returned.addAll(deduceToMidpoint(clause));
-            }
-
-            if (returned.size() != 2)
-            {
-                // LoggerFactory.getLogger(LoggerFactory.HYPERGRAPH_EDGE_CONSTRUCTION).writeln(NAME + ": Expect 2 deduced clauses.");
-                ExceptionHandler.throwException(NAME + ": Expect 2 deduced clauses.");
-            }
+            //c# always checks if it is an InMiddle && not Midpoint - not sure how qhg decides what are InMiddles
+            if(im instanceof Midpoint) continue;
             
-           deductions.addAll(returned);
+            for (Midpoint midpt : midpoints)
+            {
+                deductions.addAll(deduceFromMidpoint(im, midpt, midpt));
+            }
+
+            for (Strengthened streng : strengs)
+            {
+                deductions.addAll(deduceFromMidpoint(im, (Midpoint)streng.getStrengthened(), streng));
+            }
+
+            for (CongruentSegments css : conSegs)
+            {                
+                deductions.addAll(deduceToMidpoint(im, css));
+            }
         }
         
         return deductions;
     }
 
-    private Set<Deduction> deduceFromMidpoint(GroundedClause clause)
-    {
-        HashSet<Deduction> deductions = new HashSet<Deduction>();
+    
 
-        if (clause instanceof InMiddle && !(clause instanceof Midpoint))
-        {
-            InMiddle inMid = (InMiddle)clause;
 
-            for (Midpoint midpt : candidateMidpoint)
-            {
-                deductions.addAll(deduceFromMidpoint(inMid, midpt, midpt));
-            }
-
-            for (Strengthened streng : candidateStrengthened)
-            {
-                deductions.addAll(deduceFromMidpoint(inMid, (Midpoint)streng.getStrengthened(), streng));
-            }
-
-            candidateInMiddle.add(inMid);
-        }
-        else if (clause instanceof Midpoint)
-        {
-            Midpoint midpt = (Midpoint)clause;
-
-            for (InMiddle im : candidateInMiddle)
-            {
-                deductions.addAll(deduceFromMidpoint(im, midpt, midpt));
-            }
-
-            candidateMidpoint.add(midpt);
-        }
-        else if (clause instanceof Strengthened)
-        {
-            Strengthened streng = (Strengthened)clause;
-
-            if (!(streng.getStrengthened() instanceof Midpoint)) return deductions;
-
-            for (InMiddle im : candidateInMiddle)
-            {
-                deductions.addAll(deduceFromMidpoint(im, (Midpoint)streng.getStrengthened(), streng));
-            }
-
-            candidateStrengthened.add(streng);
-        }
-
-        return deductions;
-    }
-
-    private static Set<Deduction> deduceFromMidpoint(InMiddle im, Midpoint midpt, GroundedClause original)
+    public static Set<Deduction> deduceFromMidpoint(InMiddle im, Midpoint midpt, GroundedClause original)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
@@ -167,51 +118,21 @@ public class MidpointDefinition extends Definition
     }
     
 
-    private static Set<Deduction> deduceToMidpoint(GroundedClause clause)
-    {
-        HashSet<Deduction> deductions = new HashSet<Deduction>();
-
-        if (clause instanceof InMiddle && !(clause instanceof Midpoint))
-        {
-            InMiddle inMid = (InMiddle)clause;
-
-            for (CongruentSegments css : candidateCongruent)
-            {
-                deductions.addAll(deduceToMidpoint(inMid, css));
-            }
-
-            // No need to add this InMiddle object to the list since it was added previously in deduceFrom
-        }
-        else if (clause instanceof CongruentSegments)
-        {
-            CongruentSegments css = (CongruentSegments)clause;
-
-            // A reflexive relationship cannot possibly create a midpoint situation
-            if (css.isReflexive()) return deductions;
-
-            // The congruence must relate two collinear segments...
-            if (!css.getcs1().isCollinearWith(css.getcs2())) return deductions;
-
-            // ...that share a vertex
-            if (css.getcs1().sharedVertex(css.getcs2()) == null) return deductions;
-
-            for (InMiddle im : candidateInMiddle)
-            {
-                deductions.addAll(deduceToMidpoint(im, css));
-            }
-
-            candidateCongruent.add(css);
-        }
-
-        return deductions;
-    }
-
     //
     // Congruent(Segment(A, M), Segment(M, B)) -> Midpoint(M, Segment(A, B))
     //
-    private static Set<Deduction> deduceToMidpoint(InMiddle im, CongruentSegments css)
+    public static Set<Deduction> deduceToMidpoint(InMiddle im, CongruentSegments css)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
+        
+        // A reflexive relationship cannot possibly create a midpoint situation
+        if (css.isReflexive()) return deductions;
+
+        // The congruence must relate two collinear segments...
+        if (!css.getcs1().isCollinearWith(css.getcs2())) return deductions;
+
+        // ...that share a vertex
+        if (css.getcs1().sharedVertex(css.getcs2()) == null) return deductions;
 
         Point midpoint = css.getcs1().sharedVertex(css.getcs2());
 
