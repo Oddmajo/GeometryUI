@@ -7,6 +7,7 @@ import org.junit.Test;
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.lexicographicPoints.LexicographicPoints;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.utilities.logger.LoggerFactory;
 import backendTest.astTest.figure.EquationSegment;
 
 public class ComplexTriangleGeneratorTest
@@ -146,13 +147,13 @@ public class ComplexTriangleGeneratorTest
         System.out.print("Running buildPlanarGraphTest...");
         
         // create three points for the triangle
-        Point point1 = new Point("p1", 1, 1);
-        Point point2 = new Point("p2", 7, 8);
-        Point point3 = new Point("p3", 14, 1);
+        Point p1 = new Point("p1", 1, 1);
+        Point p2 = new Point("p2", 123, 538);
+        Point p3 = new Point("p3", 333, 120);
         
         // create the triangle generator
-        int n = 3;
-        ComplexTriangleGenerator triGen = new ComplexTriangleGenerator(point1, point2, point3, n);
+        int n = 150;
+        ComplexTriangleGenerator triGen = new ComplexTriangleGenerator(p1, p2, p3, n);
         
         // get the graph
         PlanarGraph graph = triGen.getGraph();

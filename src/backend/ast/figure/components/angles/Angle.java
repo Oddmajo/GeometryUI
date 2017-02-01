@@ -19,6 +19,7 @@ import backend.ast.figure.components.Ray;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.ast.figure.delegates.AngleDelegate;
+import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 
@@ -98,7 +99,7 @@ public class Angle extends Figure
 
         if (measure <= 0)
         {
-            ExceptionHandler.throwException(new IllegalArgumentException("Measure of " + this.toString() + " is ZERO"));
+            ExceptionHandler.throwException(new ArgumentException("Measure of " + this.toString() + " is ZERO"));
         }
     }
     /**

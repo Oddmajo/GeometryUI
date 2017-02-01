@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;

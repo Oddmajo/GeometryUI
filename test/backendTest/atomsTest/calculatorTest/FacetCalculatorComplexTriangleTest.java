@@ -1,10 +1,13 @@
 package backendTest.atomsTest.calculatorTest;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import backend.ast.figure.components.Point;
 import backend.atoms.calculator.FacetCalculator;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
+import backend.utilities.logger.LoggerFactory;
 
 public class FacetCalculatorComplexTriangleTest
 {
@@ -93,12 +96,13 @@ public class FacetCalculatorComplexTriangleTest
         System.out.println("Done\n");
     }
 
-    @Test public void facetCalculator_LargeComplexTriangle_75Points_Test()
+    @Test public void facetCalculator_LargeComplexTriangle_75Points_Test() throws IOException
     {
+        LoggerFactory.initialize();
         System.out.println("Running facetCalculator_LargeComplexTriangle_75Points_Test...");
         
         // variable declarations/instantiations
-        int n = 75;
+        int n = 20;
         Point p1 = new Point("p1", 1, 1);
         Point p2 = new Point("p2", 123, 538);
         Point p3 = new Point("p3", 333, 120);
@@ -116,6 +120,7 @@ public class FacetCalculatorComplexTriangleTest
         // assert the number of facets identified is correct
         assert(calc.GetPrimitives().size() == ((n+1)*(n+1)) );
         System.out.println("Done\n");
+        LoggerFactory.close();
     }
     
     @Test public void facetCalculator_LargeComplexTriangle_125Points_Test()
