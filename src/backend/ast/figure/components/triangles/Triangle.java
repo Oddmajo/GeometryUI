@@ -10,6 +10,8 @@ import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.math.MathUtilities;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
 import backend.ast.figure.components.Segment;
@@ -542,15 +544,15 @@ public class Triangle extends Polygon
         return null;
     }
 
-    //
-    // Acquire the particular angle which belongs to this triangle (of a congruence)
-    //
-    //    public Angle _angleBelongs(CongruentAngles ccas)
-    //    {
-    //        if (HasAngle(ccas.ca1)) return ccas.ca1;
-    //        if (HasAngle(ccas.ca2)) return ccas.ca2;
-    //        return null;
-    //    }
+    
+//     Acquire the particular angle which belongs to this triangle (of a congruence)
+    
+        public Angle _angleBelongs(CongruentAngles ccas)
+        {
+            if (HasAngle(ccas.GetFirstAngle())) return ccas.GetFirstAngle();
+            if (HasAngle(ccas.GetSecondAngle())) return ccas.GetSecondAngle();
+            return null;
+        }
 
     //
     // Acquire the particular angle which belongs to this triangle (of a congruence)
@@ -573,14 +575,14 @@ public class Triangle extends Polygon
         return s1.sharedVertex(s2).equals(a.getVertex());
     }
 
-    // Of the congruent pair, return the segment that applies to this triangle
-    //    public Segment GetSegment(CongruentSegments ccss)
-    //    {
-    //        if (HasSegment(ccss.cs1)) return ccss.cs1;
-    //        if (HasSegment(ccss.cs2)) return ccss.cs2;
-    //
-    //        return null;
-    //    }
+//     Of the congruent pair, return the segment that applies to this triangle
+        public Segment GetSegment(CongruentSegments ccss)
+        {
+            if (HasSegment(ccss.GetFirstSegment())) return ccss.GetFirstSegment();
+            if (HasSegment(ccss.GetSecondSegment())) return ccss.GetSecondSegment();
+    
+            return null;
+        }
 
     // Of the propportional pair, return the segment that applies to this triangle
     //    public Segment GetSegment(SegmentRatio prop)

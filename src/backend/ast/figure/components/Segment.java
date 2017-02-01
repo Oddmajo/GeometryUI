@@ -5,6 +5,7 @@ import java.util.List;
 
 import backend.ast.figure.DimensionalLength;
 import backend.ast.figure.Figure;
+import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.delegates.LineDelegate;
 import backend.ast.figure.delegates.MidpointDelegate;
@@ -529,10 +530,10 @@ public class Segment extends DimensionalLength
     //    //
     //    // Do these angles share this segment overlay this angle?
     //    //
-    //    public boolean isIncludedSegment(Angle ang1, Angle ang2)
-    //    {
-    //        return this.equals(ang1.SharedRay(ang2));
-    //    }
+        public boolean isIncludedSegment(Angle ang1, Angle ang2)
+        {
+            return this.equals(ang1.sharedRay(ang2));
+        }
     //
     //    //
     //    //     PointA
