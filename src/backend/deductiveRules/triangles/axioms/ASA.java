@@ -1,4 +1,4 @@
-package backend.deductiveRules.triangles.definitions.axioms;
+package backend.deductiveRules.triangles.axioms;
 
 import java.util.ArrayList;
 import java.util.HashSet;
