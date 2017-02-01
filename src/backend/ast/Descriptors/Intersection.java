@@ -1491,11 +1491,4 @@ public class Intersection extends Descriptor
     {
     	return intersect.toPrettyString() + " is the intersection of " + lhs.toPrettyString() + " and " + rhs.toPrettyString() + ".";
     }
-    
-    public void setPerpendicular(boolean b)
-    {
-        perpendicular = b;
-        
-    }
-    
 }

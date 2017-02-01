@@ -214,6 +214,7 @@ public class PerpendicularParallelTransversal extends Theorem
         return deductions;
     }
 
+    // original C# code for reference
     //    public static Set<Deduction> Instantiate(Parallel parallel, Intersection intersection)
     //    {
     //
