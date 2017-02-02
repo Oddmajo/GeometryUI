@@ -88,8 +88,8 @@ public class PerpendicularDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Perpendicular> perpendiculars = _qhg.getPerpendicular();
-        List<Strengthened> streng = _qhg.getStrengthenedPerpendicular();
+        Set<Perpendicular> perpendiculars = _qhg.getPerpendicular();
+        Set<Strengthened> streng = _qhg.getStrengthenedPerpendicular();
 
         for (Perpendicular p : perpendiculars)
         {
@@ -190,9 +190,9 @@ public class PerpendicularDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Intersection> intersects = _qhg.getIntersections();      
-        List<RightAngle> rightAngles = _qhg.getRightAngles();
-        List<Strengthened> strengs = _qhg.getStrengthenedRightAngles();
+        Set<Intersection> intersects = _qhg.getIntersections();      
+        Set<RightAngle> rightAngles = _qhg.getRightAngles();
+        Set<Strengthened> strengs = _qhg.getStrengthenedRightAngles();
         
         for (Intersection intersect : intersects)
         {

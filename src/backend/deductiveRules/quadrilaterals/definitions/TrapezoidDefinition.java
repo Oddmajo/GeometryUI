@@ -58,8 +58,8 @@ public class TrapezoidDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Trapezoid> trapezoids = _qhg.getTrapezoids();
-        List<Strengthened> strengs = _qhg.getStrengthenedTrapezoids();
+        Set<Trapezoid> trapezoids = _qhg.getTrapezoids();
+        Set<Strengthened> strengs = _qhg.getStrengthenedTrapezoids();
 
         for (Trapezoid trapezoid : trapezoids)
         {
@@ -102,8 +102,8 @@ public class TrapezoidDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
-        List<Parallel> parallels = _qhg.getParallels();
+        Set<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
+        Set<Parallel> parallels = _qhg.getParallels();
         
         for (Quadrilateral quadrilateral : quadrilaterals)
         {

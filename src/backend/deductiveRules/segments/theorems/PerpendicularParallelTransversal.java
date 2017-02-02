@@ -51,15 +51,15 @@ public class PerpendicularParallelTransversal extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Parallel> parallels = _qhg.getParallels();      
-        List<Intersection> intersections = _qhg.getIntersections();
+        Set<Parallel> parallels = _qhg.getParallels();      
+        Set<Intersection> intersections = _qhg.getIntersections();
 
         deductions.addAll(deducePerpendicularParallelTransversal(parallels, intersections));
 
         return deductions;
     }
 
-    public Set<Deduction> deducePerpendicularParallelTransversal(List<Parallel> perpendiculars, List<Intersection> intersections)
+    public Set<Deduction> deducePerpendicularParallelTransversal(Set<Parallel> parallels, Set<Intersection> intersections)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
@@ -123,7 +123,7 @@ public class PerpendicularParallelTransversal extends Theorem
         //
         // for each parallel
         //
-        for (Parallel perpendicular : perpendiculars)
+        for (Parallel perpendicular : parallels)
         {
             //
             //Iterate through all segments intersected by each key segment

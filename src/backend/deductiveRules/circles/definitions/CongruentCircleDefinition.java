@@ -52,7 +52,7 @@ public class CongruentCircleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<CongruentCircles> congruentCircles = _qhg.getCongruentCircles();
+        Set<CongruentCircles> congruentCircles = _qhg.getCongruentCircles();
 
         for (CongruentCircles congruentCircle : congruentCircles)
         {
@@ -66,8 +66,8 @@ public class CongruentCircleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Segment> radiiOne = _qhg.getRadii(congruentCircle.getCircle1());
-        List<Segment> radiiTwo = _qhg.getRadii(congruentCircle.getCircle2());
+        Set<Segment> radiiOne = _qhg.getRadii(congruentCircle.getCircle1());
+        Set<Segment> radiiTwo = _qhg.getRadii(congruentCircle.getCircle2());
         
         for (Segment radiusOne : radiiOne)
         {
@@ -88,16 +88,21 @@ public class CongruentCircleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Circle> circles = _qhg.getCircles();
-        List<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
+        Set<Circle> circleSet = _qhg.getCircles();
+        Set<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
+        
+        // create list for circles
+        Object[] circleList = circleSet.toArray();
 
-        for (int r1 = 0; r1 < circles.size() - 1; r1++)
+        for (int r1 = 0; r1 < circleList.length - 1; r1++)
         {
-            for (int r2 = r1 + 1; r2 < circles.size(); r2++)
+            for (int r2 = r1 + 1; r2 < circleList.length; r2++)
             {
                 for (CongruentSegments congruentSegment : congruentSegments)
                 {
-                    deductions.addAll(deduceToDefinition(circles.get(r1), circles.get(r2), congruentSegment));
+                    Circle c1 = (Circle) circleList[r1];
+                    Circle c2 = (Circle) circleList[r2];
+                    deductions.addAll(deduceToDefinition(c1, c2, congruentSegment));
                 }
             }
         }

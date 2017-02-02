@@ -61,16 +61,19 @@ public class AdjacentAnglesPerpendicularImplyComplementary extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Perpendicular> perpendiculars = _qhg.getPerpendicular();      
-        List<Angle> angles = _qhg.getAngles();
+        Set<Perpendicular> perpendiculars = _qhg.getPerpendicular();      
+        Set<Angle> angleSet = _qhg.getAngles();
+        
+        // convert angleSet into a list
+        Object[] angleList = angleSet.toArray();
 
         for (Perpendicular p : perpendiculars)
         {
-            for (int i = 0; i < angles.size() - 1; i++)
+            for (int i = 0; i < angleList.length - 1; i++)
             {
-                for (int j = i + 1; j < angles.size(); j++)
+                for (int j = i + 1; j < angleList.length; j++)
                 {
-                    deductions.addAll(CheckAndGeneratePerpendicularImplyCongruentAdjacent(p, angles.get(i), angles.get(j)));
+                    deductions.addAll(CheckAndGeneratePerpendicularImplyCongruentAdjacent(p, angleList[i], angleList[j]));
                 }
             }
         }
@@ -78,9 +81,13 @@ public class AdjacentAnglesPerpendicularImplyComplementary extends Theorem
         return deductions;
     }
 
-    private static Set<Deduction> CheckAndGeneratePerpendicularImplyCongruentAdjacent(Perpendicular perp, Angle angle1, Angle angle2)
+    private static Set<Deduction> CheckAndGeneratePerpendicularImplyCongruentAdjacent(Perpendicular perp, Object a1, Object a2)
     {
         Set<Deduction> deductions = new HashSet<Deduction>();
+        
+        // convert a1 and a2 to Angles objects
+        Angle angle1 = (Angle) a1;
+        Angle angle2 = (Angle) a2;
 
         if (!Utilities.CompareValues(angle1.getMeasure() + angle2.getMeasure(), 90)) return deductions;
 

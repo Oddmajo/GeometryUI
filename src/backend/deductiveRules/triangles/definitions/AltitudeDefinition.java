@@ -62,8 +62,8 @@ public class AltitudeDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Intersection> intersections = _qhg.getIntersections();
-        List<Altitude> altitudes = _qhg.getAltitudes();
+        Set<Intersection> intersections = _qhg.getIntersections();
+        Set<Altitude> altitudes = _qhg.getAltitudes();
 
         for (Altitude altitude : altitudes) // Fewer altitudes in a diagram than intersections (run altitudes first)
         {
@@ -122,9 +122,9 @@ public class AltitudeDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();
-        List<Perpendicular> perpendiculars = _qhg.getPerpendicular();
-        List<Strengthened> strengs = _qhg.getStrengthenedPerpendicular();
+        Set<Triangle> triangles = _qhg.getTriangles();
+        Set<Perpendicular> perpendiculars = _qhg.getPerpendicular();
+        Set<Strengthened> strengs = _qhg.getStrengthenedPerpendicular();
 
 
         for (Perpendicular perpendicular : perpendiculars)

@@ -58,8 +58,8 @@ public class RectangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Rectangle> rectangles = _qhg.getRectangles();
-        List<Strengthened> strengs = _qhg.getStrengthenedRectangles();
+        Set<Rectangle> rectangles = _qhg.getRectangles();
+        Set<Strengthened> strengs = _qhg.getStrengthenedRectangles();
 
         for (Rectangle rectangle : rectangles)
         {
@@ -108,10 +108,10 @@ public class RectangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Parallelogram> parallelograms = _qhg.getParallelograms();
-        List<Strengthened> parallelStrengs = _qhg.getStrengthenedParallelograms();
-        List<RightAngle> rightAngles = _qhg.getRightAngles();
-        List<Strengthened> rightStrengs = _qhg.getStrengthenedRightAngles();
+        Set<Parallelogram> parallelograms = _qhg.getParallelograms();
+        Set<Strengthened> parallelStrengs = _qhg.getStrengthenedParallelograms();
+        Set<RightAngle> rightAngles = _qhg.getRightAngles();
+        Set<Strengthened> rightStrengs = _qhg.getStrengthenedRightAngles();
         
         for (Parallelogram parallelogram : parallelograms)
         {

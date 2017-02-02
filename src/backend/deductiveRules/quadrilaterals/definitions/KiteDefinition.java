@@ -56,8 +56,8 @@ public class KiteDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Kite> kites = _qhg.getKites();
-        List<Strengthened> strengs = _qhg.getStrengthenedKites();
+        Set<Kite> kites = _qhg.getKites();
+        Set<Strengthened> strengs = _qhg.getStrengthenedKites();
 
         for (Kite kite : kites)
         {
@@ -102,18 +102,23 @@ public class KiteDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();      
-        List<CongruentSegments> cgs = _qhg.getCongruentSegments();
+        Set<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();      
+        Set<CongruentSegments> cgsSet = _qhg.getCongruentSegments();
+        
+        // convert cgsSet to list
+        Object[] cgsList = cgsSet.toArray();
 
         for (Quadrilateral quadrilateral : quadrilaterals)
         {
             if (quadrilateral.IsStrictQuadrilateral())
             {
-                for (int i = 0; i < cgs.size() - 1; i++)
+                for (int i = 0; i < cgsList.length - 1; i++)
                 {
-                    for (int j = i + 1; j < cgs.size(); j++)
+                    for (int j = i + 1; j < cgsList.length; j++)
                     {
-                        deductions.addAll(deduceToKite(quadrilateral, cgs.get(i), cgs.get(j)));
+                        CongruentSegments cgs1 = (CongruentSegments) cgsList[i];
+                        CongruentSegments cgs2 = (CongruentSegments) cgsList[j];
+                        deductions.addAll(deduceToKite(quadrilateral, cgs1, cgs2));
                     }   
                 }
             }

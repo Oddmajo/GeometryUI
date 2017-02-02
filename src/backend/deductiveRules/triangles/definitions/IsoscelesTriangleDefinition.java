@@ -123,9 +123,9 @@ public class IsoscelesTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();      
-        List<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
-        List<Strengthened> strengs = _qhg.getStrengthenedIsoscelesTriangles();
+        Set<Triangle> triangles = _qhg.getTriangles();      
+        Set<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
+        Set<Strengthened> strengs = _qhg.getStrengthenedIsoscelesTriangles();
 
         for (CongruentSegments cs : congruentSegments)
         {
@@ -185,8 +185,8 @@ public class IsoscelesTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        List<IsoscelesTriangle> isoTriangles = _qhg.getIsoscelesTriangles();  
-        List<Strengthened> strengIsoTriangles = _qhg.getStrengthenedIsoscelesTriangles(); 
+        Set<IsoscelesTriangle> isoTriangles = _qhg.getIsoscelesTriangles();  
+        Set<Strengthened> strengIsoTriangles = _qhg.getStrengthenedIsoscelesTriangles(); 
 
         for (IsoscelesTriangle isoTri : isoTriangles)
         {

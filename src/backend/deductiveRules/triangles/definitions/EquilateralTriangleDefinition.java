@@ -74,14 +74,14 @@ public class EquilateralTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<EquilateralTriangle> eqTriangles = _qhg.getEquilateralTriangles();      
-        List<Strengthened> streng = _qhg.getStrengthenedEquilateralTriangles();
+        Set<EquilateralTriangle> eqTriangles = _qhg.getEquilateralTriangles();      
+        Set<Strengthened> streng = _qhg.getStrengthenedEquilateralTriangles();
 
         for (EquilateralTriangle eqTriangle : eqTriangles)
         {
             deductions.addAll(deduceFromEquilateralTriangle(eqTriangle, eqTriangle));
         }
-        
+
         for (Strengthened str : streng)
         {
             deductions.addAll(deduceFromEquilateralTriangle((EquilateralTriangle) str.getStrengthened(), str));
@@ -93,7 +93,7 @@ public class EquilateralTriangleDefinition extends Definition
     private static HashSet<Deduction> deduceFromEquilateralTriangle(EquilateralTriangle tri, GroundedClause original)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
-        
+
         // Hypergraph
         List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(original);
@@ -130,7 +130,7 @@ public class EquilateralTriangleDefinition extends Definition
 
         return deductions;
     }
-    
+
     /**
      * Deduce TO Equilateral Triangle
      * @return
@@ -139,16 +139,19 @@ public class EquilateralTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();      
-        List<CongruentSegments> segments = _qhg.getCongruentSegments();
+        Set<Triangle> triangles = _qhg.getTriangles();      
+        Set<CongruentSegments> segmentSet = _qhg.getCongruentSegments();
+
+        // convert segmentSet into a list
+        Object[] segmentList = segmentSet.toArray();
 
         for (Triangle triangle : triangles)
         {
-            for (int s1 = 0; s1 < segments.size() - 1; s1++)
+            for (int s1 = 0; s1 < segmentList.length - 1; s1++)
             {
-                for (int s2 = s1 + 1; s2 < segments.size(); s2++)
+                for (int s2 = s1 + 1; s2 < segmentList.length; s2++)
                 {
-                    deductions.addAll(deduceToEquilateralTriangle(triangle, segments.get(s1), segments.get(s2)));
+                    deductions.addAll(deduceToEquilateralTriangle(triangle, segmentList[s1], segmentList[s2]));
                 }
             }
         }
@@ -156,9 +159,13 @@ public class EquilateralTriangleDefinition extends Definition
         return deductions;
     }
 
-    private static HashSet<Deduction> deduceToEquilateralTriangle(Triangle tri, CongruentSegments cs1, CongruentSegments cs2)
+    private static HashSet<Deduction> deduceToEquilateralTriangle(Triangle tri, Object congruentseg1, Object congruentseg2)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
+        
+        // conversions
+        CongruentSegments cs1 = (CongruentSegments)congruentseg1;
+        CongruentSegments cs2 = (CongruentSegments)congruentseg2;
 
         // Do these congruences relate one common segment?
         Segment shared = cs1.SharedSegment(cs2);

@@ -40,7 +40,7 @@ public class VerticalAnglesTheorem extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
         // Acquire all Midpoint clauses from the hypergraph
-        List<Intersection> intersections = _qhg.getIntersections();
+        Set<Intersection> intersections = _qhg.getIntersections();
 
         for (Intersection intersection : intersections)
         {

@@ -56,8 +56,8 @@ public class RhombusDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Rhombus> rhombuses = _qhg.getRhombuses();
-        List<Strengthened> strengs = _qhg.getStrengthenedRhombuses();
+        Set<Rhombus> rhombuses = _qhg.getRhombuses();
+        Set<Strengthened> strengs = _qhg.getStrengthenedRhombuses();
 
         for (Rhombus rhombus : rhombuses)
         {
@@ -101,21 +101,26 @@ public class RhombusDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
-        List<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
+        Set<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
+        Set<CongruentSegments> congruentSegmentSet = _qhg.getCongruentSegments();
+        
+        // convert congruentSegmentSet to list
+        Object[] congruentSegmentList = congruentSegmentSet.toArray();
 
         for (Quadrilateral quadrilateral : quadrilaterals)
         {
             if (quadrilateral.IsStrictQuadrilateral())
             {
-                for (int i = 0; i < congruentSegments.size() - 2; i++)
+                for (int i = 0; i < congruentSegmentList.length - 2; i++)
                 {
-                    for (int j = i + 1; j < congruentSegments.size() - 1; j++)
+                    for (int j = i + 1; j < congruentSegmentList.length - 1; j++)
                     {
-                        for (int k = j + 1; k < congruentSegments.size(); k++)
+                        for (int k = j + 1; k < congruentSegmentList.length; k++)
                         {
-                            deductions.addAll(deduceToRhombus(quadrilateral, congruentSegments.get(i),
-                                                              congruentSegments.get(j), congruentSegments.get(k)));
+                            CongruentSegments cs1 = (CongruentSegments) congruentSegmentList[i];
+                            CongruentSegments cs2 = (CongruentSegments) congruentSegmentList[j];
+                            CongruentSegments cs3 = (CongruentSegments) congruentSegmentList[k];
+                            deductions.addAll(deduceToRhombus(quadrilateral, cs1, cs2, cs3));
                         }
                     }
                 }

@@ -44,8 +44,8 @@ public class PerpendicularBisectorDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        List<PerpendicularBisector> perpBisectors = _qhg.getPerpendicularBisectors();      
-        List<Strengthened> strengs = _qhg.getStrengthenedPerpendicularBisectors();
+        Set<PerpendicularBisector> perpBisectors = _qhg.getPerpendicularBisectors();      
+        Set<Strengthened> strengs = _qhg.getStrengthenedPerpendicularBisectors();
         
         for (PerpendicularBisector perpBisector : perpBisectors)
         {

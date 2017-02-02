@@ -82,8 +82,8 @@ public class RightTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<RightTriangle> rt = _qhg.getRightTriangles();   
-        List<Strengthened> str = _qhg.getStrengthenedRightTriangle();
+        Set<RightTriangle> rt = _qhg.getRightTriangles();   
+        Set<Strengthened> str = _qhg.getStrengthenedRightTriangle();
 
         for (RightTriangle rightTriangle : rt)
         {
@@ -131,8 +131,8 @@ public class RightTriangleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();
-        List<RightAngle> rightAngles = _qhg.getRightAngles();
+        Set<Triangle> triangles = _qhg.getTriangles();
+        Set<RightAngle> rightAngles = _qhg.getRightAngles();
 
         for (RightAngle rightAngle : rightAngles)
         {

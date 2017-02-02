@@ -50,8 +50,8 @@ public class MedianDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<InMiddle> inMiddles = _qhg.getInMiddles();      
-        List<Median> medians = _qhg.getMedians();
+        Set<InMiddle> inMiddles = _qhg.getInMiddles();      
+        Set<Median> medians = _qhg.getMedians();
 
         for (Median median : medians)
         {
@@ -116,9 +116,9 @@ public class MedianDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();      
-        List<SegmentBisector> segmentBisectors = _qhg.getSegmentBisectors();
-        List<Strengthened> strengs = _qhg.getStrengthenedSegmentBisectors();
+        Set<Triangle> triangles = _qhg.getTriangles();      
+        Set<SegmentBisector> segmentBisectors = _qhg.getSegmentBisectors();
+        Set<Strengthened> strengs = _qhg.getStrengthenedSegmentBisectors();
         
         for (SegmentBisector segmentBisector : segmentBisectors)
         {

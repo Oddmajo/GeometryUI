@@ -59,8 +59,8 @@ public class AcuteAnglesInRightTriangleComplementary extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<RightTriangle> rightTriangles = _qhg.getRightTriangles();
-        List<Strengthened> strengs = _qhg.getStrengthenedRightTriangles();
+        Set<RightTriangle> rightTriangles = _qhg.getRightTriangles();
+        Set<Strengthened> strengs = _qhg.getStrengthenedRightTriangles();
 
         for (RightTriangle rt : rightTriangles)
         {

@@ -74,9 +74,9 @@ public class SegmentBisectorDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<InMiddle> middles = _qhg.getInMiddles();
-        List<SegmentBisector> segmentBisectors = _qhg.getSegmentBisectors();
-        List<Strengthened> strengs = _qhg.getStrengthenedSegmentBisectors();
+        Set<InMiddle> middles = _qhg.getInMiddles();
+        Set<SegmentBisector> segmentBisectors = _qhg.getSegmentBisectors();
+        Set<Strengthened> strengs = _qhg.getStrengthenedSegmentBisectors();
 
         for (SegmentBisector segmentBisector : segmentBisectors)
         {
@@ -131,8 +131,8 @@ public class SegmentBisectorDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();      
-        List<Intersection> intersections = _qhg.getIntersections();
+        Set<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();      
+        Set<Intersection> intersections = _qhg.getIntersections();
 
         for (CongruentSegments cs : congruentSegments)
         {

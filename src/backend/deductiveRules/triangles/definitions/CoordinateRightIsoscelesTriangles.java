@@ -78,8 +78,8 @@ public class CoordinateRightIsoscelesTriangles extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Strengthened> strengRight = _qhg.getStrengthenedRightTriangles();
-        List<Strengthened> strengIso = _qhg.getStrengthenedIsoscelesTriangles();
+        Set<Strengthened> strengRight = _qhg.getStrengthenedRightTriangles();
+        Set<Strengthened> strengIso = _qhg.getStrengthenedIsoscelesTriangles();
 
         for (Strengthened strRight : strengRight)
         {

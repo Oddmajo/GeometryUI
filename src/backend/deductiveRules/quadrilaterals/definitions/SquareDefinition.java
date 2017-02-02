@@ -56,8 +56,8 @@ public class SquareDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Square> squares = _qhg.getSquares();
-        List<Strengthened> strengs = _qhg.getStrengthenedSquares();
+        Set<Square> squares = _qhg.getSquares();
+        Set<Strengthened> strengs = _qhg.getStrengthenedSquares();
 
         for (Square square : squares)
         {
@@ -106,10 +106,10 @@ public class SquareDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Rhombus> rhombuses = _qhg.getRhombuses();
-        List<Strengthened> rhombusStrengs = _qhg.getStrengthenedRhombuses();
-        List<RightAngle> rightAngles = _qhg.getRightAngles();
-        List<Strengthened> rightStrengs = _qhg.getStrengthenedRightAngles();
+        Set<Rhombus> rhombuses = _qhg.getRhombuses();
+        Set<Strengthened> rhombusStrengs = _qhg.getStrengthenedRhombuses();
+        Set<RightAngle> rightAngles = _qhg.getRightAngles();
+        Set<Strengthened> rightStrengs = _qhg.getStrengthenedRightAngles();
         
         for (Rhombus rhombus : rhombuses)
         {

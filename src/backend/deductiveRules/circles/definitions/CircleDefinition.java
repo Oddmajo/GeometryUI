@@ -47,7 +47,7 @@ public class CircleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Circle> circles = _qhg.getCircles();
+        Set<Circle> circles = _qhg.getCircles();
 
         for (Circle circle : circles)
         {
@@ -61,13 +61,18 @@ public class CircleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Segment> radii = _qhg.getRadii(circle);
+        Set<Segment> radiiSet = _qhg.getRadii(circle);
         
-        for (int r1 = 0; r1 < radii.size() - 1; r1++)
+        // create list of radii
+        Object[] radiiList = radiiSet.toArray();
+        
+        for (int r1 = 0; r1 < radiiList.length - 1; r1++)
         {
-            for (int r2 = r1 + 1; r2 < radii.size(); r2++)
+            for (int r2 = r1 + 1; r2 < radiiList.length; r2++)
             {
-                GeometricCongruentSegments gcs = new GeometricCongruentSegments(radii.get(r1), radii.get(r2));
+                Segment radius1 = (Segment) radiiList[r1];
+                Segment radius2 = (Segment) radiiList[r2];
+                GeometricCongruentSegments gcs = new GeometricCongruentSegments(radius1, radius2);
                 deductions.add(new Deduction(circle, gcs, ANNOTATION));
             }
         }

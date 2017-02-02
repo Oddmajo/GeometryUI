@@ -73,7 +73,7 @@ public class ComplementaryDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Complementary> complementaries = _qhg.getComplementaryAngles();
+        Set<Complementary> complementaries = _qhg.getComplementaryAngles();
 
         for (Complementary comp : complementaries)
         {
@@ -104,9 +104,9 @@ public class ComplementaryDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<RightAngle> rightAngles = _qhg.getRightAngles();      
-        List<AngleEquation> angleEquations = _qhg.getAngleEquations();
-        List<Strengthened> strengs = _qhg.getStrengthenedRightAngles();
+        Set<RightAngle> rightAngles = _qhg.getRightAngles();      
+        Set<AngleEquation> angleEquations = _qhg.getAngleEquations();
+        Set<Strengthened> strengs = _qhg.getStrengthenedRightAngles();
 
         for (RightAngle rightAngle : rightAngles)
         {

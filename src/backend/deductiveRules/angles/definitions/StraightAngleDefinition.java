@@ -95,7 +95,7 @@ public class StraightAngleDefinition extends Definition
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
      // Acquire all Midpoint clauses from the hypergraph
-        List<Collinear> straightAngles = _qhg.getCollinear();
+        Set<Collinear> straightAngles = _qhg.getCollinear();
                 
         for (Collinear sa : straightAngles)
         {

@@ -47,7 +47,7 @@ public class SumAnglesInTriangle extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Triangle> triangles = _qhg.getTriangles();
+        Set<Triangle> triangles = _qhg.getTriangles();
 
         for (Triangle t : triangles)
         {

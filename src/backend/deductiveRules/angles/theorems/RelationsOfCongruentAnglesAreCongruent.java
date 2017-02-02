@@ -53,14 +53,17 @@ public class RelationsOfCongruentAnglesAreCongruent extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<AnglePairRelation> aprs = _qhg.getAnglePairRelations();   
+        Set<AnglePairRelation> aprSet = _qhg.getAnglePairRelations();
 
-        if (aprs.size() > 1) {
-            for (int i = 0; i < aprs.size() - 1; i++)
+        // convert aprSet to a list
+        Object[] aprList = aprSet.toArray();
+
+        if (aprList.length > 1) {
+            for (int i = 0; i < aprList.length - 1; i++)
             {
-                for (int j = i + 1; j < aprs.size(); j++)
+                for (int j = i + 1; j < aprList.length; j++)
                 {
-                    deductions.addAll(deduceDirectRelations(aprs.get(i), aprs.get(j)));
+                    deductions.addAll(deduceDirectRelations(aprList[i], aprList[j]));
                 }
             }
         }
@@ -71,17 +74,20 @@ public class RelationsOfCongruentAnglesAreCongruent extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<AnglePairRelation> aprs = _qhg.getAnglePairRelations();  
-        List<CongruentAngles> cas = _qhg.getCongruentAngles();
+        Set<AnglePairRelation> aprSet = _qhg.getAnglePairRelations();  
+        Set<CongruentAngles> cas = _qhg.getCongruentAngles();
 
-        if (aprs.size() > 1) {
+        // convert aprSet to a list
+        Object[] aprList = aprSet.toArray();
+
+        if (aprList.length > 1) {
             for (CongruentAngles ca : cas) 
             {
-                for (int i = 0; i < aprs.size() - 1; i++)
+                for (int i = 0; i < aprList.length - 1; i++)
                 {
-                    for (int j = i + 1; j < aprs.size(); j++)
+                    for (int j = i + 1; j < aprList.length; j++)
                     {
-                        deductions.addAll(deduceIndirectRelations(ca, aprs.get(i), aprs.get(j)));
+                        deductions.addAll(deduceIndirectRelations(ca, aprList[i], aprList[j]));
                     }
                 }
             }
@@ -121,9 +127,13 @@ public class RelationsOfCongruentAnglesAreCongruent extends Theorem
     //                 3  /              /\ 4
     //       ____________/              /__\__________________
     //s
-    private static Set<Deduction> deduceDirectRelations(AnglePairRelation relation1, AnglePairRelation relation2)
+    private static Set<Deduction> deduceDirectRelations(Object r1, Object r2)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
+
+        // conversions
+        AnglePairRelation relation1 = (AnglePairRelation) r1;
+        AnglePairRelation relation2 = (AnglePairRelation) r2;
 
         // Do we have the same type of relation?
         if (relation1.getClass() != relation2.getClass()) return deductions;
@@ -151,9 +161,13 @@ public class RelationsOfCongruentAnglesAreCongruent extends Theorem
         return deductions;
     }
 
-    private static Set<Deduction> deduceIndirectRelations(CongruentAngles cas, AnglePairRelation relation1, AnglePairRelation relation2)
+    private static Set<Deduction> deduceIndirectRelations(CongruentAngles cas, Object r1, Object r2)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
+
+        // conversions
+        AnglePairRelation relation1 = (AnglePairRelation) r1;
+        AnglePairRelation relation2 = (AnglePairRelation) r2;
 
         // Do we have the same type of relation?
         if (relation1.getClass() != relation2.getClass()) return deductions;

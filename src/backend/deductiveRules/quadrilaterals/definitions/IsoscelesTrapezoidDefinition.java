@@ -59,8 +59,8 @@ public class IsoscelesTrapezoidDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<IsoscelesTrapezoid> isoTraps = _qhg.getIsoscelesTrapezoids();
-        List<Strengthened> strengs = _qhg.getStrengthenedIsoscelesTrapezoids();
+        Set<IsoscelesTrapezoid> isoTraps = _qhg.getIsoscelesTrapezoids();
+        Set<Strengthened> strengs = _qhg.getStrengthenedIsoscelesTrapezoids();
 
         for (IsoscelesTrapezoid isoTrap : isoTraps)
         {
@@ -100,9 +100,9 @@ public class IsoscelesTrapezoidDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Trapezoid> trapezoids = _qhg.getTrapezoids();
-        List<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
-        List<Strengthened> strengs = _qhg.getStrengthenedTrapezoids();
+        Set<Trapezoid> trapezoids = _qhg.getTrapezoids();
+        Set<CongruentSegments> congruentSegments = _qhg.getCongruentSegments();
+        Set<Strengthened> strengs = _qhg.getStrengthenedTrapezoids();
 
         for (Trapezoid trapezoid : trapezoids)
         {

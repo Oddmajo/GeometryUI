@@ -58,8 +58,8 @@ public class SupplementaryAndCongruentImplyRightAngles extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<CongruentAngles> congruentAngles = _qhg.getCongruentAngles();      
-        List<Supplementary> supplementaries = _qhg.getSupplementary();
+        Set<CongruentAngles> congruentAngles = _qhg.getCongruentAngles();      
+        Set<Supplementary> supplementaries = _qhg.getSupplementaryAngles();
 
         for (CongruentAngles ca : congruentAngles)
         {

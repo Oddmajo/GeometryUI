@@ -55,8 +55,8 @@ public class ParallelogramDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Parallelogram> parallelograms = _qhg.getParallelograms();
-        List<Strengthened> strengs = _qhg.getStrengthenedParallelograms();
+        Set<Parallelogram> parallelograms = _qhg.getParallelograms();
+        Set<Strengthened> strengs = _qhg.getStrengthenedParallelograms();
 
         for (Parallelogram parallelogram : parallelograms)
         {
@@ -102,18 +102,23 @@ public class ParallelogramDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
-        List<Parallel> parallels = _qhg.getParallels();
+        Set<Quadrilateral> quadrilaterals = _qhg.getQuadrilaterals();
+        Set<Parallel> parallelSet = _qhg.getParallels();
+        
+        // convert parallelSet to list
+        Object[] parallelList = parallelSet.toArray();
 
         for (Quadrilateral quadrilateral : quadrilaterals)
         {
             if (quadrilateral.IsStrictQuadrilateral())
             {
-                for (int i = 0; i < parallels.size() - 1; i++)
+                for (int i = 0; i < parallelList.length - 1; i++)
                 {
-                    for (int j = i + 1; j < parallels.size(); j++)
+                    for (int j = i + 1; j < parallelList.length; j++)
                     {
-                        deductions.addAll(deduceToParallelogram(quadrilateral, parallels.get(i), parallels.get(j)));
+                        Parallel p1 = (Parallel) parallelList[i];
+                        Parallel p2 = (Parallel) parallelList[j];
+                        deductions.addAll(deduceToParallelogram(quadrilateral, p1, p2));
                     }   
                 }
             }
