@@ -1,8 +1,6 @@
 package backend.hypergraph;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -19,10 +17,13 @@ import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
+import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.arcs.MajorArc;
@@ -102,10 +103,10 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     private HashSet<Strengthened> _sIsoTriangles;
     private HashSet<Strengthened> _sRightTriangles;
     private HashSet<Strengthened> _sEqTriangles;
-    
+
     private HashSet<Strengthened> _sQuadrilaterals;
     // All other quadrilaterals
-    
+
     private void initQueryContainers()
     {
         //
@@ -126,7 +127,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         // Descriptors
         //
         _midpoints = new HashSet<Midpoint>();
-        
+
         //
         // Equations
         //
@@ -136,7 +137,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         // Strengthened Clauses
         //
         _sMidpoints = new HashSet<Strengthened>();
-        
+
         _sTriangles = new HashSet<Strengthened>();
         _sIsoTriangles = new HashSet<Strengthened>();
         _sRightTriangles = new HashSet<Strengthened>();
@@ -182,7 +183,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         else if (data instanceof Midpoint)
         {
             _midpoints.add((Midpoint)data);
-            
+
             //
             // Handle all equation types
             //
@@ -203,11 +204,11 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
             addToStrengthened((Strengthened)data);
         }
     }
-    
+
     private void addToStrengthened(Strengthened s)
     {
         GroundedClause strengthened = s.getStrengthened();
-        
+
         if (strengthened instanceof Midpoint)
         {
             _sMidpoints.add(s);
@@ -215,7 +216,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         else if (strengthened instanceof Triangle)
         {
             _sTriangles.add(s);
-            
+
             if (strengthened instanceof IsoscelesTriangle)
             {
                 _sIsoTriangles.add(s);
@@ -232,7 +233,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         else if (strengthened instanceof Triangle)
         {
             _sQuadrilaterals.add(s);
-      
+
             // ...
         }
     }
@@ -245,14 +246,14 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     //
     //
     //
-    public Set<Midpoint> getMidpoints() { return _midpoints; }
+    public HashSet<Midpoint> getMidpoints() { return _midpoints; }
 
     //
     // Strengthened Clauses
     //
-    public Set<Strengthened> getStrengthenedMidpoints() { return _sMidpoints; }
-    public Set<Strengthened> getStrengthenedTriangles() { return _sTriangles; }
-    public Set<Strengthened> getStrengthenedQuadrilaterals() { return _sQuadrilaterals; }
+    public HashSet<Strengthened> getStrengthenedMidpoints() { return _sMidpoints; }
+    public HashSet<Strengthened> getStrengthenedTriangles() { return _sTriangles; }
+    public HashSet<Strengthened> getStrengthenedQuadrilaterals() { return _sQuadrilaterals; }
 
     //
     // Equations: Defer to the Query Class
@@ -264,192 +265,192 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     public AngleArcEquation getAngleArcEquation(AngleArcEquation eq) { return _equationHandler.getAngleArcEquation(eq); }
     public Equation getGneralEquation(Equation eq) { return _equationHandler.getGeneralEquation(eq); }
 
-    public Set<AngleBisector> getAngleBisectors()
+    public HashSet<AngleBisector> getAngleBisectors()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Altitude> getAltitudes()
+    public HashSet<Altitude> getAltitudes()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Intersection> getIntersections()
+    public HashSet<Intersection> getIntersections()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Triangle> getTriangles()
+    public HashSet<Triangle> getTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Perpendicular> getPerpendicular()
+    public HashSet<Perpendicular> getPerpendicular()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedPerpendicular()
+    public HashSet<Strengthened> getStrengthenedPerpendicular()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<PerpendicularBisector> getPerpendicularBisectors()
+    public HashSet<PerpendicularBisector> getPerpendicularBisectors()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedPerpendicularBisectors()
+    public HashSet<Strengthened> getStrengthenedPerpendicularBisectors()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<InMiddle> getInMiddles()
+    public HashSet<InMiddle> getInMiddles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Median> getMedians()
+    public HashSet<Median> getMedians()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<SegmentBisector> getSegmentBisectors()
+    public HashSet<SegmentBisector> getSegmentBisectors()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedSegmentBisectors()
+    public HashSet<Strengthened> getStrengthenedSegmentBisectors()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public List<IsoscelesTrapezoid> getIsoscelesTrapezoids()
+    public HashSet<IsoscelesTrapezoid> getIsoscelesTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<Collinear> getCollinear()
+
+    public HashSet<Collinear> getCollinear()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedIsoscelesTrapezoids()
+    public HashSet<Strengthened> getStrengthenedIsoscelesTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<Strengthened> getStrengthenedRightAngles()
+
+    public HashSet<Strengthened> getStrengthenedRightAngles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<Trapezoid> getTrapezoids()
+
+    public HashSet<Trapezoid> getTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<CongruentSegments> getCongruentSegments()
+
+    public HashSet<CongruentSegments> getCongruentSegments()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<Strengthened> getStrengthenedTrapezoids()
+
+    public HashSet<Strengthened> getStrengthenedTrapezoids()
     {
         // TODO Auto-generated method stub
         return null;
     }
-	
-    public List<RightAngle> getRightAngles()
+
+    public HashSet<RightAngle> getRightAngles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Kite> getKites()
+    public HashSet<Kite> getKites()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedKites()
+    public HashSet<Strengthened> getStrengthenedKites()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Quadrilateral> getQuadrilaterals()
+    public HashSet<Quadrilateral> getQuadrilaterals()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<RightTriangle> getRightTriangles()
+    public HashSet<RightTriangle> getRightTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedRightTriangle()
+    public HashSet<Strengthened> getStrengthenedRightTriangle()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedParallelograms()
+    public HashSet<Strengthened> getStrengthenedParallelograms()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Parallelogram> getParallelograms()
+    public HashSet<Parallelogram> getParallelograms()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Parallel> getParallels()
+    public HashSet<Parallel> getParallels()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Rectangle> getRectangles()
+    public HashSet<Rectangle> getRectangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedRectangles()
+    public HashSet<Strengthened> getStrengthenedRectangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Rhombus> getRhombuses()
+    public HashSet<Rhombus> getRhombuses()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedRhombuses()
+    public HashSet<Strengthened> getStrengthenedRhombuses()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Square> getSquares()
+    public HashSet<Square> getSquares()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedSquares()
+    public HashSet<Strengthened> getStrengthenedSquares()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Circle> getCircles()
+    public HashSet<Circle> getCircles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Segment> getRadii(Circle circle)
+    public HashSet<Segment> getRadii(Circle circle)
     {
-        List<Segment> radii = new ArrayList<Segment>();
-        
+        HashSet<Segment> radii = new HashSet<Segment>();
+
         for (Segment segment : this.getSegments())
         {
             if (circle.isRadius(segment)) radii.add(segment);
@@ -457,47 +458,62 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
 
         return radii;
     }
-    private List<Segment> getSegments()
+    public HashSet<Segment> getSegments()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<CongruentCircles> getCongruentCircles()
+    public HashSet<CongruentCircles> getCongruentCircles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<EquilateralTriangle> getEquilateralTriangles()
+    public HashSet<EquilateralTriangle> getEquilateralTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedEquilateralTriangles()
+    public HashSet<Strengthened> getStrengthenedEquilateralTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedRightTriangles()
+    public HashSet<Strengthened> getStrengthenedRightTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedIsoscelesTriangles()
+    public HashSet<Strengthened> getStrengthenedIsoscelesTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<AngleEquation> getAngleEquations()
+    public HashSet<AngleEquation> getAngleEquations()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Strengthened> getStrengthenedAngleEquations()
+    public HashSet<Strengthened> getStrengthenedAngleEquations()
     {
         // TODO Auto-generated method stub
         return null;
     }
-    public List<Complementary> getComplementaryAngles()
+    public HashSet<Complementary> getComplementaryAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public HashSet<CongruentAngles> getCongruentAngles()
+    {
+        //TODO Auto-generated method stub
+        return null;
+    }
+    public HashSet<Supplementary> getSupplementaryAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    public HashSet<Angle> getAngles()
     {
         // TODO Auto-generated method stub
         return null;
