@@ -52,8 +52,8 @@ public class SupplementaryDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        List<Intersection> inters = _qhg.getIntersections();
-        List<CongruentAngles> cas = _qhg.getCongruentAngles();
+        HashSet<Intersection> inters = _qhg.getIntersections();
+        HashSet<CongruentAngles> cas = _qhg.getCongruentAngles();
         
         
         for(Intersection inter : inters)
@@ -63,10 +63,6 @@ public class SupplementaryDefinition extends Definition
             
         for(CongruentAngles ca : cas)  
         {
-            if (ca.isReflexive()) continue;
-
-            if (!(ca.GetFirstAngle() instanceof RightAngle) || !(ca.GetSecondAngle() instanceof RightAngle)) continue;
-            
             deductions.addAll(deduceToSupplementary(ca));
         }
 
@@ -79,9 +75,10 @@ public class SupplementaryDefinition extends Definition
     public static Set<Deduction> deduceToSupplementary(CongruentAngles cas)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
-
         
-
+        if (cas.isReflexive()) return deductions;
+        if (!(cas.GetFirstAngle() instanceof RightAngle) || !(cas.GetSecondAngle() instanceof RightAngle)) return deductions;
+        
         Supplementary supp = new Supplementary(cas.GetFirstAngle(), cas.GetSecondAngle());
 
         supp.setNotASourceNode();

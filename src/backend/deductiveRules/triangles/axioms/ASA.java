@@ -2,7 +2,6 @@ package backend.deductiveRules.triangles.axioms;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -64,30 +63,32 @@ public class ASA extends Axiom
             // The list of new grounded clauses if they are deduced
             HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-            List<CongruentSegments> conSegs = _qhg.getCongruentSegments();
-            List<Triangle> tris = _qhg.getTriangles();
-            List<CongruentAngles> angles = _qhg.getCongruentAngles();
+            HashSet<CongruentSegments> conSegs = _qhg.getCongruentSegments();
+            HashSet<Triangle> hTris = _qhg.getTriangles();
+            HashSet<CongruentAngles> hAngles = _qhg.getCongruentAngles();
             
+            Object[] tris = hTris.toArray();
+            Object[] angles = hAngles.toArray();
             for (CongruentSegments cs : conSegs)
             {
              // Check all combinations of triangles to see if they are congruent
                 // This congruence must include the new segment congruence
-                for (int i = 0; i < tris.size() - 1; i++)
+                for (int i = 0; i < tris.length - 1; i++)
                 {
-                    for (int j = i + 1; j < tris.size(); j++)
+                    for (int j = i + 1; j < tris.length; j++)
                     {
-                        for (int m = 0; m < angles.size() - 1; m++)
+                        for (int m = 0; m < angles.length - 1; m++)
                         {
-                            for (int n = m + 1; n < angles.size(); n++)
+                            for (int n = m + 1; n < angles.length; n++)
                             {
-                                deductions.addAll(deduceASA(tris.get(i), tris.get(j), angles.get(m), angles.get(n), cs));
+                                deductions.addAll(deduceASA((Triangle)tris[i], (Triangle)tris[j], (CongruentAngles)angles[m], (CongruentAngles)angles[n], cs));
                             }
                         }
                     }
                 }
             }
-        }
-//       
+            return deductions;
+        } 
 
         //
         // Checks for ASA given the 5 values

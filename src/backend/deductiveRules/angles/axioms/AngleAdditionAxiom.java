@@ -2,11 +2,9 @@ package backend.deductiveRules.angles.axioms;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.Perpendicular;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -53,17 +51,19 @@ public class AngleAdditionAxiom extends Axiom
 
         HashSet<Deduction> deductions = new HashSet<>();
 
-        List<Angle> angles = _qhg.getAngles();
+        HashSet<Angle> hAngles = _qhg.getAngles();
 
         //
         // Determine if another angle in the candidate unify list can be combined with this new angle
         //
+        
+        Object[] angles = hAngles.toArray();
 
-        for (int i = 0; i < angles.size() - 1; i++)
+        for (int i = 0; i < angles.length - 1; i++)
         {
-            for (int j = i + 1; j < angles.size(); j++)
+            for (int j = i + 1; j < angles.length; j++)
             {
-                deductions.addAll(deduceAngles(angles.get(i), angles.get(j)));
+                deductions.addAll(deduceAngles((Angle)angles[i], (Angle)angles[j]));
             }
         }
 

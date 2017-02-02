@@ -1,9 +1,7 @@
 package backend.deductiveRules.angles.definitions;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -71,10 +69,10 @@ public class RightAngleDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<RightAngle> rightAngles = _qhg.getRightAngles();
-        List<Strengthened> streng = _qhg.getStrengthenedRightAngles();
-        List<AngleEquation> aes = _qhg.getAngleEquations();
-        Set<CongruentAngles> conAngles = _qhg.getCongruentAngles();
+        HashSet<RightAngle> rightAngles = _qhg.getRightAngles();
+        HashSet<Strengthened> streng = _qhg.getStrengthenedRightAngles();
+        HashSet<AngleEquation> aes = _qhg.getAngleEquations();
+        HashSet<CongruentAngles> conAngles = _qhg.getCongruentAngles();
         
         for (RightAngle ra : rightAngles)
         {
@@ -87,10 +85,7 @@ public class RightAngleDefinition extends Definition
         }
         
         for (CongruentAngles ca : conAngles)
-        {
-         // Not interested in reflexive relationships in this case
-            if (ca.isReflexive()) continue;
-            
+        {   
           for (RightAngle ra : rightAngles)
           {
               deductions.addAll(deduceToRightAngle(ra, ca, ra));
@@ -111,32 +106,32 @@ public class RightAngleDefinition extends Definition
 
     public static Set<Deduction> deduceFromRightAngle(GroundedClause clause, RightAngle ra)
     {
-        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
 
 
         if (clause instanceof Strengthened) ra = (RightAngle)(((Strengthened)clause).getStrengthened());
         else if (clause instanceof RightAngle) ra = (RightAngle)clause;
-        else return newGrounded;
+        else return deductions;
 
         // Strengthening may be something else
-        if (ra == null) return newGrounded;
+        if (ra == null) return deductions;
 
         GeometricAngleEquation angEq = new GeometricAngleEquation(ra, new NumericValue(90));
 
 //        ArrayList<GroundedClause> antecedent = Utilities.MakeList(clause);
 
-        newGrounded.add(new Deduction(clause, angEq, DEF_ANNOTATION));
+        deductions.add(new Deduction(clause, angEq, DEF_ANNOTATION));
 
-        return newGrounded;
+        return deductions;
     }
     
     public static Set<Deduction> deduceToRightAngle(AngleEquation eq)
     {
-        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
         //Filter for acceptable equations - both sides atomic
         int atomicity = eq.getAtomicity();
         
-        if (atomicity != Equation.BOTH_ATOMIC) return newGrounded;
+        if (atomicity != Equation.BOTH_ATOMIC) return deductions;
 
         //Check that the terms equate an angle to a measure
         ArrayList<GroundedClause> lhs = eq.getLHS().collectTerms();
@@ -155,18 +150,18 @@ public class RightAngleDefinition extends Definition
             value = (NumericValue)lhs.get(0);
         }
         else
-            return newGrounded;
+            return deductions;
 
         //Verify that the angle is a right angle
-        if (!Utilities.CompareValues(value.getDoubleValue(), 90.0)) return newGrounded;
+        if (!Utilities.CompareValues(value.getDoubleValue(), 90.0)) return deductions;
 
         Strengthened newRightAngle = new Strengthened(angle, new RightAngle(angle));
 
 //        ArrayList<GroundedClause> antecedent = Utilities.MakeList<GroundedClause>(clause);
 
-        newGrounded.add(new Deduction(eq, newRightAngle, DEF_ANNOTATION));
+        deductions.add(new Deduction(eq, newRightAngle, DEF_ANNOTATION));
 
-        return newGrounded;
+        return deductions;
     }
 
     //
@@ -176,10 +171,14 @@ public class RightAngleDefinition extends Definition
     //
     public static Set<Deduction> deduceToRightAngle(RightAngle ra, CongruentAngles cas, GroundedClause original)
     {
-        HashSet<Deduction> newGrounded = new HashSet<Deduction>();
+        
+        HashSet<Deduction> deductions = new HashSet<Deduction>();
 
+        // Not interested in reflexive relationships in this case
+        if (cas.isReflexive()) return deductions;
+        
         // The congruent must have the given angle in order to generate
-        if (!cas.HasAngle(ra)) return newGrounded;
+        if (!cas.HasAngle(ra)) return deductions;
 
         Angle toBeRight = cas.OtherAngle(ra);
         Strengthened newRightAngle = new Strengthened(toBeRight, new RightAngle(toBeRight));
@@ -187,9 +186,9 @@ public class RightAngleDefinition extends Definition
         ArrayList<GroundedClause> antecedent = Utilities.MakeList(original);
         antecedent.add(cas);
 
-        newGrounded.add(new Deduction(antecedent, newRightAngle, TRANS_ANNOTATION));
+        deductions.add(new Deduction(antecedent, newRightAngle, TRANS_ANNOTATION));
 
-        return newGrounded;
+        return deductions;
     }
 
 }

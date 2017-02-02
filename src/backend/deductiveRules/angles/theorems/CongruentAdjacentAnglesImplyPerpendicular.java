@@ -2,7 +2,6 @@ package backend.deductiveRules.angles.theorems;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -56,8 +55,8 @@ public class CongruentAdjacentAnglesImplyPerpendicular extends Theorem
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        Set<CongruentAngles> conAngles = _qhg.getCongruentAngles();
-        List<Intersection> inters = _qhg.getIntersections();
+        HashSet<CongruentAngles> conAngles = _qhg.getCongruentAngles();
+        HashSet<Intersection> inters = _qhg.getIntersections();
         
         for(CongruentAngles ca : conAngles)
         {

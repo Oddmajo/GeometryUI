@@ -2,7 +2,6 @@ package backend.deductiveRules.angles.axioms;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -49,11 +48,13 @@ public class AnglesOfEqualMeasureAreCongruent extends Axiom
     {
         HashSet<Deduction> deductions = new HashSet<>();
         
-        List<AngleEquation> angleEqs = _qhg.getAngleEquations();
+        HashSet<AngleEquation> hAngleEqs = _qhg.getAngleEquations();
         
-        for (int i = 0; i < angleEqs.size() - 1; i++)
+        Object[] angleEqs = hAngleEqs.toArray();
+        
+        for (int i = 0; i < angleEqs.length - 1; i++)
         {
-            AngleEquation aeq = angleEqs.get(i);
+            AngleEquation aeq = (AngleEquation)angleEqs[i];
          // One side must be atomic
             int atomicity = aeq.getAtomicity();
             if (atomicity != Equation.BOTH_ATOMIC) return deductions;
@@ -65,9 +66,9 @@ public class AnglesOfEqualMeasureAreCongruent extends Axiom
             if (newAngleAndMeasure.getKey() == null) return deductions;
             
             
-            for (int j = i + 1; j < angleEqs.size(); j++)
+            for (int j = i + 1; j < angleEqs.length; j++)
             {
-                AngleEquation oldEq = angleEqs.get(j);
+                AngleEquation oldEq = (AngleEquation)angleEqs[j];
                 Pair<Angle, Double> oldEqAngle = ExtractFromEquation(oldEq);
 
                 // Avoid generating equivalent angles

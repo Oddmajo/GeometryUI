@@ -65,19 +65,21 @@ public class CongruentCorrespondingAnglesImplyParallel extends Axiom
         // The list of new grounded clauses if they are deduced
         HashSet<Deduction> deductions = new HashSet<>();
         
-        List<CongruentAngles> cangs = _qhg.getCongruentAngles();
-        List<Intersection> inters = _qhg.getIntersections();
+        HashSet<CongruentAngles> cangs = _qhg.getCongruentAngles();
+        HashSet<Intersection> hInters = _qhg.getIntersections();
+        
+        Object[] inters = hInters.toArray();
         
         for (CongruentAngles ca : cangs)
         {
             if (ca.isReflexive()) continue;
 
             // Find two candidate lines cut by the same transversal
-            for (int i = 0; i < inters.size() - 1; i++)
+            for (int i = 0; i < inters.length - 1; i++)
             {
-                for (int j = i + 1; j < inters.size(); j++)
+                for (int j = i + 1; j < inters.length; j++)
                 {
-                    deductions.addAll(CheckAndGenerateCorrespondingAnglesImplyParallel(inters.get(i), inters.get(j), ca));
+                    deductions.addAll(CheckAndGenerateCorrespondingAnglesImplyParallel((Intersection)inters[i], (Intersection)inters[j], ca));
                 }
             }
         }

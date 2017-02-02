@@ -1,7 +1,6 @@
 package backend.deductiveRules.segments.definitions;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -43,8 +42,8 @@ public class PerpendicularBisectorDefinition extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
-        List<PerpendicularBisector> PerpendicularBisectors = _qhg.getPerpendicularBisectors();
-        List<Strengthened> Strengtheneds = _qhg.getStrengthenedPerpendicularBisectors();
+        HashSet<PerpendicularBisector> PerpendicularBisectors = _qhg.getPerpendicularBisectors();
+        HashSet<Strengthened> Strengtheneds = _qhg.getStrengthenedPerpendicularBisectors();
         
         for(PerpendicularBisector pb : PerpendicularBisectors)
         {

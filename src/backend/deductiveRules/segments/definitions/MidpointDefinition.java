@@ -2,7 +2,6 @@ package backend.deductiveRules.segments.definitions;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -62,13 +61,11 @@ public class MidpointDefinition extends Definition
         // Acquire all Midpoint clauses from the hypergraph
         Set<Midpoint> midpoints = _qhg.getMidpoints();
         Set<Strengthened> strengs = _qhg.getStrengthenedMidpoints();
-        List<InMiddle> inMiddles = _qhg.getInMiddles();
-        List<CongruentSegments> conSegs= _qhg.getCongruentSegments();
+        HashSet<InMiddle> inMiddles = _qhg.getInMiddles();
+        HashSet<CongruentSegments> conSegs= _qhg.getCongruentSegments();
         
         for (InMiddle im : inMiddles)
         {
-            //c# always checks if it is an InMiddle && not Midpoint - not sure how qhg decides what are InMiddles
-            if(im instanceof Midpoint) continue;
             
             for (Midpoint midpt : midpoints)
             {

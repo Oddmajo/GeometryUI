@@ -1,7 +1,6 @@
 package backend.deductiveRules.segments.definitions;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
@@ -43,7 +42,7 @@ public class PerpendicularSegments extends Definition
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
-        List<Intersection> inters = _qhg.getIntersections();      
+        HashSet<Intersection> inters = _qhg.getIntersections();      
         
         for (Intersection inter : inters)
         {
