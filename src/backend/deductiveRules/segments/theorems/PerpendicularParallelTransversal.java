@@ -203,6 +203,8 @@ public class PerpendicularParallelTransversal extends Theorem
             //foundCand.get(index).setPerpendicular(true);
             Point newPoint = foundCand.get(index).getlhs().segmentIntersection(foundCand.get(index).getrhs());
             Intersection newIntersection = new Intersection(newPoint, foundCand.get(index).getlhs(),foundCand.get(index).getrhs());
+            
+            // should this be a strengthened perpendicular?
             Perpendicular newPerpendicular = new Perpendicular(newIntersection);
 
 

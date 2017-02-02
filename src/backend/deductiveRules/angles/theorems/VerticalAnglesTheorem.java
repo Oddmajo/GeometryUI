@@ -79,8 +79,8 @@ public class VerticalAnglesTheorem extends Theorem
         // Congruent(Angle(A, X, C), Angle(B, X, D))
         //
         List<GroundedClause> antecedent1 = Utilities.MakeList(inter); 
-        Angle ang1Set1 = Angle.AcquireFigureAngle(new Angle(inter.getlhs().getPoint1(), inter.getIntersect(), inter.getrhs().getPoint1()));
-        Angle ang2Set1 = Angle.AcquireFigureAngle(new Angle(inter.getlhs().getPoint2(), inter.getIntersect(), inter.getrhs().getPoint2()));
+        Angle ang1Set1 = new Angle(inter.getlhs().getPoint1(), inter.getIntersect(), inter.getrhs().getPoint1());
+        Angle ang2Set1 = new Angle(inter.getlhs().getPoint2(), inter.getIntersect(), inter.getrhs().getPoint2());
         antecedent1.add(ang1Set1);
         antecedent1.add(ang2Set1);
         GeometricCongruentAngles cca1 = new GeometricCongruentAngles(ang1Set1, ang2Set1);
@@ -91,8 +91,8 @@ public class VerticalAnglesTheorem extends Theorem
         // Congruent(Angle(A, X, D), Angle(C, X, B))
         //
         List<GroundedClause> antecedent2 = Utilities.MakeList(inter);
-        Angle ang1Set2 = Angle.AcquireFigureAngle(new Angle(inter.getlhs().getPoint1(), inter.getIntersect(), inter.getrhs().getPoint2()));
-        Angle ang2Set2 = Angle.AcquireFigureAngle(new Angle(inter.getlhs().getPoint2(), inter.getIntersect(), inter.getrhs().getPoint1()));
+        Angle ang1Set2 = new Angle(inter.getlhs().getPoint1(), inter.getIntersect(), inter.getrhs().getPoint2());
+        Angle ang2Set2 = new Angle(inter.getlhs().getPoint2(), inter.getIntersect(), inter.getrhs().getPoint1());
         antecedent2.add(ang1Set2);
         antecedent2.add(ang2Set2);
         GeometricCongruentAngles cca2 = new GeometricCongruentAngles(ang1Set2, ang2Set2);
