@@ -23,7 +23,6 @@ import backend.utilities.ast_helper.Utilities;
 
 public class PerpendicularParallelTransversal extends Theorem
 {
-
     private static final String NAME = "Perpendicular Parallel Transversal Theorem";
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
@@ -71,7 +70,7 @@ public class PerpendicularParallelTransversal extends Theorem
         List<GroundedClause> antecedent = new ArrayList<>();
 
         //
-        // loop through intersections to group them and add them query1
+        // loop through intersections to group them and add them to query1
         // list of all segments in the intersection list by individual segment and list of intersecting segments
         //
         for (Intersection i : intersections) 
