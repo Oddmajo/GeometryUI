@@ -1,6 +1,8 @@
 package backend.ast.figure.components.triangles;
 
+import backend.ast.Descriptors.Altitude;
 import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Ray;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.polygon.Polygon;
@@ -44,26 +46,30 @@ public class RightTriangle extends Triangle
     // Is this triangle encased in the given, larger triangle.
     // That is, two sides are defined by the larger triangle and one side by the altitude
     //
-//    public boolean IsDefinedBy(RightTriangle rt, Altitude altitude)
-//    {
-//        // The opposite side of the smaller triangle has to be a side of the larger triangle.
-//        if (!rt.HasSegment(this.GetOppositeSide(this.rightAngle))) return false;
-//
-//        // The smaller triangle's right angle must have a ray collinear with the altitude segment
-//        Segment altSegment = null;
-//        if (this.rightAngle.getRay1().IsCollinearWith(altitude.segment))
-//        {
-//            altSegment = this.rightAngle.getRay1();
-//        }
-//        else if (this.rightAngle.getRay2().IsCollinearWith(altitude.segment))
-//        {
-//            altSegment = this.rightAngle.getRay2();
-//        }
-//        if (altSegment == null) return false;
-//
-//        // The last segment needs to be collinear with a side of the larger triangle
-//        return rt.LiesOn(this.rightAngle.OtherRayEquates(altSegment));
-//    }
+    public boolean IsDefinedBy(RightTriangle rt, Altitude altitude)
+    {
+        // The opposite side of the smaller triangle has to be a side of the larger triangle.
+        if (!rt.HasSegment(this.oppositeSide(this.getRightAngle()))) return false;
+
+        // The smaller triangle's right angle must have a ray collinear with the altitude segment
+        Segment altSegment = null;
+        Ray ray1 = this.getRightAngle().getRay1();
+        Segment ray1Seg = new Segment(ray1.getOrigin(), ray1.getNonOrigin());
+        Ray ray2 = this.getRightAngle().getRay2();
+        Segment ray2Seg = new Segment(ray2.getOrigin(), ray2.getNonOrigin());
+        if (ray1Seg.isCollinearWith(altitude.getSegment()))
+        {
+            altSegment = ray1Seg;
+        }
+        else if (ray2Seg.isCollinearWith(altitude.getSegment()))
+        {
+            altSegment = ray2Seg;
+        }
+        if (altSegment == null) return false;
+
+        // The last segment needs to be collinear with a side of the larger triangle
+        return rt.LiesOn(this.getRightAngle().OtherRay(altSegment));
+    }
 
     @Override
     public boolean equals(Object obj)
