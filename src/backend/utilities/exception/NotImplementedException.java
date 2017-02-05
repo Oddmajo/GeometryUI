@@ -43,4 +43,8 @@ public class NotImplementedException extends Exception
     {
         super("Method is not implemented");
     }
+    public NotImplementedException(String s)
+    {
+        super(s);
+    }
 }
