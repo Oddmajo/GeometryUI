@@ -1,7 +1,6 @@
 package backend.hypergraph;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
@@ -516,6 +515,16 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     public HashSet<Angle> getAngles()
     {
         // TODO Auto-generated method stub
+        return null;
+    }
+    public HashSet<IsoscelesTriangle> getIsoscelesTriangles()
+    {
+        //TODO Auto-generated method stub
+        return null;
+    }
+    public HashSet<AnglePairRelation> getAnglePairRelations()
+    {
+        //TODO Auto-generated method stub
         return null;
     }
 }
