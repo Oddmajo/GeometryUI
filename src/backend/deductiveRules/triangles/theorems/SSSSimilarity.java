@@ -57,7 +57,7 @@ public class SSSSimilarity extends Theorem
     //
     // Note: we need to figure out the proper order of the sides to guarantee congruence
     //
-    public Set<Deduction> deduceFromMedian()
+    public Set<Deduction> deduceTheorem()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
