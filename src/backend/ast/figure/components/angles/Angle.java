@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Intersection;
 import backend.ast.figure.Figure;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
@@ -403,34 +404,34 @@ public class Angle extends Figure
 
 
     // Does this angle lie between the two lines? This is mainly for a parallelism check
-//    public boolean OnInteriorOf(Intersection inter1, Intersection inter2)
-//    {
-//        Intersection angleBelongs = null;
-//        Intersection angleDoesNotBelong = null;
-//
-//        // Determine the intersection to which the angle belongs
-//        if (inter1.InducesNonStraightAngle(this))
-//        {
-//            angleBelongs = inter1;
-//            angleDoesNotBelong = inter2;
-//        }
-//        else if (inter2.InducesNonStraightAngle(this))
-//        {
-//            angleBelongs = inter2;
-//            angleDoesNotBelong = inter1;
-//        }
-//
-//        if (angleBelongs == null || angleDoesNotBelong == null) return false;
-//
-//        // Make the transversal out of the points of intersection
-//        Segment transversal = new Segment(angleBelongs.intersect, angleDoesNotBelong.intersect);
-//        Segment angleRayOnTraversal = this._ray1.IsCollinearWith(transversal) ? _ray1 : _ray2;
-//
-//        // Is the endpoint of the angle (on the transversal) between the two intersection points?
-//        // Or, is that same endpoint on the far end beyond the other line: the other intersection point lies between the other points
-//        return Segment.Between(angleRayOnTraversal.OtherPoint(this.getVertex()), angleBelongs.intersect, angleDoesNotBelong.intersect) ||
-//                Segment.Between(angleDoesNotBelong.intersect, angleBelongs.intersect, angleRayOnTraversal.OtherPoint(this.getVertex())); 
-//    }
+    public boolean OnInteriorOf(Intersection inter1, Intersection inter2)
+    {
+        Intersection angleBelongs = null;
+        Intersection angleDoesNotBelong = null;
+
+        // Determine the intersection to which the angle belongs
+        if (inter1.InducesNonStraightAngle(this))
+        {
+            angleBelongs = inter1;
+            angleDoesNotBelong = inter2;
+        }
+        else if (inter2.InducesNonStraightAngle(this))
+        {
+            angleBelongs = inter2;
+            angleDoesNotBelong = inter1;
+        }
+
+        if (angleBelongs == null || angleDoesNotBelong == null) return false;
+
+        // Make the transversal out of the points of intersection
+        Segment transversal = new Segment(angleBelongs.getIntersect(), angleDoesNotBelong.getIntersect());
+        Segment angleRayOnTraversal = this._ray1.IsCollinearWith(transversal) ? _ray1.asSegment() : _ray2.asSegment();
+
+        // Is the endpoint of the angle (on the transversal) between the two intersection points?
+        // Or, is that same endpoint on the far end beyond the other line: the other intersection point lies between the other points
+        return Segment.Between(angleRayOnTraversal.other(this.getVertex()), angleBelongs.getIntersect(), angleDoesNotBelong.getIntersect()) ||
+                Segment.Between(angleDoesNotBelong.getIntersect(), angleBelongs.getIntersect(), angleRayOnTraversal.other(this.getVertex())); 
+    }
 
 //    public static ArrayList<GenericInstantiator.EdgeAggregator> Instantiate(GroundedClause pred, GroundedClause c)
 //    {

@@ -151,33 +151,33 @@ public class Ray extends Figure
 //        return _point1.equals(p) || _point2.equals(p);
 //    }
 //
-//    public boolean IsHorizontal()
-//    {
-//        return backend.utilities.math.MathUtilities.doubleEquals(this._point1.getY(), this._point2.getY());
-//    }
+    public boolean IsHorizontal()
+    {
+        return backend.utilities.math.MathUtilities.doubleEquals(this._origin.getY(), this._point.getY());
+    }
+
+    public boolean IsVertical()
+    {
+        return backend.utilities.math.MathUtilities.doubleEquals(this._origin.getX(), this._point.getX());
+    }
 //
-//    public boolean IsVertical()
-//    {
-//        return backend.utilities.math.MathUtilities.doubleEquals(this._point1.getX(), this._point2.getX());
-//    }
-//
-//    public boolean IsCollinearWith(Segment otherSegment)
-//    {
-//        // If the segments are vertical, just compare the X values of one point of each
-//        if (this.IsVertical() && otherSegment.IsVertical())
-//        {
-//            return backend.utilities.math.MathUtilities.doubleEquals(this._point1.getX(), otherSegment._point1.getX());
-//        }
-//
-//        // If the segments are horizontal, just compare the Y values of one point of each; this is redundant
-//        if (this.IsHorizontal() && otherSegment.IsHorizontal())
-//        {
-//            return backend.utilities.math.MathUtilities.doubleEquals(this._point1.getY(), otherSegment._point1.getY());
-//        }
-//
-//        return backend.utilities.math.MathUtilities.doubleEquals(this._slope, otherSegment._slope) &&
-//                this.PointLiesOn(otherSegment._point1) && this.PointLiesOn(otherSegment._point2); // Check both endpoints just to be sure
-//    }
+    public boolean IsCollinearWith(Segment otherSegment)
+    {
+        // If the segments are vertical, just compare the X values of one point of each
+        if (this.IsVertical() && otherSegment.isVertical())
+        {
+            return backend.utilities.math.MathUtilities.doubleEquals(this._origin.getX(), otherSegment._point1.getX());
+        }
+
+        // If the segments are horizontal, just compare the Y values of one point of each; this is redundant
+        if (this.IsHorizontal() && otherSegment.isHorizontal())
+        {
+            return backend.utilities.math.MathUtilities.doubleEquals(this._origin.getY(), otherSegment._point1.getY());
+        }
+
+        return backend.utilities.math.MathUtilities.doubleEquals(this.slope(), otherSegment._slope) &&
+                this.pointLiesOn(otherSegment._point1) && this.pointLiesOn(otherSegment._point2); // Check both endpoints just to be sure
+    }
 //
 //    public Point sharedVertex(Segment s)
 //    {
