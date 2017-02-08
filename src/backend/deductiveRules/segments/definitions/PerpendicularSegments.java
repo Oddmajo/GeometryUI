@@ -18,7 +18,7 @@ public class PerpendicularSegments extends Definition
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.PERPENDICULAR_SEGMENTS); // I believe this needs to be added
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.PERPENDICULAR_SEGMENTS); 
     @Override public Annotation getAnnotation() { return new Annotation(NAME, false); }
 
 

@@ -1,5 +1,11 @@
 package backend.ast.Descriptors.Relations.Congruences;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import backend.ast.GroundedClause;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
@@ -198,32 +204,32 @@ public class CongruentTriangles extends Congruent
 //    private static readonly string CPCTC_NAME = "CPCTC";
 //    private static Hypergraph.EdgeAnnotation cpctcAnnotation = new Hypergraph.EdgeAnnotation(CPCTC_NAME, EngineUIBridge.JustificationSwitch.TRIANGLE_CONGREUNCE);
 //
-//    //
-//    // Create the three resultant angles from each triangle to create the congruency of angles
-//    //
-//    private static List<GroundedClause> GenerateCPCTCSegments(List<Point> orderedTriOnePts, List<Point> orderedTriTwoPts)
-//    {
-//        List<GroundedClause> congSegments = new List<GroundedClause>();
-//
-//        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
-//        for (int i = 0; i < orderedTriOnePts.Count; i++)
-//        {
-//            Segment cs1 = new Segment(orderedTriOnePts.ElementAt(0), orderedTriOnePts.ElementAt(1));
-//            Segment cs2 = new Segment(orderedTriTwoPts.ElementAt(0), orderedTriTwoPts.ElementAt(1));
-//            congSegments.Add(new GeometricCongruentSegments(cs1, cs2));
-//
-//            // rotate the lists
-//            Point tmp = orderedTriOnePts.ElementAt(0);
-//            orderedTriOnePts.RemoveAt(0);
-//            orderedTriOnePts.Add(tmp);
-//
-//            tmp = orderedTriTwoPts.ElementAt(0);
-//            orderedTriTwoPts.RemoveAt(0);
-//            orderedTriTwoPts.Add(tmp);
-//        }
-//
-//        return congSegments;
-//    }
+    //
+    // Create the three resultant angles from each triangle to create the congruency of angles
+    //
+    public static List<GroundedClause> GenerateCPCTCSegments(List<Point> orderedTriOnePts, List<Point> orderedTriTwoPts)
+    {
+        List<GroundedClause> congSegments = new ArrayList<GroundedClause>();
+
+        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
+        for (int i = 0; i < orderedTriOnePts.size(); i++)
+        {
+            Segment cs1 = new Segment(orderedTriOnePts.get(0), orderedTriOnePts.get(1));
+            Segment cs2 = new Segment(orderedTriTwoPts.get(0), orderedTriTwoPts.get(1));
+            congSegments.add(new GeometricCongruentSegments(cs1, cs2));
+
+            // rotate the lists
+            Point tmp = orderedTriOnePts.get(0);
+            orderedTriOnePts.remove(0);
+            orderedTriOnePts.add(tmp);
+
+            tmp = orderedTriTwoPts.get(0);
+            orderedTriTwoPts.remove(0);
+            orderedTriTwoPts.add(tmp);
+        }
+
+        return congSegments;
+    }
 //
 //    //
 //    // Create the three resultant angles from each triangle to create the congruency of angles
