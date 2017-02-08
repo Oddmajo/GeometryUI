@@ -12,6 +12,7 @@ import backend.utilities.math.MathUtilities;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
 import backend.ast.figure.components.Segment;
@@ -752,13 +753,13 @@ public class Triangle extends Polygon
     }
 
     // Determine if the given segment is coinciding with one of the triangle sides; return that 
-    //    public Segment DoesParallelCoincideWith(Parallel p)
-    //    {
-    //        if (CoincidesWithASide(p.segment1) != null) return p.segment1;
-    //        if (CoincidesWithASide(p.segment2) != null) return p.segment2;
-    //
-    //        return null;
-    //    }
+        public Segment DoesParallelCoincideWith(Parallel p)
+        {
+            if (CoincidesWithASide(p.getSegment1()) != null) return p.getSegment1();
+            if (CoincidesWithASide(p.getSegment2()) != null) return p.getSegment2();
+    
+            return null;
+        }
 
     //
     // Given a point on the triangle, return the two angles not at that vertex

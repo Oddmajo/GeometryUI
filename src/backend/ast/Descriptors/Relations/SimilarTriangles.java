@@ -1,7 +1,17 @@
 package backend.ast.Descriptors.Relations;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Descriptor;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
+import backend.ast.figure.components.Point;
 import backend.ast.figure.components.triangles.Triangle;
+import backend.deductiveRules.Deduction;
+import backend.deductiveRules.RuleFactory;
+import backend.utilities.ast_helper.Utilities;
 
 public class SimilarTriangles extends Descriptor
 {
@@ -150,20 +160,20 @@ public class SimilarTriangles extends Descriptor
 //    //
 //    // Create the three resultant angles from each triangle to create the congruency of angles
 //    //
-//    public static List<GenericInstantiator.EdgeAggregator> GenerateCongruentAngles(SimilarTriangles simTris,
+//    public static List<Deduction> GenerateCongruentAngles(SimilarTriangles simTris,
 //                                                                                   List<Point> orderedTriOnePts,
 //                                                                                   List<Point> orderedTriTwoPts)
 //    {
-//        angleAnnotation.active = EngineUIBridge.JustificationSwitch.SIMILARITY;
+//        ANNOTATION.active = RuleFactory.JustificationSwitch.SIMILARITY;
 //
 //        List<GroundedClause> congAngles = CongruentTriangles.GenerateCPCTCAngles(orderedTriOnePts, orderedTriTwoPts);
 //
 //        //
 //        // Construct the new deduced edges: congruent angles.
 //        //
-//        List<GenericInstantiator.EdgeAggregator> newGrounded = new List<GenericInstantiator.EdgeAggregator>();
-//        List<GroundedClause> antecedent = Utilities.MakeList<GroundedClause>(simTris);
-//        foreach (GeometricCongruentAngles ccas in congAngles)
+//        List<Deduction> newGrounded = new ArrayList<Deduction>();
+//        List<GroundedClause> antecedent = Utilities.MakeList(simTris);
+//        for (CongruentAngles ccas : congAngles)
 //        {
 //            newGrounded.Add(new GenericInstantiator.EdgeAggregator(antecedent, ccas, angleAnnotation));
 //        }
@@ -171,13 +181,13 @@ public class SimilarTriangles extends Descriptor
 //        return newGrounded;
 //    }
 //
-//    public static List<GenericInstantiator.EdgeAggregator> GenerateComponents(SimilarTriangles simTris,
+//    public static List<Deduction> GenerateComponents(SimilarTriangles simTris,
 //                                                                              List<Point> orderedTriOnePts,
 //                                                                              List<Point> orderedTriTwoPts)
 //    {
-//        List<GenericInstantiator.EdgeAggregator> angles = GenerateCongruentAngles(simTris, orderedTriOnePts, orderedTriTwoPts);
-//        List<GenericInstantiator.EdgeAggregator> segments = GenerateSegmentRatio(simTris, orderedTriOnePts, orderedTriTwoPts);
-//        angles.AddRange(segments);
+//        List<Deduction> angles = GenerateCongruentAngles(simTris, orderedTriOnePts, orderedTriTwoPts);
+//        List<Deduction> segments = GenerateSegmentRatio(simTris, orderedTriOnePts, orderedTriTwoPts);
+//        angles.addAll(segments);
 //
 //        return angles;
 //    }

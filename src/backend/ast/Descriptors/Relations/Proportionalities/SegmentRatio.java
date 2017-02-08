@@ -2,6 +2,7 @@ package backend.ast.Descriptors.Relations.Proportionalities;
 
 import backend.ast.Descriptors.Descriptor;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.math.MathUtilities;
@@ -98,11 +99,11 @@ public class SegmentRatio extends Descriptor
 //        return smallerSegment.StructurallyEquals(that) || largerSegment.StructurallyEquals(that);
 //    }
 //
-//    public bool LinksTriangles(Triangle ct1, Triangle ct2)
-//    {
-//        return (ct1.HasSegment(smallerSegment) && ct2.HasSegment(largerSegment)) ||
-//               (ct1.HasSegment(largerSegment) && ct2.HasSegment(smallerSegment));
-//    }
+    public Boolean LinksTriangles(Triangle ct1, Triangle ct2)
+    {
+        return (ct1.HasSegment(smallerSegment) && ct2.HasSegment(largerSegment)) ||
+               (ct1.HasSegment(largerSegment) && ct2.HasSegment(smallerSegment));
+    }
 //
 //    //
 //    // Compare the numeric proportion between the relations
