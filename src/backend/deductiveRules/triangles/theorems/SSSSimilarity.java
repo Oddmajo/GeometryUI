@@ -9,6 +9,7 @@ import backend.ast.GroundedClause;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
@@ -62,11 +63,11 @@ public class SSSSimilarity extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         Set<Triangle> triangles = _qhg.getTriangles();    
-        Set<SegmentRatio> segEquations = _qhg.getSegmentRatios();
+        Set<SegmentRatioEquation> segEquations = _qhg.getSegmentRatioEquations();
 
         // create lists
         Object[] triangleList = triangles.toArray();
-        Object[] segRatioList = segEquations.toArray();
+        Object[] segEquationList = segEquations.toArray();
 
         // Check all combinations of triangles to see if they are congruent
         // This congruence must include the new segment congruence
@@ -74,11 +75,11 @@ public class SSSSimilarity extends Theorem
         {
             for (int j = i + 1; j < triangleList.length; j++)
             {
-                for (int m = 0; m < segRatioList.length - 1; m++)
+                for (int m = 0; m < segEquationList.length - 1; m++)
                 {
-                    for (int n = m + 1; n < segRatioList.length; n++)
+                    for (int n = m + 1; n < segEquationList.length; n++)
                     {
-                        deductions.addAll(CheckForSSS((Triangle)triangleList[i], (Triangle)triangleList[j], (SegmentRatio)segRatioList[m], (SegmentRatio)segRatioList[n]));
+                        deductions.addAll(CheckForSSS((Triangle)triangleList[i], (Triangle)triangleList[j], (SegmentRatioEquation)segEquationList[m], (SegmentRatioEquation)segEquationList[n]));
                     }
                 }
             }
@@ -90,7 +91,7 @@ public class SSSSimilarity extends Theorem
     //
     // Of all the congruent segment pairs, choose a subset of 3. Exhaustively check all; if they work, return the set.
     //
-    private static Set<Deduction> CheckForSSS(Triangle ct1, Triangle ct2, SegmentRatio sre1, SegmentRatio sre2)
+    private static Set<Deduction> CheckForSSS(Triangle ct1, Triangle ct2, SegmentRatioEquation sre1, SegmentRatioEquation sre2)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 

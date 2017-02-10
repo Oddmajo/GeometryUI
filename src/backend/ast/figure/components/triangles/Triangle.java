@@ -12,6 +12,7 @@ import backend.utilities.math.MathUtilities;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
@@ -41,10 +42,10 @@ public class Triangle extends Polygon
 
     //    protected boolean isRight;
     //    public boolean givenRight;
-        protected boolean provenRight;
+    protected boolean provenRight;
     //    protected Angle rightAngle;
     //    protected boolean isIsosceles;
-        protected boolean provenIsosceles;
+    protected boolean provenIsosceles;
     //    protected boolean isEquilateral;
     //    protected boolean provenEquilateral;
     //    private ArrayList<Triangle> congruencePairs;
@@ -162,8 +163,8 @@ public class Triangle extends Polygon
     //        Utilities.AddUniqueStructurally(_angleC.getSuperFigures(), this);
     //    }
     //
-        public void SetProvenToBeRight() { provenRight = true; }
-        public void SetProvenToBeIsosceles() { provenIsosceles = true; } 
+    public void SetProvenToBeRight() { provenRight = true; }
+    public void SetProvenToBeIsosceles() { provenIsosceles = true; } 
     //    public void SetProvenToBeEquilateral() { provenEquilateral = true; }
 
     //    //
@@ -545,15 +546,15 @@ public class Triangle extends Polygon
         return null;
     }
 
-    
-//     Acquire the particular angle which belongs to this triangle (of a congruence)
-    
-        public Angle _angleBelongs(CongruentAngles ccas)
-        {
-            if (HasAngle(ccas.GetFirstAngle())) return ccas.GetFirstAngle();
-            if (HasAngle(ccas.GetSecondAngle())) return ccas.GetSecondAngle();
-            return null;
-        }
+
+    //     Acquire the particular angle which belongs to this triangle (of a congruence)
+
+    public Angle _angleBelongs(CongruentAngles ccas)
+    {
+        if (HasAngle(ccas.GetFirstAngle())) return ccas.GetFirstAngle();
+        if (HasAngle(ccas.GetSecondAngle())) return ccas.GetSecondAngle();
+        return null;
+    }
 
     //
     // Acquire the particular angle which belongs to this triangle (of a congruence)
@@ -576,23 +577,23 @@ public class Triangle extends Polygon
         return s1.sharedVertex(s2).equals(a.getVertex());
     }
 
-//     Of the congruent pair, return the segment that applies to this triangle
-        public Segment GetSegment(CongruentSegments ccss)
-        {
-            if (HasSegment(ccss.GetFirstSegment())) return ccss.GetFirstSegment();
-            if (HasSegment(ccss.GetSecondSegment())) return ccss.GetSecondSegment();
-    
-            return null;
-        }
+    //     Of the congruent pair, return the segment that applies to this triangle
+    public Segment GetSegment(CongruentSegments ccss)
+    {
+        if (HasSegment(ccss.GetFirstSegment())) return ccss.GetFirstSegment();
+        if (HasSegment(ccss.GetSecondSegment())) return ccss.GetSecondSegment();
+
+        return null;
+    }
 
     // Of the propportional pair, return the segment that applies to this triangle
-    //    public Segment GetSegment(SegmentRatio prop)
-    //    {
-    //        if (HasSegment(prop.smallerSegment)) return prop.smallerSegment;
-    //        if (HasSegment(prop.largerSegment)) return prop.largerSegment;
-    //
-    //        return null;
-    //    }
+    public Segment GetSegment(SegmentRatio prop)
+    {
+        if (HasSegment(prop.getSmallerSegment())) return prop.getSmallerSegment();
+        if (HasSegment(prop.getLargerSegment())) return prop.getLargerSegment();
+
+        return null;
+    }
 
 
 
@@ -753,13 +754,13 @@ public class Triangle extends Polygon
     }
 
     // Determine if the given segment is coinciding with one of the triangle sides; return that 
-        public Segment DoesParallelCoincideWith(Parallel p)
-        {
-            if (CoincidesWithASide(p.getSegment1()) != null) return p.getSegment1();
-            if (CoincidesWithASide(p.getSegment2()) != null) return p.getSegment2();
-    
-            return null;
-        }
+    public Segment DoesParallelCoincideWith(Parallel p)
+    {
+        if (CoincidesWithASide(p.getSegment1()) != null) return p.getSegment1();
+        if (CoincidesWithASide(p.getSegment2()) != null) return p.getSegment2();
+
+        return null;
+    }
 
     //
     // Given a point on the triangle, return the two angles not at that vertex

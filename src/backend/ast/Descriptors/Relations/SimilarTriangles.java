@@ -7,14 +7,20 @@ import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
+import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
+import backend.hypergraph.Annotation;
 import backend.utilities.ast_helper.Utilities;
 
 public class SimilarTriangles extends Descriptor
 {
+    private static final String NAME = "Similar Triangles";
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
 	private Triangle st1;
 	private Triangle st2;
 	
@@ -30,6 +36,7 @@ public class SimilarTriangles extends Descriptor
 	public SimilarTriangles(Triangle t1, Triangle t2)
 	{
 		super();
+		ANNOTATION.active = RuleFactory.JustificationSwitch.SIMILARITY;
 		st1 = t1;
 		st2 = t2;
 	}
@@ -103,94 +110,92 @@ public class SimilarTriangles extends Descriptor
 //
 //    private static Hypergraph.EdgeAnnotation angleAnnotation = new Hypergraph.EdgeAnnotation(ANGLES_NAME, EngineUIBridge.JustificationSwitch.SIMILARITY);
 //    private static Hypergraph.EdgeAnnotation segmentAnnotation = new Hypergraph.EdgeAnnotation(SEGMENTS_NAME, EngineUIBridge.JustificationSwitch.SIMILARITY);
-//    //
-//    // Create the three resultant angles from each triangle to create the congruency of angles
-//    //
-//    private static List<GenericInstantiator.EdgeAggregator> GenerateSegmentRatio(SimilarTriangles simTris,
-//                                                                                 List<Point> orderedTriOnePts,
-//                                                                                 List<Point> orderedTriTwoPts)
-//    {
-//        segmentAnnotation.active = EngineUIBridge.JustificationSwitch.SIMILARITY;
-//
-//        //
-//        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
-//        //
-//        List<SegmentRatio> ratios = new List<SegmentRatio>();
-//        for (int i = 0; i < orderedTriOnePts.Count; i++)
-//        {
-//            Segment cs1 = new Segment(orderedTriOnePts[0], orderedTriOnePts[1]);
-//            Segment cs2 = new Segment(orderedTriTwoPts[0], orderedTriTwoPts[1]);
-//            SegmentRatio ratio = new SegmentRatio(cs1, cs2);
-//
-//            ratios.Add(ratio);
-//
-//            // rotate the lists
-//            Point tmp = orderedTriOnePts.ElementAt(0);
-//            orderedTriOnePts.RemoveAt(0);
-//            orderedTriOnePts.Add(tmp);
-//
-//            tmp = orderedTriTwoPts.ElementAt(0);
-//            orderedTriTwoPts.RemoveAt(0);
-//            orderedTriTwoPts.Add(tmp);
-//        }
-//
-//        //
-//        // Take the ratios and create ratio equations.
-//        //
-//        List<GroundedClause> ratioEqs = new List<GroundedClause>();
-//        for (int i = 0; i < ratios.Count; i++)
-//        {
-//            ratioEqs.Add(new GeometricSegmentRatioEquation(ratios[i], ratios[(i + 1) % ratios.Count]));
-//        }
-//
-//        //
-//        // Construct the new deduced edges: proportional segments.
-//        //
-//        List<GenericInstantiator.EdgeAggregator> newGrounded = new List<GenericInstantiator.EdgeAggregator>();
-//
-//        List<GroundedClause> antecedent = Utilities.MakeList<GroundedClause>(simTris);
-//        foreach (GroundedClause eq in ratioEqs)
-//        {
-//            newGrounded.Add(new GenericInstantiator.EdgeAggregator(antecedent, eq, segmentAnnotation));
-//        }
-//
-//        return newGrounded;
-//    }
-//
-//    //
-//    // Create the three resultant angles from each triangle to create the congruency of angles
-//    //
-//    public static List<Deduction> GenerateCongruentAngles(SimilarTriangles simTris,
-//                                                                                   List<Point> orderedTriOnePts,
-//                                                                                   List<Point> orderedTriTwoPts)
-//    {
-//        ANNOTATION.active = RuleFactory.JustificationSwitch.SIMILARITY;
-//
-//        List<GroundedClause> congAngles = CongruentTriangles.GenerateCPCTCAngles(orderedTriOnePts, orderedTriTwoPts);
-//
-//        //
-//        // Construct the new deduced edges: congruent angles.
-//        //
-//        List<Deduction> newGrounded = new ArrayList<Deduction>();
-//        List<GroundedClause> antecedent = Utilities.MakeList(simTris);
-//        for (CongruentAngles ccas : congAngles)
-//        {
-//            newGrounded.Add(new GenericInstantiator.EdgeAggregator(antecedent, ccas, angleAnnotation));
-//        }
-//
-//        return newGrounded;
-//    }
-//
-//    public static List<Deduction> GenerateComponents(SimilarTriangles simTris,
-//                                                                              List<Point> orderedTriOnePts,
-//                                                                              List<Point> orderedTriTwoPts)
-//    {
-//        List<Deduction> angles = GenerateCongruentAngles(simTris, orderedTriOnePts, orderedTriTwoPts);
-//        List<Deduction> segments = GenerateSegmentRatio(simTris, orderedTriOnePts, orderedTriTwoPts);
-//        angles.addAll(segments);
-//
-//        return angles;
-//    }
+    //
+    // Create the three resultant angles from each triangle to create the congruency of angles
+    //
+    private static List<Deduction> GenerateSegmentRatio(SimilarTriangles simTris,
+                                                                                 List<Point> orderedTriOnePts,
+                                                                                 List<Point> orderedTriTwoPts)
+    {
+        //
+        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
+        //
+        List<SegmentRatio> ratios = new ArrayList<SegmentRatio>();
+        for (int i = 0; i < orderedTriOnePts.size(); i++)
+        {
+            Segment cs1 = new Segment(orderedTriOnePts.get(0), orderedTriOnePts.get(1));
+            Segment cs2 = new Segment(orderedTriTwoPts.get(0), orderedTriTwoPts.get(1));
+            SegmentRatio ratio = new SegmentRatio(cs1, cs2);
+
+            ratios.add(ratio);
+
+            // rotate the lists
+            Point tmp = orderedTriOnePts.get(0);
+            orderedTriOnePts.remove(0);
+            orderedTriOnePts.add(tmp);
+
+            tmp = orderedTriTwoPts.get(0);
+            orderedTriTwoPts.remove(0);
+            orderedTriTwoPts.add(tmp);
+        }
+
+        //
+        // Take the ratios and create ratio equations.
+        //
+        List<GroundedClause> ratioEqs = new ArrayList<GroundedClause>();
+        for (int i = 0; i < ratios.size(); i++)
+        {
+            ratioEqs.add(new GeometricSegmentRatioEquation(ratios.get(i), ratios.get((i + 1) % ratios.size())));
+        }
+
+        //
+        // Construct the new deduced edges: proportional segments.
+        //
+        List<Deduction> newGrounded = new ArrayList<Deduction>();
+
+        List<GroundedClause> antecedent = Utilities.MakeList(simTris);
+        for (GroundedClause eq : ratioEqs)
+        {
+            newGrounded.add(new Deduction(antecedent, eq, ANNOTATION));
+        }
+
+        return newGrounded;
+    }
+
+    //
+    // Create the three resultant angles from each triangle to create the congruency of angles
+    //
+    public static List<Deduction> GenerateCongruentAngles(SimilarTriangles simTris,
+                                                                                   List<Point> orderedTriOnePts,
+                                                                                   List<Point> orderedTriTwoPts)
+    {
+        ANNOTATION.active = RuleFactory.JustificationSwitch.SIMILARITY;
+
+        List<GroundedClause> congAngles = CongruentTriangles.GenerateCPCTCAngles(orderedTriOnePts, orderedTriTwoPts);
+
+        //
+        // Construct the new deduced edges: congruent angles.
+        //
+        List<Deduction> newGrounded = new ArrayList<Deduction>();
+        List<GroundedClause> antecedent = Utilities.MakeList(simTris);
+        for (GroundedClause ccas : congAngles)
+        {
+            newGrounded.add(new Deduction(antecedent, ccas, ANNOTATION));
+        }
+
+        return newGrounded;
+    }
+
+    public static List<Deduction> GenerateComponents(SimilarTriangles simTris,
+                                                                              List<Point> orderedTriOnePts,
+                                                                              List<Point> orderedTriTwoPts)
+    {
+        List<Deduction> angles = GenerateCongruentAngles(simTris, orderedTriOnePts, orderedTriTwoPts);
+        List<Deduction> segments = GenerateSegmentRatio(simTris, orderedTriOnePts, orderedTriTwoPts);
+        angles.addAll(segments);
+
+        return angles;
+    }
 //
 //    private static readonly string NAME = "Transitivity";
 //    private static Hypergraph.EdgeAnnotation transAnnotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_SIMILAR);

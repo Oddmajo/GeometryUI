@@ -11,6 +11,7 @@ import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -157,7 +158,7 @@ public class AAS extends Theorem
        //
        // Construct the new clauses: congruent triangles and CPCTC
        //
-       CongruentTriangles gcts = new CongruentTriangles(new Triangle(triangleOne), new Triangle(triangleTwo));
+       GeometricCongruentTriangles gcts = new GeometricCongruentTriangles(new Triangle(triangleOne), new Triangle(triangleTwo));
 
        // Hypergraph
        List<GroundedClause> antecedent = new ArrayList<GroundedClause>();

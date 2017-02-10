@@ -6,6 +6,7 @@ import java.util.List;
 import backend.ast.GroundedClause;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
@@ -230,32 +231,32 @@ public class CongruentTriangles extends Congruent
 
         return congSegments;
     }
-//
-//    //
-//    // Create the three resultant angles from each triangle to create the congruency of angles
-//    //
-//    public static List<GroundedClause> GenerateCPCTCAngles(List<Point> orderedTriOnePts,
-//                                                           List<Point> orderedTriTwoPts)
-//    {
-//        List<GroundedClause> congAngles = new List<GroundedClause>();
-//
-//        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
-//        for (int i = 0; i < orderedTriOnePts.Count; i++)
-//        {
-//            congAngles.Add(new GeometricCongruentAngles(new Angle(orderedTriOnePts), new Angle(orderedTriTwoPts)));
-//
-//            // rotate the lists
-//            Point tmp = orderedTriOnePts[0];
-//            orderedTriOnePts.RemoveAt(0);
-//            orderedTriOnePts.Add(tmp);
-//
-//            tmp = orderedTriTwoPts[0];
-//            orderedTriTwoPts.RemoveAt(0);
-//            orderedTriTwoPts.Add(tmp);
-//        }
-//
-//        return congAngles;
-//    }
+
+    //
+    // Create the three resultant angles from each triangle to create the congruency of angles
+    //
+    public static List<GroundedClause> GenerateCPCTCAngles(List<Point> orderedTriOnePts,
+                                                           List<Point> orderedTriTwoPts)
+    {
+        List<GroundedClause> congAngles = new ArrayList<GroundedClause>();
+
+        // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
+        for (int i = 0; i < orderedTriOnePts.size(); i++)
+        {
+            congAngles.add(new GeometricCongruentAngles(new Angle(orderedTriOnePts), new Angle(orderedTriTwoPts)));
+
+            // rotate the lists
+            Point tmp = orderedTriOnePts.get(0);
+            orderedTriOnePts.remove(0);
+            orderedTriOnePts.add(tmp);
+
+            tmp = orderedTriTwoPts.get(0);
+            orderedTriTwoPts.remove(0);
+            orderedTriTwoPts.add(tmp);
+        }
+
+        return congAngles;
+    }
 //
 //    public static List<GenericInstantiator.EdgeAggregator> GenerateCPCTC(CongruentTriangles ccts,
 //                                                     List<Point> orderedTriOnePts,

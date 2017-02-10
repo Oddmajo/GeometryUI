@@ -94,29 +94,29 @@ public class SegmentRatio extends Descriptor
 //        return numShared;
 //    }
 //
-//    public bool HasSegment(Segment that)
-//    {
-//        return smallerSegment.StructurallyEquals(that) || largerSegment.StructurallyEquals(that);
-//    }
-//
+    public Boolean HasSegment(Segment that)
+    {
+        return smallerSegment.structurallyEquals(that) || largerSegment.structurallyEquals(that);
+    }
+
     public Boolean LinksTriangles(Triangle ct1, Triangle ct2)
     {
         return (ct1.HasSegment(smallerSegment) && ct2.HasSegment(largerSegment)) ||
                (ct1.HasSegment(largerSegment) && ct2.HasSegment(smallerSegment));
     }
-//
-//    //
-//    // Compare the numeric proportion between the relations
-//    //
-//    public bool ProportionallyEquals(SegmentRatio that)
-//    {
-//        if (this.proportion.Key == -1 && this.proportion.Value == -1)
-//        {
-//            return Utilities.CompareValues(this.dictatedProportion, that.dictatedProportion);
-//        }
-//
-//        return this.proportion.Key == that.proportion.Key && this.proportion.Value == that.proportion.Value;
-//    }
+
+    //
+    // Compare the numeric proportion between the relations
+    //
+    public Boolean ProportionallyEquals(SegmentRatio that)
+    {
+        if (this.proportion.getKey() == -1 && this.proportion.getKey() == -1)
+        {
+            return Utilities.CompareValues(this.dictatedProportion, that.dictatedProportion);
+        }
+
+        return this.proportion.getKey() == that.proportion.getKey() && this.proportion.getKey() == that.proportion.getKey();
+    }
 //
 //    public override bool StructurallyEquals(Object obj)
 //    {

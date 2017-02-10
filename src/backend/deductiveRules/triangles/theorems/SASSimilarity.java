@@ -10,7 +10,7 @@ import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -64,7 +64,7 @@ public class SASSimilarity extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         Set<Triangle> triangles = _qhg.getTriangles();
-        Set<SegmentRatio> segRatios = _qhg.getSegmentRatios();
+        Set<SegmentRatioEquation> segRatioEquations = _qhg.getSegmentRatioEquations();
         Set<CongruentAngles> congruentAngles = _qhg.getCongruentAngles();
 
         // create lists
@@ -72,7 +72,7 @@ public class SASSimilarity extends Theorem
 
         for (CongruentAngles cas : congruentAngles)
         {
-            for (SegmentRatio sr : segRatios)
+            for (SegmentRatioEquation sr : segRatioEquations)
             {
                 for (int i = 0; i < triangleList.length - 1; i++)
                 {
@@ -90,7 +90,7 @@ public class SASSimilarity extends Theorem
     //
     // 
     //
-    private static Set<Deduction> CollectAndCheckSAS(Object triangleList, Object triangleList2, CongruentAngles cas, SegmentRatio sre)
+    private static Set<Deduction> CollectAndCheckSAS(Object triangleList, Object triangleList2, CongruentAngles cas, SegmentRatioEquation sre)
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
