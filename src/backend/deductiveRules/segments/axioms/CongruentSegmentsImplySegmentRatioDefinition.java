@@ -7,6 +7,7 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;

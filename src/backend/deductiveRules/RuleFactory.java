@@ -47,6 +47,7 @@ public final class RuleFactory
             MIDPOINT_DEFINITION,
             PERPENDICULAR_DEFINITION,
             PERPENDICULAR_BISECTOR_DEFINITION,
+            PERPENDICULAR_SEGMENTS, 
             RIGHT_ANGLE_DEFINITION,
             RIGHT_TRIANGLE_DEFINITION,
             SEGMENT_BISECTOR_DEFINITION,
@@ -72,12 +73,14 @@ public final class RuleFactory
             MIDPOINT_THEOREM,
             PARALLEL_IMPLY_ALT_INT_CONGRUENT_ANGLES,
             PARALLEL_IMPLY_SAME_SIDE_INTERIOR_SUPPLEMENTARY,
+            PARALLEL_SEGMENTS_TRANSITIVITY, 
             PERPENDICULAR_IMPLY_CONGRUENT_ADJACENT_ANGLES,
             RELATIONS_OF_CONGRUENT_ANGLES_ARE_CONGRUENT,
             SAME_SIDE_SUPPLE_ANGLES_IMPLY_PARALLEL,
             SAS_SIMILARITY,
             SSS_SIMILARITY,
             SUM_ANGLES_IN_TRIANGLE_180,
+            SUPPLEMENTARY_ANGLES_PARALLEL_INTERSECTION,
             TRANSVERSAL_PERPENDICULAR_TO_PARALLEL_IMPLY_BOTH_PERPENDICULAR,
             TRANSITIVE_CONGRUENT_TRIANGLES,
             TRANSITIVE_PARALLEL,
@@ -315,6 +318,7 @@ public final class RuleFactory
         public static boolean MIDPOINT_DEFINITION = true;
         public static boolean PERPENDICULAR_DEFINITION = true;
         public static boolean PERPENDICULAR_BISECTOR_DEFINITION = true;
+        public static boolean PERPENDICULAR_SEGMENTS = true;
         public static boolean RIGHT_ANGLE_DEFINITION = true;
         public static boolean RIGHT_TRIANGLE_DEFINITION = true;
         public static boolean SEGMENT_BISECTOR_DEFINITION = true;
@@ -352,12 +356,14 @@ public final class RuleFactory
         public static boolean MIDPOINT_THEOREM = true;
         public static boolean PARALLEL_IMPLY_ALT_INT_CONGRUENT_ANGLES = true;
         public static boolean PARALLEL_IMPLY_SAME_SIDE_INTERIOR_SUPPLEMENTARY = true;
+        public static boolean PARALLEL_SEGMENTS_TRANSITIVITY = true;
         public static boolean PERPENDICULAR_IMPLY_CONGRUENT_ADJACENT_ANGLES = true;
         public static boolean RELATIONS_OF_CONGRUENT_ANGLES_ARE_CONGRUENT = true;
         public static boolean SAME_SIDE_SUPPLE_ANGLES_IMPLY_PARALLEL = true;
         public static boolean SAS_SIMILARITY = true;
         public static boolean SSS_SIMILARITY = true;
         public static boolean SUM_ANGLES_IN_TRIANGLE_180 = false;
+        public static boolean SUPPLEMENTARY_ANGLES_PARALLEL_INTERSECTION = false;
         public static boolean TRANSVERSAL_PERPENDICULAR_TO_PARALLEL_IMPLY_BOTH_PERPENDICULAR = true;
         public static boolean TRANSITIVE_CONGRUENT_TRIANGLES = true;
         public static boolean TRANSITIVE_PARALLEL = true;
