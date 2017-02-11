@@ -8,6 +8,7 @@ import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
@@ -147,7 +148,7 @@ public class SASCongruence extends Axiom
         deductions.add(new Deduction(antecedent, gcts, ANNOTATION));
 
         // Add all the corresponding parts as new congruent clauses
-        deductions.AddRange(CongruentTriangles.GenerateCPCTC(gcts, triangleOne, triangleTwo));
+        deductions.addAll(CongruentTriangles.GenerateCPCTC(gcts, triangleOne, triangleTwo));
 
         return deductions;
     }

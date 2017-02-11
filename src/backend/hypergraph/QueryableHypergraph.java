@@ -1,6 +1,7 @@
 package backend.hypergraph;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
@@ -20,6 +21,7 @@ import backend.ast.Descriptors.Supplementary;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
@@ -525,6 +527,11 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
     public HashSet<AnglePairRelation> getAnglePairRelations()
     {
         //TODO Auto-generated method stub
+        return null;
+    }
+    public Set<SegmentRatioEquation> getSegmentRatioEquations()
+    {
+        // TODO Auto-generated method stub
         return null;
     }
 }

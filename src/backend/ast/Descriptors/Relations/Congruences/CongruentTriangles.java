@@ -8,7 +8,11 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.triangles.Triangle;
+import backend.deductiveRules.Deduction;
+import backend.deductiveRules.RuleFactory;
+import backend.hypergraph.Annotation;
 import backend.utilities.Pair;
+import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.NotImplementedException;
 
@@ -202,9 +206,9 @@ public class CongruentTriangles extends Congruent
 //    }
 //
 //
-//    private static readonly string CPCTC_NAME = "CPCTC";
-//    private static Hypergraph.EdgeAnnotation cpctcAnnotation = new Hypergraph.EdgeAnnotation(CPCTC_NAME, EngineUIBridge.JustificationSwitch.TRIANGLE_CONGREUNCE);
-//
+    private static final String CPCTC_NAME = "CPCTC";
+    private static Annotation cpctcAnnotation = new Annotation(CPCTC_NAME, RuleFactory.JustificationSwitch.TRIANGLE_CONGREUNCE);
+
     //
     // Create the three resultant angles from each triangle to create the congruency of angles
     //
@@ -257,29 +261,30 @@ public class CongruentTriangles extends Congruent
 
         return congAngles;
     }
-//
-//    public static List<GenericInstantiator.EdgeAggregator> GenerateCPCTC(CongruentTriangles ccts,
-//                                                     List<Point> orderedTriOnePts,
-//                                                     List<Point> orderedTriTwoPts)
-//    {
-//        List<GenericInstantiator.EdgeAggregator> newGrounded = new List<GenericInstantiator.EdgeAggregator>();
-//
-//        List<GroundedClause> antecedent = Utilities.MakeList<GroundedClause>(ccts);
-//        List<GroundedClause> congAngles = GenerateCPCTCAngles(orderedTriOnePts, orderedTriTwoPts);
-//
-//        foreach (GeometricCongruentAngles ccas in congAngles)
-//        {
-//            newGrounded.Add(new GenericInstantiator.EdgeAggregator(antecedent, ccas, cpctcAnnotation));
-//        }
-//
-//        List<GroundedClause> congSegments = GenerateCPCTCSegments(orderedTriOnePts, orderedTriTwoPts);
-//        foreach (GroundedClause ccss in congSegments)
-//        {
-//            newGrounded.Add(new GenericInstantiator.EdgeAggregator(antecedent, ccss, cpctcAnnotation));
-//        }
-//
-//        return newGrounded;
-//    }
+
+    public static List<Deduction> GenerateCPCTC(CongruentTriangles ccts,
+                                                     List<Point> orderedTriOnePts,
+                                                     List<Point> orderedTriTwoPts)
+    {
+        ArrayList<Deduction> newGrounded = new ArrayList<Deduction>();
+
+        List<GroundedClause> antecedent = Utilities.MakeList(ccts);
+        List<GroundedClause> congAngles = GenerateCPCTCAngles(orderedTriOnePts, orderedTriTwoPts);
+
+        for (GroundedClause ccas : congAngles)
+        {
+            GeometricCongruentAngles ccas2 = (GeometricCongruentAngles) ccas;
+            newGrounded.add(new Deduction(antecedent, ccas2, cpctcAnnotation));
+        }
+
+        List<GroundedClause> congSegments = GenerateCPCTCSegments(orderedTriOnePts, orderedTriTwoPts);
+        for (GroundedClause ccss : congSegments)
+        {
+            newGrounded.add(new Deduction(antecedent, ccss, cpctcAnnotation));
+        }
+
+        return newGrounded;
+    }
 //
 //    //
 //    // Generate all corresponding conngruent components.
