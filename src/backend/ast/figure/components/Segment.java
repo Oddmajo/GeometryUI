@@ -485,13 +485,13 @@ public class Segment extends DimensionalLength
     //
     //
     //
-    //    // Does this segment contain a subsegment:
-    //    // A-------B-------C------D
-    //    // A subsegment is: AB, AC, AD, BC, BD, CD
-    //    public boolean HasSubSegment(Segment possSubSegment)
-    //    {
-    //        return this.pointLiesBetweenEndpoints(possSubSegment._point1) && this.pointLiesBetweenEndpoints(possSubSegment._point2);
-    //    }
+        // Does this segment contain a subsegment:
+        // A-------B-------C------D
+        // A subsegment is: AB, AC, AD, BC, BD, CD
+        public boolean HasSubSegment(Segment possSubSegment)
+        {
+            return this.pointLiesBetweenEndpoints(possSubSegment._point1) && this.pointLiesBetweenEndpoints(possSubSegment._point2);
+        }
     //
     //    public boolean HasStrictSubSegment(Segment possSubSegment)
     //    {

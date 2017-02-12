@@ -12,6 +12,7 @@ import backend.utilities.math.MathUtilities;
 import backend.utilities.translation.OutPair;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Strengthened;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
@@ -363,15 +364,15 @@ public class Quadrilateral extends Polygon
     {
         return AreOppositeSides(cs.getcs1(), cs.getcs2());
     }
-//
-//    //
-//    // Does this congruent pair of angles apply to this quadrilateral?
-//    //
-//    public boolean HasOppositeCongruentAngles(CongruentAngles cas)
-//    {
-//        return AreOppositeAngles(cas.ca1, cas.ca2);
-//    }
-//
+
+    //
+    // Does this congruent pair of angles apply to this quadrilateral?
+    //
+    public boolean HasOppositeCongruentAngles(CongruentAngles cas)
+    {
+        return AreOppositeAngles(cas.GetFirstAngle(), cas.GetSecondAngle());
+    }
+
     //
     // Does this parallel set apply to this quadrilateral?
     //
