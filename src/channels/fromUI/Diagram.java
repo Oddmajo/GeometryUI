@@ -81,10 +81,26 @@ public class Diagram
     
     
     //-----------------------------------------------------------------------------------------------------------------------
+    //
+    // The following section will include all premade diagrams for testing purposes.  
+    //      Naming convention currently as follows:
+    //      premade_CamelCaseShortDescriptor
+    //-----------------------------------------------------------------------------------------------------------------------
     /**
      * This method will purge the diagram of any components, and then create a default diagram for testing purposes.
      * 		Specifically, this will create a large triangle, with a segment connecting the midpoints of two sides, 
      * 		and segments from each midpoint to the opposing corner of the large triangle.
+     * 
+     *           o
+     *          /\
+     *         /  \
+     *       o/____\o
+     *       /\    /\
+     *      /   \/   \
+     *     /   /  \   \
+     *    /  /      \  \
+     *   / /          \ \
+     * o//______________\\o
      */
     public void premade_Triangles()
     {
@@ -119,6 +135,110 @@ public class Diagram
     	
     }
     
+    /** 
+     * This method will purge the diagram of any components, and then create a default diagram for testing purposes.
+     *      Specifically, this will create a segment with a midpoint.
+     *      
+     *      o ____ o ____ o
+     */
+    public void premade_Midpoint()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point A = new Point("A", 0.0, 0.0);
+        Point B = new Point("B", 2.0, 0.0);
+        Point C = new Point("C", 1.0, 0.0);
+        
+        this.points.add(A);
+        this.points.add(B);
+        this.points.add(C);
+        
+        Segment one = new Segment(A,B);
+        
+        this.lineSegments.add(one);
+    }
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      Specifically this will create two parallel lines with a transversal.
+     *      
+     *      ________/__________
+     *             /          
+     *      ______/____________
+     *           /
+     */
+    public void premade_ParallelLines()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point A = new Point("A", -2.0, 1.0);
+        Point B = new Point("B", 2.0, 1.0);
+        
+        Point C = new Point("C", -2.0, -1.0);
+        Point D = new Point("D", 2.0, -1.0);
+        
+        Point E = new Point("E", 1.0, 2.0);
+        Point F = new Point("F", -1.0, -2.0);
+        
+        this.points.add(A);
+        this.points.add(B);
+        this.points.add(C);
+        this.points.add(D);
+        this.points.add(E);
+        this.points.add(F);
+        
+        Segment top = new Segment(A, B);
+        Segment bottom = new Segment(C, D);
+        Segment trans = new Segment(E, F);
+        
+        this.lineSegments.add(top);
+        this.lineSegments.add(bottom);
+        this.lineSegments.add(trans);
+    }
+    
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      Specifically this will create a parallelogram with a single diagonal.
+     *      
+     *      o______________o
+     *      \              /\
+     *       \            /  \
+     *        \          /    \
+     *         \        /      \
+     *          \      /        \
+     *           \    /          \
+     *            \  /            \
+     *            o\/______________\o
+     */
+    public void premade_Parallelogram()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point A = new Point("A", -1.0, 1.0);
+        Point B = new Point("B", 0.0, -1.0);
+        Point C = new Point("C", 1.0, 1.0);
+        Point D = new Point("D", 2.0, -1.0);
+        
+        this.points.add(A);
+        this.points.add(B);
+        this.points.add(C);
+        this.points.add(D);
+        
+        Segment left = new Segment(A, B);
+        Segment bottom = new Segment(B, D);
+        Segment right = new Segment(D, C);
+        Segment top = new Segment(C, A);
+        Segment diagonal = new Segment(C, B);
+        
+        this.lineSegments.add(left);
+        this.lineSegments.add(bottom);
+        this.lineSegments.add(right);
+        this.lineSegments.add(top);
+        this.lineSegments.add(diagonal);
+        
+    }
     
     
 }

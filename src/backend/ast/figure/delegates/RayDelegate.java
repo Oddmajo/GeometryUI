@@ -74,7 +74,7 @@ public class RayDelegate
         if (thisRay.equals(thatRay)) return true;
         
         // Share same origin vertex?
-        if (thisRay.getOrigin().equals(thatRay.getOrigin())) return false;
+        if (!thisRay.getOrigin().equals(thatRay.getOrigin())) return false;
         
         // Overall collinearity of the 3 points?
         if (!LineDelegate.collinear(thisRay.getOrigin(), thisRay.getNonOrigin(), thatRay.getNonOrigin())) return false;

@@ -20,20 +20,30 @@ public class FromUI
 {
     public static boolean sendToBackend(ZirkelCanvas zc/*, ZirkelFrame zf*/)
     {
-        Construction uiRepresentation = zc.getConstruction();
-        Diagram backendRepresentation = translateToDiagram(uiRepresentation);
+        Construction uiRepresentation = null;
+        
+        /* A boundary needs to be declared for handling of lines and rays
+         * A boundary will have 4 lines. It might need 4 points in the future
+         */
+        Diagram boundary = createBoundary(zc);
+        
+        Diagram backendRepresentation = translateToDiagram(uiRepresentation, boundary);
         
         Main.receiveDiagram(backendRepresentation);
         return false;
     }
     
-    private static Diagram translateToDiagram(Construction C)
+    private static Diagram translateToDiagram(Construction c, Diagram boundary)
     {
         Diagram D = new Diagram();
         
-        for(int i = 0; i < C.V.size(); i++)
+        //The following creates a frame around the diagram
+        
+        
+        
+        for(int i = 0; i < c.V.size(); i++)
         {
-            ConstructionObject co = (ConstructionObject) C.V.get(i);
+            ConstructionObject co = (ConstructionObject) c.V.get(i);
             
             if(co instanceof PointObject)
             {
@@ -85,7 +95,12 @@ public class FromUI
                     }
                     else if(co instanceof LineObject)
                     {
-                        //Do something
+                        
+                        LineObject line = (LineObject) co;
+                        SegmentObject segment = new SegmentObject(null, ((PrimitiveLineObject) co).getP1(), ((TwoPointLineObject) co).getP2());
+                        D.addSegment(FromUITranslate.translateSegment(segment));
+                        D.addSegment(FromUITranslate.translateLine(line, boundary));
+                        
                     }
                     else
                     {
@@ -103,6 +118,31 @@ public class FromUI
                 }
             }
         }
+        
+        return D;
+    }
+    
+    private static Diagram createBoundary(ZirkelCanvas ZC)
+    {
+        Diagram D = new Diagram();
+        
+        //Create the four corners
+        Point bLeft = new Point("", ZC.minX(),ZC.minY());
+        Point tLeft = new Point("", ZC.minX(), ZC.maxY());
+        Point bRight = new Point("", ZC.maxX(), ZC.minY());
+        Point tRight = new Point("", ZC.maxX(), ZC.maxY());
+        
+        //Add the four corners
+        D.addPoint(bLeft);
+        D.addPoint(bRight);
+        D.addPoint(tRight);
+        D.addPoint(tLeft);
+        
+        //Create and add the four sides
+        D.addSegment(new Segment(bLeft, tLeft)); //Left
+        D.addSegment(new Segment(bLeft, bRight)); //Bottom
+        D.addSegment(new Segment(bRight, tRight)); //Right
+        D.addSegment(new Segment(tLeft, tRight)); //Top
         
         return D;
     }

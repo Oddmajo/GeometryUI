@@ -1,0 +1,25 @@
+The CARMetal geometry UI utilizes a hierarchical structure to describe their objects
+These objects are contained primarily in 'src/rene/zirkel/objects'
+This hierarchy is as follows:
+
+ConstructionObject
+	PointObject
+		IntersectionObject
+			AxisFunctionIntersectionObject
+			CircleIntersectionObject
+			LineCircleIntersectionObject
+			LineIntersectionObject
+			LineQuadraticIntersectionObject
+			PointonObjectIntersectionObject
+			QuadraticQuadraticIntersectionObject
+		MidpointObject
+	PrimitiveLineObject
+		TwoPointLineObject
+			SegmentObject
+				VectorObject
+			RayObject
+			LineObject
+		AxisObject
+		FixedAngleObject
+		ParallelObject
+		PlumbObject

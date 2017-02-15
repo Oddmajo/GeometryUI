@@ -94,14 +94,14 @@ public class monkey {
 
     public void start() 
     {
-        String[] arguments = new String[] {"123"};
         try
         {
             // 11/21/2016
             //Not sure what ZirkelFrame is for, but it is called whenever a file is saved
             //Might be required later on
-//            ZirkelFrame ZF = JZirkelCanvas.getCurrentZF();
-            ZirkelCanvas ZC = JZirkelCanvas.getCurrentZC();
+            //ZirkelFrame ZF = JZirkelCanvas.getCurrentZF();
+            ZirkelCanvas ZC = JZirkelCanvas.getCurrentZC(); 
+
             
             FromUI.sendToBackend(ZC);
             
