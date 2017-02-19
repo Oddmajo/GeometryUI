@@ -3,6 +3,7 @@ package backend.ast.figure.delegates.intersections;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.delegates.FigureDelegate;
+import backend.utilities.PointFactory;
 
 public class SegmentIntersectionDelegate extends FigureDelegate
 {
@@ -15,13 +16,14 @@ public class SegmentIntersectionDelegate extends FigureDelegate
     public static Point findIntersection(Segment thisS, Segment that)
     {
         // <line, line> intersection
-        Point inter = thisS.lineIntersection(that);
-        
+        Point inter = LineIntersectionDelegate.intersection(thisS, that);
+ 
         // Point lies on both segments
+        
         if (thisS.pointLiesBetweenEndpoints(inter)) return null;
 
         if (that.pointLiesBetweenEndpoints(inter)) return null;
         
-        return inter;
+        return inter;        
     }
 }

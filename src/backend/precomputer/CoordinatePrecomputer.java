@@ -221,19 +221,28 @@ public class CoordinatePrecomputer
 //                    
 //                }
             }
+            System.out.println("s point1" + s.getPoint1().getX() +" "+ s.getPoint1().getY());
+            System.out.println("s point2 " + s.getPoint2().getX() +" "+ s.getPoint2().getY());
             for(Segment s2 : segments)
             {
-                if(s.intersects(s2))
+                if(!s.equals(s2))
                 {
-                    if(!PointFactory.isGenerated(s.segmentIntersection(s2)))
+                   
+                    System.out.println("s2 point1" + s2.getPoint1().getX() +" "+ s2.getPoint1().getY());
+                    System.out.println("s2 point2 " + s2.getPoint2().getX() +" "+ s2.getPoint2().getY());
+                    System.out.println("do they intersect? " + s.intersects(s2));
+                    if(s.intersects(s2))
                     {
-                        if(!points.contains(s.segmentIntersection(s2)))
+                        if(!PointFactory.isGenerated(s.segmentIntersection(s2)))
                         {
-                            points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
-                        }
-                        else
-                        {
-                            PointFactory.generatePoint(s.segmentIntersection(s2)); //do we need this since if it isn't generated then we don't have the point? but I put it in for safety
+                            if(!points.contains(s.segmentIntersection(s2)))
+                            {
+                                points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
+                            }
+                            else
+                            {
+                                PointFactory.generatePoint(s.segmentIntersection(s2)); //do we need this since if it isn't generated then we don't have the point? but I put it in for safety
+                            }
                         }
                     }
                 }
