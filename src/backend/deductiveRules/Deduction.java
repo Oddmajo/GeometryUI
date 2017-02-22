@@ -18,8 +18,13 @@ import backend.utilities.list.Utilities;
 public class Deduction
 {
     protected Set<GroundedClause> _antecedent;
+    public Set<GroundedClause> getAntecedent() { return _antecedent; }
+    
     protected GroundedClause _consequent;
+    public GroundedClause getConsequent() { return _consequent; }
+    
     protected Annotation _annotation;
+    public Annotation getAnnotation() { return _annotation; }
 
     public Deduction(Set<GroundedClause> antecedent, GroundedClause consequent, Annotation annotation)
     {

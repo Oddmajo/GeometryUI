@@ -38,6 +38,7 @@ import backend.ast.figure.components.quadrilaterals.Rhombus;
 import backend.ast.figure.components.quadrilaterals.Square;
 import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
+import backend.deductiveRules.Deduction;
 import backend.deductiveRules.angles.axioms.AngleAdditionAxiom;
 import backend.deductiveRules.angles.axioms.AnglesOfEqualMeasureAreCongruent;
 import backend.deductiveRules.angles.axioms.CongruentCorrespondingAnglesImplyParallel;
@@ -119,9 +120,10 @@ import backend.deductiveRules.triangles.theorems.SumAnglesInTriangle;
 import backend.deductiveRules.triangles.theorems.TriangleProportionality;
 import backend.deductiveRules.triangles.theorems.TwoPairsCongruentAnglesImplyThirdPairCongruent;
 import backend.symbolicAlgebra.equations.*;
+import backend.deductiveRules.RuleFactory.JustificationSwitch.DeductionJustType;
 
 public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
-{    
+{
     public QueryableHypergraph()
     {
         super();
@@ -146,7 +148,7 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
 
         return true;
     }
-    
+
     /**
      * Deduce all Theorems, Axioms, and Definitions to add all edges to the 
      * QueryableHypergraph
@@ -154,309 +156,318 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
      * @author Drew Whitmire
      */
     @SuppressWarnings("unchecked")
-    public void addEdges()
+    public Set<Deduction> getDeductions()
     {
+        //
+        // NOTE: DeductionFlags.dFlags is active when false and inactive when true
+        // this is because the default value of a Boolean is false
+        //
+
+        // list of Deductions to return
+        Set<Deduction> deductions = new HashSet<>();
         //
         // ALGEBRA
         //
         // none of these are translated/translated correctly.  Will come back to these
         // @Drew
-        
-        
+
+
         // 
         // ANGLES
         //
         // Axioms
-        AngleAdditionAxiom angleAdditionAxiom = new AngleAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleAdditionAxiom.deduce();
-        
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal()]) {
+            AngleAdditionAxiom angleAdditionAxiom = new AngleAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(angleAdditionAxiom.deduce());
+        }
+
         AnglesOfEqualMeasureAreCongruent anglesOfEqualMeasureAreCongruent = new AnglesOfEqualMeasureAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        anglesOfEqualMeasureAreCongruent.deduce();
-        
+        anglesOfEqualMeasureAreCongruent.deduce());
+
         CongruentCorrespondingAnglesImplyParallel congruentCorrespondingAnglesImplyParallel = new CongruentCorrespondingAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentCorrespondingAnglesImplyParallel.deduce();
-        
+        congruentCorrespondingAnglesImplyParallel.deduce());
+
         CorrespondingAnglesOFParallelLines correspondingAnglesOFParallelLines = new CorrespondingAnglesOFParallelLines((QueryableHypergraph<GroundedClause, Annotation>) this);
-        correspondingAnglesOFParallelLines.deduce();
-        
+        correspondingAnglesOFParallelLines.deduce());
+
         // Definitions
         AngleBisectorDefinition angleBisectorDefinition = new AngleBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorDefinition.deduce();
-        
+        angleBisectorDefinition.deduce());
+
         ComplementaryDefinition complementaryDefinition = new ComplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        complementaryDefinition.deduce();
-        
+        complementaryDefinition.deduce());
+
         PerpendicularBisectorDefinition perpendicularBisectorDefinition = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularBisectorDefinition.deduce();
-        
+        perpendicularBisectorDefinition.deduce());
+
         RightAngleDefinition rightAngleDefinition = new RightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rightAngleDefinition.deduce();
-        
+        rightAngleDefinition.deduce());
+
         StraightAngleDefinition straightAngleDefinition = new StraightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        straightAngleDefinition.deduce();
-        
+        straightAngleDefinition.deduce());
+
         SupplementaryDefinition supplementaryDefinition = new SupplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryDefinition.deduce();
-        
+        supplementaryDefinition.deduce());
+
         // Theorems
         AdjacentAnglesPerpendicularImplyComplementary adjacentAnglesPerpendicularImplyComplementary = 
                 new AdjacentAnglesPerpendicularImplyComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        adjacentAnglesPerpendicularImplyComplementary.deduce();
-        
+        adjacentAnglesPerpendicularImplyComplementary.deduce());
+
         AngleBisectorTheorem angleBisectorTheorem = new AngleBisectorTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorTheorem.deduce();
-        
+        angleBisectorTheorem.deduce());
+
         CongruentAdjacentAnglesImplyPerpendicular congruentAdjacentAnglesImplyPerpendicular = new CongruentAdjacentAnglesImplyPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentAdjacentAnglesImplyPerpendicular.deduce();
-        
+        congruentAdjacentAnglesImplyPerpendicular.deduce());
+
         PerpendicularImplyCongruentAdjacentAngles perpendicularImplyCongruentAdjacentAngles = new PerpendicularImplyCongruentAdjacentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularImplyCongruentAdjacentAngles.deduce();
-        
+        perpendicularImplyCongruentAdjacentAngles.deduce());
+
         RelationsOfCongruentAnglesAreCongruent relationsOfCongruentAnglesAreCongruent = new RelationsOfCongruentAnglesAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        relationsOfCongruentAnglesAreCongruent.deduce();
-        
+        relationsOfCongruentAnglesAreCongruent.deduce());
+
         SupplementaryAndCongruentImplyRightAngles supplementaryAndCongruentImplyRightAngles = new SupplementaryAndCongruentImplyRightAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryAndCongruentImplyRightAngles.deduce();
-        
+        supplementaryAndCongruentImplyRightAngles.deduce());
+
         SupplementaryAnglesParallelIntersection supplementaryAnglesParallelIntersection = new SupplementaryAnglesParallelIntersection((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryAnglesParallelIntersection.deduce();
-        
+        supplementaryAnglesParallelIntersection.deduce());
+
         //
         // CIRCLES
         //
         // Definitions
         CircleDefinition circleDefinition = new CircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        circleDefinition.deduce();
-        
+        circleDefinition.deduce());
+
         CongruentCircleDefinition congruentCircleDefinition = new CongruentCircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentCircleDefinition.deduce();
-        
+        congruentCircleDefinition.deduce());
+
         //
         // PARALLEL LINES
         //
         // Theorems
         AltIntCongruentAnglesImplyParallel altIntCongruentAnglesImplyParallel = new AltIntCongruentAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altIntCongruentAnglesImplyParallel.deduce();
-        
+        altIntCongruentAnglesImplyParallel.deduce());
+
         ParallelImplyAltIntCongruentAngles parallelImplyAltIntCongruentAngles = new ParallelImplyAltIntCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelImplyAltIntCongruentAngles.deduce();
-        
+        parallelImplyAltIntCongruentAngles.deduce());
+
         ParallelImplySameSideInteriorSupplementary parallelImplySameSideInteriorSupplementary = 
                 new ParallelImplySameSideInteriorSupplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelImplySameSideInteriorSupplementary.deduce();
-        
+        parallelImplySameSideInteriorSupplementary.deduce());
+
         SameSideSuppleAnglesImplyParallel sameSideSuppleAnglesImplyParallel = new SameSideSuppleAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sameSideSuppleAnglesImplyParallel.deduce();
-        
+        sameSideSuppleAnglesImplyParallel.deduce());
+
         TransversalPerpendicularToParallelImplyBothPerpendicular transversalPerpendicularToParallelImplyBothPerpendicular = 
                 new TransversalPerpendicularToParallelImplyBothPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        transversalPerpendicularToParallelImplyBothPerpendicular.deduce();
-        
+        transversalPerpendicularToParallelImplyBothPerpendicular.deduce());
+
         //
         // QUADRILATERALS
         //
         // Definitions
         IsoscelesTrapezoidDefinition isoscelesTrapezoidDefinition = new IsoscelesTrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTrapezoidDefinition.deduce();
-        
+        isoscelesTrapezoidDefinition.deduce());
+
         KiteDefinition kiteDefinition = new KiteDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        kiteDefinition.deduce();
-        
+        kiteDefinition.deduce());
+
         ParallelogramDefinition parallelogramDefinition = new ParallelogramDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelogramDefinition.deduce();
-        
+        parallelogramDefinition.deduce());
+
         RectangleDefinition rectangleDefinition = new RectangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rectangleDefinition.deduce();
-        
+        rectangleDefinition.deduce());
+
         RhombusDefinition rhombusDefinition = new RhombusDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rhombusDefinition.deduce();
-        
+        rhombusDefinition.deduce());
+
         SquareDefinition squareDefinition = new SquareDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        squareDefinition.deduce();
-        
+        squareDefinition.deduce());
+
         TrapezoidDefinition trepezoidDefinition = new TrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        trepezoidDefinition.deduce();
-        
+        trepezoidDefinition.deduce());
+
         // Theorems
         BaseAnglesIsoscelesTrapezoidCongruent baseAnglesIsosclesTrapezoidCongruent = 
                 new BaseAnglesIsoscelesTrapezoidCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        baseAnglesIsosclesTrapezoidCongruent.deduce();
-        
+        baseAnglesIsosclesTrapezoidCongruent.deduce());
+
         BothPairsOppAnglesCongruentImpliesParallelogram BothPairsOppAnglesCongruentImpliesParallelogram = 
                 new BothPairsOppAnglesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        BothPairsOppAnglesCongruentImpliesParallelogram.deduce();
-        
+        BothPairsOppAnglesCongruentImpliesParallelogram.deduce());
+
         BothPairsOppSidesCongruentImpliesParallelogram BothPairsOppSidesCongruentImpliesParallelogram = 
                 new BothPairsOppSidesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        BothPairsOppSidesCongruentImpliesParallelogram.deduce();
-        
+        BothPairsOppSidesCongruentImpliesParallelogram.deduce());
+
         DiagonalsBisectEachOtherImplyParallelogram diagonalsBisectEachOtherImplyParallelogram = 
                 new DiagonalsBisectEachOtherImplyParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsBisectEachOtherImplyParallelogram.deduce();
-        
+        diagonalsBisectEachOtherImplyParallelogram.deduce());
+
         DiagonalsOfKiteArePerpendicular diagonalsOfKiteArePerpendicular = new DiagonalsOfKiteArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfKiteArePerpendicular.deduce();
-        
+        diagonalsOfKiteArePerpendicular.deduce());
+
         DiagonalsOfRectangleAreCongruent diagonalsOfRectangleAreCongruent = new DiagonalsOfRectangleAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRectangleAreCongruent.deduce();
-        
+        diagonalsOfRectangleAreCongruent.deduce());
+
         DiagonalsOfRhombusArePerpendicular diagonalsOfRhombusArePerpendicular = new DiagonalsOfRhombusArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRhombusArePerpendicular.deduce();
-        
+        diagonalsOfRhombusArePerpendicular.deduce());
+
         DiagonalsOfRhombusBisectRhombusAngles diagonalsOfRhombusBisectRhombusAngles = 
                 new DiagonalsOfRhombusBisectRhombusAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRhombusBisectRhombusAngles.deduce();
-        
+        diagonalsOfRhombusBisectRhombusAngles.deduce());
+
         DiagonalsParallelogramBisectEachOther diagonalsParallelogramBisectEachOther = 
                 new DiagonalsParallelogramBisectEachOther((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsParallelogramBisectEachOther.deduce();
-        
+        diagonalsParallelogramBisectEachOther.deduce());
+
         MedianTrapezoidHalfSumBases medianTrapezoidHalfSumBases = new MedianTrapezoidHalfSumBases((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianTrapezoidHalfSumBases.deduce();
-        
+        medianTrapezoidHalfSumBases.deduce());
+
         MedianTrapezoidParallelToBases medianTrapezoidParallelToBases = new MedianTrapezoidParallelToBases((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianTrapezoidParallelToBases.deduce();
-        
+        medianTrapezoidParallelToBases.deduce());
+
         OnePairOppSidesCongruentParallelImpliesParallelogram onePairOppSidesCongruentParallelImpliesParallelogram = 
                 new OnePairOppSidesCongruentParallelImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        onePairOppSidesCongruentParallelImpliesParallelogram.deduce();
-        
+        onePairOppSidesCongruentParallelImpliesParallelogram.deduce());
+
         OppositeAnglesOfParallelogramAreCongruent oppositeAnglesOfParallelogramAreCongruent = 
                 new OppositeAnglesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        oppositeAnglesOfParallelogramAreCongruent.deduce();
-        
+        oppositeAnglesOfParallelogramAreCongruent.deduce());
+
         OppositeSidesOfParallelogramAreCongruent oppositeSidesOfParallelogramAreCongruent = 
                 new OppositeSidesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        oppositeSidesOfParallelogramAreCongruent.deduce();
-        
+        oppositeSidesOfParallelogramAreCongruent.deduce());
+
         //
         // SEGMENTS
         //
         // Axioms
         CongruentSegmentsImplySegmentRatioDefinition congruentSegmentsImplySegmentRatioDefinition = 
                 new CongruentSegmentsImplySegmentRatioDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentSegmentsImplySegmentRatioDefinition.deduce();
-        
+        congruentSegmentsImplySegmentRatioDefinition.deduce());
+
         SegmentAdditionAxiom segmentAdditionAxiom = new SegmentAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
-        segmentAdditionAxiom.deduce();
-        
+        segmentAdditionAxiom.deduce());
+
         // Definitions
         MidpointDefinition midpointDefinition = new MidpointDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        midpointDefinition.deduce();
-        
+        midpointDefinition.deduce());
+
         PerpendicularBisectorDefinition perpendicularBisectorDefinition1 = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularBisectorDefinition1.deduce();
-        
+        perpendicularBisectorDefinition1.deduce());
+
         PerpendicularDefinition perpendicularDefinition = new PerpendicularDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularDefinition.deduce();
-        
+        perpendicularDefinition.deduce());
+
         PerpendicularSegments perpendicularSegments = new PerpendicularSegments((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularSegments.deduce();
-        
+        perpendicularSegments.deduce());
+
         SegmentBisectorDefinition segmentBisectorDefinition = new SegmentBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        segmentBisectorDefinition.deduce();
-        
+        segmentBisectorDefinition.deduce());
+
         // Theorems
         MidpointTheorem midpointTheorem = new MidpointTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        midpointTheorem.deduce();
-        
+        midpointTheorem.deduce());
+
         ParallelSegmentsTransitivity parallelSegmentsTransitivity = new ParallelSegmentsTransitivity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelSegmentsTransitivity.deduce();
-        
+        parallelSegmentsTransitivity.deduce());
+
         PerpendicularParallelTransversal perpendicularParallelTransversal = new PerpendicularParallelTransversal((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularParallelTransversal.deduce();
-        
+        perpendicularParallelTransversal.deduce());
+
         VerticalAnglesTheorem VerticalAnglesTheorem = new VerticalAnglesTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        VerticalAnglesTheorem.deduce();
-        
+        VerticalAnglesTheorem.deduce());
+
         //
         // TRIANGLES
         //
         // Axioms
         AASimilarity aASimilarity = new AASimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aASimilarity.deduce();
-        
+        aASimilarity.deduce());
+
         ASA aSA = new ASA((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aSA.deduce();
-        
+        aSA.deduce());
+
         SASCongruence sASCongruence = new SASCongruence((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sASCongruence.deduce();
-        
+        sASCongruence.deduce());
+
         SSS sSS = new SSS((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sSS.deduce();
-        
+        sSS.deduce());
+
         // Definitions
         AltitudeDefinition altitudeDefinition = new AltitudeDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altitudeDefinition.deduce();
-        
+        altitudeDefinition.deduce());
+
         CoordinateRightIsoscelesTriangles coordinateRightIsoscelesTriangle = new CoordinateRightIsoscelesTriangles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        coordinateRightIsoscelesTriangle.deduce();
-        
+        coordinateRightIsoscelesTriangle.deduce());
+
         EquilateralTriangleDefinition equilateralTriangleDefinition = new EquilateralTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        equilateralTriangleDefinition.deduce();
-        
+        equilateralTriangleDefinition.deduce());
+
         IsoscelesTriangleDefinition isoscelesTriangleDefinition = new IsoscelesTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTriangleDefinition.deduce();
-        
+        isoscelesTriangleDefinition.deduce());
+
         MedianDefinition medianDefinition = new MedianDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianDefinition.deduce();
-        
+        medianDefinition.deduce());
+
         RightTriangleDefinition rightTriangleDefinition = new RightTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rightTriangleDefinition.deduce();
-        
+        rightTriangleDefinition.deduce());
+
         // Theorems
         AAS aAS = new AAS((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aAS.deduce();
-        
+        aAS.deduce());
+
         AcuteAnglesInRightTriangleComplementary acuteAnglesInRightTriangleComplementary = 
                 new AcuteAnglesInRightTriangleComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        acuteAnglesInRightTriangleComplementary.deduce();
-        
+        acuteAnglesInRightTriangleComplementary.deduce());
+
         AltitudeOfRightTrianglesImpliesSimilar altitudeOfRightTrianglesImpliesSimilar = 
                 new AltitudeOfRightTrianglesImpliesSimilar((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altitudeOfRightTrianglesImpliesSimilar.deduce();
-        
+        altitudeOfRightTrianglesImpliesSimilar.deduce());
+
         AngleBisectorIsPerpendicularBisectorInIsosceles angleBisectorIsPerpendicularBisectorInIsosceles = 
                 new AngleBisectorIsPerpendicularBisectorInIsosceles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorIsPerpendicularBisectorInIsosceles.deduce();
-        
+        angleBisectorIsPerpendicularBisectorInIsosceles.deduce());
+
         CongruentAnglesInTriangleImplyCongruentSides congruentAnglesInTriangleImplyCongruentSides = 
                 new CongruentAnglesInTriangleImplyCongruentSides((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentAnglesInTriangleImplyCongruentSides.deduce();
-        
+        congruentAnglesInTriangleImplyCongruentSides.deduce());
+
         CongruentSidesInTriangleImplyCongruentAngles congruentSidesInTriangleImplyCongruentAngles = 
                 new CongruentSidesInTriangleImplyCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentSidesInTriangleImplyCongruentAngles.deduce();
-        
+        congruentSidesInTriangleImplyCongruentAngles.deduce());
+
         EquilateralTriangleHasSixtyDegreeAngles equilateralTriangleHasSixtyDegreeAngles = 
                 new EquilateralTriangleHasSixtyDegreeAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        equilateralTriangleHasSixtyDegreeAngles.deduce();
-            
+        equilateralTriangleHasSixtyDegreeAngles.deduce());
+
         ExteriorAngleEqualSumRemoteAngles exteriorAngleEqualSumRemoteAngles = new ExteriorAngleEqualSumRemoteAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        exteriorAngleEqualSumRemoteAngles.deduce();
-        
+        exteriorAngleEqualSumRemoteAngles.deduce());
+
         HypotenuseLeg hypotenuseLeg = new HypotenuseLeg((QueryableHypergraph<GroundedClause, Annotation>) this);
-        hypotenuseLeg.deduce();
-        
+        hypotenuseLeg.deduce());
+
         IsoscelesTriangleTheorem isoscelesTriangleTheorem = new IsoscelesTriangleTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTriangleTheorem.deduce();
-        
+        isoscelesTriangleTheorem.deduce());
+
         SASSimilarity sASSimilarity = new SASSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sASSimilarity.deduce();
-        
+        sASSimilarity.deduce());
+
         SSSSimilarity sSSSimiliary = new SSSSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sSSSimiliary.deduce();
-        
+        sSSSimiliary.deduce());
+
         SumAnglesInTriangle sumAnglesInTriangle = new SumAnglesInTriangle((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sumAnglesInTriangle.deduce();
-        
+        sumAnglesInTriangle.deduce());
+
         TriangleProportionality triangleProportionality = new TriangleProportionality((QueryableHypergraph<GroundedClause, Annotation>) this);
-        triangleProportionality.deduce();
-        
+        triangleProportionality.deduce());
+
         TwoPairsCongruentAnglesImplyThirdPairCongruent twoPairsCongruentAnglesImplyThirdPairCongruent = 
                 new TwoPairsCongruentAnglesImplyThirdPairCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        twoPairsCongruentAnglesImplyThirdPairCongruent.deduce();
-        
+        twoPairsCongruentAnglesImplyThirdPairCongruent.deduce());
+
     }
 
     //
