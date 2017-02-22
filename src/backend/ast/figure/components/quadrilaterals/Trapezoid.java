@@ -1,5 +1,7 @@
 package backend.ast.figure.components.quadrilaterals;
 
+import java.util.ArrayList;
+
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
@@ -40,6 +42,7 @@ public class Trapezoid extends Quadrilateral
     public boolean IsMedianChecked() { return medianChecked; }
     public void SetMedianInvalid() { medianValid = false; }
     public void SetMedianChecked(boolean val) { medianChecked = val; }
+    public Segment getMedian() { return median; }
 
     public Trapezoid(Quadrilateral quad) 
     {
@@ -96,54 +99,70 @@ public class Trapezoid extends Quadrilateral
         //        FindMedian();
     }
 
-    //
-    // Find the figure segment which acts as the median of this trapezoid
-    //
-    //    public void FindMedian()
-    //    {
-    //        if (Segment.figureSegments.size() == 0)
-    //        {
-    //            //Segments have not yet been recorded for the figure, wait to check for median
-    //            SetMedianChecked(false);
-    //            return;
-    //        }
-    //
-    //        for(Segment medianCand : Segment.figureSegments)
-    //        {
-    //            // The median is parallel to the bases.
-    //            if (medianCand.isParallel(this.baseSegment) && medianCand.isParallel(this.oppBaseSegment))
-    //            {
-    //                // The median must be between the bases and connect to the legs.
-    //                Point leftIntersection = leftLeg.FindIntersection(medianCand);
-    //                if (leftLeg.PointLiesOnAndExactlyBetweenEndpoints(leftIntersection))
-    //                {
-    //                    Point rightIntersection = rightLeg.FindIntersection(medianCand);
-    //                    if (rightLeg.PointLiesOnAndExactlyBetweenEndpoints(rightIntersection))
-    //                    {
-    //                        // Success, we have a median
-    //                        // Acquire the exact figure segment (if it exists) otherwise the segment which contains the median
-    //                        this.median = Segment.GetFigureSegment(leftIntersection, rightIntersection);
-    //
-    //                        // If we have a median at all in the figure
-    //                        if (this.median != null)
-    //                        {
-    //                            // If this is not the exact median, create the exact median. 
-    //                            Segment actualMedian = new Segment(leftIntersection, rightIntersection);
-    //                            if (!this.median.StructurallyEquals(actualMedian))
-    //                            {
-    //                                this.median = actualMedian;
-    //                                break;
-    //                            }
-    //                        }
-    //                    }
-    //                }
-    //            }
-    //        }
-    //
-    //        if (this.median == null) this.SetMedianInvalid();
-    //
-    //        SetMedianChecked(true);
-    //    }
+    
+//     Find the figure segment which acts as the median of this trapezoid
+    
+        public void FindMedian(ArrayList<Segment> segments)
+        {
+            if (segments.size() == 0)
+            {
+                //Segments have not yet been recorded for the figure, wait to check for median
+                SetMedianChecked(false);
+                return;
+            }
+    
+            for(Segment medianCand : segments)
+            {
+                // The median is parallel to the bases.
+                if (medianCand.isParallel(this.baseSegment) && medianCand.isParallel(this.oppBaseSegment))
+                {
+                    // The median must be between the bases and connect to the legs.
+                    Point leftIntersection = leftLeg.segmentIntersection(medianCand);
+                    if (leftLeg.pointLiesBetweenEndpoints(leftIntersection))
+                    {
+                        Point rightIntersection = rightLeg.segmentIntersection(medianCand);
+                        if (rightLeg.pointLiesBetweenEndpoints(rightIntersection))
+                        {
+                            // Success, we have a median
+                            // Acquire the exact figure segment (if it exists) otherwise create the segment which contains the median
+//                            this.median = Segment.GetFigureSegment(leftIntersection, rightIntersection);
+                            this.median = null;
+                            //This is the functionality of getFigureSegment
+                            Segment candSegment = new Segment(leftIntersection, rightIntersection);
+
+                            // Search for exact segment first
+                            for (Segment segment : segments)
+                            {
+                                if (segment.structurallyEquals(candSegment)) this.median = segment;
+                            }
+
+                            // Otherwise, find a maximal segment.
+                            for (Segment segment : segments)
+                            {
+                                if (segment.HasSubSegment(candSegment)) this.median = segment;
+                            }
+                            
+    
+                            // If we have a median at all in the figure
+                            if (this.median != null)
+                            {
+                                // If this is not the exact median, create the exact median. 
+                                Segment actualMedian = new Segment(leftIntersection, rightIntersection);
+                                if (!this.median.structurallyEquals(actualMedian))
+                                {
+                                    this.median = actualMedian;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    
+            if (this.median == null) this.SetMedianInvalid();
+    
+            SetMedianChecked(true);
+        }
 
     //            @Override
     //            public boolean IsStrongerThan(Polygon that)

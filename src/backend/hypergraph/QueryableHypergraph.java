@@ -176,297 +176,539 @@ public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
         // ANGLES
         //
         // Axioms
-        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal()]) {
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal()]) 
+        {
             AngleAdditionAxiom angleAdditionAxiom = new AngleAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
             deductions.addAll(angleAdditionAxiom.deduce());
         }
 
-        AnglesOfEqualMeasureAreCongruent anglesOfEqualMeasureAreCongruent = new AnglesOfEqualMeasureAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        anglesOfEqualMeasureAreCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLES_OF_EQUAL_MEASUREARE_CONGRUENT.ordinal()]) 
+        {
+            AnglesOfEqualMeasureAreCongruent anglesOfEqualMeasureAreCongruent = new AnglesOfEqualMeasureAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(anglesOfEqualMeasureAreCongruent.deduce());
+        }
 
-        CongruentCorrespondingAnglesImplyParallel congruentCorrespondingAnglesImplyParallel = new CongruentCorrespondingAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentCorrespondingAnglesImplyParallel.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_CORRESPONDING_ANGLES_IMPLY_PARALLEL.ordinal()]) 
+        {
+            CongruentCorrespondingAnglesImplyParallel congruentCorrespondingAnglesImplyParallel = new CongruentCorrespondingAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentCorrespondingAnglesImplyParallel.deduce());
+        }
 
-        CorrespondingAnglesOFParallelLines correspondingAnglesOFParallelLines = new CorrespondingAnglesOFParallelLines((QueryableHypergraph<GroundedClause, Annotation>) this);
-        correspondingAnglesOFParallelLines.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CORRESPONDING_ANGLES_OF_PARALLEL_LINES.ordinal()]) 
+        {
+            CorrespondingAnglesOFParallelLines correspondingAnglesOFParallelLines = new CorrespondingAnglesOFParallelLines((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(correspondingAnglesOFParallelLines.deduce());
+        }
 
         // Definitions
-        AngleBisectorDefinition angleBisectorDefinition = new AngleBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_BISECTOR_DEFINITION.ordinal()]) 
+        {
+            AngleBisectorDefinition angleBisectorDefinition = new AngleBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(angleBisectorDefinition.deduce());
+        }
 
-        ComplementaryDefinition complementaryDefinition = new ComplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        complementaryDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.COMPLEMENTARY_DEFINITION.ordinal()]) 
+        {
+            ComplementaryDefinition complementaryDefinition = new ComplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(complementaryDefinition.deduce());
+        }
 
-        PerpendicularBisectorDefinition perpendicularBisectorDefinition = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularBisectorDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal()]) 
+        {
+            PerpendicularBisectorDefinition perpendicularBisectorDefinition = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularBisectorDefinition.deduce());
+        }
 
-        RightAngleDefinition rightAngleDefinition = new RightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rightAngleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RIGHT_ANGLE_DEFINITION.ordinal()]) 
+        {
+            RightAngleDefinition rightAngleDefinition = new RightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(rightAngleDefinition.deduce());
+        }
 
-        StraightAngleDefinition straightAngleDefinition = new StraightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        straightAngleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.STRAIGHT_ANGLE_DEFINITION.ordinal()]) 
+        {
+            StraightAngleDefinition straightAngleDefinition = new StraightAngleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(straightAngleDefinition.deduce());
+        }
 
-        SupplementaryDefinition supplementaryDefinition = new SupplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SUPPLEMENTARY_DEFINITION.ordinal()]) 
+        {
+            SupplementaryDefinition supplementaryDefinition = new SupplementaryDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(supplementaryDefinition.deduce());
+        }
 
         // Theorems
-        AdjacentAnglesPerpendicularImplyComplementary adjacentAnglesPerpendicularImplyComplementary = 
-                new AdjacentAnglesPerpendicularImplyComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        adjacentAnglesPerpendicularImplyComplementary.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ADJACENT_ANGLES_PERPENDICULAR_IMPLY_COMPLEMENTARY.ordinal()]) 
+        {
+            AdjacentAnglesPerpendicularImplyComplementary adjacentAnglesPerpendicularImplyComplementary = 
+                    new AdjacentAnglesPerpendicularImplyComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(adjacentAnglesPerpendicularImplyComplementary.deduce());
+        }
 
-        AngleBisectorTheorem angleBisectorTheorem = new AngleBisectorTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorTheorem.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_BISECTOR_THEOREM.ordinal()]) 
+        {
+            AngleBisectorTheorem angleBisectorTheorem = new AngleBisectorTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(angleBisectorTheorem.deduce());
+        }
 
-        CongruentAdjacentAnglesImplyPerpendicular congruentAdjacentAnglesImplyPerpendicular = new CongruentAdjacentAnglesImplyPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentAdjacentAnglesImplyPerpendicular.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_ADJACENT_ANGLES_IMPLY_PERPENDICULAR.ordinal()]) 
+        {
+            CongruentAdjacentAnglesImplyPerpendicular congruentAdjacentAnglesImplyPerpendicular = new CongruentAdjacentAnglesImplyPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentAdjacentAnglesImplyPerpendicular.deduce());
+        }
 
-        PerpendicularImplyCongruentAdjacentAngles perpendicularImplyCongruentAdjacentAngles = new PerpendicularImplyCongruentAdjacentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularImplyCongruentAdjacentAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_IMPLY_CONGRUENT_ADJACENT_ANGLES.ordinal()]) 
+        {
+            PerpendicularImplyCongruentAdjacentAngles perpendicularImplyCongruentAdjacentAngles = new PerpendicularImplyCongruentAdjacentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularImplyCongruentAdjacentAngles.deduce());
+        }
 
-        RelationsOfCongruentAnglesAreCongruent relationsOfCongruentAnglesAreCongruent = new RelationsOfCongruentAnglesAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        relationsOfCongruentAnglesAreCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RELATIONS_OF_CONGRUENT_ANGLES_ARE_CONGRUENT.ordinal()]) 
+        {
+            RelationsOfCongruentAnglesAreCongruent relationsOfCongruentAnglesAreCongruent = new RelationsOfCongruentAnglesAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(relationsOfCongruentAnglesAreCongruent.deduce());
+        }
 
-        SupplementaryAndCongruentImplyRightAngles supplementaryAndCongruentImplyRightAngles = new SupplementaryAndCongruentImplyRightAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryAndCongruentImplyRightAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_SUPPLEMENTARY_ANGLES_IMPLY_RIGHT_ANGLES.ordinal()]) 
+        {
+            SupplementaryAndCongruentImplyRightAngles supplementaryAndCongruentImplyRightAngles = new SupplementaryAndCongruentImplyRightAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(supplementaryAndCongruentImplyRightAngles.deduce());
+        }
 
-        SupplementaryAnglesParallelIntersection supplementaryAnglesParallelIntersection = new SupplementaryAnglesParallelIntersection((QueryableHypergraph<GroundedClause, Annotation>) this);
-        supplementaryAnglesParallelIntersection.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SUPPLEMENTARY_ANGLES_PARALLEL_INTERSECTION.ordinal()]) 
+        {
+            SupplementaryAnglesParallelIntersection supplementaryAnglesParallelIntersection = new SupplementaryAnglesParallelIntersection((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(supplementaryAnglesParallelIntersection.deduce());
+        }
 
         //
         // CIRCLES
         //
         // Definitions
-        CircleDefinition circleDefinition = new CircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        circleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CIRCLE_DEFINITION.ordinal()]) 
+        {
+            CircleDefinition circleDefinition = new CircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(circleDefinition.deduce());
+        }
 
-        CongruentCircleDefinition congruentCircleDefinition = new CongruentCircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentCircleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CIRCLE_CONGRUENCE_DEFINITION.ordinal()]) 
+        {
+            CongruentCircleDefinition congruentCircleDefinition = new CongruentCircleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentCircleDefinition.deduce());
+        }
 
         //
         // PARALLEL LINES
         //
         // Theorems
-        AltIntCongruentAnglesImplyParallel altIntCongruentAnglesImplyParallel = new AltIntCongruentAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altIntCongruentAnglesImplyParallel.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ALT_INT_CONGRUENT_ANGLES_IMPLY_PARALLEL.ordinal()]) 
+        {
+            AltIntCongruentAnglesImplyParallel altIntCongruentAnglesImplyParallel = new AltIntCongruentAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(altIntCongruentAnglesImplyParallel.deduce());
+        }
 
-        ParallelImplyAltIntCongruentAngles parallelImplyAltIntCongruentAngles = new ParallelImplyAltIntCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelImplyAltIntCongruentAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PARALLEL_IMPLY_ALT_INT_CONGRUENT_ANGLES.ordinal()]) 
+        {
+            ParallelImplyAltIntCongruentAngles parallelImplyAltIntCongruentAngles = new ParallelImplyAltIntCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(parallelImplyAltIntCongruentAngles.deduce());
+        }
 
-        ParallelImplySameSideInteriorSupplementary parallelImplySameSideInteriorSupplementary = 
-                new ParallelImplySameSideInteriorSupplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelImplySameSideInteriorSupplementary.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PARALLEL_IMPLY_SAME_SIDE_INTERIOR_SUPPLEMENTARY.ordinal()]) 
+        {
+            ParallelImplySameSideInteriorSupplementary parallelImplySameSideInteriorSupplementary = 
+                    new ParallelImplySameSideInteriorSupplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(parallelImplySameSideInteriorSupplementary.deduce());
+        }
 
-        SameSideSuppleAnglesImplyParallel sameSideSuppleAnglesImplyParallel = new SameSideSuppleAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sameSideSuppleAnglesImplyParallel.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SAME_SIDE_SUPPLE_ANGLES_IMPLY_PARALLEL.ordinal()]) 
+        {
+            SameSideSuppleAnglesImplyParallel sameSideSuppleAnglesImplyParallel = new SameSideSuppleAnglesImplyParallel((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sameSideSuppleAnglesImplyParallel.deduce());
+        }
 
-        TransversalPerpendicularToParallelImplyBothPerpendicular transversalPerpendicularToParallelImplyBothPerpendicular = 
-                new TransversalPerpendicularToParallelImplyBothPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        transversalPerpendicularToParallelImplyBothPerpendicular.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.TRANSVERSAL_PERPENDICULAR_TO_PARALLEL_IMPLY_BOTH_PERPENDICULAR.ordinal()]) 
+        {
+            TransversalPerpendicularToParallelImplyBothPerpendicular transversalPerpendicularToParallelImplyBothPerpendicular = 
+                    new TransversalPerpendicularToParallelImplyBothPerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(transversalPerpendicularToParallelImplyBothPerpendicular.deduce());
+        }
 
         //
         // QUADRILATERALS
         //
         // Definitions
-        IsoscelesTrapezoidDefinition isoscelesTrapezoidDefinition = new IsoscelesTrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTrapezoidDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ISOSCELES_TRAPEZOID_DEFINITION.ordinal()]) 
+        {
+            IsoscelesTrapezoidDefinition isoscelesTrapezoidDefinition = new IsoscelesTrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(isoscelesTrapezoidDefinition.deduce());
+        }
 
-        KiteDefinition kiteDefinition = new KiteDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        kiteDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.KITE_DEFINITION.ordinal()]) 
+        {
+            KiteDefinition kiteDefinition = new KiteDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(kiteDefinition.deduce());
+        }
 
-        ParallelogramDefinition parallelogramDefinition = new ParallelogramDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelogramDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PARALLELOGRAM_DEFINITION.ordinal()]) 
+        {
+            ParallelogramDefinition parallelogramDefinition = new ParallelogramDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(parallelogramDefinition.deduce());
+        }
 
-        RectangleDefinition rectangleDefinition = new RectangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rectangleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RECTANGLE_DEFINITION.ordinal()]) 
+        {
+            RectangleDefinition rectangleDefinition = new RectangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(rectangleDefinition.deduce());
+        }
 
-        RhombusDefinition rhombusDefinition = new RhombusDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rhombusDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RHOMBUS_DEFINITION.ordinal()]) 
+        {
+            RhombusDefinition rhombusDefinition = new RhombusDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(rhombusDefinition.deduce());
+        }
 
-        SquareDefinition squareDefinition = new SquareDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        squareDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SQUARE_DEFINITION.ordinal()]) 
+        {
+            SquareDefinition squareDefinition = new SquareDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(squareDefinition.deduce());
+        }
 
-        TrapezoidDefinition trepezoidDefinition = new TrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        trepezoidDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.TRAPEZOID_DEFINITION.ordinal()]) 
+        {
+            TrapezoidDefinition trepezoidDefinition = new TrapezoidDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(trepezoidDefinition.deduce());
+        }
 
         // Theorems
-        BaseAnglesIsoscelesTrapezoidCongruent baseAnglesIsosclesTrapezoidCongruent = 
-                new BaseAnglesIsoscelesTrapezoidCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        baseAnglesIsosclesTrapezoidCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.BASE_ANGLES_OF_ISOSCELES_TRAPEZOID_CONGRUENT.ordinal()]) 
+        {
+            BaseAnglesIsoscelesTrapezoidCongruent baseAnglesIsosclesTrapezoidCongruent = 
+                    new BaseAnglesIsoscelesTrapezoidCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(baseAnglesIsosclesTrapezoidCongruent.deduce());
+        }
 
-        BothPairsOppAnglesCongruentImpliesParallelogram BothPairsOppAnglesCongruentImpliesParallelogram = 
-                new BothPairsOppAnglesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        BothPairsOppAnglesCongruentImpliesParallelogram.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.OPPOSITE_ANGLES_CONGRUENT_IMPLIES_PARALLELOGRAM.ordinal()]) 
+        {
+            BothPairsOppAnglesCongruentImpliesParallelogram BothPairsOppAnglesCongruentImpliesParallelogram = 
+                    new BothPairsOppAnglesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(BothPairsOppAnglesCongruentImpliesParallelogram.deduce());
+        }
 
-        BothPairsOppSidesCongruentImpliesParallelogram BothPairsOppSidesCongruentImpliesParallelogram = 
-                new BothPairsOppSidesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        BothPairsOppSidesCongruentImpliesParallelogram.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.OPPOSITE_SIDES_CONGRUENT_IMPLIES_PARALLELOGRAM.ordinal()]) 
+        {
+            BothPairsOppSidesCongruentImpliesParallelogram BothPairsOppSidesCongruentImpliesParallelogram = 
+                    new BothPairsOppSidesCongruentImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(BothPairsOppSidesCongruentImpliesParallelogram.deduce());
+        }
 
-        DiagonalsBisectEachOtherImplyParallelogram diagonalsBisectEachOtherImplyParallelogram = 
-                new DiagonalsBisectEachOtherImplyParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsBisectEachOtherImplyParallelogram.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_BISECT_EACH_OTHER_IMPLY_PARALLELOGRAM.ordinal()]) 
+        {
+            DiagonalsBisectEachOtherImplyParallelogram diagonalsBisectEachOtherImplyParallelogram = 
+                    new DiagonalsBisectEachOtherImplyParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsBisectEachOtherImplyParallelogram.deduce());
+        }
 
-        DiagonalsOfKiteArePerpendicular diagonalsOfKiteArePerpendicular = new DiagonalsOfKiteArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfKiteArePerpendicular.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_OF_KITE_ARE_PERPENDICULAR.ordinal()]) 
+        {
+            DiagonalsOfKiteArePerpendicular diagonalsOfKiteArePerpendicular = new DiagonalsOfKiteArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsOfKiteArePerpendicular.deduce());
+        }
 
-        DiagonalsOfRectangleAreCongruent diagonalsOfRectangleAreCongruent = new DiagonalsOfRectangleAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRectangleAreCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_OF_RECTANGLE_ARE_CONGRUENT.ordinal()]) 
+        {
+            DiagonalsOfRectangleAreCongruent diagonalsOfRectangleAreCongruent = new DiagonalsOfRectangleAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsOfRectangleAreCongruent.deduce());
+        }
 
-        DiagonalsOfRhombusArePerpendicular diagonalsOfRhombusArePerpendicular = new DiagonalsOfRhombusArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRhombusArePerpendicular.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_OF_RHOMBUS_ARE_PERPENDICULAR.ordinal()]) 
+        {
+            DiagonalsOfRhombusArePerpendicular diagonalsOfRhombusArePerpendicular = new DiagonalsOfRhombusArePerpendicular((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsOfRhombusArePerpendicular.deduce());
+        }
 
-        DiagonalsOfRhombusBisectRhombusAngles diagonalsOfRhombusBisectRhombusAngles = 
-                new DiagonalsOfRhombusBisectRhombusAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsOfRhombusBisectRhombusAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_OF_RHOMBUS_BISECT_ANGLES_OF_RHOMBUS.ordinal()]) 
+        {
+            DiagonalsOfRhombusBisectRhombusAngles diagonalsOfRhombusBisectRhombusAngles = 
+                    new DiagonalsOfRhombusBisectRhombusAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsOfRhombusBisectRhombusAngles.deduce());
+        }
 
-        DiagonalsParallelogramBisectEachOther diagonalsParallelogramBisectEachOther = 
-                new DiagonalsParallelogramBisectEachOther((QueryableHypergraph<GroundedClause, Annotation>) this);
-        diagonalsParallelogramBisectEachOther.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.DIAGONALS_PARALLELOGRAM_BISECT_EACH_OTHER.ordinal()]) 
+        {
+            DiagonalsParallelogramBisectEachOther diagonalsParallelogramBisectEachOther = 
+                    new DiagonalsParallelogramBisectEachOther((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(diagonalsParallelogramBisectEachOther.deduce());
+        }
 
-        MedianTrapezoidHalfSumBases medianTrapezoidHalfSumBases = new MedianTrapezoidHalfSumBases((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianTrapezoidHalfSumBases.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.MEDIAN_TRAPEZOID_LENGTH_HALF_SUM_BASES.ordinal()]) 
+        {
+            MedianTrapezoidHalfSumBases medianTrapezoidHalfSumBases = new MedianTrapezoidHalfSumBases((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(medianTrapezoidHalfSumBases.deduce());
+        }
 
-        MedianTrapezoidParallelToBases medianTrapezoidParallelToBases = new MedianTrapezoidParallelToBases((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianTrapezoidParallelToBases.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.MEDIAN_TRAPEZOID_PARALLEL_TO_BASE.ordinal()]) 
+        {
+            MedianTrapezoidParallelToBases medianTrapezoidParallelToBases = new MedianTrapezoidParallelToBases((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(medianTrapezoidParallelToBases.deduce());
+        }
 
-        OnePairOppSidesCongruentParallelImpliesParallelogram onePairOppSidesCongruentParallelImpliesParallelogram = 
-                new OnePairOppSidesCongruentParallelImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
-        onePairOppSidesCongruentParallelImpliesParallelogram.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ONE_PAIR_OPPOSITE_SIDES_CONGRUENT_PARALLEL_IMPLIES_PARALLELOGRAM.ordinal()]) 
+        {
+            OnePairOppSidesCongruentParallelImpliesParallelogram onePairOppSidesCongruentParallelImpliesParallelogram = 
+                    new OnePairOppSidesCongruentParallelImpliesParallelogram((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(onePairOppSidesCongruentParallelImpliesParallelogram.deduce());
+        }
 
-        OppositeAnglesOfParallelogramAreCongruent oppositeAnglesOfParallelogramAreCongruent = 
-                new OppositeAnglesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        oppositeAnglesOfParallelogramAreCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.OPPOSITE_ANGLES_PARALLELOGRAM_ARE_CONGRUENT.ordinal()]) 
+        {
+            OppositeAnglesOfParallelogramAreCongruent oppositeAnglesOfParallelogramAreCongruent = 
+                    new OppositeAnglesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(oppositeAnglesOfParallelogramAreCongruent.deduce());
+        }
 
-        OppositeSidesOfParallelogramAreCongruent oppositeSidesOfParallelogramAreCongruent = 
-                new OppositeSidesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        oppositeSidesOfParallelogramAreCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.OPPOSITE_SIDES_PARALLELOGRAM_ARE_CONGRUENT.ordinal()]) 
+        {
+            OppositeSidesOfParallelogramAreCongruent oppositeSidesOfParallelogramAreCongruent = 
+                    new OppositeSidesOfParallelogramAreCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(oppositeSidesOfParallelogramAreCongruent.deduce());
+        }
 
         //
         // SEGMENTS
         //
         // Axioms
-        CongruentSegmentsImplySegmentRatioDefinition congruentSegmentsImplySegmentRatioDefinition = 
-                new CongruentSegmentsImplySegmentRatioDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentSegmentsImplySegmentRatioDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_SEGMENTS_IMPLY_PROPORTIONAL_SEGMENTS_DEFINITION.ordinal()]) 
+        {
+            CongruentSegmentsImplySegmentRatioDefinition congruentSegmentsImplySegmentRatioDefinition = 
+                    new CongruentSegmentsImplySegmentRatioDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentSegmentsImplySegmentRatioDefinition.deduce());
+        }
 
-        SegmentAdditionAxiom segmentAdditionAxiom = new SegmentAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
-        segmentAdditionAxiom.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SEGMENT_ADDITION_AXIOM.ordinal()]) 
+        {
+            SegmentAdditionAxiom segmentAdditionAxiom = new SegmentAdditionAxiom((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(segmentAdditionAxiom.deduce());
+        }
 
         // Definitions
-        MidpointDefinition midpointDefinition = new MidpointDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        midpointDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.MIDPOINT_DEFINITION.ordinal()]) 
+        {
+            MidpointDefinition midpointDefinition = new MidpointDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(midpointDefinition.deduce());
+        }
 
-        PerpendicularBisectorDefinition perpendicularBisectorDefinition1 = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularBisectorDefinition1.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal()]) 
+        {
+            PerpendicularBisectorDefinition perpendicularBisectorDefinition1 = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularBisectorDefinition1.deduce());
+        }
 
-        PerpendicularDefinition perpendicularDefinition = new PerpendicularDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_DEFINITION.ordinal()]) 
+        {
+            PerpendicularDefinition perpendicularDefinition = new PerpendicularDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularDefinition.deduce());
+        }
 
-        PerpendicularSegments perpendicularSegments = new PerpendicularSegments((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularSegments.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_SEGMENTS.ordinal()]) 
+        {
+            PerpendicularSegments perpendicularSegments = new PerpendicularSegments((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularSegments.deduce());
+        }
 
-        SegmentBisectorDefinition segmentBisectorDefinition = new SegmentBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        segmentBisectorDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal()]) 
+        {
+            SegmentBisectorDefinition segmentBisectorDefinition = new SegmentBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(segmentBisectorDefinition.deduce());
+        }
 
         // Theorems
-        MidpointTheorem midpointTheorem = new MidpointTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        midpointTheorem.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.MIDPOINT_THEOREM.ordinal()]) 
+        {
+            MidpointTheorem midpointTheorem = new MidpointTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(midpointTheorem.deduce());
+        }
 
-        ParallelSegmentsTransitivity parallelSegmentsTransitivity = new ParallelSegmentsTransitivity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        parallelSegmentsTransitivity.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.PARALLEL_SEGMENTS_TRANSITIVITY.ordinal()]) 
+        {
+            ParallelSegmentsTransitivity parallelSegmentsTransitivity = new ParallelSegmentsTransitivity((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(parallelSegmentsTransitivity.deduce());
+        }
 
-        PerpendicularParallelTransversal perpendicularParallelTransversal = new PerpendicularParallelTransversal((QueryableHypergraph<GroundedClause, Annotation>) this);
-        perpendicularParallelTransversal.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.TRANSVERSAL_PERPENDICULAR_TO_PARALLEL_IMPLY_BOTH_PERPENDICULAR.ordinal()]) 
+        {
+            PerpendicularParallelTransversal perpendicularParallelTransversal = new PerpendicularParallelTransversal((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(perpendicularParallelTransversal.deduce());
+        }
 
-        VerticalAnglesTheorem VerticalAnglesTheorem = new VerticalAnglesTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        VerticalAnglesTheorem.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.VERTICAL_ANGLES.ordinal()]) 
+        {
+            VerticalAnglesTheorem VerticalAnglesTheorem = new VerticalAnglesTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(VerticalAnglesTheorem.deduce());
+        }
 
         //
         // TRIANGLES
         //
         // Axioms
-        AASimilarity aASimilarity = new AASimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aASimilarity.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.AA_SIMILARITY.ordinal()]) 
+        {
+            AASimilarity aASimilarity = new AASimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(aASimilarity.deduce());
+        }
 
-        ASA aSA = new ASA((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aSA.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ASA.ordinal()]) 
+        {
+            ASA aSA = new ASA((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(aSA.deduce());
+        }
 
-        SASCongruence sASCongruence = new SASCongruence((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sASCongruence.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SAS_CONGRUENCE.ordinal()]) 
+        {
+            SASCongruence sASCongruence = new SASCongruence((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sASCongruence.deduce());
+        }
 
-        SSS sSS = new SSS((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sSS.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SSS.ordinal()]) 
+        {
+            SSS sSS = new SSS((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sSS.deduce());
+        }
 
         // Definitions
-        AltitudeDefinition altitudeDefinition = new AltitudeDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altitudeDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ALTITUDE_DEFINITION.ordinal()]) 
+        {
+            AltitudeDefinition altitudeDefinition = new AltitudeDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(altitudeDefinition.deduce());
+        }
 
-        CoordinateRightIsoscelesTriangles coordinateRightIsoscelesTriangle = new CoordinateRightIsoscelesTriangles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        coordinateRightIsoscelesTriangle.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RIGHT_TRIANGLE_DEFINITION.ordinal()]) 
+        {
+            CoordinateRightIsoscelesTriangles coordinateRightIsoscelesTriangle = new CoordinateRightIsoscelesTriangles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(coordinateRightIsoscelesTriangle.deduce());
+        }
 
-        EquilateralTriangleDefinition equilateralTriangleDefinition = new EquilateralTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        equilateralTriangleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.EQUILATERAL_TRIANGLE_DEFINITION.ordinal()]) 
+        {
+            EquilateralTriangleDefinition equilateralTriangleDefinition = new EquilateralTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(equilateralTriangleDefinition.deduce());
+        }
 
-        IsoscelesTriangleDefinition isoscelesTriangleDefinition = new IsoscelesTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTriangleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ISOSCELES_TRIANGLE_DEFINITION.ordinal()]) 
+        {
+            IsoscelesTriangleDefinition isoscelesTriangleDefinition = new IsoscelesTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(isoscelesTriangleDefinition.deduce());
+        }
 
-        MedianDefinition medianDefinition = new MedianDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        medianDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.MEDIAN_DEFINITION.ordinal()]) 
+        {
+            MedianDefinition medianDefinition = new MedianDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(medianDefinition.deduce());
+        }
 
-        RightTriangleDefinition rightTriangleDefinition = new RightTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
-        rightTriangleDefinition.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.RIGHT_TRIANGLE_DEFINITION.ordinal()]) 
+        {
+            RightTriangleDefinition rightTriangleDefinition = new RightTriangleDefinition((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(rightTriangleDefinition.deduce());
+        }
 
         // Theorems
-        AAS aAS = new AAS((QueryableHypergraph<GroundedClause, Annotation>) this);
-        aAS.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.AAS.ordinal()]) 
+        {
+            AAS aAS = new AAS((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(aAS.deduce());
+        }
 
-        AcuteAnglesInRightTriangleComplementary acuteAnglesInRightTriangleComplementary = 
-                new AcuteAnglesInRightTriangleComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
-        acuteAnglesInRightTriangleComplementary.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ACUTE_ANGLES_IN_RIGHT_TRIANGLE_ARE_COMPLEMENTARY.ordinal()]) 
+        {
+            AcuteAnglesInRightTriangleComplementary acuteAnglesInRightTriangleComplementary = 
+                    new AcuteAnglesInRightTriangleComplementary((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(acuteAnglesInRightTriangleComplementary.deduce());
+        }
 
-        AltitudeOfRightTrianglesImpliesSimilar altitudeOfRightTrianglesImpliesSimilar = 
-                new AltitudeOfRightTrianglesImpliesSimilar((QueryableHypergraph<GroundedClause, Annotation>) this);
-        altitudeOfRightTrianglesImpliesSimilar.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ALTITUDE_OF_RIGHT_TRIANGLES_IMPLIES_SIMILAR.ordinal()]) 
+        {
+            AltitudeOfRightTrianglesImpliesSimilar altitudeOfRightTrianglesImpliesSimilar = 
+                    new AltitudeOfRightTrianglesImpliesSimilar((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(altitudeOfRightTrianglesImpliesSimilar.deduce());
+        }
 
-        AngleBisectorIsPerpendicularBisectorInIsosceles angleBisectorIsPerpendicularBisectorInIsosceles = 
-                new AngleBisectorIsPerpendicularBisectorInIsosceles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        angleBisectorIsPerpendicularBisectorInIsosceles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ANGLE_BISECTOR_IS_PERPENDICULAR_BISECTOR_IN_ISOSCELES.ordinal()]) 
+        {
+            AngleBisectorIsPerpendicularBisectorInIsosceles angleBisectorIsPerpendicularBisectorInIsosceles = 
+                    new AngleBisectorIsPerpendicularBisectorInIsosceles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(angleBisectorIsPerpendicularBisectorInIsosceles.deduce());
+        }
 
-        CongruentAnglesInTriangleImplyCongruentSides congruentAnglesInTriangleImplyCongruentSides = 
-                new CongruentAnglesInTriangleImplyCongruentSides((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentAnglesInTriangleImplyCongruentSides.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_ANGLES_IN_TRIANGLE_IMPLY_CONGRUENT_SIDES.ordinal()])
+        {
+            CongruentAnglesInTriangleImplyCongruentSides congruentAnglesInTriangleImplyCongruentSides = 
+                    new CongruentAnglesInTriangleImplyCongruentSides((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentAnglesInTriangleImplyCongruentSides.deduce());
+        }
 
-        CongruentSidesInTriangleImplyCongruentAngles congruentSidesInTriangleImplyCongruentAngles = 
-                new CongruentSidesInTriangleImplyCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        congruentSidesInTriangleImplyCongruentAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.CONGRUENT_SIDES_IN_TRIANGLE_IMPLY_CONGRUENT_ANGLES.ordinal()])
+        {
+            CongruentSidesInTriangleImplyCongruentAngles congruentSidesInTriangleImplyCongruentAngles = 
+                    new CongruentSidesInTriangleImplyCongruentAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(congruentSidesInTriangleImplyCongruentAngles.deduce());
+        }
 
-        EquilateralTriangleHasSixtyDegreeAngles equilateralTriangleHasSixtyDegreeAngles = 
-                new EquilateralTriangleHasSixtyDegreeAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        equilateralTriangleHasSixtyDegreeAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.EQUILATERAL_TRIANGLE_HAS_SIXTY_DEGREE_ANGLES.ordinal()]) 
+        {
+            EquilateralTriangleHasSixtyDegreeAngles equilateralTriangleHasSixtyDegreeAngles = 
+                    new EquilateralTriangleHasSixtyDegreeAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(equilateralTriangleHasSixtyDegreeAngles.deduce());
+        }
 
-        ExteriorAngleEqualSumRemoteAngles exteriorAngleEqualSumRemoteAngles = new ExteriorAngleEqualSumRemoteAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
-        exteriorAngleEqualSumRemoteAngles.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.EXTERIOR_ANGLE_EQUAL_SUM_REMOTE_ANGLES.ordinal()])
+        {
+            ExteriorAngleEqualSumRemoteAngles exteriorAngleEqualSumRemoteAngles = new ExteriorAngleEqualSumRemoteAngles((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(exteriorAngleEqualSumRemoteAngles.deduce());
+        }
 
-        HypotenuseLeg hypotenuseLeg = new HypotenuseLeg((QueryableHypergraph<GroundedClause, Annotation>) this);
-        hypotenuseLeg.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.HYPOTENUSE_LEG.ordinal()])
+        {
+            HypotenuseLeg hypotenuseLeg = new HypotenuseLeg((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(hypotenuseLeg.deduce());
+        }
 
-        IsoscelesTriangleTheorem isoscelesTriangleTheorem = new IsoscelesTriangleTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
-        isoscelesTriangleTheorem.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.ISOSCELES_TRIANGLE_THEOREM.ordinal()])
+        {
+            IsoscelesTriangleTheorem isoscelesTriangleTheorem = new IsoscelesTriangleTheorem((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(isoscelesTriangleTheorem.deduce());
+        }
 
-        SASSimilarity sASSimilarity = new SASSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sASSimilarity.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SAS_SIMILARITY.ordinal()])
+        {
+            SASSimilarity sASSimilarity = new SASSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sASSimilarity.deduce());
+        }
 
-        SSSSimilarity sSSSimiliary = new SSSSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sSSSimiliary.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SSS_SIMILARITY.ordinal()]) 
+        {
+            SSSSimilarity sSSSimiliary = new SSSSimilarity((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sSSSimiliary.deduce());
+        }
 
-        SumAnglesInTriangle sumAnglesInTriangle = new SumAnglesInTriangle((QueryableHypergraph<GroundedClause, Annotation>) this);
-        sumAnglesInTriangle.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.SUM_ANGLES_IN_TRIANGLE_180.ordinal()]) 
+        {
+            SumAnglesInTriangle sumAnglesInTriangle = new SumAnglesInTriangle((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(sumAnglesInTriangle.deduce());
+        }
 
-        TriangleProportionality triangleProportionality = new TriangleProportionality((QueryableHypergraph<GroundedClause, Annotation>) this);
-        triangleProportionality.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.TRIANGLE_PROPORTIONALITY.ordinal()]) 
+        {
+            TriangleProportionality triangleProportionality = new TriangleProportionality((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(triangleProportionality.deduce());
+        }
 
-        TwoPairsCongruentAnglesImplyThirdPairCongruent twoPairsCongruentAnglesImplyThirdPairCongruent = 
-                new TwoPairsCongruentAnglesImplyThirdPairCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
-        twoPairsCongruentAnglesImplyThirdPairCongruent.deduce());
+        if (!DeductionFlags.dFlags[DeductionJustType.TWO_PAIRS_CONGRUENT_ANGLES_IMPLY_THIRD_PAIR_CONGRUENT.ordinal()])
+        {
+            TwoPairsCongruentAnglesImplyThirdPairCongruent twoPairsCongruentAnglesImplyThirdPairCongruent = 
+                    new TwoPairsCongruentAnglesImplyThirdPairCongruent((QueryableHypergraph<GroundedClause, Annotation>) this);
+            deductions.addAll(twoPairsCongruentAnglesImplyThirdPairCongruent.deduce());
+        }
+        return deductions;
 
     }
 
