@@ -1,11 +1,13 @@
 package backend.symbolicAlgebra.equations;
 
 import java.util.List;
-import backend.ast.figure.components.*;
+
+import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.NumericValue;
-import backend.utilities.exception.*;
-import backend.utilities.ast_helper.*;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 import backend.ast.GroundedClause;
 
 public class ArcEquation extends Equation
@@ -20,8 +22,8 @@ public class ArcEquation extends Equation
     public ArcEquation(GroundedClause left, GroundedClause right)
     {
         super(left, right);
-        double sumL = SumSide(left.collectTerms());
-        double sumR = SumSide(right.collectTerms());
+        double sumL = SumSide(left.collectTerms().getValue());
+        double sumR = SumSide(right.collectTerms().getValue());
        
         //if (!Utilities.CompareValues(sumL, sumR))
         //{
@@ -47,11 +49,11 @@ public class ArcEquation extends Equation
             }
             else if (clause instanceof Arc)
             {
-                sum += clause.getMulitplier() * ((Arc)clause).getLength();
+                sum += ((Arc)clause).getLength();
             }
             else if (clause instanceof Segment)
             {
-                sum += clause.getMulitplier() * ((Segment)clause).length();
+                sum += ((Segment)clause).length();
             }
         }
         return sum;

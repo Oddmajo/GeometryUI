@@ -3,6 +3,8 @@ package backend.symbolicAlgebra.equations.operations;
 import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.symbolicAlgebra.ArithmeticNode;
+import backend.symbolicAlgebra.NumericValue;
+import backend.utilities.Pair;
 
 public class ArithmeticOperation extends ArithmeticNode
 {
@@ -18,43 +20,35 @@ public class ArithmeticOperation extends ArithmeticNode
         leftExp = left;
         rightExp = right;
     }
-   
+
 
     public GroundedClause getLeftExp()
     {
         return leftExp;
     }
-    
+
     public GroundedClause getRightExp()
     {
         return rightExp;
     }
-    
-    public ArrayList<GroundedClause> collectTerms()
+
+    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
     {
         ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
 
-        list.addAll(leftExp.collectTerms());
-        list.addAll(rightExp.collectTerms());
+        list.addAll(leftExp.collectTerms().getKey());
+        list.addAll(rightExp.collectTerms().getKey());
 
-        /*     
         GroundedClause copyGC = null;
-        for(GroundedClause gc : rightExp.collectTerms())
+        for(GroundedClause gc : rightExp.collectTerms().getKey())
         {
-            try
-            {
-                copyGC = gc.deepCopy();
-            }
-            catch (CloneNotSupportedException e)
-            {
-                // TODO Auto-generated catch block
-                ExceptionHandler.throwException(e);
-            }
-
+            copyGC = gc.deepCopy();
             list.add(copyGC);
+            multipliers.add(new NumericValue(1));
         }
-*/
-        return list;
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> pair = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(list, multipliers);
+        return pair;
     }
 
     public boolean containsClause(GroundedClause newG)
@@ -72,7 +66,6 @@ public class ArithmeticOperation extends ArithmeticNode
         {
             leftExp.substitute(toFind, toSub);
         }
-
         if (rightExp.containsClause(toFind))
         {
             rightExp = toSub;
@@ -97,13 +90,22 @@ public class ArithmeticOperation extends ArithmeticNode
     {
         return "(" + leftExp.toString() + " + " + rightExp.toString() + ")";
     }
-    
+
 
     public boolean equals(Object obj)
     {
         if (obj == null) return false;
-        ArithmeticOperation ao = (ArithmeticOperation) obj;
-        return leftExp.equals(ao.leftExp) && rightExp.equals(ao.rightExp) ||
-                leftExp.equals(ao.rightExp) && rightExp.equals(ao.leftExp) && super.equals(obj);
+        if (obj instanceof ArithmeticOperation)
+        {
+            ArithmeticOperation ao = (ArithmeticOperation) obj;
+            return leftExp.equals(ao.leftExp) && rightExp.equals(ao.rightExp) ||
+                    leftExp.equals(ao.rightExp) && rightExp.equals(ao.leftExp) && super.equals(obj);
+        }
+        if (obj instanceof NumericValue)
+        {
+            NumericValue nv = (NumericValue) obj;
+            return nv.equals(new NumericValue(0));
+        }
+        return false;
     }
 }

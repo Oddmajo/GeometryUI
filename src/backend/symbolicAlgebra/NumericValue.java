@@ -1,11 +1,11 @@
 package backend.symbolicAlgebra;
 
-import backend.utilities.ast_helper.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
 import backend.ast.GroundedClause;
+import backend.utilities.Pair;
+import backend.utilities.ast_helper.Utilities;
 
 public class NumericValue extends ArithmeticNode implements Cloneable
 {
@@ -70,6 +70,11 @@ public class NumericValue extends ArithmeticNode implements Cloneable
             return getIntValue() + v;
         else
             return toString();
+    }
+    
+    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
+    {
+        return new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(Utilities.MakeList(new NumericValue(1)), Utilities.MakeList(this));
     }
 
     //This method is bypassed when called from an arithmetic operation - Ryan
@@ -151,7 +156,7 @@ public class NumericValue extends ArithmeticNode implements Cloneable
 
     public boolean equals(Object obj)
     {
-        if (obj == null || (NumericValue) obj == null)
+        if (obj == null || !(obj instanceof NumericValue))
         {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             return false;
         }

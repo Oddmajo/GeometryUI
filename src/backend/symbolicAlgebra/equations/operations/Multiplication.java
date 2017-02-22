@@ -3,6 +3,7 @@ package backend.symbolicAlgebra.equations.operations;
 import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.symbolicAlgebra.NumericValue;
+import backend.utilities.Pair;
 
 public class Multiplication extends ArithmeticOperation
 {
@@ -29,43 +30,74 @@ public class Multiplication extends ArithmeticOperation
     //
     // In an attempt to avoid issues, all terms collected are copies of the originals.
     //
-    public ArrayList<GroundedClause> collectTerms()
+    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
     {
-        ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> terms = new ArrayList<GroundedClause>();
 
         if (leftExp instanceof NumericValue && rightExp instanceof NumericValue)
         {
-            list.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
+            multipliers.add(new NumericValue(1));
+            terms.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
+            
+            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
             return list;
         }
 
-        if (leftExp instanceof NumericValue)
+        else if (leftExp instanceof NumericValue)
         {
-            for (GroundedClause gc : rightExp.collectTerms())
+            if (!(rightExp instanceof ArithmeticOperation))
+                for (GroundedClause gc : rightExp.collectTerms().getValue())
+                {
+                    terms.add(gc);
+                    multipliers.add(leftExp);
+                }
+            if(rightExp instanceof ArithmeticOperation)
             {
-                GroundedClause copyGC = null;
-
-                copyGC = gc.deepCopy();
-
-                copyGC.setMultiplier(((NumericValue)leftExp).getIntValue());
-                list.add(copyGC);
+                ArrayList<GroundedClause> gcMultipliers = rightExp.collectTerms().getKey();
+                ArrayList<GroundedClause> gcTerms = rightExp.collectTerms().getValue();
+                for(int i = 0; i < gcMultipliers.size(); i++)
+                {
+                    terms.add(gcTerms.get(i));
+                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * ((NumericValue)leftExp).getDoubleValue()));
+                }
             }
+            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
+            return list;
         }
 
-        if (rightExp instanceof NumericValue)
+        else if (rightExp instanceof NumericValue)
         {
-            for (GroundedClause gc : leftExp.collectTerms())
+            if (!(leftExp instanceof ArithmeticOperation))
+                for (GroundedClause gc : leftExp.collectTerms().getValue())
+                {
+                    terms.add(gc);
+                    multipliers.add(rightExp);
+                }
+            if(leftExp instanceof ArithmeticOperation)
             {
-                GroundedClause copyGC = null;
-
-                copyGC = gc.deepCopy();
-
-                copyGC.setMultiplier(((NumericValue)rightExp).getIntValue());
-                list.add(copyGC);
+                ArrayList<GroundedClause> gcMultipliers = leftExp.collectTerms().getKey();
+                ArrayList<GroundedClause> gcTerms = leftExp.collectTerms().getValue();
+                for(int i = 0; i < gcMultipliers.size(); i++)
+                {
+                    terms.add(gcTerms.get(i));
+                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
+                }
             }
+            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
+            return list;
         }
-
+        else if ((!(leftExp instanceof ArithmeticOperation)) && (!(rightExp instanceof ArithmeticOperation)))
+        {
+            terms.add(leftExp);
+            multipliers.add(new NumericValue(1));
+            
+            terms.add(rightExp);
+            multipliers.add(new NumericValue(1));
+        }
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
         return list;
+
     }
 
     public boolean Equals(Object obj)
@@ -75,6 +107,6 @@ public class Multiplication extends ArithmeticOperation
     }
 
     public int getHashCode() { return super.getHashCode(); }
-    
+
 }
 

@@ -2,7 +2,6 @@ package backend.symbolicAlgebra.equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
@@ -23,8 +22,8 @@ public class AngleEquation extends Equation
 
     public AngleEquation(GroundedClause left, GroundedClause right)
     {
-        double sumL = SumSide(left.collectTerms());
-        double sumR = SumSide(right.collectTerms());
+        double sumL = SumSide(left.collectTerms().getValue());
+        double sumR = SumSide(right.collectTerms().getValue());
 
         if (!backend.utilities.ast_helper.Utilities.CompareValues(sumL, sumR))
         {
@@ -52,17 +51,17 @@ public class AngleEquation extends Equation
 
             else if (clause instanceof Angle)
             {
-                sum += clause.getMulitplier() * ((Angle)clause).getMeasure();
+                sum += ((Angle)clause).getMeasure();
             }
             
             else if (clause instanceof MinorArc)
             {
-                sum += clause.getMulitplier() * ((MinorArc)clause).GetMinorArcMeasureDegrees();
+                sum += ((MinorArc)clause).GetMinorArcMeasureDegrees();
             }
 
             else if (clause instanceof MajorArc)
             {
-                sum += clause.getMulitplier() *  ((MajorArc)clause).GetMajorArcMeasureDegrees();
+                sum +=  ((MajorArc)clause).GetMajorArcMeasureDegrees();
             }
             
         }
@@ -108,11 +107,11 @@ public class AngleEquation extends Equation
         // Collect all basic terms on the left and right hand sides of both equations.
         //
 
-        List<GroundedClause> thisLHS = lhs.collectTerms();
-        List<GroundedClause> thisRHS = rhs.collectTerms();
+        List<GroundedClause> thisLHS = lhs.collectTerms().getValue();
+        List<GroundedClause> thisRHS = rhs.collectTerms().getValue();
 
-        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms();
-        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms();
+        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms().getValue();
+        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms().getValue();
 
         //Check side length counts as a first step
         if (!((thisLHS.size() == thatLHS.size() && thisRHS.size() == thatRHS.size())) ||

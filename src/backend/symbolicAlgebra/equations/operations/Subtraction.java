@@ -2,7 +2,8 @@ package backend.symbolicAlgebra.equations.operations;
 
 import java.util.ArrayList;
 import backend.ast.GroundedClause;
-import backend.utilities.exception.ExceptionHandler;
+import backend.symbolicAlgebra.NumericValue;
+import backend.utilities.Pair;
 
 public class Subtraction extends ArithmeticOperation
 {
@@ -14,14 +15,67 @@ public class Subtraction extends ArithmeticOperation
         super(left, right);
     }
 
-
-    public ArrayList<GroundedClause> collectTerms()
+    //Fix this
+    //Use Multiplication collectTerms() as a basis
+    //Make Addition have a collectTerms() as well, with no negative multiplication
+    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
     {
-        ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> terms = new ArrayList<GroundedClause>();
 
-        list.addAll(leftExp.collectTerms());
-        list.addAll(rightExp.collectTerms());
+        if (leftExp instanceof NumericValue && rightExp instanceof NumericValue)
+        {
+            multipliers.add(new NumericValue(1));
+            terms.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() - ((NumericValue)rightExp).getDoubleValue()));
 
+        }
+        else if (leftExp instanceof NumericValue)
+        {
+            if (!(rightExp instanceof ArithmeticOperation))
+                for (GroundedClause gc : rightExp.collectTerms().getKey())
+                {
+                    terms.add(gc);
+                    multipliers.add(leftExp);                 
+                }
+            if(rightExp instanceof ArithmeticOperation)
+            {
+                ArrayList<GroundedClause> gcMultipliers = rightExp.collectTerms().getKey();
+                ArrayList<GroundedClause> gcTerms = rightExp.collectTerms().getValue();
+                for(int i = 0; i < gcMultipliers.size(); i++)
+                {
+                    terms.add(gcTerms.get(i));
+                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * -1));
+                }
+            }
+        }
+        else if (rightExp instanceof NumericValue)
+        {
+            if (!(leftExp instanceof ArithmeticOperation))
+                for (GroundedClause gc : leftExp.collectTerms().getKey())
+                {
+                    terms.add(gc);
+                    multipliers.add(rightExp);
+                }
+            if(leftExp instanceof ArithmeticOperation)
+            {
+                ArrayList<GroundedClause> gcMultipliers = leftExp.collectTerms().getKey();
+                ArrayList<GroundedClause> gcTerms = leftExp.collectTerms().getValue();
+                for(int i = 0; i < gcMultipliers.size(); i++)
+                {
+                    terms.add(gcTerms.get(i));
+                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * -1));
+                }
+            }
+        }
+        else if ((!(leftExp instanceof ArithmeticOperation)) && (!(rightExp instanceof ArithmeticOperation)))
+        {
+            terms.add(leftExp);
+            multipliers.add(new NumericValue(1));
+
+            terms.add(rightExp);
+            multipliers.add(new NumericValue(1));
+        }
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
         return list;
     }
 
@@ -39,59 +93,59 @@ public class Subtraction extends ArithmeticOperation
     {
 
         if (obj == null) return false;
-        
+
         if (!(obj instanceof Subtraction)) return false;
 
         Subtraction that = (Subtraction)obj;
-        
+
         return (this.leftExp.equals(that.leftExp) && this.rightExp.equals(that.rightExp));
     }
 
-//    public void simplify()
-//    {
-//        if (leftExp.getClass().equals(rightExp.getClass()))
-//        {
-//            if (leftExp instanceof AlgebraicSegmentEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricSegmentEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicAngleEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricAngleEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof AlgebraicAngleArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof GeometricAngleArcEquation)
-//            {
-//
-//            }
-//            else if (leftExp instanceof NumericValue)
-//            {
-//
-//            }
-//            else if (leftExp instanceof ArithmeticOperation)
-//            {
-//                ((ArithmeticOperation) leftExp).simplify();
-//                ((ArithmeticOperation) rightExp).simplify();
-//            }
-//        }
-//    }
+    //    public void simplify()
+    //    {
+    //        if (leftExp.getClass().equals(rightExp.getClass()))
+    //        {
+    //            if (leftExp instanceof AlgebraicSegmentEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof GeometricSegmentEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof AlgebraicAngleEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof GeometricAngleEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof AlgebraicArcEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof GeometricArcEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof AlgebraicAngleArcEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof GeometricAngleArcEquation)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof NumericValue)
+    //            {
+    //
+    //            }
+    //            else if (leftExp instanceof ArithmeticOperation)
+    //            {
+    //                ((ArithmeticOperation) leftExp).simplify();
+    //                ((ArithmeticOperation) rightExp).simplify();
+    //            }
+    //        }
+    //    }
 }

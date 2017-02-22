@@ -2,14 +2,14 @@ package backend.symbolicAlgebra.equations;
 
 import java.util.ArrayList;
 import java.util.List;
-import backend.ast.figure.components.*;
+
+import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.ArithmeticNode;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.Pair;
 import backend.utilities.exception.ExceptionHandler;
-import backend.utilities.sets.SetUtilities;
 import backend.ast.GroundedClause;
 import com.google.common.collect.*;
 
@@ -90,8 +90,8 @@ public class Equation extends ArithmeticNode
     // Collect all the terms and return a size() for both sides <left, right>
     public Pair<Integer, Integer> getCardinalities()
     {
-        List<GroundedClause> left = lhs.collectTerms();
-        List<GroundedClause> right = rhs.collectTerms();
+        List<GroundedClause> left = lhs.collectTerms().getValue();
+        List<GroundedClause> right = rhs.collectTerms().getValue();
         return new Pair<Integer, Integer>(left.size(), right.size());
     }
 
@@ -118,11 +118,11 @@ public class Equation extends ArithmeticNode
         //
         // Collect all basic terms on the left and right hand sides of both equations.
         //
-        List<GroundedClause> thisLHS = lhs.collectTerms();
-        List<GroundedClause> thisRHS = rhs.collectTerms();
+        List<GroundedClause> thisLHS = lhs.collectTerms().getValue();
+        List<GroundedClause> thisRHS = rhs.collectTerms().getValue();
 
-        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms();
-        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms();
+        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms().getValue();
+        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms().getValue();
 
         // Check side length counts as a first step.
         if (!(thisLHS.size() == thatLHS.size() && thisRHS.size() == thatRHS.size()) && !(thisLHS.size() == thatRHS.size() && thisRHS.size() == thatLHS.size())) return false;
@@ -184,9 +184,10 @@ public class Equation extends ArithmeticNode
         ArrayList<Integer> right = new ArrayList<Integer>();
 
         // Construct the template by visiting the LHS and RHS
-        lhs.collectTerms().forEach((term) -> left.add(term.getMulitplier()));
-        rhs.collectTerms().forEach((term) -> right.add(term.getMulitplier()));
-
+        /*HALP
+        lhs.collectTerms().getValue().forEach((term) -> left.add(term.getMulitplier()));
+        rhs.collectTerms().getValue().forEach((term) -> right.add(term.getMulitplier()));
+         */
         return new EquationTemplate(left, right);
     }
 
@@ -230,7 +231,7 @@ public class Equation extends ArithmeticNode
         {
             // Multi-set equality check
             return (this._lhs.equals(that._lhs) && this._rhs.equals(that._rhs)) ||
-                   (this._lhs.equals(that._rhs) && this._rhs.equals(that._lhs));
+                    (this._lhs.equals(that._rhs) && this._rhs.equals(that._lhs));
         }
     }
 }

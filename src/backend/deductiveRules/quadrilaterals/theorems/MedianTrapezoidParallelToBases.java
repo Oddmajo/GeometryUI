@@ -71,7 +71,7 @@ public class MedianTrapezoidParallelToBases extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         // If median has not been checked, check now
-        if (!trapezoid.IsMedianChecked()) trapezoid.FindMedian();
+        if (!trapezoid.IsMedianChecked()) return deductions;
         // Generate only if the median is valid (exists in the original figure)
         if (!trapezoid.IsMedianValid()) return deductions;
 

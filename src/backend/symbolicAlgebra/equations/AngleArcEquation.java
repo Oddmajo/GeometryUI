@@ -1,13 +1,11 @@
 package backend.symbolicAlgebra.equations;
 
-import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.arcs.Semicircle;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.ast_helper.Utilities;
-import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
 import java.util.ArrayList;
@@ -25,8 +23,8 @@ public class AngleArcEquation extends Equation
     
     public AngleArcEquation(GroundedClause left, GroundedClause right)
     {
-        double sumL = SumSide(left.collectTerms());
-        double sumR = SumSide(right.collectTerms());
+        double sumL = SumSide(left.collectTerms().getValue());
+        double sumR = SumSide(right.collectTerms().getValue());
 
         if (!Utilities.CompareValues(sumL, sumR))
         {
@@ -46,22 +44,22 @@ public class AngleArcEquation extends Equation
             
             else if (clause instanceof Angle)
             {
-                sum += clause.getMulitplier() * ((Angle)clause).getMeasure();
+                sum += ((Angle)clause).getMeasure();
             }
 
             else if (clause instanceof MinorArc)
             {
-                sum += clause.getMulitplier() * ((MinorArc)clause).GetMinorArcMeasureDegrees();
+                sum += ((MinorArc)clause).GetMinorArcMeasureDegrees();
             }
 
             else if (clause instanceof MajorArc)
             {
-                sum += clause.getMulitplier() * ((MajorArc)clause).GetMajorArcMeasureDegrees();
+                sum += ((MajorArc)clause).GetMajorArcMeasureDegrees();
             }
 
             else if (clause instanceof Semicircle)
             {
-                sum += clause.getMulitplier() * ((MajorArc)clause).GetMinorArcMeasureDegrees();
+                sum += ((MajorArc)clause).GetMinorArcMeasureDegrees();
             }
             
         }
@@ -78,11 +76,11 @@ public class AngleArcEquation extends Equation
         //
         // Collect all basic terms on the left and right hand sides of both equations.
         //
-        List<GroundedClause> thisLHS = lhs.collectTerms();
-        List<GroundedClause> thisRHS = rhs.collectTerms();
+        List<GroundedClause> thisLHS = lhs.collectTerms().getValue();
+        List<GroundedClause> thisRHS = rhs.collectTerms().getValue();
 
-        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms();
-        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms();
+        List<GroundedClause> thatLHS = thatEquation.lhs.collectTerms().getValue();
+        List<GroundedClause> thatRHS = thatEquation.rhs.collectTerms().getValue();
 
         // Check side length counts as a first step.
         if (!((thisLHS.size() == thatLHS.size() && thisRHS.size() == thatRHS.size()) ||

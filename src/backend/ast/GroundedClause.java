@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import backend.utilities.list.Utilities;
 import backend.ast.ASTException;
+import backend.symbolicAlgebra.NumericValue;
+import backend.utilities.Pair;
 import backend.utilities.exception.*;
 
 /**
@@ -144,7 +146,6 @@ public abstract class GroundedClause implements Cloneable
     public GroundedClause()
     {
         justification = "";
-        multiplier = 1;
         clauseId = -1;
         axiomatic = false;
         generalPredecessors = new ArrayList<Integer>();
@@ -160,15 +161,14 @@ public abstract class GroundedClause implements Cloneable
     //
     // For equation simplification
     //
-    private int multiplier;
-    public int getMulitplier() { return multiplier; }
-    public void setMultiplier(int x) { multiplier = x; }
-    
-    public ArrayList<GroundedClause> collectTerms()
+    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
     {
-        return new ArrayList<GroundedClause>(Utilities.makeList(this));
+     //   return new ArrayList<GroundedClause>(Utilities.makeList(this));
+        ArrayList<GroundedClause> first = new ArrayList<GroundedClause>(Utilities.makeList(new NumericValue(1)));
+        ArrayList<GroundedClause> second = new ArrayList<GroundedClause>(Utilities.makeList(this));
+        return new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(first, second);
     }
-    
+
     
     public boolean equals(Object obj)
     {
@@ -178,7 +178,7 @@ public abstract class GroundedClause implements Cloneable
 
         GroundedClause that = (GroundedClause) obj;
 
-        return multiplier == that.multiplier;
+        return clauseId == that.clauseId;
     }
 
     public boolean structurallyEquals(Object obj) { return false; }
