@@ -181,7 +181,6 @@ public class PolygonCalculatorTest
         
         PolygonCalculator pc2 = new PolygonCalculator(segs2);
         ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
-        System.out.println(polys2.get(0).get(0).toPrettyString());
         System.out.println("Collinear Bug Short: (Expect None) " + polys2 );
         assertTrue(polys2.get(0).size() == 0);
     }
