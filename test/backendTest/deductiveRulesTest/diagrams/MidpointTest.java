@@ -50,13 +50,8 @@ public class MidpointTest
     public static Boolean testFramework(Diagram d, int expected, ArrayList<Integer> flags)
     {        
         // set flags
-        // first deactivate all flags
-        DeductionFlags.setAllDFlags(true);
-        // then activate specific flags
-        for (Integer flag : flags)
-        {
-            DeductionFlags.setFlag(flag);
-        }
+        // activate specific flags
+        DeductionFlags.setFlags(flags);
         
         // create the precomputer object
         CoordinatePrecomputer precomp = new CoordinatePrecomputer(null, null, d.getSegments(), d.getPoints());

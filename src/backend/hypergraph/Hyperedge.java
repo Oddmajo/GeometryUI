@@ -1,7 +1,7 @@
 package backend.hypergraph;
 import java.util.ArrayList;
 
-public class Hyperedge<A>
+public class Hyperedge<A extends Annotation>
 {
     public A annot;
     public ArrayList<Integer> sourceNodes;

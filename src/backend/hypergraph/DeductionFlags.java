@@ -1,5 +1,6 @@
 package backend.hypergraph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import backend.deductiveRules.RuleFactory.JustificationSwitch.DeductionJustType;
@@ -14,13 +15,17 @@ public class DeductionFlags
     
     public static Boolean[] dFlags = new Boolean[DeductionJustType.values().length];
 
-    public static void setAllDFlags(Boolean flag) {
+    private static void setAllDFlags(Boolean flag) {
         Arrays.fill(dFlags, flag);
     }
     
-    public static void setFlag(int flagNum)
+    public static void setFlags(ArrayList<Integer> flags)
     {
-        dFlags[flagNum] = false;
+        setAllDFlags(true);
+        for (Integer flag : flags)
+        {
+            dFlags[flag] = false; 
+        }
     }
 
 }

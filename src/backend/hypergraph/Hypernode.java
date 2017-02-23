@@ -6,7 +6,7 @@ import backend.utilities.exception.ExceptionHandler;
 
 //import pebbler.PebblerHypernode;
 
-public class Hypernode<T, A>
+public class Hypernode<T, A extends Annotation>
 {
     public T data;
     public int id;
