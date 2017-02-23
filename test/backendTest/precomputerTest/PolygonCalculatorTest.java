@@ -30,10 +30,45 @@ public class PolygonCalculatorTest
         segs.add(seg3);
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        assertNotNull(polys);
+        
         System.out.println(polys);
-        System.out.println("Done");
+        assertTrue(polys.get(0).size() == 1);
+        System.out.println("Done\n");
     }
+    
+    //      /\
+    //     /  \
+    //    /    \
+    //   /      \
+    //  /___.____\ Midpoint on bottom segment
+    
+    @Test
+    public void testTriWithPoint() 
+    {
+        System.out.print("Testing Triangle With Point...");
+        Point pt0 = new Point("0", 1, 1);
+        Point pt1 = new Point("1", 2, 1);
+        Point pt2 = new Point("2", 3, 1);
+        Point pt3 = new Point("3", 2, 3);
+
+        Segment seg1 = new Segment(pt0, pt1);
+        Segment seg2 = new Segment(pt1, pt2);
+        Segment seg3 = new Segment(pt0, pt3);
+        Segment seg4 = new Segment(pt2, pt3);
+        Segment seg5 = new Segment(pt0, pt2);
+        ArrayList<Segment> segs = new ArrayList<Segment>();
+        segs.add(seg1);
+        segs.add(seg2);
+        segs.add(seg3);
+        segs.add(seg4);
+        segs.add(seg5);
+        PolygonCalculator pc = new PolygonCalculator(segs);
+        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        System.out.println(polys);
+        assertTrue(polys.get(0).size() == 1);
+        System.out.println("Done\n");
+    }
+    
     
     @Test
     public void testQuad() 
@@ -55,9 +90,10 @@ public class PolygonCalculatorTest
         segs.add(seg4);
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        assertNotNull(polys);
+        
         System.out.println(polys);
-        System.out.println("Done");
+        assertTrue(polys.get(1).size() == 1);
+        System.out.println("Done\n");
     }
     
     @Test
@@ -84,9 +120,10 @@ public class PolygonCalculatorTest
         segs.add(seg5);
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        assertNotNull(polys);
+        
         System.out.println(polys);
-        System.out.println("Done");
+        assertTrue(polys.get(2).size() == 1);
+        System.out.println("Done\n");
     }
     
     @Test
@@ -117,30 +154,22 @@ public class PolygonCalculatorTest
         segs.add(seg6);
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        assertNotNull(polys);
         System.out.println(polys);
-        System.out.println("Done");
+        assertTrue(polys.get(3).size() == 1);
+        System.out.println("Done\n");
     }
     
+
+    //Testing to see if 3 collinear segments along the diagonal create a polygon
     @Test
-    public void testBugs()
+    public void testCollinearShort()
     {
-        System.out.print("Testing past bugs...");
-        
         Point pt0 = new Point("0", 1, 1);
-        Point pt1 = new Point("1", 3, 5);
-        Point pt2 = new Point("2", 5, 1);
+//        Point pt1 = new Point("1", 3, 5);
+//        Point pt2 = new Point("2", 5, 1);
         Point pt3 = new Point("3", 4, 3);
-        Point pt4 = new Point("4", 2, 3);
+//        Point pt4 = new Point("4", 2, 3);
         Point pt5 = new Point("5", 3, (double)7/3);
-        
-        ArrayList<Segment> segs = new ArrayList<Segment>();
-        Segment seg0 = new Segment(pt0, pt1);
-        Segment seg1 = new Segment(pt1, pt4);
-        Segment seg2 = new Segment(pt0, pt4);
-        segs.add(seg0);
-        segs.add(seg1);
-        segs.add(seg2);
         
         ArrayList<Segment> segs2 = new ArrayList<Segment>();
         Segment seg3 = new Segment(pt0, pt5);
@@ -150,17 +179,61 @@ public class PolygonCalculatorTest
         segs2.add(seg4);
         segs2.add(seg5);
         
-        ArrayList<Segment> segs3 = new ArrayList<Segment>();
-        Segment segA = new Segment(pt1, pt2);
-        Segment segB = new Segment(pt2, pt5);
-        Segment segC = new Segment(pt5, pt3);
-        Segment segD = new Segment(pt3, pt4);
-        Segment segE = new Segment(pt4, pt1);
-        segs3.add(segA);
-        segs3.add(segB);
-        segs3.add(segC);
-        segs3.add(segD);
-        segs3.add(segE);
+        PolygonCalculator pc2 = new PolygonCalculator(segs2);
+        ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
+        System.out.println(polys2.get(0).get(0).toPrettyString());
+        System.out.println("Collinear Bug Short: (Expect None) " + polys2 );
+        assertTrue(polys2.get(0).size() == 0);
+    }
+    
+    //Testing to see if 3 collinear segments along the side of the triangle creates a polygon
+    @Test
+    public void testCollinearLong()
+    {
+        Point pt0 = new Point("0", 1, 1);
+        Point pt1 = new Point("1", 3, 5);
+//        Point pt2 = new Point("2", 5, 1);
+//        Point pt3 = new Point("3", 4, 3);
+        Point pt4 = new Point("4", 2, 3);
+//        Point pt5 = new Point("5", 3, (double)7/3);
+        
+        ArrayList<Segment> segs = new ArrayList<Segment>();
+        Segment seg0 = new Segment(pt0, pt1);
+        Segment seg1 = new Segment(pt1, pt4);
+        Segment seg2 = new Segment(pt0, pt4);
+        segs.add(seg0);
+        segs.add(seg1);
+        segs.add(seg2);
+        
+        PolygonCalculator pc = new PolygonCalculator(segs);
+        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        
+        System.out.println("Collinear Bug Long: (Expect None) " + polys);
+        assertTrue(polys.get(0).size() == 0);
+    }
+    
+//  * Testing to see if it creates these triangles as 2 separate or 1 polygon 
+//  * Expect to see 2 separate
+//  *           
+//  *          
+//  *            
+//  *         ____
+//  *        \    /
+//  *          \/   
+//  *         /  \   
+//  *       /      \  
+//  *     /          \ 
+//  *   /______________\
+//  
+    @Test
+    public void testCrossingTriangles()
+    {
+        Point pt0 = new Point("0", 1, 1);
+//        Point pt1 = new Point("1", 3, 5);
+        Point pt2 = new Point("2", 5, 1);
+        Point pt3 = new Point("3", 4, 3);
+        Point pt4 = new Point("4", 2, 3);
+        Point pt5 = new Point("5", 3, (double)7/3);
         
         ArrayList<Segment> segs4 = new ArrayList<Segment>();
         Segment segAA = new Segment(pt0, pt2);
@@ -175,30 +248,72 @@ public class PolygonCalculatorTest
         segs4.add(segAD);
         segs4.add(segAE);
         segs4.add(segAF);
-
-        PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
-        
-        PolygonCalculator pc2 = new PolygonCalculator(segs2);
-        ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
-        
-        PolygonCalculator pc3 = new PolygonCalculator(segs3);
-        ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
         
         PolygonCalculator pc4 = new PolygonCalculator(segs4);
         ArrayList<ArrayList<Polygon>> polys4 = pc4.GetPolygons();
         
-        
-        System.out.println("Collinear Bug Long: " + polys);
-        System.out.println("Collinear Bug Short: " + polys2 );
-        System.out.println("Not Failed Polygon Bug: " + polys3);
         System.out.println("Crosses Bug: " + polys4);
-        assertTrue(polys3.get(2).size() == 0);
         assertTrue(polys4.get(0).size() == 2);
-        System.out.println("done");
     }
     
     
+//  * Testing to see if it creates these triangles as 2 separate or 1 polygon 
+//  * Expect to see 2 separate
+//  *           o
+//  *          /\
+//  *         /  \
+//  *       o/____\o
+//  *             /\
+//  *            /  \
+//  *            \   \
+//  *              \  \
+//  *                \ \
+//  *                  \\o
+    @Test
+    public void testSideBySideTriangles()
+    {
+//        Point pt0 = new Point("0", 1, 1);
+        Point pt1 = new Point("1", 3, 5);
+        Point pt2 = new Point("2", 5, 1);
+        Point pt3 = new Point("3", 4, 3);
+        Point pt4 = new Point("4", 2, 3);
+        Point pt5 = new Point("5", 3, (double)7/3);
+        
+        ArrayList<Segment> segs3 = new ArrayList<Segment>();
+        Segment segA = new Segment(pt1, pt2);
+        Segment segB = new Segment(pt2, pt5);
+        Segment segC = new Segment(pt5, pt3);
+        Segment segD = new Segment(pt3, pt4);
+        Segment segE = new Segment(pt4, pt1);
+        segs3.add(segA);
+        segs3.add(segB);
+        segs3.add(segC);
+        segs3.add(segD);
+        segs3.add(segE);
+
+        PolygonCalculator pc3 = new PolygonCalculator(segs3);
+        ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
+
+        System.out.println("Not Failed Polygon Bug: " + polys3);
+
+        
+        System.out.println("done\n");
+    }
+    
+    
+    
+//     * 
+//     *           o
+//     *          /\
+//     *         /  \
+//     *       o/____\o
+//     *       /\    /\
+//     *      /   \/   \
+//     *     /   /  \   \
+//     *    /  /      \  \
+//     *   / /          \ \
+//     * o//______________\\o
+//     
     @Test
     public void testComplicated()
     {
@@ -281,7 +396,7 @@ public class PolygonCalculatorTest
         System.out.println("Only Long: " +  polys);
         System.out.println("Only Short: " + polys2);
         System.out.println("All Segments: " + polys3);
-        System.out.println("done");
+        System.out.println("done\n");
     }
 
 }
