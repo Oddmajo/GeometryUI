@@ -77,8 +77,14 @@ public class Circle extends Shape
     public ArrayList<ArrayList<Polygon>> getInscribedPolys() { return inscribedPolys; }
 
     // The list of points from the UI which involve this circle.
-    public ArrayList<Point> pointsOnCircle;
+    protected ArrayList<Point> pointsOnCircle;
     public ArrayList<Point> getPointsOnCircle() { return pointsOnCircle; }
+    
+    public void addPointOnCircle(Point p)
+    {
+        if(!pointsOnCircle.contains(p))
+            pointsOnCircle.add(p);
+    }
 
     // The minor Arcs of this circle (based on pointsOnCircle list)
     protected ArrayList<MinorArc> minorArcs;

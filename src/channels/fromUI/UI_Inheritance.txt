@@ -23,3 +23,19 @@ ConstructionObject
 		FixedAngleObject
 		ParallelObject
 		PlumbObject
+	
+	AngleObject
+	AreaObject
+	EquationXYObject
+	ExpressionObject
+	FunctionObject
+	ImageObject
+	PrimitiveCircleObject
+		Circle3Object
+		CircleObject
+		FixedCircleObject
+	QuadricObject
+	TextObject
+	TrackObject
+	UserFunctionObject
+	

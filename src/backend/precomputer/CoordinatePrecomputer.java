@@ -67,6 +67,7 @@ import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.arcs.Semicircle;
 import backend.ast.figure.components.quadrilaterals.Quadrilateral;
 import backend.ast.figure.components.triangles.Triangle;
+import backend.ast.figure.delegates.PointLiesOnDelegate;
 import backend.factComputer.FactComputer;
 import backend.utilities.Pair;
 import backend.utilities.PointFactory;
@@ -254,9 +255,71 @@ public class CoordinatePrecomputer
 
         }
         segments.addAll(segs);
+        
+      //might need to add checking to see if any random point is on the circle?
+        for(Circle c: circles)
+        {
+            //Make sure the centerpoint is in points
+            if(!points.contains(c.getCenter()))
+            {
+                if(PointFactory.contains(c.getCenter()))
+                    PointFactory.generatePoint(c.getCenter());
+                points.add(c.getCenter());
+            }
+            
+            //go through the list of points
+            //  for each point, check if it is on the circle
+            //  if not, add it to 
+            for(Point p : points)
+            {
+                if(PointLiesOnDelegate.pointLiesOn(c, p))
+                {
+                    if(!c.getPointsOnCircle().contains(p))
+                        c.addPointOnCircle(p);
+                }
+            }
+            //go through the list of all points on the circle
+            //  for each point, make sure it is in the list of points
+            //  then, for each point and every other point not yet processed,
+            //  see if the corresponding arc has been created
+            ArrayList<Point> circlePoints = c.getPointsOnCircle();
+            for(int i = 0; i < circlePoints.size(); i++)
+            {
+                if(!points.contains(circlePoints.get(i)))
+                {
+                    if(!PointFactory.contains(circlePoints.get(i)))
+                        PointFactory.generatePoint(circlePoints.get(i));
+                    points.add(circlePoints.get(i));
+                }
+                for(int j = i + 1; j < circlePoints.size(); j++)
+                {
+                    //for each pair of points, need to check if the two points create an arc or semicircle 
+                    if(c.DefinesDiameter(new Segment(circlePoints.get(i),circlePoints.get(j))))
+                    {
+                        //Do I need to add the midpoint and th
+                        Semicircle one = new Semicircle(c, circlePoints.get(i), circlePoints.get(j), c.getMidpoint(circlePoints.get(i), circlePoints.get(j)), new Segment);
+                    }
+                    else
+                    {
+                        MajorArc major = new MajorArc(c, circlePoints.get(i), circlePoints.get(j));
+                        MinorArc minor = new MinorArc(c, circlePoints.get(i), circlePoints.get(j));
+                        if(!arcs.contains(major))
+                            arcs.add(major);
+                        if(!arcs.contains(minor))
+                            arcs.add(minor);
+                    }
+                }
+            }
+            //use the hash so we can figure out the arcs to create.
+            //then create a new sector based off of that arc
+        }
+        
         for(Arc a : arcs)
         {
             sectors.add(new Sector(a));
+            //check both endpoints to see if they are contained in points
+            //  if not, add them
+            //  does an issue potentially pop up regarding this? unsure, consult with Tom/Alvin
             if(!points.contains(a.getEndpoint1()))
             {
                 if(!PointFactory.contains(a.getEndpoint1()))
@@ -269,6 +332,8 @@ public class CoordinatePrecomputer
                     PointFactory.generatePoint(a.getEndpoint2());
                 points.add(a.getEndpoint2());   
             }
+            
+            
             if(!a.getCircle().pointsOnCircle.contains(a.getEndpoint1()))
             {
                 a.getCircle().pointsOnCircle.add(a.getEndpoint1());
@@ -278,22 +343,6 @@ public class CoordinatePrecomputer
                 a.getCircle().pointsOnCircle.add(a.getEndpoint2());
             }
             //hash each arc to a circle?
-        }
-        
-        //might need to add checking to see if any random point is on the circle?
-        for(Circle c: circles)
-        {
-            for(Point p :c.getPointsOnCircle())
-            {
-                if(!points.contains(p))
-                {
-                    if(!PointFactory.contains(p))
-                        PointFactory.generatePoint(p);
-                    points.add(p);
-                }
-            }
-            //use the hash so we can figure out the arcs to create.
-            //then create a new sector based off of that arc
         }
     }
     

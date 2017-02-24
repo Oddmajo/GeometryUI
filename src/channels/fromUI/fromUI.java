@@ -9,6 +9,7 @@ import rene.zirkel.objects.ConstructionObject;
 import rene.zirkel.objects.IntersectionObject;
 import rene.zirkel.objects.LineObject;
 import rene.zirkel.objects.MidpointObject;
+import rene.zirkel.objects.ParallelObject;
 import rene.zirkel.objects.PointObject;
 import rene.zirkel.objects.PrimitiveLineObject;
 import rene.zirkel.objects.RayObject;
@@ -20,7 +21,7 @@ public class FromUI
 {
     public static boolean sendToBackend(ZirkelCanvas zc/*, ZirkelFrame zf*/)
     {
-        Construction uiRepresentation = null;
+        Construction uiRepresentation = zc.getConstruction();
         
         /* A boundary needs to be declared for handling of lines and rays
          * A boundary will have 4 lines. It might need 4 points in the future
@@ -97,9 +98,25 @@ public class FromUI
                     {
                         
                         LineObject line = (LineObject) co;
-                        SegmentObject segment = new SegmentObject(null, ((PrimitiveLineObject) co).getP1(), ((TwoPointLineObject) co).getP2());
-                        D.addSegment(FromUITranslate.translateSegment(segment));
-                        D.addSegment(FromUITranslate.translateLine(line, boundary));
+                        
+                        try
+                        {
+                            System.out.println("Creating 'small' segment");
+                            D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) co));
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Failed to create 'small' segment");
+                        }
+                        try
+                        {
+                            System.out.println("Creating 'large' segment");
+                            D.addSegment(FromUITranslate.translateLine(line, boundary));
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Failed to create 'large' segment");
+                        }
                         
                     }
                     else
@@ -109,11 +126,18 @@ public class FromUI
                 }
                 else
                 {
+                    if( co instanceof ParallelObject)
+                    {
+                        LineObject l = FromUITranslate.translateParallel((ParallelObject)co);
+                        D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) l));
+                        D.addSegment(FromUITranslate.translateLine(l, boundary));
+                    }
+                    
                     //Do something
                     //This is extended by
                     //  AxisObject
                     //  FixedAngleObject
-                    //  ParallelObject
+                    
                     //  PlumbObject
                 }
             }
