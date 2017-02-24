@@ -31,6 +31,8 @@ package backend.precomputer;
 //WARNING, SOME DEBUG PRINT STATEMENTS HAVE BEEN COMMENTED OUT. PROBABLY SHOULD GET A LOGGER AND LOG IT
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
@@ -167,7 +169,7 @@ public class CoordinatePrecomputer
     
     public void findRelations()
     {
-        
+        ArrayList<Segment> segs = new ArrayList<Segment>();
         for(Segment s : segments)
         {
             if(!points.contains(s.getPoint1()))
@@ -182,12 +184,33 @@ public class CoordinatePrecomputer
                     PointFactory.generatePoint(s.getPoint2());
                 points.add(s.getPoint2());
             }
+            for(Segment s2 : segments)
+            {
+                if(!s.equals(s2))
+                {
+                    if(s.segmentIntersection(s2)!=null)
+                    {
+                        if(!PointFactory.isGenerated(s.segmentIntersection(s2)))
+                        {
+                            if(!structurallyContains(points,s.segmentIntersection(s2)))
+                            {
+                                points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
+                            }
+                            else
+                            {
+                                PointFactory.generatePoint(s.segmentIntersection(s2)); //do we need this since if it isn't generated then we don't have the point? but I put it in for safety
+                            }
+                        }
+                    }
+                }
+            }
+            
             for(Point p : points)
             {
                 // A-B-C 
                 //need to check if AB & BC & AC are in the segment list and that all three points are added to points
                 //will check for midpoint in fact computer
-                if(s.pointLiesOnSegment(p))
+                if(s.pointLiesOnSegment(p)) 
                 {
                     //check to see if this segment is already created
                     boolean made1 = false;
@@ -207,11 +230,17 @@ public class CoordinatePrecomputer
                     //if they are not found to be made then we need to make the segments
                     if(!made1)
                     {
-                        segments.add(new Segment(s.getPoint1(),p));
+                        if(!s.getPoint1().structurallyEquals(p))
+                        {
+                            segs.add(new Segment(s.getPoint1(),p));
+                        }
                     }
                     if(!made2)
                     {
-                        segments.add(new Segment(p,s.getPoint2()));
+                        if(!s.getPoint2().structurallyEquals(p))
+                        {
+                            segs.add(new Segment(p,s.getPoint2()));
+                        }
                     }
                 }
                 //Either B-A-C or A-B-C or A-B-C
@@ -221,34 +250,10 @@ public class CoordinatePrecomputer
 //                    
 //                }
             }
-            System.out.println("s point1" + s.getPoint1().getX() +" "+ s.getPoint1().getY());
-            System.out.println("s point2 " + s.getPoint2().getX() +" "+ s.getPoint2().getY());
-            for(Segment s2 : segments)
-            {
-                if(!s.equals(s2))
-                {
-                   
-                    System.out.println("s2 point1" + s2.getPoint1().getX() +" "+ s2.getPoint1().getY());
-                    System.out.println("s2 point2 " + s2.getPoint2().getX() +" "+ s2.getPoint2().getY());
-                    System.out.println("do they intersect? " + s.intersects(s2));
-                    if(s.intersects(s2))
-                    {
-                        if(!PointFactory.isGenerated(s.segmentIntersection(s2)))
-                        {
-                            if(!points.contains(s.segmentIntersection(s2)))
-                            {
-                                points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
-                            }
-                            else
-                            {
-                                PointFactory.generatePoint(s.segmentIntersection(s2)); //do we need this since if it isn't generated then we don't have the point? but I put it in for safety
-                            }
-                        }
-                    }
-                }
-            }
+            
+
         }
-        
+        segments.addAll(segs);
         for(Arc a : arcs)
         {
             sectors.add(new Sector(a));
@@ -322,329 +327,20 @@ public class CoordinatePrecomputer
 	                    points.add((Point)clause);
 	                }
 	            }
-//	            else if(clause instanceof Quadrilateral )
-//	            {
-//	                quadrilaterals.add((Quadrilateral)clause);
-//	            }
-//	            else if(clause instanceof Triangle)
-//	            {
-//	                triangles.add((Triangle)clause);
-//	            }
-//	            else if(clause instanceof Angle)
-//	            {
-//	            	angles.add((Angle)clause);
-//	            }
-//	            else if(clause instanceof InMiddle)
-//	            {
-//	            	inMiddles.add((InMiddle)clause);
-//	            }
-//	            else if(clause instanceof Collinear)
-//	            {
-//	            	collinear.add((Collinear)clause);
-//	            }
-//	            else if(clause instanceof Parallel)
-//	            {
-//	            	parallels.add((Parallel)clause);
-//	            }
-//	            else if(clause instanceof Perpendicular)
-//	            {
-//	            	perpendiculars.add((Perpendicular)clause);
-//	            }
-//	            else if(clause instanceof Intersection)
-//	            {
-//	            	intersections.add((Intersection)clause);
-//	            }
-//	            else if(clause instanceof MinorArc)
-//	            {
-//	            	minorArcs.add((MinorArc)clause);
-//	            }
-//	            else if(clause instanceof MajorArc)
-//	            {
-//	            	majorArcs.add((MajorArc)clause);
-//	            }
-//	            else if(clause instanceof Semicircle)
-//	            {
-//	            	semiCircles.add((Semicircle)clause);
-//	            }
-//	            else if(clause instanceof Sector)
-//	            {
-//	            	sectors.add((Sector)clause);
-//	            }
-//	            else if(clause instanceof ArcInMiddle)
-//	            {
-//	            	arcInMiddle.add((ArcInMiddle)clause);
-//	            }
+
         	}
         }
     }
     
-//    //
-//    // Numerically (via the coordinates from the UI), calculate the relationships among all figures
-//    //    1) Congruences (angles, segments, triangles, arcs)
-//    //    2) Parallel
-//    //    3) Equalities
-//    //    4) Perpendicular
-//    //    5) Similarity
-//    //
-//    ArrayList<Descriptor> descriptors = new ArrayList<Descriptor>();
-//    public ArrayList<Descriptor> GetPrecomputedRelations()
-//    {
-//    	return descriptors;
-//    }
-//    
-//    public void CalculateRelations()
-//    {
-//    	//Segment, Parallel, and Perpendicular, and congruences
-//    	for(int s1 = 0; s1 < segments.size(); s1++)
-//    	{
-//    		for(int s2 = s1 + 1; s2 < segments.size(); s2++)
-//    		{
-//    			//Congruence
-//    			if(segments.get(s1).coordinateCongruent(segments.get(s2)))
-//    			{
-//    				descriptors.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
-//    			}
-//    			
-//    			//Parallel and Perpendicular lines
-//    			if(segments.get(s1).isParallel(segments.get(s2)))
-//    			{
-//    				descriptors.add(new Parallel(segments.get(s1),segments.get(s2)));
-//    			}
-//    			
-//    			//Perpendicular, bisector, perpendicular bisector
-//    			else
-//    			{
-//    				//these are the general intersection points between the endpoints or on the endpoints of the segments (in some cases)
-//    				Point intersectionPerp = segments.get(s1).coordinatePerpendicular(segments.get(s2));
-//    				// is segment[s2] a bisector of segment[s1]?
-//    				Point intersectionBisec = segments.get(s1).coordinateBisector(segments.get(s2));//return the actual intersection point
-//    				if(intersectionPerp != null && intersectionBisec != null)
-//    				{
-//    					descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
-//    				}
-//    				else if(intersectionPerp != null)
-//    				{
-//    					descriptors.add(new Perpendicular(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2))));
-//    				}
-//    				else if(intersectionBisec != null)
-//    				{
-//    					descriptors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s1), segments.get(s2)),segments.get(s2)));
-//    				}
-//    				
-//    				//we may have a bisector in the other direction
-//    				intersectionBisec = segments.get(s2).coordinateBisector(segments.get(s1));
-//    				if(intersectionPerp != null && intersectionBisec != null)
-//    				{
-//    							descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
-//    				}
-//    				else if(intersectionBisec != null)
-//    				{
-//    					descriptors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s2), segments.get(s1)), segments.get(s1)));
-//    				}
-//    			}
-//    			
-//    			//Proportional line segments
-//    			//just generate if the ratio is really an integer or half-step
-//    			Pair<Integer,Integer> proportion = segments.get(s1).coordinateProportional(segments.get(s2));
-//    			if(proportion.getValue() != -1)
-//    			{
-//    				if(proportion.getValue() <=2 || proportion.getKey() <= 2)
-//    				{
-//    					if(Utilities.DEBUG)
-//    					{
-//    						//System.Diagnostics.Debug.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2));
-//    						ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2)));
-//    					}
-//    					descriptors.add(new SegmentRatio(segments.get(s1), segments.get(s2)));
-//    				}
-//    			}
-//    		}
-//    	}
-//    	
-//    	//Angle congruences; complementary and supplementary
-//    	for(int a1 = 0; a1 < angles.size(); a1++)
-//    	{
-//    		for(int a2 = a1 +1; a2< angles.size(); a2++)
-//    		{
-//    			if(angles.get(a1).CoordinateCongruent(angles.get(a2)) && !Utilities.CompareValues(angles.get(a1).getMeasure(), 180))
-//    			{
-//    				descriptors.add(new CongruentAngles(angles.get(a1),angles.get(a2)));
-//    			}
-//    			
-//    			if(angles.get(a1).IsComplementaryTo(angles.get(a2)))
-//    			{
-//    				descriptors.add(new Complementary(angles.get(a1),angles.get(a2)));
-//    			}
-//    			else if(angles.get(a1).IsSupplementaryTo(angles.get(a2)))
-//    			{
-//    				descriptors.add(new Supplementary(angles.get(a1), angles.get(a2)));
-//    			}
-//    			
-//    			//Proportional angle measure
-//    			//just generate if the ratio is really an integer or half-step
-//    			Pair<Integer,Integer> proportion = angles.get(a1).CoordinateProportional(angles.get(a2));
-//    			if(proportion.getValue() != -1)
-//    			{
-//    				if(proportion.getValue() <= 2 || proportion.getKey() <= 2)
-//    				{
-//    					if(Utilities.DEBUG)
-//    					{
-//    						//System.Diagnostics.Debu.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2));
-//    						ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2)));
-//    					}
-//    					descriptors.add(new ProportionalAngles(angles.get(a1), angles.get(a2)));
-//    				}
-//    			}
-//    		}
-//    	}
-//    	
-//    	//
-//        // Triangle congruences OR similarity (congruence is a stronger relationship than similarity)
-//        //
-//    	for (int t1 = 0; t1< triangles.size(); t1++)
-//    	{
-//    		for(int t2 = t1 +1; t2 < triangles.size(); t2++)
-//    		{
-//    			Pair<Triangle,Triangle> corresponding = triangles.get(t1).CoordinateCongruent(triangles.get(t2));
-//    			if(corresponding.getKey() != null && corresponding.getValue() != null)
-//    			{
-//    				descriptors.add(new CongruentTriangles(corresponding.getKey(), corresponding.getValue()));
-//    			}
-//    			else if(triangles.get(t1).CoordinateSimilar(triangles.get(t2)))
-//    			{
-//    				descriptors.add(new SimilarTriangles(triangles.get(t1), triangles.get(t2)));
-//    			}
-//    		}
-//    	}
-//    	
-//    	
-//    	
-//    	//WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//    	//THIS IS UNTESTED. IT SEEMS TO ONLY COMPILE IF I TAKE OUT THE TEMPLATE PARAMETER
-//    	//Arc congruences
-//    	CalculateArcCongruences(minorArcs);
-//    	CalculateArcCongruences(majorArcs);
-//    	CalculateArcCongruences(semiCircles);
-//    	
-//    	//
-//        // Calculate all segment relations to triangles: bisector, median, altitude, perpendicular bisector
-//        //
-//    	for(Triangle tri : triangles)
-//    	{
-//    		for(Segment segment : segments)
-//    		{
-//    			//median
-//    			if(tri.isMedian(segment))
-//    			{
-//    				descriptors.add(new Median(segment, tri));
-//    			}
-//    			
-//    			//Altitude
-//    			if(tri.isAltitude(segment))
-//    			{
-//    				descriptors.add(new Altitude(tri,segment));
-//    			}
-//    		}
-//    	}
-//    	
-//    	//calculate ande bisectors
-//    	for(Angle angle : angles)
-//    	{
-//    		if(!Utilities.CompareValues(angle.getMeasure(),  180))
-//    		{
-//    			for(Segment segment : segments)
-//    			{
-//    				//angle bisector
-//    				if(angle.CoordinateAngleBisector(segment))
-//    				{
-//    					descriptors.add(new AngleBisector(angle,segment));
-//    				}
-//    			}
-//    		}
-//    	}
-//    	
-//    	//Dumping the relations
-//    	if(Utilities.DEBUG)
-//    	{
-//    		//System.Diagnostics.Debug.WriteLine("Precomputed Relations");
-//    		ExceptionHandler.throwException(new DebugException("Precomputer Relations"));
-//    		for(Descriptor descriptor : descriptors)
-//    		{
-//    			//System.Diagnostics.Debug.WriteLine(descriptors.toString());
-//    			ExceptionHandler.throwException(new DebugException(descriptors.toString()));
-//    		}
-//    		
-//    	}
-//    }
-//    
-//    //slightly changed from C# but this should be alright
-//    //CAN THIS EVER NOT BE AN ARC? IF NOT WHY WAS IT TYPE T?
-//    private <T extends Arc> void CalculateArcCongruences(ArrayList<T> arcs)
-//    {
-//    	for(int a1 = 0; a1< arcs.size(); a1++)
-//    	{
-//    		for(int a2 = a1+1; a2 < arcs.size(); a2++)
-//    		{
-//    			if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
-//    			{ 
-//    				descriptors.add(new CongruentArcs(arcs.get(a1), arcs.get(a2)));
-//    			}
-//    		}
-//    	}
-//    }
-//    
-//    //can we determine any stregnthening in the figure class (scalene to equilateral, etc)
-//    ArrayList<Strengthened> strengthened = new ArrayList<Strengthened>();
-//    public ArrayList<Strengthened> GetStrengthenedClauses()
-//    {
-//    	return strengthened;
-//    }
-//    
-//    public void CalculateStrengthening()
-//    {
-//    	//
-//        // Can a quadrilateral be strenghtened? Quad -> trapezoid, Quad -> Parallelogram?, etc.
-//        //
-//    	for(Quadrilateral quad : quadrilaterals)
-//    	{
-//    		strengthened.addAll(Quadrilateral.CanBeStrengthened(quad));
-//    	}
-//    	
-//    	//can a triangle be strengthened? scalene -> isosceles -> equilateral?
-//    	for(Triangle t : triangles)
-//    	{
-//    		strengthened.addAll(Triangle.canBeStrengthened(t));
-//    	}
-//    	
-//    	//can an inMiddle relationship be classified as a midpoint?
-//    	for(InMiddle im : inMiddles)
-//    	{
-//    		Strengthened s = im.canBeStrengthened();
-//    		if(s!=null)
-//    		{
-//    			strengthened.add(s);
-//    		}
-//    	}
-//    	
-//    	//right angles
-//    	for(Angle angle : angles)
-//    	{
-//    		if(Utilities.CompareValues(angle.getMeasure(), 90))
-//    		{
-//    			strengthened.add(new Strengthened(angle, new RightAngle(angle)));
-//    		}
-//    	}
-//    	
-//    	//Dumping the strengthening
-//    	if(Utilities.DEBUG)
-//    	{
-//    		//System.Diagnostics.Debug.WriteLine("Precomputed Strengthening");
-//    		ExceptionHandler.throwException(new DebugException("Precomputer Strengthening"));
-//    		for(Strengthened s : strengthened)
-//    		{ 
-//    			//System.Diagnostics.Debug.WriteLine(s.toString());
-//    			ExceptionHandler.throwException(new DebugException(s.toString()));
-//    		}
-//    	}
-//    }
+    private boolean structurallyContains(ArrayList<Point> list, Point that)
+    {
+        for(Point thisS : list)
+        {
+            if(thisS.structurallyEquals(that))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

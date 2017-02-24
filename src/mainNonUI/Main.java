@@ -23,17 +23,29 @@ public class Main
         ArrayList<Segment> s = new ArrayList<Segment>();
         ArrayList<Point> p = new ArrayList<Point>();
         Diagram test = new Diagram();
+        //test.premade_Midpoint();
+        //s = test.getSegments();
+        //p = test.getPoints();
         test.premade_Triangles();
         s = test.getSegments();
         p = test.getPoints();
+        for(Segment segs: s)
+        {
+            System.out.println(segs.toString());
+        }
+        for(Point po : p)
+        {
+            System.out.println(po.toString());
+        }
         try
         {
+            LoggerFactory.initialize();
             //TestManager.run();
             CoordinatePrecomputer compute = new CoordinatePrecomputer(c,a,s,p);
         }
         catch (Exception e)
         {
-        	//LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID).write("Test Manager unexpectedly threw an exception.");
+        	LoggerFactory.getLogger(LoggerFactory.EXCEPTION_OUTPUT_ID).write("Test Manager unexpectedly threw an exception.");
         	e.printStackTrace();
         }
         long timeEnd = System.nanoTime();

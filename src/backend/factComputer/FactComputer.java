@@ -33,6 +33,7 @@ import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.polygon.ConcavePolygon;
 import backend.ast.figure.components.polygon.Polygon;
 import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
 import backend.ast.figure.components.quadrilaterals.Kite;
@@ -64,7 +65,8 @@ public class FactComputer
     private ArrayList<Segment> segments;
     private ArrayList<Sector> sectors;
     
-    private ArrayList<AngleBisector> angleBisctors;
+    private ArrayList<CongruentArcs> congruentArcs;
+    private ArrayList<AngleBisector> angleBisectors;
     private ArrayList<Altitude> altitudes;
     private ArrayList<Intersection> intersections;
     private ArrayList<Parallel> parallels;
@@ -76,18 +78,20 @@ public class FactComputer
     private ArrayList<Strengthened> strengthEquilateralTriangles;
     private ArrayList<IsoscelesTriangle> isoscelesTriangles;
     private ArrayList<Strengthened> strengthIsoscelesTriangles;
-    
+    private ArrayList<CongruentTriangles> congruentTriangles;
+    private ArrayList<SimilarTriangles> similarTriangles;
     
     private ArrayList<Perpendicular> perpendiculars;
     private ArrayList<Strengthened> strengthenedPerps;
-    private ArrayList<PerpendicularBisector> perpBisctors;
+    private ArrayList<PerpendicularBisector> perpBisectors;
     private ArrayList<Strengthened> strengthPerpBisectors;
     
     private ArrayList<InMiddle> inMiddles;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
-    private ArrayList<CongruentSegments> congruentSegments; //is this a thing?
+    private ArrayList<CongruentSegments> congruentSegments;
+    private ArrayList<SegmentRatio> segmentRatios;
     
     private ArrayList<Trapezoid> trapezoids;
     private ArrayList<Strengthened> strengthTrapezoids;
@@ -103,6 +107,8 @@ public class FactComputer
     private ArrayList<CongruentAngles> congruentAngles;
     private ArrayList<Angle> angles;
     private ArrayList<AnglePairRelation> anglePairRelations;
+    private ArrayList<Supplementary> supplementaryAngles;
+    private ArrayList<ProportionalAngles> proportionalAngles;
     
     private ArrayList<Kite> kites;
     private ArrayList<Strengthened> strengthKites;
@@ -118,6 +124,7 @@ public class FactComputer
     private ArrayList<Strengthened> strengthSquares;
     
     private ArrayList<CongruentCircles> congruentCircles;
+    private ArrayList<ConcavePolygon> concavePolygons;
     
     private QueryableHypergraph graph;
     
@@ -136,6 +143,7 @@ public class FactComputer
     public FactComputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p, ArrayList<Sector> sec)
     {
         strengthens = new ArrayList<Strengthened>();
+        initializeLists();
         
         circles = c;
         arcs = a;
@@ -145,12 +153,79 @@ public class FactComputer
         graph = new QueryableHypergraph();
         calc = new PolygonCalculator(segments);
         polygons = calc.GetPolygons();
-        CalculateRelations();
         setFigures();
+        CalculateRelations();
     }    
     
-    
-    
+    public void initializeLists()
+    {
+        circles = new ArrayList<Circle>();
+        arcs = new ArrayList<Arc>();
+        segments = new ArrayList<Segment>();
+        points = new ArrayList<Point>();
+        
+        congruentArcs = new ArrayList<CongruentArcs>();
+        angleBisectors = new ArrayList<AngleBisector>();
+        altitudes = new ArrayList<Altitude>();
+        intersections = new ArrayList<Intersection>();
+        parallels = new ArrayList<Parallel>();
+        
+        triangles = new ArrayList<Triangle>();
+        rightTriangles =  new ArrayList<RightTriangle>();
+        strengthRightTriangles = new ArrayList<Strengthened>();
+        equilateralTriangles = new ArrayList<EquilateralTriangle>();
+        strengthEquilateralTriangles = new ArrayList<Strengthened>();
+        isoscelesTriangles = new ArrayList<IsoscelesTriangle>();
+        strengthIsoscelesTriangles = new ArrayList<Strengthened>();
+        congruentTriangles = new ArrayList<CongruentTriangles>();
+        similarTriangles = new ArrayList<SimilarTriangles>();
+        
+        perpendiculars = new ArrayList<Perpendicular>();
+        strengthenedPerps = new ArrayList<Strengthened>();
+        perpBisectors = new ArrayList<PerpendicularBisector>();
+        strengthPerpBisectors = new ArrayList<Strengthened>();
+        
+        inMiddles = new ArrayList<InMiddle>();
+        medians = new ArrayList<Median>();
+        segmentBisectors = new ArrayList<SegmentBisector>();
+        strengthSegmentBisectors = new ArrayList<Strengthened>();
+        congruentSegments = new ArrayList<CongruentSegments>(); 
+        segmentRatios = new ArrayList<SegmentRatio>();
+        
+        trapezoids = new ArrayList<Trapezoid>();
+        strengthTrapezoids = new ArrayList<Strengthened>();
+        isoscelesTrapezoids = new ArrayList<IsoscelesTrapezoid>();
+        strengthIsoscelesTrapezoids = new ArrayList<Strengthened>();
+        collinears = new ArrayList<Collinear>();
+        
+        rightAngles = new ArrayList<RightAngle>();
+        strengthRightAngles = new ArrayList<Strengthened>();
+        angleEquations = new ArrayList<AngleEquation>();
+        strengthAngleEquations = new ArrayList<Strengthened>();
+        complementaryAngles = new ArrayList<Complementary>();
+        congruentAngles = new ArrayList<CongruentAngles>();
+        angles = new ArrayList<Angle>();
+        anglePairRelations = new ArrayList<AnglePairRelation>();
+        supplementaryAngles =  new ArrayList<Supplementary>();
+        proportionalAngles = new ArrayList<ProportionalAngles>();
+        
+        kites = new ArrayList<Kite>();
+        strengthKites = new ArrayList<Strengthened>();
+        
+        quadrilaterals = new ArrayList<Quadrilateral>();
+        parallelograms = new ArrayList<Parallelogram>();
+        strengthParallelograms = new ArrayList<Strengthened>();
+        rectangles = new ArrayList<Rectangle>();
+        strengthRectangles = new ArrayList<Strengthened>();
+        rhombuses = new ArrayList<Rhombus>();
+        strengthRhombuses = new ArrayList<Strengthened>();
+        squares = new ArrayList<Square>();
+        strengthSquares = new ArrayList<Strengthened>();
+        
+        congruentCircles = new ArrayList<CongruentCircles>();
+        concavePolygons = new ArrayList<ConcavePolygon>();
+    }
+
     ArrayList<Descriptor> descriptors = new ArrayList<Descriptor>();
     public ArrayList<Descriptor> GetPrecomputedRelations()
     {
@@ -167,44 +242,46 @@ public class FactComputer
                 //Congruence
                 if(segments.get(s1).coordinateCongruent(segments.get(s2)))
                 {
-                    descriptors.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
+                    congruentSegments.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
                 }
                 
                 //Parallel and Perpendicular lines
                 if(segments.get(s1).isParallel(segments.get(s2)))
                 {
-                    descriptors.add(new Parallel(segments.get(s1),segments.get(s2)));
+                    parallels.add(new Parallel(segments.get(s1),segments.get(s2)));
                 }
                 
                 //Perpendicular, bisector, perpendicular bisector
                 else
                 {
+                    System.out.println("seg 1 " + segments.get(s1));
+                    System.out.println("seg 2 " + segments.get(s2));
                     //these are the general intersection points between the endpoints or on the endpoints of the segments (in some cases)
                     Point intersectionPerp = segments.get(s1).coordinatePerpendicular(segments.get(s2));
                     // is segment[s2] a bisector of segment[s1]?
                     Point intersectionBisec = segments.get(s1).coordinateBisector(segments.get(s2));//return the actual intersection point
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
-                        descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
+                        perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
                     }
                     else if(intersectionPerp != null)
                     {
-                        descriptors.add(new Perpendicular(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2))));
+                        perpendiculars.add(new Perpendicular(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2))));
                     }
                     else if(intersectionBisec != null)
                     {
-                        descriptors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s1), segments.get(s2)),segments.get(s2)));
+                        segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s1), segments.get(s2)),segments.get(s2)));
                     }
                     
                     //we may have a bisector in the other direction
                     intersectionBisec = segments.get(s2).coordinateBisector(segments.get(s1));
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
-                                descriptors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
+                                perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
                     }
                     else if(intersectionBisec != null)
                     {
-                        descriptors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s2), segments.get(s1)), segments.get(s1)));
+                        segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s2), segments.get(s1)), segments.get(s1)));
                     }
                 }
                 
@@ -220,7 +297,7 @@ public class FactComputer
                             //System.Diagnostics.Debug.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2));
                             ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2)));
                         }
-                        descriptors.add(new SegmentRatio(segments.get(s1), segments.get(s2)));
+                        segmentRatios.add(new SegmentRatio(segments.get(s1), segments.get(s2)));
                     }
                 }
             }
@@ -233,16 +310,16 @@ public class FactComputer
             {
                 if(angles.get(a1).CoordinateCongruent(angles.get(a2)) && !Utilities.CompareValues(angles.get(a1).getMeasure(), 180))
                 {
-                    descriptors.add(new CongruentAngles(angles.get(a1),angles.get(a2)));
+                    congruentAngles.add(new CongruentAngles(angles.get(a1),angles.get(a2)));
                 }
                 
                 if(angles.get(a1).IsComplementaryTo(angles.get(a2)))
                 {
-                    descriptors.add(new Complementary(angles.get(a1),angles.get(a2)));
+                    complementaryAngles.add(new Complementary(angles.get(a1),angles.get(a2)));
                 }
                 else if(angles.get(a1).IsSupplementaryTo(angles.get(a2)))
                 {
-                    descriptors.add(new Supplementary(angles.get(a1), angles.get(a2)));
+                    supplementaryAngles.add(new Supplementary(angles.get(a1), angles.get(a2)));
                 }
                 
                 //Proportional angle measure
@@ -257,7 +334,7 @@ public class FactComputer
                             //System.Diagnostics.Debu.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2));
                             ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2)));
                         }
-                        descriptors.add(new ProportionalAngles(angles.get(a1), angles.get(a2)));
+                        proportionalAngles.add(new ProportionalAngles(angles.get(a1), angles.get(a2)));
                     }
                 }
             }
@@ -273,11 +350,11 @@ public class FactComputer
                 Pair<Triangle,Triangle> corresponding = triangles.get(t1).CoordinateCongruent(triangles.get(t2));
                 if(corresponding.getKey() != null && corresponding.getValue() != null)
                 {
-                    descriptors.add(new CongruentTriangles(corresponding.getKey(), corresponding.getValue()));
+                    congruentTriangles.add(new CongruentTriangles(corresponding.getKey(), corresponding.getValue()));
                 }
                 else if(triangles.get(t1).CoordinateSimilar(triangles.get(t2)))
                 {
-                    descriptors.add(new SimilarTriangles(triangles.get(t1), triangles.get(t2)));
+                    similarTriangles.add(new SimilarTriangles(triangles.get(t1), triangles.get(t2)));
                 }
             }
         }
@@ -301,13 +378,13 @@ public class FactComputer
                 //median
                 if(tri.isMedian(segment))
                 {
-                    descriptors.add(new Median(segment, tri));
+                    medians.add(new Median(segment, tri));
                 }
                 
                 //Altitude
                 if(tri.isAltitude(segment))
                 {
-                    descriptors.add(new Altitude(tri,segment));
+                    altitudes.add(new Altitude(tri,segment));
                 }
             }
         }
@@ -322,7 +399,7 @@ public class FactComputer
                     //angle bisector
                     if(angle.CoordinateAngleBisector(segment))
                     {
-                        descriptors.add(new AngleBisector(angle,segment));
+                        angleBisectors.add(new AngleBisector(angle,segment));
                     }
                 }
             }
@@ -352,7 +429,7 @@ public class FactComputer
             {
                 if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
                 { 
-                    descriptors.add(new CongruentArcs(arcs.get(a1), arcs.get(a2)));
+                    congruentArcs.add(new CongruentArcs(arcs.get(a1), arcs.get(a2)));
                 }
             }
         }
@@ -465,9 +542,42 @@ public class FactComputer
     
     public void setFigures()
     {
+//        for(ArrayList<Polygon> list: polygons)
+//        {
+//            System.out.println(list.toString());
+//        }
+//        for(Segment s : segments)
+//        {
+//            System.out.println(s.toPrettyString());
+//        }
+//        for(Point p : points)
+//        {
+//            System.out.println(p.toString());
+//        }
+//        for(InMiddle m: inMiddles)
+//        {
+//            System.out.println(" here" + m.toString());
+//        }
         for(ArrayList<Polygon> list: polygons)
         {
-            
+            for(Polygon p : list)
+            {
+                if(p != null)
+                {
+                    if(p instanceof Triangle)
+                    {
+                        //triangles.add((Triangle)p);
+                    }
+                    else if(p instanceof Quadrilateral)
+                    {
+                        quadrilaterals.add((Quadrilateral)p);
+                    }
+                    else if(p instanceof ConcavePolygon)
+                    {
+                        concavePolygons.add((ConcavePolygon)p);
+                    }
+                }
+            }
         }
     }
 
