@@ -20,9 +20,9 @@ public class SegmentIntersectionDelegate extends FigureDelegate
  
         // Point lies on both segments
         
-        if (thisS.pointLiesBetweenEndpoints(inter)) return null;
+        if (!thisS.pointLiesBetweenEndpoints(inter)) return null;
 
-        if (that.pointLiesBetweenEndpoints(inter)) return null;
+        if (!that.pointLiesBetweenEndpoints(inter)) return null;
         
         return inter;        
     }

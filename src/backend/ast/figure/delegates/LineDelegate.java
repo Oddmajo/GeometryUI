@@ -27,27 +27,37 @@ public class LineDelegate
     
     /*
      * @param that -- another segment
-     * @return true / false if the two lines (infinite) are collinear
+     * @return true / false if the two lines are strictly collinear
      */
     public static boolean areCollinear(Segment thisS, Segment that)
     {
         // If the segments are vertical, just compare the X values of one point of each
+        // Also ensure that the segments have some overlap
         if (thisS.isVertical() && that.isVertical())
         {
-            return MathUtilities.doubleEquals(thisS.getPoint1().getX(), that.getPoint1().getX());
+            return MathUtilities.doubleEquals(thisS.getPoint1().getX(), that.getPoint1().getX())
+                && (thisS.pointLiesOn(that.getPoint1()) || thisS.pointLiesOn(that.getPoint2()));
         }
 
         // If the segments are horizontal, just compare the Y values of one point of each; this is redundant
         if (thisS.isHorizontal() && that.isHorizontal())
         {
-            return MathUtilities.doubleEquals(thisS.getPoint1().getY(), that.getPoint2().getY());
+            return MathUtilities.doubleEquals(thisS.getPoint1().getY(), that.getPoint2().getY())
+                && (thisS.pointLiesOn(that.getPoint1()) || thisS.pointLiesOn(that.getPoint2()));
         }
 
         // Slopes equate
         return MathUtilities.doubleEquals(thisS.slope(), that.slope()) &&
-               thisS.pointLiesOn(that.getPoint1()) && thisS.pointLiesOn(that.getPoint2());
+               (thisS.pointLiesOn(that.getPoint1()) || thisS.pointLiesOn(that.getPoint2()));
     }
 
+    /*
+     * Are the given segments collinear? Collinearity achieved (as a line, not segment)
+     */
+    public static boolean collinear(Segment thisS, Segment that)
+    {
+        return collinear(thisS, that.getPoint1()) && collinear(thisS, that.getPoint2());
+    }
     /*
      * is the given point on the segment? Collinearity achieved (as a line, not segment)
      */
@@ -57,7 +67,7 @@ public class LineDelegate
     }
 
     /*
-     * Determines whether the three points are strictly collinear.
+     * Determines whether the three points are infinitely collinear.
      * Computes three distances; checks whether two sum to the third a la Betweenness check.
      */
     public static boolean collinear(Point one, Point two, Point three)

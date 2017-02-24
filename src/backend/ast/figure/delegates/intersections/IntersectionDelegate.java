@@ -23,7 +23,7 @@ public class IntersectionDelegate extends FigureDelegate
      */
     public static Point lineIntersection(Segment thisS, Segment that)
     {
-        return SegmentIntersectionDelegate.findIntersection(thisS, that);
+        return LineIntersectionDelegate.intersection(thisS, that);
     }
 
     /*
@@ -31,9 +31,9 @@ public class IntersectionDelegate extends FigureDelegate
      */
     public static Point segmentIntersection(Segment thisS, Segment that)
     {
-        Point p = IntersectionDelegate.lineIntersection(thisS, that);
+        Point p = SegmentIntersectionDelegate.findIntersection(thisS, that);
 
-        if (thisS.pointLiesOn(p) && that.pointLiesOn(p)) return p;
+        if(p != null) return p;
 
         return null;
     }
