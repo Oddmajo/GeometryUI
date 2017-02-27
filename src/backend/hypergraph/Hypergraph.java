@@ -6,7 +6,7 @@ import java.util.Collections;
 //import pebbler.PebblerHypergraph;
 //import pebbler.PebblerHypernode;
 
-public class Hypergraph<T, A>
+public class Hypergraph<T, A extends Annotation>
 {
     protected ArrayList<Hypernode<T, A>> vertices;
     

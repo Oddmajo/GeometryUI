@@ -122,7 +122,7 @@ import backend.deductiveRules.triangles.theorems.TwoPairsCongruentAnglesImplyThi
 import backend.symbolicAlgebra.equations.*;
 import backend.deductiveRules.RuleFactory.JustificationSwitch.DeductionJustType;
 
-public class QueryableHypergraph<T, A> extends Hypergraph<T, A>
+public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, A>
 {
     public QueryableHypergraph()
     {
