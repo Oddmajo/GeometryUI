@@ -28,7 +28,6 @@
 package backend.precomputer;
 
 
-//WARNING, SOME DEBUG PRINT STATEMENTS HAVE BEEN COMMENTED OUT. PROBABLY SHOULD GET A LOGGER AND LOG IT
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -75,45 +74,6 @@ import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 public class CoordinatePrecomputer
 {
-//    private ArrayList<Circle> circles;
-//    private ArrayList<Quadrilateral> quadrilaterals;
-//    private ArrayList<Triangle> triangles;
-//    private ArrayList<Segment> segments;
-//    private ArrayList<Angle> angles;
-//    private ArrayList<Collinear> collinear;
-//    
-//    private ArrayList<InMiddle> inMiddles;
-//    private ArrayList<Intersection> intersections;
-//    private ArrayList<Perpendicular> perpendiculars;
-//    private ArrayList<Parallel> parallels;
-//    
-//    private ArrayList<MinorArc> minorArcs;
-//    private ArrayList<MajorArc> majorArcs;
-//    private ArrayList<Semicircle> semiCircles;
-//    private ArrayList<Sector> sectors;
-//    private ArrayList<ArcInMiddle> arcInMiddle;
-//    
-//    private ArrayList<CircleSegmentIntersection> csIntersections;
-//    private ArrayList<CircleCircleIntersection> ccIntersections;
-//    
-//    
-//    public ArrayList<Circle> getCircles() {return circles;}
-//    public ArrayList<Quadrilateral> getQuadrilaterals() {return quadrilaterals;}
-//    public ArrayList<Triangle> getTriangles() {return triangles;}
-//    public ArrayList<Segment> getSegments() {return segments;}
-//    public ArrayList<Angle> getAngles() {return angles;}
-//    public ArrayList<Collinear> getCollinear() {return collinear;}
-//    
-//    public ArrayList<InMiddle> getInMiddles() {return inMiddles;}
-//    public ArrayList<Intersection> getIntersections() {return intersections;}
-//    public ArrayList<Perpendicular> getPerpendiculars() {return perpendiculars;}
-//    public ArrayList<Parallel> getParallels() {return parallels;}
-//    
-//    public ArrayList<MinorArc> getMinorArcs() {return minorArcs;}
-//    public ArrayList<MajorArc> getMajorArcs() {return majorArcs;}
-//    public ArrayList<Semicircle> getSemiCircles() {return semiCircles;}
-//    public ArrayList<Sector> getSectors() {return sectors;}
-//    public ArrayList<ArcInMiddle> getArcInMiddle() {return arcInMiddle;}
     
       private ArrayList<Arc> arcs;
       private ArrayList<Segment> segments;
@@ -149,7 +109,7 @@ public class CoordinatePrecomputer
         sectors = new ArrayList<Sector>();
         FilterClauses(figure);
         findRelations();
-        FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
+        //FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
     }
     
     //this should be the used constructor
@@ -163,11 +123,32 @@ public class CoordinatePrecomputer
         sectors = new ArrayList<Sector>();
         PointFactory.initialize(points);
         findRelations();
-        FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
+        //FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
+    }
+    
+    public ArrayList<Arc> getArcs()
+    {
+        return arcs;
+    }
+    public ArrayList<Circle> getCircles()
+    {
+        return circles;
+    }
+    public ArrayList<Segment> getSegments()
+    {
+        return segments;
+    }
+    public ArrayList<Point> getPoints()
+    {
+        return points;
+    }
+    public ArrayList<Sector> getSectors()
+    {
+        return sectors;
     }
     
     
-    public void findRelations()
+    private void findRelations()
     {
         ArrayList<Segment> segs = new ArrayList<Segment>();
         for(Segment s : segments)
@@ -298,7 +279,7 @@ public class CoordinatePrecomputer
     }
     
     //Split the figure into the constituent clauses
-    public void FilterClauses(ArrayList<GroundedClause> figure)
+    private void FilterClauses(ArrayList<GroundedClause> figure)
     {
         for(GroundedClause clause : figure)
         {

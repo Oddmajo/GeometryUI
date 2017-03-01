@@ -449,8 +449,8 @@ public class Segment extends DimensionalLength
         // Do these segments intersect within both sets of stated endpoints?
         Point intersection = this.segmentIntersection(that);
         
-        //if(intersection == null)
-        //    return null;
+        if(intersection == null)
+            return null;
         
         // Do they intersect in the middle of this segment
         return MathUtilities.doubleEquals(Point.calcDistance(this.getPoint1(), intersection),
