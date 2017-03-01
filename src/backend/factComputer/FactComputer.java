@@ -1,6 +1,7 @@
 package backend.factComputer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
@@ -126,7 +127,8 @@ public class FactComputer
     private ArrayList<CongruentCircles> congruentCircles;
     private ArrayList<ConcavePolygon> concavePolygons;
     
-    private QueryableHypergraph graph;
+    //private QueryableHypergraph graph;
+    private FactComputerContainer container;
     
     private PolygonCalculator calc;
     ArrayList<ArrayList<Polygon>> polygons;
@@ -150,14 +152,82 @@ public class FactComputer
         segments = s;
         points = p; //do we need?
         sectors = sec;
-        graph = new QueryableHypergraph();
+        //graph = new QueryableHypergraph();
         calc = new PolygonCalculator(segments);
         polygons = calc.GetPolygons();
         setFigures();
         CalculateRelations();
+        setContainer();
     }    
     
-    public void initializeLists()
+    public FactComputerContainer getLists()
+    {
+        return container;
+    }
+    
+    //sets all the lists in the FactComputerContainer so it can be returned
+    private void setContainer()
+    {
+//        container.setAltitudes(altitudes);
+//        container.setAngleBisectors(angleBisectors);
+//        container.setAngleEquations(angleEquations);
+//        container.setAnglePairRelations(anglePairRelations);
+//        container.setAngles(angles);
+//        container.setArcs(arcs);
+//        container.setCircles(circles);
+//        container.setCollinears(collinears);
+//        container.setComplementaryAngles(complementaryAngles);
+//        container.setConcavePolygons(concavePolygons);
+//        container.setCongruentAngles(congruentAngles);
+//        container.setCongruentArcs(congruentArcs);
+//        container.setCongruentCircles(congruentCircles);
+//        container.setCongruentSegments(congruentSegments);
+//        container.setCongruentTriangles(congruentTriangles);
+//        container.setEquilateralTriangles(equilateralTriangles);
+//        container.setInMiddles(inMiddles);
+//        container.setIntersections(intersections);
+//        container.setIsoscelesTrapezoids(isoscelesTrapezoids);
+//        container.setIsoscelesTriangles(isoscelesTriangles);
+//        container.setKites(kites);
+//        container.setMedians(medians);
+//        container.setParallelograms(parallelograms);
+//        container.setParallels(parallels);
+//        container.setPerpBisectors(perpBisectors);
+//        container.setPerpendiculars(perpendiculars);
+//        container.setPoints(points);
+//        container.setProportionalAngles(proportionalAngles);
+//        container.setQuadrilaterals(quadrilaterals);
+//        container.setRectangles(rectangles);
+//        container.setRhombuses(rhombuses);
+//        container.setRightAngles(rightAngles);
+//        container.setRightTriangles(rightTriangles);
+//        container.setSectors(sectors);
+//        container.setSegmentBisectors(segmentBisectors);
+//        container.setSegmentRatios(segmentRatios);
+//        container.setSegments(segments);
+//        container.setSimilarTriangles(similarTriangles);
+//        container.setSquares(squares);
+//        container.setStrengthAngleEquations(strengthAngleEquations);
+//        container.setStrengthenedPerps(strengthenedPerps);
+//        container.setStrengthens(strengthens); // I think this is old and needs to be removed
+//        container.setStrengthEquilateralTriangles(strengthEquilateralTriangles);
+//        container.setStrengthIsoscelesTrapezoids(strengthIsoscelesTrapezoids);
+//        container.setStrengthIsoscelesTriangles(strengthIsoscelesTriangles);
+//        container.setStrengthKites(strengthKites);
+//        container.setStrengthParallelograms(strengthParallelograms);
+//        container.setStrengthPerpBisectors(strengthPerpBisectors);
+//        container.setStrengthRectangles(strengthRectangles);
+//        container.setStrengthRhombuses(strengthRhombuses);
+//        container.setStrengthRightAngles(strengthRightAngles);
+//        container.setStrengthRightTriangles(strengthRightTriangles);
+//        container.setStrengthSegmentBisectors(strengthSegmentBisectors);
+//        container.setStrengthSquares(strengthSquares);
+//        container.setStrengthTrapezoids(strengthTrapezoids);
+//        container.setSupplementaryAngles(supplementaryAngles);
+//        container.setTrapezoids(trapezoids);
+//        container.setTriangles(triangles);
+    }
+    private void initializeLists()
     {
         circles = new ArrayList<Circle>();
         arcs = new ArrayList<Arc>();
@@ -224,6 +294,8 @@ public class FactComputer
         
         congruentCircles = new ArrayList<CongruentCircles>();
         concavePolygons = new ArrayList<ConcavePolygon>();
+        
+        container = new FactComputerContainer();
     }
 
     ArrayList<Descriptor> descriptors = new ArrayList<Descriptor>();
@@ -245,7 +317,7 @@ public class FactComputer
                     congruentSegments.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
                 }
                 
-                //Parallel and Perpendicular lines
+                //Parallel
                 if(segments.get(s1).isParallel(segments.get(s2)))
                 {
                     parallels.add(new Parallel(segments.get(s1),segments.get(s2)));
@@ -254,8 +326,6 @@ public class FactComputer
                 //Perpendicular, bisector, perpendicular bisector
                 else
                 {
-                    System.out.println("seg 1 " + segments.get(s1));
-                    System.out.println("seg 2 " + segments.get(s2));
                     //these are the general intersection points between the endpoints or on the endpoints of the segments (in some cases)
                     Point intersectionPerp = segments.get(s1).coordinatePerpendicular(segments.get(s2));
                     // is segment[s2] a bisector of segment[s1]?
@@ -347,6 +417,8 @@ public class FactComputer
         {
             for(int t2 = t1 +1; t2 < triangles.size(); t2++)
             {
+                System.out.println(triangles.get(t1).toString());
+                System.out.println(triangles.get(t2).toString());
                 Pair<Triangle,Triangle> corresponding = triangles.get(t1).CoordinateCongruent(triangles.get(t2));
                 if(corresponding.getKey() != null && corresponding.getValue() != null)
                 {
@@ -566,14 +638,17 @@ public class FactComputer
                 {
                     if(p instanceof Triangle)
                     {
-                        //triangles.add((Triangle)p);
+                        System.out.println("adding a triangle");
+                        triangles.add((Triangle)p);
                     }
                     else if(p instanceof Quadrilateral)
                     {
+                        System.out.println("adding a quadrilateral");
                         quadrilaterals.add((Quadrilateral)p);
                     }
                     else if(p instanceof ConcavePolygon)
                     {
+                        System.out.println("adding a concave polygon");
                         concavePolygons.add((ConcavePolygon)p);
                     }
                 }

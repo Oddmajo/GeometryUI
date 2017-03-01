@@ -97,7 +97,7 @@ public class Polygon extends Shape
         orderedSides = segs;
         points = pts;
         angles = angs;
-
+        
 //        thisAtomicRegion = new ShapeAtomicRegion(this);
 
 //        this.FigureSynthesizerConstructor();

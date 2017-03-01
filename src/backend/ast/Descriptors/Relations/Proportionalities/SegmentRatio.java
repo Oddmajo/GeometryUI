@@ -75,8 +75,8 @@ public class SegmentRatio extends Descriptor
         // Reinit the multipliers to basic values
 //        smallerSegment.multiplier = 1;
 //        largerSegment.multiplier = 1;
-        smallerSegment.setMultiplier(1);
-        largerSegment.setMultiplier(1);
+        //smallerSegment.setMultiplier(1);
+        //largerSegment.setMultiplier(1);
 
         knownProportion = false;
 	}

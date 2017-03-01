@@ -909,7 +909,9 @@ public class Triangle extends Polygon
         ArrayList<Boolean> congruentAngle = new ArrayList<Boolean>();
         ArrayList<Angle> thisAngles = this.angles;
         ArrayList<Angle> thatAngles = thatTriangle.angles;
-
+        
+        if(thisAngles == null)
+            System.out.println("thisAngles is null");
         for (int thisS = 0; thisS < thisAngles.size(); thisS++)
         {
             int thatS = 0;
