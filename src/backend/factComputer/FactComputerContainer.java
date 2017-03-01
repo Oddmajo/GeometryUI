@@ -3,6 +3,7 @@ package backend.factComputer;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.AnglePairRelation;
@@ -117,6 +118,83 @@ public class FactComputerContainer
     private ArrayList<CongruentCircles> congruentCircles;
     private ArrayList<ConcavePolygon> concavePolygons;
     
+    
+    public ArrayList<HashSet<GroundedClause>> getAllLists()
+    {
+        ArrayList<HashSet<GroundedClause>> master = new ArrayList<HashSet<GroundedClause>>();
+        
+        master.add(new HashSet<>(points));
+        master.add(new HashSet<>(strengthens)); //I think this is an old concept
+        master.add(new HashSet<>(circles));
+        master.add(new HashSet<>(arcs));
+        master.add(new HashSet<>(segments));
+        
+        master.add(new HashSet<>(sectors));
+        master.add(new HashSet<>(congruentArcs));
+        master.add(new HashSet<>(angleBisectors));
+        master.add(new HashSet<>(altitudes));
+        master.add(new HashSet<>(intersections));
+        
+        master.add(new HashSet<>(parallels));
+        master.add(new HashSet<>(triangles));
+        master.add(new HashSet<>(rightTriangles));
+        master.add(new HashSet<>(strengthRightTriangles));
+        master.add(new HashSet<>(equilateralTriangles));
+        
+        master.add(new HashSet<>(strengthEquilateralTriangles));
+        master.add(new HashSet<>(isoscelesTriangles));
+        master.add(new HashSet<>(strengthIsoscelesTriangles));
+        master.add(new HashSet<>(congruentTriangles));
+        master.add(new HashSet<>(similarTriangles));
+        
+        master.add(new HashSet<>(perpendiculars));
+        master.add(new HashSet<>(strengthenedPerps));
+        master.add(new HashSet<>(perpBisectors));
+        master.add(new HashSet<>(strengthPerpBisectors));
+        master.add(new HashSet<>(inMiddles));
+        
+        master.add(new HashSet<>(medians));
+        master.add(new HashSet<>(segmentBisectors));
+        master.add(new HashSet<>(strengthSegmentBisectors));
+        master.add(new HashSet<>(congruentSegments));
+        master.add(new HashSet<>(segmentRatios));
+        
+        master.add(new HashSet<>(trapezoids));
+        master.add(new HashSet<>(strengthTrapezoids));
+        master.add(new HashSet<>(isoscelesTrapezoids));
+        master.add(new HashSet<>(strengthIsoscelesTrapezoids));
+        master.add(new HashSet<>(collinears));
+        
+        master.add(new HashSet<>(rightAngles));
+        master.add(new HashSet<>(strengthRightAngles));
+        master.add(new HashSet<>(angleEquations));
+        master.add(new HashSet<>(strengthAngleEquations));
+        master.add(new HashSet<>(complementaryAngles));
+        
+        master.add(new HashSet<>(congruentAngles));
+        master.add(new HashSet<>(angles));
+        master.add(new HashSet<>(anglePairRelations));
+        master.add(new HashSet<>(supplementaryAngles));
+        master.add(new HashSet<>(proportionalAngles));
+        
+        master.add(new HashSet<>(kites));
+        master.add(new HashSet<>(strengthKites));
+        master.add(new HashSet<>(quadrilaterals));
+        master.add(new HashSet<>(parallelograms));
+        master.add(new HashSet<>(strengthParallelograms));
+        
+        master.add(new HashSet<>(rectangles));
+        master.add(new HashSet<>(strengthRectangles));
+        master.add(new HashSet<>(rhombuses));
+        master.add(new HashSet<>(strengthRhombuses));
+        master.add(new HashSet<>(squares));
+        
+        master.add(new HashSet<>(strengthSquares));
+        master.add(new HashSet<>(congruentCircles));
+        master.add(new HashSet<>(concavePolygons));
+        
+        return master;
+    }
     
     public HashSet<Point> getPoints()
     {
