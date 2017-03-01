@@ -238,12 +238,47 @@ public class CoordinatePrecomputer
         segments.addAll(segs);
         
       //might need to add checking to see if any random point is on the circle?
+        for(Arc a : arcs)
+        {
+            //sectors.add(new Sector(a));
+            
+            //check both endpoints to see if they are contained in points
+            //  if not, add them
+            //  does an issue potentially pop up regarding this? unsure, consult with Tom/Alvin
+            if(!points.contains(a.getEndpoint1()))
+            {
+                if(!PointFactory.contains(a.getEndpoint1()))
+                    PointFactory.generatePoint(a.getEndpoint1());
+                points.add(a.getEndpoint1());   
+            }
+            if(!points.contains(a.getEndpoint2()))
+            {
+                if(!PointFactory.contains(a.getEndpoint2()))
+                    PointFactory.generatePoint(a.getEndpoint2());
+                points.add(a.getEndpoint2());   
+            }
+            
+            //if the two endpoints are not in the circle's PointsOnCircle list, add them
+            if(!a.getCircle().getPointsOnCircle().contains(a.getEndpoint1()))
+            {
+                a.getCircle().addPointOnCircle(a.getEndpoint1());
+            }
+            if(!a.getCircle().getPointsOnCircle().contains(a.getEndpoint2()))
+            {
+                a.getCircle().addPointOnCircle(a.getEndpoint2());
+            }
+            
+            sectors.add(new Sector(a));
+            
+            //The handler for circles will add complementary angles
+        }
+        
         for(Circle c: circles)
         {
             //Make sure the centerpoint is in points
             if(!points.contains(c.getCenter()))
             {
-                if(PointFactory.contains(c.getCenter()))
+                if(!PointFactory.contains(c.getCenter()))
                     PointFactory.generatePoint(c.getCenter());
                 points.add(c.getCenter());
             }
@@ -275,55 +310,34 @@ public class CoordinatePrecomputer
                 for(int j = i + 1; j < circlePoints.size(); j++)
                 {
                     //for each pair of points, need to check if the two points create an arc or semicircle 
+                    Arc one = null, two = null;
                     if(c.DefinesDiameter(new Segment(circlePoints.get(i),circlePoints.get(j))))
                     {
-                        //Do I need to add the midpoint and th
-                        Semicircle one = new Semicircle(c, circlePoints.get(i), circlePoints.get(j), c.getMidpoint(circlePoints.get(i), circlePoints.get(j)), new Segment);
+                        //The first constructor will find any other point on the circle to use as a middlepoint
+                        //  if no point is found,
+                        one = new Semicircle(c, circlePoints.get(i), circlePoints.get(j));
+                        two = new Semicircle(c, (Semicircle)one);
                     }
                     else
                     {
-                        MajorArc major = new MajorArc(c, circlePoints.get(i), circlePoints.get(j));
-                        MinorArc minor = new MinorArc(c, circlePoints.get(i), circlePoints.get(j));
-                        if(!arcs.contains(major))
-                            arcs.add(major);
-                        if(!arcs.contains(minor))
-                            arcs.add(minor);
+                        one = new MajorArc(c, circlePoints.get(i), circlePoints.get(j));
+                        two = new MinorArc(c, circlePoints.get(i), circlePoints.get(j));
+                    }
+                    
+                    if(!arcs.contains(one))
+                    {
+                        arcs.add(one);
+                        sectors.add(new Sector(one));
+                    }
+                    if(!arcs.contains(two)) 
+                    {
+                        arcs.add(two);
+                        sectors.add(new Sector(two));
                     }
                 }
             }
             //use the hash so we can figure out the arcs to create.
             //then create a new sector based off of that arc
-        }
-        
-        for(Arc a : arcs)
-        {
-            sectors.add(new Sector(a));
-            //check both endpoints to see if they are contained in points
-            //  if not, add them
-            //  does an issue potentially pop up regarding this? unsure, consult with Tom/Alvin
-            if(!points.contains(a.getEndpoint1()))
-            {
-                if(!PointFactory.contains(a.getEndpoint1()))
-                    PointFactory.generatePoint(a.getEndpoint1());
-                points.add(a.getEndpoint1());   
-            }
-            if(!points.contains(a.getEndpoint2()))
-            {
-                if(!PointFactory.contains(a.getEndpoint2()))
-                    PointFactory.generatePoint(a.getEndpoint2());
-                points.add(a.getEndpoint2());   
-            }
-            
-            
-            if(!a.getCircle().pointsOnCircle.contains(a.getEndpoint1()))
-            {
-                a.getCircle().pointsOnCircle.add(a.getEndpoint1());
-            }
-            if(!a.getCircle().pointsOnCircle.contains(a.getEndpoint2()))
-            {
-                a.getCircle().pointsOnCircle.add(a.getEndpoint2());
-            }
-            //hash each arc to a circle?
         }
     }
     

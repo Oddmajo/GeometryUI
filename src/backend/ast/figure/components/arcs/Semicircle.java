@@ -9,6 +9,7 @@ import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.atoms.components.Connection;
+import backend.utilities.PointFactory;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.translation.OutTriple;
 
@@ -44,6 +45,68 @@ public class Semicircle extends Arc
         }
 
         // thisAtomicRegion = new ShapeAtomicRegion(this);
+    }
+    
+    //create a constructor that takes circle, point, point
+    //  try to find some point on the circle - if one doesn't exist, use the midpoint
+    public Semicircle(Circle circle, Point e1, Point e2)
+    {
+        super(circle, e1, e2);
+        
+        if(!PointFactory.contains(e1))
+            PointFactory.generatePoint(e1);
+        if(!PointFactory.contains(e2))
+            PointFactory.generatePoint(e2);
+        
+        _diameter = new Segment(e1, e2);
+        
+        List<Point> points = circle.getPointsOnCircle();
+        for(int i = 0; i < points.size(); i++)
+        {
+            if(!PointFactory.contains(points.get(i)))
+                PointFactory.generatePoint(points.get(i));
+            
+            if(!points.get(i).equals(e1) && !points.get(i).equals(e2))
+            {
+                _middlePoint = points.get(i);
+                i = points.size();
+            }
+        }
+        if(_middlePoint == null)
+            _middlePoint = circle.getMidpoint(e1, e2);
+        
+        if (!circle.DefinesDiameter(_diameter))
+        {
+            ExceptionHandler.throwException(new ASTException("Semicircle constructed without a _diameter"));
+        }
+    }
+    
+    //should there be a constructor that takes a semicircle, and then creates the corresponding other semicircle?
+    public Semicircle(Circle circle, Semicircle other)
+    {
+        super(circle, other.getEndpoint1(), other.getEndpoint2());
+        
+        _diameter = new Segment(other.getEndpoint1(), other.getEndpoint2());
+        
+        List<Point> points = circle.getPointsOnCircle();
+        for(int i = 0; i < points.size(); i++)
+        {
+            if(!PointFactory.contains(points.get(i)))
+                PointFactory.generatePoint(points.get(i));
+            
+            if(!other.pointLiesOn(points.get(i)))
+            {
+                _middlePoint = points.get(i);
+                i = points.size();
+            }
+        }
+        if(_middlePoint == null)
+            _middlePoint = circle.OppositePoint(other.getMiddlePoint());
+        
+        if (!circle.DefinesDiameter(_diameter))
+        {
+            ExceptionHandler.throwException(new ASTException("Semicircle constructed without a _diameter"));
+        }
     }
 
     @Override
