@@ -25,9 +25,9 @@ public abstract class GroundedClause implements Cloneable
 {
     
     // A unique integer identifier (from the hypergraph)
-    private int clauseId;
+    protected int clauseId;
     @SuppressWarnings("unused")
-    private void setID(int id) { clauseId = id; }
+    public void setID(int id) { clauseId = id; }
     public int getID() { return clauseId; }
 
     // Intrinsic as defined theoretically: characteristics of a figure that cannot be proven.

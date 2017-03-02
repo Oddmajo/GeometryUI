@@ -1,5 +1,6 @@
 package backend.hypergraph;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,95 +40,27 @@ import backend.ast.figure.components.quadrilaterals.Square;
 import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.deductiveRules.Deduction;
-import backend.deductiveRules.angles.axioms.AngleAdditionAxiom;
-import backend.deductiveRules.angles.axioms.AnglesOfEqualMeasureAreCongruent;
-import backend.deductiveRules.angles.axioms.CongruentCorrespondingAnglesImplyParallel;
-import backend.deductiveRules.angles.axioms.CorrespondingAnglesOFParallelLines;
-import backend.deductiveRules.angles.definitions.AngleBisectorDefinition;
-import backend.deductiveRules.angles.definitions.ComplementaryDefinition;
-import backend.deductiveRules.angles.definitions.PerpendicularBisectorDefinition;
-import backend.deductiveRules.angles.definitions.RightAngleDefinition;
-import backend.deductiveRules.angles.definitions.StraightAngleDefinition;
-import backend.deductiveRules.angles.definitions.SupplementaryDefinition;
-import backend.deductiveRules.angles.theorems.AdjacentAnglesPerpendicularImplyComplementary;
-import backend.deductiveRules.angles.theorems.AngleBisectorTheorem;
-import backend.deductiveRules.angles.theorems.CongruentAdjacentAnglesImplyPerpendicular;
-import backend.deductiveRules.angles.theorems.PerpendicularImplyCongruentAdjacentAngles;
-import backend.deductiveRules.angles.theorems.RelationsOfCongruentAnglesAreCongruent;
-import backend.deductiveRules.angles.theorems.SupplementaryAndCongruentImplyRightAngles;
-import backend.deductiveRules.angles.theorems.SupplementaryAnglesParallelIntersection;
-import backend.deductiveRules.circles.definitions.CircleDefinition;
-import backend.deductiveRules.circles.definitions.CongruentCircleDefinition;
-import backend.deductiveRules.parallelLines.theorems.AltIntCongruentAnglesImplyParallel;
-import backend.deductiveRules.parallelLines.theorems.ParallelImplyAltIntCongruentAngles;
-import backend.deductiveRules.parallelLines.theorems.ParallelImplySameSideInteriorSupplementary;
-import backend.deductiveRules.parallelLines.theorems.SameSideSuppleAnglesImplyParallel;
-import backend.deductiveRules.parallelLines.theorems.TransversalPerpendicularToParallelImplyBothPerpendicular;
-import backend.deductiveRules.quadrilaterals.definitions.IsoscelesTrapezoidDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.KiteDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.ParallelogramDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.RectangleDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.RhombusDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.SquareDefinition;
-import backend.deductiveRules.quadrilaterals.definitions.TrapezoidDefinition;
-import backend.deductiveRules.quadrilaterals.theorems.BaseAnglesIsoscelesTrapezoidCongruent;
-import backend.deductiveRules.quadrilaterals.theorems.BothPairsOppAnglesCongruentImpliesParallelogram;
-import backend.deductiveRules.quadrilaterals.theorems.BothPairsOppSidesCongruentImpliesParallelogram;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsBisectEachOtherImplyParallelogram;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsOfKiteArePerpendicular;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsOfRectangleAreCongruent;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsOfRhombusArePerpendicular;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsOfRhombusBisectRhombusAngles;
-import backend.deductiveRules.quadrilaterals.theorems.DiagonalsParallelogramBisectEachOther;
-import backend.deductiveRules.quadrilaterals.theorems.MedianTrapezoidHalfSumBases;
-import backend.deductiveRules.quadrilaterals.theorems.MedianTrapezoidParallelToBases;
-import backend.deductiveRules.quadrilaterals.theorems.OnePairOppSidesCongruentParallelImpliesParallelogram;
-import backend.deductiveRules.quadrilaterals.theorems.OppositeAnglesOfParallelogramAreCongruent;
-import backend.deductiveRules.quadrilaterals.theorems.OppositeSidesOfParallelogramAreCongruent;
-import backend.deductiveRules.segments.axioms.CongruentSegmentsImplySegmentRatioDefinition;
-import backend.deductiveRules.segments.axioms.SegmentAdditionAxiom;
-import backend.deductiveRules.segments.definitions.MidpointDefinition;
-import backend.deductiveRules.segments.definitions.PerpendicularDefinition;
-import backend.deductiveRules.segments.definitions.PerpendicularSegments;
-import backend.deductiveRules.segments.definitions.SegmentBisectorDefinition;
-import backend.deductiveRules.segments.theorems.MidpointTheorem;
-import backend.deductiveRules.segments.theorems.ParallelSegmentsTransitivity;
-import backend.deductiveRules.segments.theorems.PerpendicularParallelTransversal;
-import backend.deductiveRules.segments.theorems.VerticalAnglesTheorem;
-import backend.deductiveRules.triangles.axioms.AASimilarity;
-import backend.deductiveRules.triangles.axioms.ASA;
-import backend.deductiveRules.triangles.axioms.SASCongruence;
-import backend.deductiveRules.triangles.axioms.SSS;
-import backend.deductiveRules.triangles.definitions.AltitudeDefinition;
-import backend.deductiveRules.triangles.definitions.CoordinateRightIsoscelesTriangles;
-import backend.deductiveRules.triangles.definitions.EquilateralTriangleDefinition;
-import backend.deductiveRules.triangles.definitions.IsoscelesTriangleDefinition;
-import backend.deductiveRules.triangles.definitions.MedianDefinition;
-import backend.deductiveRules.triangles.definitions.RightTriangleDefinition;
-import backend.deductiveRules.triangles.theorems.AAS;
-import backend.deductiveRules.triangles.theorems.AcuteAnglesInRightTriangleComplementary;
-import backend.deductiveRules.triangles.theorems.AltitudeOfRightTrianglesImpliesSimilar;
-import backend.deductiveRules.triangles.theorems.AngleBisectorIsPerpendicularBisectorInIsosceles;
-import backend.deductiveRules.triangles.theorems.CongruentAnglesInTriangleImplyCongruentSides;
-import backend.deductiveRules.triangles.theorems.CongruentSidesInTriangleImplyCongruentAngles;
-import backend.deductiveRules.triangles.theorems.EquilateralTriangleHasSixtyDegreeAngles;
-import backend.deductiveRules.triangles.theorems.ExteriorAngleEqualSumRemoteAngles;
-import backend.deductiveRules.triangles.theorems.HypotenuseLeg;
-import backend.deductiveRules.triangles.theorems.IsoscelesTriangleTheorem;
-import backend.deductiveRules.triangles.theorems.SASSimilarity;
-import backend.deductiveRules.triangles.theorems.SSSSimilarity;
-import backend.deductiveRules.triangles.theorems.SumAnglesInTriangle;
-import backend.deductiveRules.triangles.theorems.TriangleProportionality;
-import backend.deductiveRules.triangles.theorems.TwoPairsCongruentAnglesImplyThirdPairCongruent;
 import backend.symbolicAlgebra.equations.*;
-import backend.deductiveRules.RuleFactory.JustificationSwitch.DeductionJustType;
+import backend.utilities.exception.DebugException;
+import backend.utilities.exception.ExceptionHandler;
 
 public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, A>
 {
+
+    // number of nodes
+    protected int _nodeCount;
+    public int getNodeCount() { return _nodeCount; }
+    
+    // number of edges
+    protected int _edgeCount;
+    public int getEdgeCount() { return _edgeCount; }
+
     public QueryableHypergraph()
     {
         super();
-
+        
+        _nodeCount = 0;
+        _edgeCount = 0;
         initQueryContainers();
     }
     //
@@ -143,9 +76,618 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         // Add to the hypergraph
         if (!super.addNode(data)) return false;
 
-        // Add to the proper queryable containers
-        addToQueryableContainers(data);
+        // add Node ID number and add to queryable container
+        if (data instanceof GroundedClause)
+        {
+            GroundedClause clauseData = (GroundedClause) data;
+            clauseData.setID(_nodeCount);
+            _nodeCount++;
 
+            // Add to the proper queryable containers
+            addToQueryableContainers(data);
+
+            return true;
+        }
+
+        // not a GroundedClause, return false
+        return false;
+    }
+
+    //
+    // Method to add all nodes from the FactComputerContainer returned by 
+    // the fact computer
+    // 
+    // @author Drew Whitmire
+    @SuppressWarnings("unchecked")
+    public boolean addAllNodes(ArrayList<HashSet<GroundedClause>> hashSets)
+    {
+        // for each HashSet in the list
+        for (HashSet<GroundedClause> set : hashSets)
+        {
+            // for each grounded clause in the HashSet
+            for (GroundedClause gc : set)
+            {
+                // add the node
+                // if it fails to add, return false
+                if (!addNode((T) gc))
+                {
+                    return false;
+                }
+            }
+        }
+
+        // all nodes were added
+        return true;
+    }
+
+    //
+    // single edge addition
+    //
+    // @author Drew Whitmire
+    @SuppressWarnings("unchecked")
+    public boolean addEdge(Deduction d)
+    {
+        // find target node within QHG
+        GroundedClause data = d.getConsequent();
+        GroundedClause target = null;
+
+        //
+        // Points
+        //
+        if (data instanceof Point)
+        {
+            for (Point p : _points)
+            {
+                if (data.structurallyEquals(p))
+                {
+                    target = p;
+                    break;
+                }
+
+            }
+        }
+        else if (data instanceof Collinear) 
+        {
+            for (Collinear c : _collinear)
+            {
+                if (data.structurallyEquals(c))
+                {
+                    target = c;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Angles
+        //
+        else if (data instanceof Angle)
+        {
+            if (data instanceof RightAngle)
+            {
+                for (RightAngle ra : _rightAngles)
+                {
+                    if (data.structurallyEquals(ra))
+                    {
+                        target = ra;
+                        break;
+                    }
+                }
+            }
+            else // general angle list
+            {
+                for (Angle a : _angles)
+                {
+                    if (data.structurallyEquals(a))
+                    {
+                        target = a;
+                        break;
+                    }
+                }
+            }
+        }      
+        else if (data instanceof AnglePairRelation)
+        {
+            if (data instanceof Complementary)
+            {
+                for (Complementary c : _complementaryAngles)
+                {
+                    if (data.structurallyEquals(c))
+                    {
+                        target = c;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof Supplementary)
+            {
+                for (Supplementary s : _supplementaryAngles)
+                {
+                    if (data.structurallyEquals(s))
+                    {
+                        target = s;
+                        break;
+                    }
+                }
+            }
+            else // not a special case
+            {
+                for (AnglePairRelation apr : _anglePairRelations)
+
+                {
+                    if (data.structurallyEquals(apr))
+                    {
+                        target = apr;
+                        break;
+                    }
+                }
+            }
+        }        
+        else if (data instanceof AngleBisector) 
+        {
+            for (AngleBisector ab : _angleBisectors)
+            {
+                if (data.structurallyEquals(ab))
+                {
+                    target = ab; 
+                    break;
+                }
+            }
+        }
+        else if (data instanceof CongruentAngles)
+        {
+            for (CongruentAngles ca : _CongruentAngles)
+            {
+                if (data.structurallyEquals(ca))
+                {
+                    target = ca;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Triangles
+        //
+        else if (data instanceof Triangle)
+        {
+            // specific types of triangles
+            if (data instanceof RightTriangle)
+            {
+                for (RightTriangle rt : _rightTriangles)
+                {
+                    if (data.structurallyEquals(rt))
+                    {
+                        target = rt;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof EquilateralTriangle)
+            {
+                for (EquilateralTriangle eq : _equilateralTriangles)
+                {
+                    if (data.structurallyEquals(eq))
+                    {
+                        target = eq;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof IsoscelesTriangle)
+            {
+                for (IsoscelesTriangle it : _isoscelesTriangles)
+                {
+                    if (data.structurallyEquals(it))
+                    {
+                        target = it;
+                        break;
+                    }
+                }
+            }
+            else // not a special type of triangle, go through all triangles list
+            {
+                for (Triangle t : _triangles)
+                {
+                    if (data.structurallyEquals(t))
+                    {
+                        target = t;
+                        break;
+                    }
+                }
+            }
+        }
+        else if (data instanceof Altitude)
+        {
+            for (Altitude a : _altitudes)
+            {
+                if (data.structurallyEquals(a))
+                {
+                    target = a;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Segments
+        //
+        else if (data instanceof Segment)
+        {
+            for (Segment s : _segments)
+            {
+                if (data.structurallyEquals(s))
+                {
+                    target = s;
+                    break;
+                }
+            }
+        }
+
+        else if (data instanceof Intersection)
+        {
+            // specific types of intersections
+            if (data instanceof Perpendicular)
+            {
+                // specific types of perpendiculars
+                if (data instanceof PerpendicularBisector)
+                {
+                    for (PerpendicularBisector pb : _perpendicularBisectors)
+                    {
+                        if (data.structurallyEquals(pb))
+                        {
+                            target = pb;
+                            break;
+                        }
+                    }
+                }
+                else // all perpendiculars
+                {
+                    for (Perpendicular p : _perpendiculars)
+                    {
+                        if (data.structurallyEquals(p))
+                        {
+                            target = p;
+                            break;
+                        }
+                    }
+                }
+            }
+            else // all intersections
+            {
+                for (Intersection i : _intersections)
+                {
+                    if (data.structurallyEquals(i))
+                    {
+                        target = i;
+                        break;
+                    }
+                }
+            }
+
+        }
+        else if (data instanceof CongruentSegments)
+        {
+            for (CongruentSegments cs : _congruentSegments)
+            {
+                if (data.structurallyEquals(cs))
+                {
+                    target = cs;
+                    break;
+                }
+            }
+        }
+        else if (data instanceof SegmentBisector)
+        {
+            for (SegmentBisector sb : _segmentBisectors)
+            {
+                if (data.structurallyEquals(sb))
+                {
+                    target = sb;
+                    break;
+                }
+            }
+        }
+        else if (data instanceof InMiddle)
+        {
+            for (InMiddle im : _inMiddles)
+            {
+                if (data.structurallyEquals(im))
+                {
+                    target = im;
+                    break;
+                }
+            }
+        }
+        else if (data instanceof Median)
+        {
+            for (Median m : _medians)
+            {
+                if (data.structurallyEquals(m))
+                {
+                    target = m;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Parallels
+        //
+        else if (data instanceof Parallel)
+        {
+            for (Parallel p : _parallels)
+            {
+                if (data.structurallyEquals(p))
+                {
+                    target = p;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Quadrilaterals
+        // 
+        else if (data instanceof Quadrilateral)
+        {
+            // specific quadrilaterals
+            if (data instanceof Trapezoid)
+            {
+                if (data instanceof IsoscelesTrapezoid)
+                {
+                    for (IsoscelesTrapezoid it : _isoscelesTrapezoids)
+                    {
+                        if (data.structurallyEquals(it))
+                        {
+                            target = it;
+                            break;
+                        }
+                    }
+                }
+                else // all trapezoids
+                {
+                    for (Trapezoid t : _trapezoids)
+                    {
+                        if (data.structurallyEquals(t))
+                        {
+                            target = t;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (data instanceof Parallelogram)
+            {
+                if (data instanceof Rectangle)
+                {
+                    for (Rectangle r : _rectangles)
+                    {
+                        if (data.structurallyEquals(r))
+                        {
+                            target = r;
+                            break;
+                        }
+                    }
+                }
+                else // all parallelograms
+                {
+                    for (Parallelogram p : _parallelograms)
+                    {
+                        if (data.structurallyEquals(p))
+                        {
+                            target = p;
+                            break;
+                        }
+                    }
+                }
+            }
+            else if (data instanceof Kite)
+            {
+                for (Kite k : _kites)
+                {
+                    if (data.structurallyEquals(k))
+                    {
+                        target = k;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof Square)
+            {
+                for (Square s : _Squares)
+                {
+                    if (data.structurallyEquals(s))
+                    {
+                        target = s;
+                        break;
+                    }
+                }
+            }
+            else // all quadrilaterals
+            {
+                for (Quadrilateral q : _quadrilaterals)
+                {
+                    if (data.structurallyEquals(q))
+                    {
+                        target = q;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //
+        // Circles
+        //
+        else if (data instanceof Circle)
+        {
+            for (Circle c : _circles)
+            {
+                if (data.structurallyEquals(c))
+                {
+                    target = c;
+                    break;
+                }
+            }
+        }
+        else if (data instanceof Arc)
+        {
+            if (data instanceof MinorArc)
+            {
+                for (MinorArc ma : _minorArcs)
+                {
+                    if (data.structurallyEquals(ma))
+                    {
+                        target = ma;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof MajorArc)
+            {
+                for (MajorArc ma : _majorArcs)
+                {
+                    if (data.structurallyEquals(ma))
+                    {
+                        target = ma;
+                        break;
+                    }
+                }
+            }
+            else // all arcs
+            {
+                for (Arc a : _arcs)
+                {
+                    if (data.structurallyEquals(a))
+                    {
+                        target = a;
+                        break;
+                    }
+                }
+            }
+        }
+        else if (data instanceof Midpoint)
+        {
+            for (Midpoint m : _midpoints)
+            {
+                if (data.structurallyEquals(m))
+                {
+                    target = m;
+                    break;
+                }
+            }
+        }
+
+        // 
+        // Descriptors
+        //
+        else if (data instanceof Midpoint)
+        {
+            for (Midpoint m : _midpoints)
+            {
+                if (data.structurallyEquals(m))
+                {
+                    target = m;
+                    break;
+                }
+            }
+        }
+
+        //
+        // Handle all equation types
+        //
+        // Defer equation processing to the query container
+        //
+        else if (data instanceof Equation)
+        {
+            // add specific equations
+            if (data instanceof AngleEquation)
+            {
+                for (AngleEquation ae : _angleEquations)
+                {
+                    if (data.structurallyEquals(ae))
+                    {
+                        target = ae;
+                        break;
+                    }
+                }
+            }
+            else // TODO: equation handler 
+            {
+//                if (data.structurallyEquals(_equationHandler))
+//                {
+//                    target = _equationHandler;
+//                }
+            }
+        }
+        else if (data instanceof SegmentRatioEquation)
+        {
+            for (SegmentRatioEquation sre : _segmentRatioEquations)
+            {
+                if (data.structurallyEquals(sre))
+                {
+                    target = sre;
+                    break;
+                }
+            }
+        }
+
+        // if target is not null, get target ID
+        if (target != null)
+        {
+            int targetID = target.getID();
+
+            // create list of source IDs
+            ArrayList<Integer> sourceIDs = new ArrayList<>();
+            for (GroundedClause source : d.getAntecedent())
+            {
+                sourceIDs.add(source.getID());
+            }
+            
+            // create a hyperedge
+            Hyperedge<Annotation> newEdge = new Hyperedge<Annotation>(sourceIDs, targetID, d.getAnnotation());
+            
+            // add hyperedge to the QHG
+            if (!super.addEdge((Hyperedge<A>) newEdge))
+            {
+                // throw exception, something bad happened
+                ExceptionHandler.throwException(new DebugException("QHG: Edge Unsuccessfully Added.  Edge pre-existing"));
+                return false;
+            }
+            else // edge added successfully
+            {
+                // increase edge count
+                _edgeCount++;
+                return true;
+            }
+        }
+        else // target is not in QHG, can't add edge
+        {
+            // throw exception, something bad happened
+            ExceptionHandler.throwException(new DebugException("QHG: Edge Unsuccessfully Added.  Target Node Does Not Exist."));
+            return false;
+        }
+
+    }
+    
+    //
+    // multiple edge addition
+    //
+    // @author Drew Whitmire
+    public boolean addAllEdges(HashSet<Deduction> deductions)
+    {
+        // add each deduction as hyperedge
+        for (Deduction d : deductions)
+        {
+            // if the edge is unsuccessfully added, return false
+            if (!addEdge(d))
+            {
+                return false;
+            }
+        }
+        
+        // all edges successfully added
         return true;
     }
 
@@ -232,6 +774,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     // Equations
     //
     protected EquationQueryHandler _equationHandler;
+    public HashSet<Equation> _equations;
     public HashSet<AngleEquation> _angleEquations;
     public Set<SegmentRatioEquation> _segmentRatioEquations;
 
@@ -502,12 +1045,12 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         {
             // all quadrilaterals
             _quadrilaterals = new HashSet<Quadrilateral>();
-            
+
             // specific quadrilaterals
             if (data instanceof Trapezoid)
             {
                 _trapezoids.add((Trapezoid) data);
-                
+
                 if (data instanceof IsoscelesTrapezoid)
                 {
                     _isoscelesTrapezoids.add((IsoscelesTrapezoid) data);
@@ -516,7 +1059,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof Parallelogram)
             {
                 _parallelograms.add((Parallelogram) data);
-                
+
                 if (data instanceof Rectangle)
                 {
                     _rectangles.add((Rectangle) data);
@@ -556,7 +1099,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         {
             _midpoints.add((Midpoint)data);
         }
-        
+
         //
         // Descriptors
         //
@@ -573,7 +1116,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else if (data instanceof Equation)
         {
             _equationHandler.add((Equation)data);
-            
+
             // add specific equations
             if (data instanceof AngleEquation)
             {
@@ -627,7 +1170,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             if (strengthened instanceof Parallelogram)
             {
                 _strengthenedParallelograms.add(s);
-                
+
                 if (strengthened instanceof Rectangle)
                 {
                     _strengthenedRectangles.add(s);
@@ -640,7 +1183,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (strengthened instanceof Trapezoid)
             {
                 _strengthenedTrapezoids.add(s);
-                
+
                 if (strengthened instanceof IsoscelesTrapezoid)
                 {
                     _strengthenedIsoscelesTrapezoids.add(s);

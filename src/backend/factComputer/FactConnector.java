@@ -1,4 +1,4 @@
-package backend.precomputer;
+package backend.factComputer;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -95,6 +95,7 @@ public class FactConnector
     
     private QueryableHypergraph<GroundedClause, Annotation> _qhg;
     private Set<Deduction> deductions;
+    public Set<Deduction> getDeductions() { return deductions; }
 
     public FactConnector(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
@@ -103,7 +104,7 @@ public class FactConnector
         deductions = new HashSet<Deduction>();
         
         // get deducitons
-        getDeductions();
+        deduce();
     }
     
     /**
@@ -112,7 +113,7 @@ public class FactConnector
      * 
      * @author Drew Whitmire
      */
-    public void getDeductions()
+    public void deduce()
     {
         //
         // NOTE: DeductionFlags.dFlags is active when false and inactive when true
