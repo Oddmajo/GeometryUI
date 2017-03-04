@@ -6,10 +6,16 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import backend.ast.GroundedClause;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.deductiveRules.RuleFactory;
+import backend.factComputer.FactComputer;
+import backend.factComputer.FactComputerContainer;
+import backend.factComputer.FactConnector;
+import backend.hypergraph.Annotation;
 import backend.hypergraph.DeductionFlags;
+import backend.hypergraph.QueryableHypergraph;
 import backend.precomputer.CoordinatePrecomputer;
 import channels.fromUI.Diagram;
 
@@ -56,12 +62,24 @@ public class MidpointTest
         // create the precomputer object
         CoordinatePrecomputer precomp = new CoordinatePrecomputer(null, null, d.getSegments(), d.getPoints());
         
-        // get qhg
+        // create fact computer object and get lists
+        FactComputer factComp = new FactComputer(precomp.getCircles(), precomp.getArcs(), precomp.getSegments(), precomp.getPoints(), precomp.getSectors());
+        FactComputerContainer container = factComp.getLists();        
+        
+        // create qhg
+        QueryableHypergraph<GroundedClause, Annotation> qhg = new QueryableHypergraph<>();
+        
+        // add nodes to qhg
+        qhg.addAllNodes(container.getAllLists());
+        
+        // get deductions
+        FactConnector deductions = new FactConnector(qhg);
+        
+        // add edges to qhg
+        qhg.addAllEdges(deductions.getDeductions());
         
         // check number of edges
-        
-        // return expected == qhg.numberOfEdges
-        return false;
+        return qhg.getEdgeCount() == expected;
     }
 
 }

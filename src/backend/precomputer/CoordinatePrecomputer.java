@@ -237,7 +237,7 @@ public class CoordinatePrecomputer
         }
         segments.addAll(segs);
         
-      //might need to add checking to see if any random point is on the circle?
+        //might need to add checking to see if any random point is on the circle?
         for(Arc a : arcs)
         {
             //sectors.add(new Sector(a));

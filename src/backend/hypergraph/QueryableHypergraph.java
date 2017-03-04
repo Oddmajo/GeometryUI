@@ -675,7 +675,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     // multiple edge addition
     //
     // @author Drew Whitmire
-    public boolean addAllEdges(HashSet<Deduction> deductions)
+    public boolean addAllEdges(Set<Deduction> deductions)
     {
         // add each deduction as hyperedge
         for (Deduction d : deductions)
