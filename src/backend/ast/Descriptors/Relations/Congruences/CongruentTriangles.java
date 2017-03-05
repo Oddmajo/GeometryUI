@@ -1,6 +1,8 @@
 package backend.ast.Descriptors.Relations.Congruences;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import backend.ast.GroundedClause;
@@ -13,6 +15,7 @@ import backend.deductiveRules.RuleFactory;
 import backend.hypergraph.Annotation;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.NotImplementedException;
 
@@ -139,55 +142,56 @@ public class CongruentTriangles extends Congruent
 //        return true;
 //    }
 //
-//    // Acquire a direct correspondence between thatTriangle and the other triangle in the congruence pair
-//    // Returns: <that, other>
-//    public Dictionary<Point, Point> OtherTriangle(Triangle thatTriangle)
-//    {
-//        Dictionary<Point, Point> correspondence = this.ct1.PointsCorrespond(thatTriangle);
-//        Dictionary<Point, Point> otherCorrespondence = new Dictionary<Point, Point>();
+    // Acquire a direct correspondence between thatTriangle and the other triangle in the congruence pair
+    // Returns: <that, other>
+    public Dictionary<Point, Point> OtherTriangle(Triangle thatTriangle)
+    {
+        Dictionary<Point, Point> correspondence = this.ct1.PointsCorrespond(thatTriangle);
+        Dictionary<Point, Point> otherCorrespondence = new Hashtable<Point, Point>();
+
+        List<Point> ct1Pts = this.ct1.getPoints();
+        List<Point> ct2Pts = this.ct2.getPoints();
+
+        // Acquire correspondence between thatTriangle and the other triangle (ct2)
+        if (correspondence != null)
+        {
+            for (int p = 0; p < 3; p++ )
+            {
+                Point thatPt = correspondence.get(ct1Pts.get(p));
+                if (thatPt == null) ExceptionHandler.throwException(new ArgumentException("Something strange happened in Triangle correspondence."));
+                otherCorrespondence.put(thatPt, ct2Pts.get(p));
+            }
+
+            return otherCorrespondence;
+        }
+
+        correspondence = this.ct2.PointsCorrespond(thatTriangle);
+        if (correspondence != null)
+        {
+            for (int p = 0; p < 3; p++)
+            {
+                Point thatPt = correspondence.get(ct2Pts.get(p));
+                if (thatPt == null) ExceptionHandler.throwException(new ArgumentException("Something strange happened in Triangle correspondence."));
+                otherCorrespondence.put(thatPt, ct1Pts.get(p));
+            }
+
+            return otherCorrespondence;
+        }
+
+        return null;
+    }
 //
-//        List<Point> ct1Pts = this.ct1.points;
-//        List<Point> ct2Pts = this.ct2.points;
-//
-//        // Acquire correspondence between thatTriangle and the other triangle (ct2)
-//        if (correspondence != null)
-//        {
-//            for (int p = 0; p < 3; p++ )
-//            {
-//                Point thatPt;
-//                if (!correspondence.TryGetValue(ct1Pts[p], out thatPt)) throw new ArgumentException("Something strange happened in Triangle correspondence.");
-//                otherCorrespondence.Add(thatPt, ct2Pts[p]);
-//            }
-//
-//            return otherCorrespondence;
-//        }
-//
-//        correspondence = this.ct2.PointsCorrespond(thatTriangle);
-//        if (correspondence != null)
-//        {
-//            for (int p = 0; p < 3; p++)
-//            {
-//                Point thatPt;
-//                if (!correspondence.TryGetValue(ct2Pts[p], out thatPt)) throw new ArgumentException("Something strange happened in Triangle correspondence.");
-//                otherCorrespondence.Add(thatPt, ct1Pts[p]);
-//            }
-//
-//            return otherCorrespondence;
-//        }
-//
-//        return null;
-//    }
-//
-//    public Dictionary<Point, Point> HasTriangle(Triangle thatTriangle)
-//    {
-//        Dictionary<Point, Point> correspondence = this.ct1.PointsCorrespond(thatTriangle);
-//        if (correspondence != null) return correspondence;
-//
-//        correspondence = this.ct2.PointsCorrespond(thatTriangle);
-//        if (correspondence != null) return correspondence;
-//
-//        return null;
-//    }
+	
+    public Dictionary<Point, Point> HasTriangle(Triangle thatTriangle)
+    {
+        Dictionary<Point, Point> correspondence = this.ct1.PointsCorrespond(thatTriangle);
+        if (correspondence != null) return correspondence;
+
+        correspondence = this.ct2.PointsCorrespond(thatTriangle);
+        if (correspondence != null) return correspondence;
+
+        return null;
+    }
 //
 //    public override int GetHashCode()
 //    {

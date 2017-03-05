@@ -1,61 +1,50 @@
 package backend.deductiveRules.algebra;
 
 import backend.hypergraph.*;
+import backend.utilities.Pair;
+import backend.utilities.exception.ArgumentException;
+import backend.utilities.exception.ExceptionHandler;
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentTriangles;
+import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
+import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Axiom;
 
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Set;
 
 public class TransitiveCongruentTriangles extends Axiom
 {
-    @Override
-    public Set<Deduction> deduce()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    private static final String NAME = "Transitivity of Congruent Triangles";
+    public String getName() { return NAME; }
+    public String getDescription() { return getName(); }
 
-    @Override
-    public String getName()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getDescription()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Annotation getAnnotation()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES);
+    @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public TransitiveCongruentTriangles(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
+        ANNOTATION.active = RuleFactory.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES;
     }
-
-    /*
-    private static String NAME = "Transitivity of Congruent Triangles";
-    private static EdgeAnnotation annotation = new EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES);
+    @Override
+    public Set<Deduction> deduce()
+    {
+        HashSet<Deduction> deductions = new HashSet<>();
+        deductions.addAll(duduceEquations());
+        return deductions;
+    }
+    
 
     // Congruences imply equations: AB \cong CD -> AB = CD
-    private static List<GeometricCongruentTriangles> candidateGeoCongruentTriangles = new List<GeometricCongruentTriangles>();
-    private static List<AlgebraicCongruentTriangles> candidateAlgCongruentTriangles = new List<AlgebraicCongruentTriangles>();
 
-    // Resets all saved data.
-    public static void clear()
-    {
-        candidateGeoCongruentTriangles.clear();
-        candidateAlgCongruentTriangles.clear();
-    }
 
     //
     // Implements transitivity with equations
@@ -63,91 +52,78 @@ public class TransitiveCongruentTriangles extends Axiom
     //
     // This includes CongruentSegments and CongruentAngles
     //
-    // Generation of new equations is restricted to the following rules; let G be Geometric and A algebraic
+    // Generation of new equations instanceof restricted to the following rules; let G be Geometric and A algebriac
     //     G + G -> A
     //     G + A -> A
     //     A + A -X> A  <- Not allowed
     //
-    public static List<EdgeAggregator> instantiate(GroundedClause clause)
+    public static ArrayList<Deduction> duduceEquations()
     {
-        annotation.active = EngineUIBridge.JustificationSwitch.TRANSITIVE_CONGRUENT_TRIANGLES;
 
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        if (clause instanceof GeometricCongruentTriangles)
+        HashSet<GeometricCongruentTriangles> gcts = _qhg.getGeometricCongruentTriangles();
+        HashSet<AlgebraicCongruentTriangles> acts = _qhg.getAlgebraicCongruentTriangles();
+        
+        
+        for(GeometricCongruentTriangles gct : gcts)
         {
-            GeometricCongruentTriangles newGCTS = (GeometricCongruentTriangles) clause;
-
-            if (newGCTS.IsReflexive()) return newGrounded;
-
-            for (GeometricCongruentTriangles oldGCTS : candidateGeoCongruentTriangles)
+            if(!gct.isReflexive())
             {
-                newGrounded.addRange(InstantiateTransitive(oldGCTS, newGCTS));
+                for (GeometricCongruentTriangles oldGCTS : gcts)
+                {
+                    deductions.addAll(deduceTransitive(oldGCTS, gct));
+                }
+
+                for (AlgebraicCongruentTriangles oldACTS : acts)
+                {
+                    deductions.addAll(deduceTransitive(oldACTS, gct));
+                }
             }
-
-            for (AlgebraicCongruentTriangles oldACTS : candidateAlgCongruentTriangles)
-            {
-                newGrounded.addRange(InstantiateTransitive(oldACTS, newGCTS));
-            }
-
-            candidateGeoCongruentTriangles.add(newGCTS);
-        }
-        else if (clause instanceof AlgebraicCongruentTriangles)
-        {
-            AlgebraicCongruentTriangles newACTS = (AlgebraicCongruentTriangles) clause;
-
-            if (newACTS.IsReflexive()) return newGrounded;
-
-            for (GeometricCongruentTriangles oldGCTS : candidateGeoCongruentTriangles)
-            {
-                newGrounded.addRange(InstantiateTransitive(oldGCTS, newACTS));
-            }
-
-            candidateAlgCongruentTriangles.add(newACTS);
         }
 
-        return newGrounded;
+        return deductions;
     }
 
-    public static List<EdgeAggregator> instantiateTransitive(CongruentTriangles cts1, CongruentTriangles cts2)
+    public static ArrayList<Deduction> deduceTransitive(CongruentTriangles cts1, CongruentTriangles cts2)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        Dictionary<Point, Point> firstTriangleCorrespondence = cts1.hasTriangle(cts2.ct1);
-        Dictionary<Point, Point> secondTriangleCorrespondence = cts1.hasTriangle(cts2.ct2);
+        Dictionary<Point, Point> firstTriangleCorrespondence = cts1.HasTriangle(cts2.getFirstTriangle());
+        Dictionary<Point, Point> secondTriangleCorrespondence = cts1.HasTriangle(cts2.getSecondTriangle());
 
         // Same Congruence
-        if (firstTriangleCorrespondence != null && secondTriangleCorrespondence != null) return newGrounded;
+        if (firstTriangleCorrespondence != null && secondTriangleCorrespondence != null) return deductions;
 
         // No relationship between congruences
-        if (firstTriangleCorrespondence == null && secondTriangleCorrespondence == null) return newGrounded;
+        if (firstTriangleCorrespondence == null && secondTriangleCorrespondence == null) return deductions;
 
         // Acquiring the triangle that links the congruences
-        Triangle linkTriangle = firstTriangleCorrespondence != null ? cts2.ct1 : cts2.ct2;
-        List<Point> linkPts = linkTriangle.points;
+        Triangle linkTriangle = firstTriangleCorrespondence != null ? cts2.getFirstTriangle() : cts2.getSecondTriangle();
+        ArrayList<Point> linkPts = linkTriangle.getPoints();
 
-        Dictionary<Point, Point> otherCorrGCTSpts = cts1.otherTriangle(linkTriangle);
-        Dictionary<Point, Point> otherCorrCTSpts = cts2.otherTriangle(linkTriangle);
+        Dictionary<Point, Point> otherCorrGCTSpts = cts1.OtherTriangle(linkTriangle);
+        Dictionary<Point, Point> otherCorrCTSpts = cts2.OtherTriangle(linkTriangle);
 
         // Link the other triangles together in a new congruence
-        Dictionary<Point, Point> newCorrespondence = new Dictionary<Point,Point>();
+        Dictionary<Point, Point> newCorrespondence = new Hashtable<Point,Point>();
         for (Point linkPt : linkPts)
         {
-            Point otherGpt;
-            if (!otherCorrGCTSpts.TryGetValue(linkPt, out otherGpt)) ExceptionHandler.throwException(new ArgumentException("Something strange happened in Triangle correspondence."));
+            Point otherGpt = otherCorrGCTSpts.get(linkPt);
+            if (otherGpt == null) ExceptionHandler.throwException( new ArgumentException("Something strange happened in Triangle correspondence."));
 
-            Point otherCpt;
-            if (!otherCorrCTSpts.TryGetValue(linkPt, out otherCpt)) ExceptionHandler.throwException(new ArgumentException("Something strange happened in Triangle correspondence."));
+            Point otherCpt = otherCorrCTSpts.get(linkPt);
+            if (otherCpt == null) throw new ArgumentException("Something strange happened in Triangle correspondence.");
 
-            newCorrespondence.add(otherGpt, otherCpt);
+            newCorrespondence.put(otherGpt, otherCpt);
         }
 
-        List<Point> triOne = new List<Point>(); 
-        List<Point> triTwo = new List<Point>();
+        ArrayList<Point> triOne = new ArrayList<Point>(); 
+        ArrayList<Point> triTwo = new ArrayList<Point>();
         for (Pair<Point, Point> pair : newCorrespondence)
         {
-            triOne.add(pair.Key);
-            triTwo.add(pair.Value);
+            triOne.add(pair.getKey());
+            triTwo.add(pair.getValue());
         }
 
         //
@@ -155,14 +131,12 @@ public class TransitiveCongruentTriangles extends Axiom
         //
         AlgebraicCongruentTriangles acts = new AlgebraicCongruentTriangles(new Triangle(triOne), new Triangle(triTwo));
 
-        List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(cts1);
         antecedent.add(cts2);
 
-        newGrounded.add(new EdgeAggregator(antecedent, acts, annotation));
+        deductions.add(new Deduction(antecedent, acts, ANNOTATION));
 
-        return newGrounded;
-        
+        return deductions;
     }
-    */
 }

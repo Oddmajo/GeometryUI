@@ -19,12 +19,15 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.AlgebraicSimilarTriangles;
+import backend.ast.Descriptors.Relations.GeometricSimilarTriangles;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentArcs;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentTriangles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.CongruentArcs;
 import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
@@ -35,6 +38,8 @@ import backend.ast.Descriptors.Relations.Proportionalities.AlgebraicProportional
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
+import backend.ast.Descriptors.parallel.AlgebraicParallel;
+import backend.ast.Descriptors.parallel.GeometricParallel;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
@@ -1631,6 +1636,54 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     }
 
     public HashSet<AlgebraicCongruentTriangles> getAlgebraicCongruentTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public ArrayList<GeometricParallel> getGeometricParallels()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public ArrayList<AlgebraicParallel> getAlgebraicParallels()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public ArrayList<GeometricSimilarTriangles> getGeometricSimilarTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public ArrayList<AlgebraicSimilarTriangles> getAlgebraicSimilarTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<SegmentEquation> getSegmentEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<ArcEquation> getArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AngleArcEquation> getAngleArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<CongruentArcs> getCongruentArcs()
     {
         // TODO Auto-generated method stub
         return null;

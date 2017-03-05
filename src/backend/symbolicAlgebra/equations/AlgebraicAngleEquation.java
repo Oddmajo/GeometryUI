@@ -2,7 +2,7 @@ package backend.symbolicAlgebra.equations;
 
 import backend.ast.GroundedClause;
 
-public class AlgebraicAngleEquation extends AngleArcEquation implements Cloneable
+public class AlgebraicAngleEquation extends AngleArcEquation
 {
     protected AlgebraicAngleEquation() { super(); }
 

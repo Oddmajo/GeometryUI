@@ -18,6 +18,7 @@ import backend.symbolicAlgebra.NumericValue;
 import backend.symbolicAlgebra.equations.AngleEquation;
 import backend.symbolicAlgebra.equations.Equation;
 import backend.symbolicAlgebra.equations.GeometricAngleEquation;
+import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 
 
@@ -134,8 +135,8 @@ public class RightAngleDefinition extends Definition
         if (atomicity != Equation.BOTH_ATOMIC) return deductions;
 
         //Check that the terms equate an angle to a measure
-        ArrayList<GroundedClause> lhs = eq.getLHS().collectTerms();
-        ArrayList<GroundedClause> rhs = eq.getRHS().collectTerms();
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> lhs = eq.getLHS().collectTerms();
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> rhs = eq.getRHS().collectTerms();
 
         Angle angle = null;
         NumericValue value = null;

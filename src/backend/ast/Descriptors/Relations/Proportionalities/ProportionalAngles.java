@@ -54,8 +54,8 @@ public class ProportionalAngles extends Descriptor
         }
 
         // Reinit the multipliers to basic values
-        smallerAngle.setMultiplier(1);
-        largerAngle.setMultiplier(1);
+//        smallerAngle.setMultiplier(1);
+//        largerAngle.setMultiplier(1);
         //smallerAngle.multiplier = 1;
         //largerAngle.multiplier = 1;
 	}

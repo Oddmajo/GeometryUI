@@ -1,124 +1,120 @@
 package backend.deductiveRules.algebra;
 
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.Relations.AlgebraicSimilarTriangles;
+import backend.ast.Descriptors.Relations.GeometricSimilarTriangles;
+import backend.ast.Descriptors.Relations.SimilarTriangles;
+import backend.ast.Descriptors.parallel.AlgebraicParallel;
+import backend.ast.Descriptors.parallel.GeometricParallel;
+import backend.ast.Descriptors.parallel.Parallel;
 import backend.deductiveRules.Deduction;
+import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class RelationTransitiveSubstitution extends Definition
 {
+    private static final String NAME = "Relation Transitive Substitution";
+    public String getName() { return NAME; }
+    public String getDescription() { return getName(); }
+
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.RELATION_TRANSITIVE_SUBSTITUTION);
+    @Override public Annotation getAnnotation() { return ANNOTATION; }
+
+      // Transitivity of Parallel Lines
+      private static ArrayList<GeometricParallel> geoParallel;
+      private static ArrayList<AlgebraicParallel> algParallel;
+
+      // Transitvity of Similar Triangles
+      private static ArrayList<GeometricSimilarTriangles> geoSimilarTriangles;
+      private static ArrayList<AlgebraicSimilarTriangles> algSimilarTriangles;
+
 
     public RelationTransitiveSubstitution(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-        // TODO Auto-generated constructor stub
+        ANNOTATION.active = RuleFactory.JustificationSwitch.RELATION_TRANSITIVE_SUBSTITUTION;
+        
+        geoParallel = _qhg.getGeometricParallels();
+        algParallel = _qhg.getAlgebraicParallels();
+        geoSimilarTriangles = _qhg.getGeometricSimilarTriangles();
+        algSimilarTriangles = _qhg.getAlgebraicSimilarTriangles();
     }
-
     @Override
     public Set<Deduction> deduce()
     {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getName()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getDescription()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Annotation getAnnotation()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-    //private static read-only string NAME = "Relation Transitive Substitution";
-
-    // Transitivity of Parallel Lines
-    private static List<GeometricParallel> geoParallel = new ArrayList<GeometricParallel>();
-    private static List<AlgebraicParallel> algParallel = new ArrayList<AlgebraicParallel>();
-
-    // Transitivity of Similar Triangles
-    private static List<GeometricSimilarTriangles> geoSimilarTriangles = new ArrayList<GeometricSimilarTriangles>();
-    private static List<AlgebraicSimilarTriangles> algSimilarTriangles = new ArrayList<AlgebraicSimilarTriangles>();
-
-    // Resets all saved data.
-    public static void clear()
-    {
-        geoParallel.clear();
-        algParallel.clear();
-
-        geoSimilarTriangles.clear();
-        algSimilarTriangles.clear();
+        HashSet<Deduction> deductions = new HashSet<>();
+        deductions.addAll(duduceEquations());
+        return deductions;
     }
 
     //
     // Implements transitivity with Relations (Parallel, Similar)
     // Relation(A, B), Relation(B, C) -> Relation(A, C)
     //
-    // Generation of new relations is restricted to the following rules; let G be Geometric and A algebriac
+    // Generation of new relations instanceof restricted to the following rules; let G be Geometric and A algebriac
     //     G + G -> A
     //     G + A -> A
     //     A + A -X> A  <- Not allowed
     //
-    public static List<EdgeAggregator> instantiate(GroundedClause clause)
+    public static ArrayList<Deduction> duduceEquations()
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
-
-        // Do we have appropriate clauses?
-        if (!(clause instanceof Parallel) && !(clause instanceof SimilarTriangles)) return newGrounded;
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
+        
+        HashSet<Parallel> paras = _qhg.getParallels();
+        HashSet<SimilarTriangles> simTris = _qhg.getSimilarTriangles();
 
         // Has this clause been generated before?
         // Since generated clauses will eventually be instantiated as well, this will reach a fixed point and stop.
         // Uniqueness of clauses needs to be handled by the class calling this
-        if (clauseHasBeenDeduced(clause)) return newGrounded;
+//        if (ClauseHasBeenDeduced(clause)) return deductions; --Checked : loops
 
         // A reflexive expression provides no information of interest or consequence.
-        if (clause.isReflexive()) return newGrounded;
+//        if (clause.IsReflexive()) return deductions;  --Checked : loops
 
         //
         // Process the clause
         //
-        if (clause instanceof Parallel)
+        
+        for(Parallel para : paras)
         {
-            newGrounded.addAll(handleNewParallelRelation(clause instanceof Parallel));
+            if(!para.isReflexive())
+            {
+                deductions.addAll(HandleNewParallelRelation(para));
+            }
         }
-        else if (clause instanceof SimilarTriangles)
+        
+        for(SimilarTriangles simTri : simTris)
         {
-            newGrounded.addAll(handleNewSimilarTrianglesRelation(clause instanceof SimilarTriangles));
+            if(!simTri.isReflexive())
+            {
+                deductions.addAll(HandleNewSimilarTrianglesRelation(simTri));
+            }
         }
+            
 
         // Add the new clause to the right list for later combining
-        addToAppropriateList(clause);
+//        AddToAppropriateList(clause);
 
-        return newGrounded;
+        return deductions;
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Parallel Segments
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Parallel Segments
     //
-    private static List<EdgeAggregator> handleNewParallelRelation(Parallel parallel)
+    private static ArrayList<Deduction> HandleNewParallelRelation(Parallel parallel)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricParallel gp : geoParallel)
         {
-            newGrounded.addAll(createTransitiveParallelSegments(gp, parallel));
+            deductions.addAll(CreateTransitiveParallelSegments(gp, parallel));
         }
 
         if (parallel instanceof GeometricParallel)
@@ -126,62 +122,62 @@ public class RelationTransitiveSubstitution extends Definition
             // New transitivity? G + A -> A
             for (AlgebraicParallel ap : algParallel)
             {
-                newGrounded.addAll(createTransitiveParallelSegments(ap, parallel));
+                deductions.addAll(CreateTransitiveParallelSegments(ap, parallel));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive Parallel Lines
     //
-    private static List<EdgeAggregator> createTransitiveParallelSegments(Parallel parallel1, Parallel parallel2)
+    private static ArrayList<Deduction> CreateTransitiveParallelSegments(Parallel parallel1, Parallel parallel2)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        // If there is a deduction relationship between the given congruences, do not perform another substitution
+        // If there instanceof a deduction relationship between the given congruences, do not perform another substitution
         // CTA: remove?
         if (parallel1.hasGeneralPredecessor(parallel2))
         {
-            return newGrounded;
+            return deductions;
         }
 
-        int numSharedExps = parallel1.sharesNumClauses(parallel2);
+        int numSharedExps = parallel1.SharesNumClauses(parallel2);
         switch (numSharedExps)
         {
             case 0:
-                // Nothing is shared: do nothing
+                // Nothing instanceof shared: do nothing
                 break;
 
             case 1:
                 // Expected case to create a new congruence relationship
-                return Parallel.createTransitiveParallel(parallel1, parallel2);
+                return Parallel.CreateTransitiveParallel(parallel1, parallel2);
 
             case 2:
-                // This is either reflexive or the exact same congruence relationship (which shouldn't happen)
+                // This instanceof either reflexive or the exact same congruence relationship (which shouldn't happen)
                 break;
-
+            
             default:
 
                 throw new Exception("Parallel Statements may only have 0, 1, or 2 common expressions; not, " + numSharedExps);
         }
 
-        return newGrounded;
+        return deductions;
     }
 
 
     //
     // Generate all new relationships from a Geoemetric, Congruent Pair of SimilarTriangles Segments
     //
-    private static List<EdgeAggregator> handleNewSimilarTrianglesRelation(SimilarTriangles simTris)
+    private static ArrayList<Deduction> HandleNewSimilarTrianglesRelation(SimilarTriangles simTris)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricSimilarTriangles gsts : geoSimilarTriangles)
         {
-            newGrounded.addAll(CreateTransitiveSimilarTriangles(gsts, simTris));
+            deductions.addAll(CreateTransitiveSimilarTriangles(gsts, simTris));
         }
 
         if (simTris instanceof GeometricSimilarTriangles)
@@ -189,40 +185,40 @@ public class RelationTransitiveSubstitution extends Definition
             // New transitivity? G + A -> A
             for (AlgebraicSimilarTriangles asts : algSimilarTriangles)
             {
-                newGrounded.addAll(createTransitiveSimilarTriangles(asts, simTris));
+                deductions.addAll(CreateTransitiveSimilarTriangles(asts, simTris));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive SimilarTriangles Lines
     //
-    private static List<EdgeAggregator> createTransitiveSimilarTriangles(SimilarTriangles simTris1, SimilarTriangles simTris2)
+    private static ArrayList<Deduction> CreateTransitiveSimilarTriangles(SimilarTriangles simTris1, SimilarTriangles simTris2)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        // If there is a deduction relationship between the given congruences, do not perform another substitution
+        // If there instanceof a deduction relationship between the given congruences, do not perform another substitution
         // CTA: remove?
         if (simTris1.hasGeneralPredecessor(simTris2))
         {
-            return newGrounded;
+            return deductions;
         }
 
-        int numSharedExps = simTris1.sharesNumTriangles(simTris2);
+        int numSharedExps = simTris1.SharesNumTriangles(simTris2);
         switch (numSharedExps)
         {
             case 0:
-                // Nothing is shared: do nothing
+                // Nothing instanceof shared: do nothing
                 break;
 
             case 1:
                 // Expected case to create a new congruence relationship
-                return SimilarTriangles.createTransitiveSimilarTriangles(simTris1, simTris2);
+                return SimilarTriangles.CreateTransitiveSimilarTriangles(simTris1, simTris2);
 
             case 2:
-                // This is either reflexive or the exact same congruence relationship (which shouldn't happen)
+                // This instanceof either reflexive or the exact same congruence relationship (which shouldn't happen)
                 break;
 
             default:
@@ -230,55 +226,6 @@ public class RelationTransitiveSubstitution extends Definition
                 throw new Exception("Similar Triangles may only have 0, 1, or 2 common expressions; not, " + numSharedExps);
         }
 
-        return newGrounded;
+        return deductions;
     }
-
-    //
-    // Add the new grounded clause to the correct list.
-    //
-    private static void addToAppropriateList(GroundedClause c)
-    {
-        if (c instanceof GeometricParallel)
-        {
-            geoParallel.add((GeometricParallel) c);
-        }
-        else if (c instanceof AlgebraicParallel)
-        {
-            algParallel.add((AlgebraicParallel) c);
-        }
-        else if (c instanceof GeometricSimilarTriangles)
-        {
-            geoSimilarTriangles.add((GeometricSimilarTriangles) c);
-        }
-        else if (c instanceof AlgebraicSimilarTriangles)
-        {
-            algSimilarTriangles.add((AlgebraicSimilarTriangles) c);
-        }
-    }
-
-    //
-    // Add the new grounded clause to the correct list.
-    //
-    private static boolean clauseHasBeenDeduced(GroundedClause c)
-    {
-        if (c instanceof GeometricParallel)
-        {
-            return geoParallel.contains((GeometricParallel) c);
-        }
-        else if (c instanceof AlgebraicParallel)
-        {
-            return algParallel.contains((AlgebraicParallel) c);
-        }
-        else if (c instanceof GeometricSimilarTriangles)
-        {
-            return geoSimilarTriangles.contains((GeometricSimilarTriangles) c);
-        }
-        else if (c instanceof AlgebraicSimilarTriangles)
-        {
-            return algSimilarTriangles.contains((AlgebraicSimilarTriangles) c);
-        }
-
-        return false;
-    }
-    */    
 }

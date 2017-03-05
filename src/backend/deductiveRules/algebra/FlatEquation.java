@@ -2,7 +2,6 @@ package backend.deductiveRules.algebra;
 
 import java.util.List;
 import backend.ast.GroundedClause;
-import backend.symbolicAlgebra.equations.AlgebraicSegmentEquation;
 import backend.symbolicAlgebra.equations.Equation;
 
 public class FlatEquation extends Equation
@@ -64,12 +63,14 @@ public class FlatEquation extends Equation
         String retS = "";
         for (GroundedClause lc : lhsExps)
         {
-            retS += lc.getMulitplier() + " * " + lc.toString() + " + "; 
+//            retS += lc.getMulitplier() + " * " + lc.toString() + " + "; 
+            retS += lc.toString() + " + "; 
         }
         retS = retS.substring(0, retS.length() - 3) + " = ";
         for (GroundedClause rc : rhsExps)
         {
-            retS += rc.getMulitplier() + " * " + rc.toString() + " + ";
+//            retS += rc.getMulitplier() + " * " + rc.toString() + " + ";
+            retS += rc.toString() + " + ";
         }
 
         return retS.substring(0, retS.length() - 3);

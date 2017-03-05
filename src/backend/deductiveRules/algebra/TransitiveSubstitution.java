@@ -1,120 +1,150 @@
 package backend.deductiveRules.algebra;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import backend.deductiveRules.Deduction;
+import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Axiom;
 import backend.ast.GroundedClause;
+import backend.ast.Descriptors.AnglePairRelation;
+import backend.ast.Descriptors.Collinear;
+import backend.ast.Descriptors.Complementary;
+import backend.ast.Descriptors.Descriptor;
+import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentArcs;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentSegments;
+import backend.ast.Descriptors.Relations.Congruences.Congruent;
+import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.CongruentArcs;
+import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentArcs;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentSegments;
+import backend.ast.Descriptors.Relations.Proportionalities.AlgebraicProportionalAngles;
+import backend.ast.Descriptors.Relations.Proportionalities.GeometricProportionalAngles;
+import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.angles.Angle;
+import backend.ast.figure.components.arcs.Arc;
 import backend.hypergraph.*;
+import backend.symbolicAlgebra.NumericValue;
+import backend.symbolicAlgebra.equations.AlgebraicAngleArcEquation;
+import backend.symbolicAlgebra.equations.AlgebraicAngleEquation;
+import backend.symbolicAlgebra.equations.AlgebraicArcEquation;
+import backend.symbolicAlgebra.equations.AlgebraicSegmentEquation;
+import backend.symbolicAlgebra.equations.AngleArcEquation;
+import backend.symbolicAlgebra.equations.AngleEquation;
+import backend.symbolicAlgebra.equations.ArcEquation;
+import backend.symbolicAlgebra.equations.Equation;
+import backend.symbolicAlgebra.equations.GeometricAngleArcEquation;
+import backend.symbolicAlgebra.equations.GeometricAngleEquation;
+import backend.symbolicAlgebra.equations.GeometricArcEquation;
+import backend.symbolicAlgebra.equations.GeometricSegmentEquation;
+import backend.symbolicAlgebra.equations.SegmentEquation;
+import backend.utilities.ast_helper.Utilities;
+import backend.utilities.exception.ExceptionHandler;
 
 public class TransitiveSubstitution extends Axiom
 {
+    private static final String NAME = "Transitive Substitution";
+    public String getName() { return NAME; }
+    public String getDescription() { return getName(); }
+    
+ // Congruences imply equations: AB \cong CD -> AB = CD
+    private static HashSet<GeometricCongruentSegments> geoCongSegments;
+    private static HashSet<GeometricCongruentAngles> geoCongAngles;
+    private static HashSet<GeometricCongruentArcs> geoCongArcs;
+
+  // These are transitively deduced congruences
+    private static HashSet<AlgebraicCongruentSegments> algCongSegments;
+    private static HashSet<AlgebraicCongruentAngles> algCongAngles;
+    private static HashSet<AlgebraicCongruentArcs> algCongArcs;
+
+  // Old segment equations
+    private static HashSet<GeometricSegmentEquation> geoSegmentEqs;
+    private static HashSet<AlgebraicSegmentEquation> algSegmentEqs;
+
+  // Old angle measure equations
+    private static HashSet<AlgebraicAngleEquation> algAngleEqs;
+    private static HashSet<GeometricAngleEquation> geoAngleEqs;
+
+  // Old arc equations
+    private static HashSet<GeometricArcEquation> geoArcEqs;
+    private static HashSet<AlgebraicArcEquation> algArcEqs;
+
+  // Old angle-arc equation
+    private static HashSet<GeometricAngleArcEquation> geoAngleArcEqs;
+    private static HashSet<AlgebraicAngleArcEquation> algAngleArcEqs;
+
+  // Old Proportional Segment Expressions
+    private static HashSet<SegmentRatio> propSegs = _qhg.getSegmentRatios();
+
+  // Old Proportional Angle Expressions
+    private static HashSet<GeometricProportionalAngles> geoPropAngs = _qhg.getGeometricProportionalAngles();
+    private static HashSet<AlgebraicProportionalAngles> algPropAngs = _qhg.getAlgebraicProportionalAngles();
+
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.TRANSITIVE_SUBSTITUTION);
+    @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public TransitiveSubstitution(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-        // TODO Auto-generated constructor stub
+        ANNOTATION.active = RuleFactory.JustificationSwitch.TRANSITIVE_SUBSTITUTION;
+        
+     // Congruences imply equations: AB \cong CD -> AB = CD
+        geoCongSegments = _qhg.getGeometricCongruentSegments();
+        geoCongAngles = _qhg.getGeomtricCongruentAngles();
+        geoCongArcs = _qhg.getGeometricCongruentArcs();
+
+      // These are transitively deduced congruences
+        algCongSegments = _qhg.getAlgebraicCongruentSegments();
+        algCongAngles = _qhg.getAlgebraicCongruentAngles();
+        algCongArcs = _qhg.getAlgebraicCogruentArcs();
+
+      // Old segment equations
+        geoSegmentEqs = _qhg.getGeometricSegmentEquations();
+        algSegmentEqs = _qhg.getAlgebraicSegmentEquations();
+
+      // Old angle measure equations
+        algAngleEqs = _qhg.getAlgebraicAngleEquations();
+        geoAngleEqs = _qhg.getGeometricAngleEquations();
+
+      // Old arc equations
+        geoArcEqs = _qhg.getGeomtricArcEquations();
+        algArcEqs = _qhg.getAlgebraicArcEquations();
+
+      // Old angle-arc equation
+        geoAngleArcEqs = _qhg.getGeometricAngleArcEquations();
+        algAngleArcEqs = _qhg.getAlgebraicAngleArcEquations();
+
+      // Old Proportional Segment Expressions
+        propSegs = _qhg.getSegmentRatios();
+
+      // Old Proportional Angle Expressions
+        geoPropAngs = _qhg.getGeometricProportionalAngles();
+        algPropAngs = _qhg.getAlgebraicProportionalAngles();
     }
-    
     @Override
     public Set<Deduction> deduce()
     {
-        // TODO Auto-generated method stub
-        return null;
+        HashSet<Deduction> deductions = new HashSet<>();
+        deductions.addAll(deduceEquations());
+        return deductions;
     }
 
-    @Override
-    public String getName()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // For cosntruction of the new equations
+    private static final int SEGMENT_EQUATION = 0;
+    private static final int ANGLE_EQUATION = 1;
+    private static final int ARC_EQUATION = 2;
+    private static final int ANGLE_ARC_EQUATION = 3;
+    private static final int EQUATION_ERROR = 1;
 
-    @Override
-    public String getDescription()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Annotation getAnnotation()
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
- /*   
-    private static String NAME = "Transitive Substitution";
-    private static Hypergraph.EdgeAnnotation annotation = new Hypergraph.EdgeAnnotation(NAME, EngineUIBridge.JustificationSwitch.TRANSITIVE_SUBSTITUTION);
-
-    // Congruences imply equations: AB \cong CD -> AB = CD
-    private static List<GeometricCongruentSegments> geoCongSegments = new ArrayList<GeometricCongruentSegments>();
-    private static List<GeometricCongruentAngles> geoCongAngles = new ArrayList<GeometricCongruentAngles>();
-    private static List<GeometricCongruentArcs> geoCongArcs = new ArrayList<GeometricCongruentArcs>();
-
-    // These are transitively deduced congruences
-    private static List<AlgebraicCongruentSegments> algCongSegments = new ArrayList<AlgebraicCongruentSegments>();
-    private static List<AlgebraicCongruentAngles> algCongAngles = new ArrayList<AlgebraicCongruentAngles>();
-    private static List<AlgebraicCongruentArcs> algCongArcs = new ArrayList<AlgebraicCongruentArcs>();
-
-    // Old segment equations
-    private static List<GeometricSegmentEquation> geoSegmentEqs = new ArrayList<GeometricSegmentEquation>();
-    private static List<AlgebraicSegmentEquation> algSegmentEqs = new ArrayList<AlgebraicSegmentEquation>();
-
-    // Old angle measure equations
-    private static List<AlgebraicAngleEquation> algAngleEqs = new ArrayList<AlgebraicAngleEquation>();
-    private static List<GeometricAngleEquation> geoAngleEqs = new ArrayList<GeometricAngleEquation>();
-
-    // Old arc equations
-    private static List<GeometricArcEquation> geoArcEqs = new ArrayList<GeometricArcEquation>();
-    private static List<AlgebraicArcEquation> algArcEqs = new ArrayList<AlgebraicArcEquation>();
-
-    // Old angle-arc equation
-    private static List<GeometricAngleArcEquation> geoAngleArcEqs = new ArrayList<GeometricAngleArcEquation>();
-    private static List<AlgebraicAngleArcEquation> algAngleArcEqs = new ArrayList<AlgebraicAngleArcEquation>();
-
-    // Old Proportional Segment Expressions
-    private static List<SegmentRatio> propSegs = new ArrayList<SegmentRatio>();
-
-    // Old Proportional Angle Expressions
-    private static List<GeometricProportionalAngles> geoPropAngs = new ArrayList<GeometricProportionalAngles>();
-    private static List<AlgebraicProportionalAngles> algPropAngs = new ArrayList<AlgebraicProportionalAngles>();
-
-    // For construction of the new equations
-    private static int SEGMENT_EQUATION = 0;
-    private static int ANGLE_EQUATION = 1;
-    private static int ARC_EQUATION = 2;
-    private static int ANGLE_ARC_EQUATION = 3;
-    private static int EQUATION_ERROR = 1;
-
-    // Resets all saved data.
-    public static void clear()
-    {
-        geoCongSegments.clear();
-        geoCongAngles.clear();
-        geoCongArcs.clear();
-
-        algCongSegments.clear();
-        algCongAngles.clear();
-        algCongArcs.clear();
-
-        geoSegmentEqs.clear();
-        algSegmentEqs.clear();
-
-        algAngleEqs.clear();
-        geoAngleEqs.clear();
-
-        algArcEqs.clear();
-        geoArcEqs.clear();
-
-        algAngleArcEqs.clear();
-        geoAngleArcEqs.clear();
-
-        propSegs.clear();
-
-        geoPropAngs.clear();
-        algPropAngs.clear();
-    }
 
     //
     // Implements transitivity with equations
@@ -122,102 +152,114 @@ public class TransitiveSubstitution extends Axiom
     //
     // This includes CongruentSegments and CongruentAngles
     //
-    // Generation of new equations is restricted to the following rules; let G be Geometric and A algebraic
+    // Generation of new equations instanceof restricted to the following rules; let G be Geometric and A algebriac
     //     G + G -> A
     //     G + A -> A
     //     A + A -X> A  <- Not allowed
     //
-    public static List<EdgeAggregator> instantiate(GroundedClause clause)
+    public static ArrayList<Deduction> deduceEquations()
     {
-        annotation.active = EngineUIBridge.justificationSwitch.TRANSITIVE_SUBSTITUTION;
-
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // Do we have an equation or congruence?
-        if (!(clause instanceof Equation) && !(clause instanceof Congruent) && !(clause instanceof SegmentRatio)) return newGrounded;
+//        if (!(clause instanceof Equation) && !(clause instanceof Congruent) && !(clause instanceof SegmentRatio)) return deductions;
 
+        HashSet<SegmentEquation> ses = _qhg.getSegmentEquations();
+        HashSet<AngleEquation> aes = _qhg.getAngleEquations();
+        HashSet<ArcEquation> arcEs = _qhg.getArcEquations();
+        HashSet<AngleArcEquation> aaes = _qhg.getAngleArcEquations();
+        HashSet<CongruentAngles> cas = _qhg.getCongruentAngles();
+        HashSet<CongruentSegments> css = _qhg.getCongruentSegments();
+        HashSet<CongruentArcs> cArcs = _qhg.getCongruentArcs();
+        HashSet<SegmentRatio> srs = _qhg.getSegmentRatios();
+        
+     
         // Has this clause been generated before?
         // Since generated clauses will eventually be instantiated as well, this will reach a fixed point and stop.
         // Uniqueness of clauses needs to be handled by the class calling this
-        if (clauseHasBeenDeduced(clause)) return newGrounded;
+//        if (ClauseHasBeenDeduced(clause)) return deductions; --Checked in every loop
 
         // A reflexive expression provides no information of interest or consequence.
-        if (clause.isReflexive()) return newGrounded;
+//        if (clause.isReflexive()) return deductions; --Checked in every loop
 
         //
         // Process the clause
         //
-        if (clause instanceof SegmentEquation)
+        for(SegmentEquation newSegEq : ses)
         {
-            newGrounded.addRange(handleNewSegmentEquation((SegmentEquation) clause));
+            if (!newSegEq.isReflexive()) deductions.addAll(HandleNewSegmentEquation(newSegEq));
         }
-        else if (clause instanceof AngleEquation)
+        
+        for(AngleEquation ae : aes)
         {
-            newGrounded.addRange(handleNewAngleEquation((AngleEquation) clause));
+            if (!ae.isReflexive()) deductions.addAll(HandleNewAngleEquation(ae));
         }
-        else if (clause instanceof ArcEquation)
+        
+        for(ArcEquation arce : arcEs)
         {
-            newGrounded.addRange(handleNewArcEquation((ArcEquation) clause));
+            if(!arce.isReflexive()) deductions.addAll(HandleNewArcEquation(arce));
         }
-        else if (clause instanceof AngleArcEquation)
+
+        for(AngleArcEquation aae : aaes)
         {
-            newGrounded.addRange(handleNewAngleArcEquation((AngleArcEquation) clause));
+            if(!aae.isReflexive()) deductions.addAll(HandleNewAngleArcEquation(aae));
         }
-        else if (clause instanceof CongruentAngles)
+
+        for(CongruentAngles ca : cas)
         {
-            newGrounded.addRange(handleNewCongruentAngles((CongruentAngles) clause));
+            if(!ca.isReflexive()) deductions.addAll(HandleNewCongruentAngles(ca));
         }
-        else if (clause instanceof CongruentSegments)
+        
+        for(CongruentSegments cs : css)
         {
-            newGrounded.addRange(handleNewCongruentSegments((CongruentSegments)clause));
+            if(!cs.isReflexive()) deductions.addAll(HandleNewCongruentSegments(cs));
         }
-        else if (clause instanceof CongruentArcs)
+        
+        for(CongruentArcs ca : cArcs)
         {
-            newGrounded.addRange(handleNewCongruentArcs((CongruentArcs) clause));
+            if(!ca.isReflexive()) deductions.addAll(HandleNewCongruentArcs(ca));
         }
-        else if (clause instanceof SegmentRatio)
+
+        for(SegmentRatio ratio : srs)
         {
-            SegmentRatio ratio = (SegmentRatio) clause;
-            if (!ratio.ProportionValueKnown()) return newGrounded;
+            if(!ratio.isReflexive())
+            if (!ratio.ProportionValueKnown()) return deductions;
 
             // Avoid using proportional segments that should really be congruent (they are deduced from similar triangles which are, : fact, congruent)
-            if (utilities.ast_helper.Utilities.CompareValues((SegmentRatio)clause).dictatedProportion(), 1)) return newGrounded;
+            if (Utilities.CompareValues((ratio).getDictatedProportion(), 1)) return deductions;
 
-            newGrounded.addAll(handleNewSegmentRatio((SegmentRatio)clause));
+            deductions.addAll(HandleNewSegmentRatio(ratio));
         }
 
-        // add the new clause to the right list for later combining
-        addToAppropriateList(clause);
-
         // add predecessors
-        markPredecessors(newGrounded);
+        MarkPredecessors(deductions);
 
-        return newGrounded;
+        return deductions;
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Segments
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Segments
     //
-    private static List<EdgeAggregator> handleNewCongruentSegments(CongruentSegments congSegs)
+    private static ArrayList<Deduction> HandleNewCongruentSegments(CongruentSegments congSegs)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentSegments gcss : geoCongSegments)
         {
-            newGrounded.addRange(createCongruentSegments(gcss, congSegs));
+            deductions.addAll(CreateCongruentSegments(gcss, congSegs));
         }
 
         // New equations? G + G -> A
         for (GeometricSegmentEquation gseqs : geoSegmentEqs)
         {
-            newGrounded.addRange(createSegmentEquation(gseqs, congSegs));
+            deductions.addAll(CreateSegmentEquation(gseqs, congSegs));
         }
 
         // New proportions? G + G -> A
         for (SegmentRatio ps : propSegs)
         {
-            newGrounded.addRange(createSegmentRatio(ps, congSegs));
+            deductions.addAll(CreateSegmentRatio(ps, congSegs));
         }
 
         if (congSegs instanceof GeometricCongruentSegments)
@@ -225,19 +267,19 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentSegments acss : algCongSegments)
             {
-                newGrounded.addRange(createCongruentSegments(acss, congSegs));
+                deductions.addAll(CreateCongruentSegments(acss, congSegs));
             }
 
             // New equations? G + A -> A
             for (AlgebraicSegmentEquation aseqs : algSegmentEqs)
             {
-                newGrounded.addRange(createSegmentEquation(aseqs, congSegs));
+                deductions.addAll(CreateSegmentEquation(aseqs, congSegs));
             }
 
             // New proportions? G + A -> A
             //for (AlgebraicSegmentRatio aps : algPropSegs)
             //{
-            //    newGrounded.addRange(CreateSegmentRatio(aps, congSegs));
+            //    deductions.addAll(CreateSegmentRatio(aps, congSegs));
             //}
         }
 
@@ -249,49 +291,49 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentSegments oldACSS : algCongSegments)
             {
-                newGrounded.addRange(cakePurelyAlgebraic(createCongruentSegments(oldACSS, congSegs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateCongruentSegments(oldACSS, congSegs)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicSegmentEquation aseqs : algSegmentEqs)
             {
-                newGrounded.addRange(cakePurelyAlgebraic(createSegmentEquation(aseqs, congSegs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateSegmentEquation(aseqs, congSegs)));
             }
 
             // New proportions? A + A -> A
             //for (AlgebraicSegmentRatio aps : algPropSegs)
             //{
-            //    newGrounded.addRange(makePurelyAlgebraic(CreateSegmentRatio(aps, congSegs)));
+            //    deductions.addAll(MakePurelyAlgebraic(CreateSegmentRatio(aps, congSegs)));
             //}
         }
 
-        return newGrounded;
+        return deductions;
     }
     //
     // For generation of transitive congruent segments
     //
-    private static List<EdgeAggregator> createCongruentSegments(CongruentSegments css, CongruentSegments geoCongSeg)
+    private static ArrayList<Deduction> CreateCongruentSegments(CongruentSegments css, CongruentSegments geoCongSeg)
     {
-        int numSharedExps = css.sharesNumClauses(geoCongSeg);
-        return createCongruent<CongruentSegments>(css, geoCongSeg, numSharedExps);
+        int numSharedExps = css.SharesNumClauses(geoCongSeg);
+        return CreateCongruent<CongruentSegments>(css, geoCongSeg, numSharedExps);
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Segments
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Segments
     //
-    private static List<EdgeAggregator> HandleNewSegmentRatio(SegmentRatio newRatio)
+    private static ArrayList<Deduction> HandleNewSegmentRatio(SegmentRatio newRatio)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         for (SegmentRatio old : propSegs)
         {
-            newGrounded.addAll(SegmentRatio.createProportionEquation(old, newRatio));
+            deductions.addAll(SegmentRatio.CreateProportionEquation(old, newRatio));
         }
 
         // New transitivity? G + G -> A
         //for (GeometricCongruentSegments gcs : geoCongSegments)
         //{
-        //    newGrounded.addRange(CreateSegmentRatio(propSegs, gcs));
+        //    deductions.addAll(CreateSegmentRatio(propSegs, gcs));
         //}
 
         //if (propSegs instanceof SegmentRatio)
@@ -299,7 +341,7 @@ public class TransitiveSubstitution extends Axiom
         //    // New transitivity? G + A -> A
         //    for (AlgebraicCongruentSegments acs : algCongSegments)
         //    {
-        //        newGrounded.addRange(CreateSegmentRatio(propSegs, acs));
+        //        deductions.addAll(CreateSegmentRatio(propSegs, acs));
         //    }
         //}
 
@@ -308,59 +350,59 @@ public class TransitiveSubstitution extends Axiom
         //    // New transitivity? A + A -> A
         //    for (AlgebraicCongruentSegments acs : algCongSegments)
         //    {
-        //        newGrounded.addRange(makePurelyAlgebraic(CreateSegmentRatio(propSegs, acs)));
+        //        deductions.addAll(MakePurelyAlgebraic(CreateSegmentRatio(propSegs, acs)));
         //    }
         //}
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive proportional segments
     //
-    private static List<EdgeAggregator> createSegmentRatio(SegmentRatio pss, CongruentSegments conSeg)
+    private static ArrayList<Deduction> CreateSegmentRatio(SegmentRatio pss, CongruentSegments conSeg)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        int numSharedExps = pss.sharesNumClauses(conSeg);
+        int numSharedExps = pss.SharesNumClauses(conSeg);
         switch (numSharedExps)
         {
             case 0:
-                // Nothing is shared: do nothing
+                // Nothing instanceof shared: do nothing
                 break;
 
             case 1:
-                // Expected case to create a new congruence relationship
-                //return SegmentRatio.CreateTransitiveProportion(pss, conSeg);
+            // Expected case to create a new congruence relationship
+            //return SegmentRatio.CreateTransitiveProportion(pss, conSeg);
 
             case 2:
-                // This is either reflexive or the exact same congruence relationship (which shouldn't happen)
+                // This instanceof either reflexive or the exact same congruence relationship (which shouldn't happen)
                 break;
 
             default:
                 throw new Exception("Proportional / Congruent Statements may only have 0, 1, or 2 common expressions; not, " + numSharedExps);
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Generate all new relationships from an Equation Containing Segments
     //
-    private static List<EdgeAggregator> handleNewSegmentEquation(SegmentEquation newSegEq)
+    private static ArrayList<Deduction> HandleNewSegmentEquation(SegmentEquation newSegEq)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentSegments gcss : geoCongSegments)
         {
-            newGrounded.addRange(createSegmentEquation(newSegEq, gcss));
+            deductions.addAll(CreateSegmentEquation(newSegEq, gcss));
         }
 
         // New equations? G + G -> A
         for (GeometricSegmentEquation gSegs : geoSegmentEqs)
         {
-            newGrounded.addRange(createNewEquation(gSegs, newSegEq));
+            deductions.addAll(CreateNewEquation(gSegs, newSegEq));
         }
 
         if (newSegEq instanceof GeometricSegmentEquation)
@@ -368,13 +410,13 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentSegments acss : algCongSegments)
             {
-                newGrounded.addRange(createSegmentEquation(newSegEq, acss));
+                deductions.addAll(CreateSegmentEquation(newSegEq, acss));
             }
 
             // New equations? G + A -> A
             for (AlgebraicSegmentEquation aSegs : algSegmentEqs)
             {
-                newGrounded.addRange(createNewEquation(aSegs, newSegEq));
+                deductions.addAll(CreateNewEquation(aSegs, newSegEq));
             }
         }
 
@@ -386,13 +428,13 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentSegments oldACSS : algCongSegments)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createSegmentEquation(newSegEq, oldACSS)));
+                deductions.addAll(MakePurelyAlgebraic(CreateSegmentEquation(newSegEq, oldACSS)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicSegmentEquation aSegs : algSegmentEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(aSegs, newSegEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(aSegs, newSegEq)));
             }
         }
 
@@ -402,67 +444,67 @@ public class TransitiveSubstitution extends Axiom
         //
         //else if (newSegEq is AlgebraicSegmentEquation)
         //{
-        //    for (AlgebraicSegmentEquation asegs : algSegmentEqs)
+        //    foreach (AlgebraicSegmentEquation asegs in algSegmentEqs)
         //    {
-        //        List<KeyValuePair<List<GroundedClause>, GroundedClause>> newEquationList = createNewEquation(newSegEq, asegs);
-        //        if (newEquationList.any())
+        //        List<KeyValuePair<List<GroundedClause>, GroundedClause>> newEquationList = CreateNewEquation(newSegEq, asegs);
+        //        if (newEquationList.Any())
         //        {
         //            KeyValuePair<List<GroundedClause>, GroundedClause> newEq = newEquationList[0];
 
-        //            if (newEq.Value instanceof AlgebraicCongruentSegments)
+        //            if (newEq.Value is AlgebraicCongruentSegments)
         //            {
-        //                newGrounded.addRange(newEquationList);
+        //                deductions.addAll(newEquationList);
         //            }
         //        }
         //    }
         //}
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Substitute this new segment congruence into old segment equations
     //
-    private static List<EdgeAggregator> createSegmentEquation(SegmentEquation segEq, CongruentSegments congSeg)
+    private static ArrayList<Deduction> CreateSegmentEquation(SegmentEquation segEq, CongruentSegments congSeg)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
-        EdgeAggregator newEquationEdge;
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
+        Deduction newEquationEdge;
 
-        newEquationEdge = performEquationSubstitution(segEq, congSeg, congSeg.cs1, congSeg.cs2);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
-        newEquationEdge = performEquationSubstitution(segEq, congSeg, congSeg.cs2, congSeg.cs1);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(segEq, congSeg, congSeg.getcs1(), congSeg.getcs2());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(segEq, congSeg, congSeg.getcs2(), congSeg.getcs1());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
 
-        return newGrounded;
+        return deductions;
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Angles
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Angles
     //
-    private static List<EdgeAggregator> handleNewCongruentAngles(CongruentAngles congAngs)
+    private static ArrayList<Deduction> HandleNewCongruentAngles(CongruentAngles congAngs)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentAngles gcss : geoCongAngles)
         {
-            newGrounded.addRange(createCongruentAngles(gcss, congAngs));
+            deductions.addAll(CreateCongruentAngles(gcss, congAngs));
         }
 
         // New equations? G + G -> A
         for (GeometricAngleEquation gseqs : geoAngleEqs)
         {
-            newGrounded.addRange(createAngleEquation(gseqs, congAngs));
+            deductions.addAll(CreateAngleEquation(gseqs, congAngs));
         }
 
         for (GeometricAngleArcEquation gseqs : geoAngleArcEqs)
         {
-            newGrounded.addRange(createAngleArcEquationFromAngleSubstitution(gseqs, congAngs));
+            deductions.addAll(CreateAngleArcEquationFromAngleSubstitution(gseqs, congAngs));
         }
 
         // New proportions? G + G -> A
         for (GeometricProportionalAngles gpas : geoPropAngs)
         {
-            newGrounded.addRange(createProportionalAngles(gpas, congAngs));
+            deductions.addAll(CreateProportionalAngles(gpas, congAngs));
         }
 
         if (congAngs instanceof GeometricCongruentAngles)
@@ -470,24 +512,24 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentAngles acss : algCongAngles)
             {
-                newGrounded.addRange(createCongruentAngles(acss, congAngs));
+                deductions.addAll(CreateCongruentAngles(acss, congAngs));
             }
 
             // New equations? G + A -> A
             for (AlgebraicAngleEquation aseqs : algAngleEqs)
             {
-                newGrounded.addRange(createAngleEquation(aseqs, congAngs));
+                deductions.addAll(CreateAngleEquation(aseqs, congAngs));
             }
 
             for (AlgebraicAngleArcEquation aseqs : algAngleArcEqs)
             {
-                newGrounded.addRange(createAngleArcEquationFromAngleSubstitution(aseqs, congAngs));
+                deductions.addAll(CreateAngleArcEquationFromAngleSubstitution(aseqs, congAngs));
             }
 
             // New proportions? G + A -> A
             for (AlgebraicProportionalAngles apas : algPropAngs)
             {
-                newGrounded.addRange(createProportionalAngles(apas, congAngs));
+                deductions.addAll(CreateProportionalAngles(apas, congAngs));
             }
         }
 
@@ -499,50 +541,50 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentAngles oldACSS : algCongAngles)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createCongruentAngles(oldACSS, congAngs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateCongruentAngles(oldACSS, congAngs)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicAngleEquation aseqs : algAngleEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleEquation(aseqs, congAngs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleEquation(aseqs, congAngs)));
             }
 
             for (AlgebraicAngleArcEquation aseqs : algAngleArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleArcEquationFromAngleSubstitution(aseqs, congAngs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleArcEquationFromAngleSubstitution(aseqs, congAngs)));
             }
 
             // New proportions? G + A -> A
             for (AlgebraicProportionalAngles apas : algPropAngs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createProportionalAngles(apas, congAngs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateProportionalAngles(apas, congAngs)));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive congruent Angles
     //
-    private static List<EdgeAggregator> createCongruentAngles(CongruentAngles css, CongruentAngles congAng)
+    private static ArrayList<Deduction> CreateCongruentAngles(CongruentAngles css, CongruentAngles congAng)
     {
-        int numSharedExps = css.sharesNumClauses(congAng);
-        return createCongruent<CongruentAngles>(css, congAng, numSharedExps);
+        int numSharedExps = css.SharesNumClauses(congAng);
+        return CreateCongruent<CongruentAngles>(css, congAng, numSharedExps);
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Segments
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Segments
     //
-    private static List<EdgeAggregator> HandleNewProportionalAngles(ProportionalAngles propAngs)
+    private static ArrayList<Deduction> HandleNewProportionalAngles(ProportionalAngles propAngs)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentAngles gcas : geoCongAngles)
         {
-            newGrounded.addRange(createProportionalAngles(propAngs, gcas));
+            deductions.addAll(CreateProportionalAngles(propAngs, gcas));
         }
 
         if (propAngs instanceof GeometricProportionalAngles)
@@ -550,7 +592,7 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentAngles acas : algCongAngles)
             {
-                newGrounded.addRange(createProportionalAngles(propAngs, acas));
+                deductions.addAll(CreateProportionalAngles(propAngs, acas));
             }
         }
 
@@ -562,60 +604,60 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentAngles acas : algCongAngles)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createProportionalAngles(propAngs, acas)));
+                deductions.addAll(MakePurelyAlgebraic(CreateProportionalAngles(propAngs, acas)));
             }
         }
 
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive proportional angles
     //
-    private static List<EdgeAggregator> createProportionalAngles(ProportionalAngles pas, CongruentAngles conAng)
+    private static ArrayList<Deduction> CreateProportionalAngles(ProportionalAngles pas, CongruentAngles conAng)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-        int numSharedExps = pas.sharesNumClauses(conAng);
+        int numSharedExps = pas.SharesNumClauses(conAng);
         switch (numSharedExps)
         {
             case 0:
-                // Nothing is shared: do nothing
+                // Nothing instanceof shared: do nothing
                 break;
 
             case 1:
-                // Expected case to create a new congruence relationship
-                //return ProportionalAngles.CreateTransitiveProportion(pas, conAng);
+            // Expected case to create a new congruence relationship
+            //return ProportionalAngles.CreateTransitiveProportion(pas, conAng);
 
             case 2:
-                // This is either reflexive or the exact same congruence relationship (which shouldn't happen)
+                // This instanceof either reflexive or the exact same congruence relationship (which shouldn't happen)
                 break;
 
             default:
                 throw new Exception("Proportional / Congruent Statements may only have 0, 1, or 2 common expressions; not, " + numSharedExps);
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Generate all new relationships from an Equation Containing Angle measurements
     //
-    private static List<EdgeAggregator> HandleNewAngleEquation(AngleEquation newAngEq)
+    private static ArrayList<Deduction> HandleNewAngleEquation(AngleEquation newAngEq)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentAngles gcas : geoCongAngles)
         {
-            newGrounded.addRange(createAngleEquation(newAngEq, gcas));
+            deductions.addAll(CreateAngleEquation(newAngEq, gcas));
         }
 
         // New equations? G + G -> A
         for (GeometricAngleEquation gangs : geoAngleEqs)
         {
-            newGrounded.addRange(createNewEquation(gangs, newAngEq));
+            deductions.addAll(CreateNewEquation(gangs, newAngEq));
         }
 
         if (newAngEq instanceof GeometricAngleEquation)
@@ -623,13 +665,13 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentAngles acas : algCongAngles)
             {
-                newGrounded.addRange(createAngleEquation(newAngEq, acas));
+                deductions.addAll(CreateAngleEquation(newAngEq, acas));
             }
 
             // New equations? G + A -> A
             for (AlgebraicAngleEquation aangs : algAngleEqs)
             {
-                newGrounded.addRange(createNewEquation(aangs, newAngEq));
+                deductions.addAll(CreateNewEquation(aangs, newAngEq));
             }
         }
 
@@ -641,41 +683,41 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentAngles oldACAS : algCongAngles)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleEquation(newAngEq, oldACAS)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleEquation(newAngEq, oldACAS)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicAngleEquation aangs : algAngleEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(aangs, newAngEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(aangs, newAngEq)));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Substitute this new angle congruence into old angle equations
     //
-    private static List<EdgeAggregator> createAngleEquation(AngleEquation angEq, CongruentAngles congAng)
+    private static ArrayList<Deduction> CreateAngleEquation(AngleEquation angEq, CongruentAngles congAng)
     {
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
-        EdgeAggregator newEquationEdge;
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
+        Deduction newEquationEdge;
 
-        //            if (angEq.HasRelationPredecessor(congAng) || congAng.HasRelationPredecessor(angEq)) return newGrounded;
+        //            if (angEq.HasRelationPredecessor(congAng) || congAng.HasRelationPredecessor(angEq)) return deductions;
 
-        newEquationEdge = performEquationSubstitution(angEq, congAng, congAng.ca1, congAng.ca2);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
-        newEquationEdge = performEquationSubstitution(angEq, congAng, congAng.ca2, congAng.ca1);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(angEq, congAng, congAng.GetFirstAngle(), congAng.GetSecondAngle());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(angEq, congAng, congAng.GetSecondAngle(), congAng.GetFirstAngle());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // If both sides of the substituted equation are atomic and not Numeric Values, create a congruence relationship instead.
     //
-    private static GroundedClause handleAngleRelation(Equation simplified)
+    private static GroundedClause HandleAngleRelation(Equation simplified)
     {
         // One side must be atomic
         int atomicity = simplified.getAtomicity();
@@ -685,30 +727,28 @@ public class TransitiveSubstitution extends Axiom
         GroundedClause nonAtomic = null;
         if (atomicity == Equation.LEFT_ATOMIC)
         {
-            atomic = simplified.lhs;
-            nonAtomic = simplified.rhs;
+            atomic = simplified.getLHS();
+            nonAtomic = simplified.getRHS();
         }
         else if (atomicity == Equation.RIGHT_ATOMIC)
         {
-            atomic = simplified.rhs;
-            nonAtomic = simplified.lhs;
+            atomic = simplified.getRHS();
+            nonAtomic = simplified.getLHS();
         }
         else if (atomicity == Equation.BOTH_ATOMIC)
         {
-            return handleCollinearPerpendicular(simplified.lhs, simplified.rhs);
+            return HandleCollinearPerpendicular(simplified.getLHS(), simplified.getRHS());
         }
 
-
-
-        NumericValue atomicValue = (NumericValue) atomic;
+        NumericValue atomicValue = (NumericValue)atomic;
         if (atomicValue == null) return null;
 
         //
         // We need only consider special angles (90 or 180)
         //
-        if (!utilities.compareValues(atomicValue.getIntValue(), 90) && !utilities.compareValues(atomicValue.getIntValue(), 180)) return null;
+        if (!Utilities.CompareValues(atomicValue.getIntValue(), 90) && !Utilities.CompareValues(atomicValue.getIntValue(), 180)) return null;
 
-        List<GroundedClause> nonAtomicSide = nonAtomic.collectTerms();
+        ArrayList<GroundedClause> nonAtomicSide = nonAtomic.collectTerms();
 
         // Check multiplier for all terms; it must be 1.
         for (GroundedClause gc : nonAtomicSide)
@@ -720,15 +760,15 @@ public class TransitiveSubstitution extends Axiom
         // Complementary or Supplementary
         //
         AnglePairRelation newRelation = null;
-        if (nonAtomicSide.count == 2)
+        if (nonAtomicSide.size() == 2)
         {
-            if (utilities.compareValues(atomicValue.getIntValue(), 90))
+            if (Utilities.CompareValues(atomicValue.getIntValue(), 90))
             {
-                newRelation = new Complementary((Angle)nonAtomicSide[0], (Angle)nonAtomicSide[1]);
+                newRelation = new Complementary((Angle)nonAtomicSide.get(0), (Angle)nonAtomicSide.get(1));
             }
-            else if (utilities.compareValues(atomicValue.getIntValue(), 180))
+            else if (Utilities.CompareValues(atomicValue.getIntValue(), 180))
             {
-                newRelation = new Supplementary((Angle)nonAtomicSide[0], (Angle)nonAtomicSide[1]);
+                newRelation = new Supplementary((Angle)nonAtomicSide.get(0), (Angle)nonAtomicSide.get(1));
             }
         }
 
@@ -738,7 +778,7 @@ public class TransitiveSubstitution extends Axiom
     //
     // Create a deduced collinear or perpendicular relationship
     //
-    private static GroundedClause handleCollinearPerpendicular(GroundedClause left, GroundedClause right)
+    private static GroundedClause HandleCollinearPerpendicular(GroundedClause left, GroundedClause right)
     {
         NumericValue numeral = null;
         Angle angle = null;
@@ -748,13 +788,13 @@ public class TransitiveSubstitution extends Axiom
         //
         if (left instanceof NumericValue)
         {
-            numeral = (NumericValue) left;
-            angle = (Angle) right;
+            numeral = (NumericValue)left;
+            angle = (Angle)right;
         }
         else if (right instanceof NumericValue)
         {
-            numeral = (NumericValue) right;
-            angle = (Angle) left;
+            numeral = (NumericValue)right;
+            angle = (Angle)left;
         }
 
         if (numeral == null || angle == null) return null;
@@ -763,17 +803,17 @@ public class TransitiveSubstitution extends Axiom
         // Create the new relationships
         //
         Descriptor newDescriptor = null;
-        //if (utilities.compareValues(numeral.value, 90))
+        //if (Utilities.CompareValues(numeral.value, 90))
         //{
         //    newDescriptor = new Perpendicular(angle.GetVertex(), angle.ray1, angle.ray2);
         //}
         //else
-        if (utilities.compareValues(numeral.IntValue, 180))
+        if (Utilities.CompareValues(numeral.getIntValue(), 180))
         {
-            List<Point> pts = new List<Point>();
-            pts.add(angle.A);
-            pts.add(angle.B);
-            pts.add(angle.C);
+            ArrayList<Point> pts = new ArrayList<Point>();
+            pts.add(angle.getA());
+            pts.add(angle.getB());
+            pts.add(angle.getC());
             newDescriptor = new Collinear(pts);
         }
 
@@ -781,33 +821,33 @@ public class TransitiveSubstitution extends Axiom
     }
 
     //
-    // Generate all new relationships from a Geometric, Congruent Pair of Arcs
+    // Generate all new relationships from a Geoemetric, Congruent Pair of Arcs
     //
-    private static List<EdgeAggregator> HandleNewCongruentArcs(CongruentArcs congArcs)
+    private static ArrayList<Deduction> HandleNewCongruentArcs(CongruentArcs congArcs)
     {
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentArcs gcss : geoCongArcs)
         {
-            newGrounded.addRange(createCongruentArcs(gcss, congArcs));
+            deductions.addAll(CreateCongruentArcs(gcss, congArcs));
         }
 
         // New equations? G + G -> A
         for (GeometricArcEquation gseqs : geoArcEqs)
         {
-            newGrounded.addRange(createArcEquation(gseqs, congArcs));
+            deductions.addAll(CreateArcEquation(gseqs, congArcs));
         }
 
         for (GeometricAngleArcEquation gseqs : geoAngleArcEqs)
         {
-            newGrounded.addRange(createAngleArcEquationFromArcSubstitution(gseqs, congArcs));
+            deductions.addAll(CreateAngleArcEquationFromArcSubstitution(gseqs, congArcs));
         }
 
         //// New proportions? G + G -> A
         //for (GeometricProportionalAngles gpas : geoPropAngs)
         //{
-        //    newGrounded.addRange(createProportionalAngles(gpas, congAngs));
+        //    deductions.addAll(CreateProportionalAngles(gpas, congAngs));
         //}
 
         if (congArcs instanceof GeometricCongruentArcs)
@@ -815,24 +855,24 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentArcs acas : algCongArcs)
             {
-                newGrounded.addRange(createCongruentArcs(acas, congArcs));
+                deductions.addAll(CreateCongruentArcs(acas, congArcs));
             }
 
             // New equations? G + A -> A
             for (AlgebraicArcEquation aseqs : algArcEqs)
             {
-                newGrounded.addRange(createArcEquation(aseqs, congArcs));
+                deductions.addAll(CreateArcEquation(aseqs, congArcs));
             }
 
             for (AlgebraicAngleArcEquation gseqs : algAngleArcEqs)
             {
-                newGrounded.addRange(createAngleArcEquationFromArcSubstitution(gseqs, congArcs));
+                deductions.addAll(CreateAngleArcEquationFromArcSubstitution(gseqs, congArcs));
             }
 
             // New proportions? G + A -> A
             //for (AlgebraicProportionalAngles apas : algPropAngs)
             //{
-            //    newGrounded.addRange(createProportionalAngles(apas, congAngs));
+            //    deductions.addAll(CreateProportionalAngles(apas, congAngs));
             //}
         }
 
@@ -844,56 +884,56 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentArcs oldACAS : algCongArcs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createCongruentArcs(oldACAS, congArcs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateCongruentArcs(oldACAS, congArcs)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicArcEquation aseqs : algArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createArcEquation(aseqs, congArcs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateArcEquation(aseqs, congArcs)));
             }
 
             for (AlgebraicAngleArcEquation gseqs : algAngleArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleArcEquationFromArcSubstitution(gseqs, congArcs)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleArcEquationFromArcSubstitution(gseqs, congArcs)));
             }
 
             //// New proportions? G + A -> A
             //for (AlgebraicProportionalAngles apas : algPropAngs)
             //{
-            //    newGrounded.addRange(makePurelyAlgebraic(createProportionalAngles(apas, congAngs)));
+            //    deductions.addAll(MakePurelyAlgebraic(CreateProportionalAngles(apas, congAngs)));
             //}
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // For generation of transitive congruent Arcs
     //
-    private static List<EdgeAggregator> createCongruentArcs(CongruentArcs cas1, CongruentArcs cas2)
+    private static ArrayList<Deduction> CreateCongruentArcs(CongruentArcs cas1, CongruentArcs cas2)
     {
-        int numSharedExps = cas1.sharesNumClauses(cas2);
-        return createCongruent<CongruentArcs>(cas1, cas2, numSharedExps);
+        int numSharedExps = cas1.SharesNumClauses(cas2);
+        return CreateCongruent<CongruentArcs>(cas1, cas2, numSharedExps);
     }
 
     //
     // Generate all new relationships from an Equation Containing Arc measurements
     //
-    private static List<EdgeAggregator> handleNewArcEquation(ArcEquation newArcEq)
+    private static ArrayList<Deduction> HandleNewArcEquation(ArcEquation newArcEq)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         // New transitivity? G + G -> A
         for (GeometricCongruentArcs gcas : geoCongArcs)
         {
-            newGrounded.addRange(createArcEquation(newArcEq, gcas));
+            deductions.addAll(CreateArcEquation(newArcEq, gcas));
         }
 
         // New equations? G + G -> A
         for (GeometricArcEquation gangs : geoArcEqs)
         {
-            newGrounded.addRange(createNewEquation(gangs, newArcEq));
+            deductions.addAll(CreateNewEquation(gangs, newArcEq));
         }
 
         if (newArcEq instanceof GeometricArcEquation)
@@ -901,13 +941,13 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentArcs acas : algCongArcs)
             {
-                newGrounded.addRange(createArcEquation(newArcEq, acas));
+                deductions.addAll(CreateArcEquation(newArcEq, acas));
             }
 
             // New equations? G + A -> A
             for (AlgebraicArcEquation aarcs : algArcEqs)
             {
-                newGrounded.addRange(createNewEquation(aarcs, newArcEq));
+                deductions.addAll(CreateNewEquation(aarcs, newArcEq));
             }
         }
 
@@ -919,63 +959,64 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentArcs oldACAS : algCongArcs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createArcEquation(newArcEq, oldACAS)));
+                deductions.addAll(MakePurelyAlgebraic(CreateArcEquation(newArcEq, oldACAS)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicArcEquation aarcs : algArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(aarcs, newArcEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(aarcs, newArcEq)));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Substitute this new arc congruence into old arc equations
     //
-    private static List<EdgeAggregator> createArcEquation(ArcEquation arcEq, CongruentArcs congArcs)
+    private static ArrayList<Deduction> CreateArcEquation(ArcEquation arcEq, CongruentArcs congArcs)
     {
-        List<EdgeAggregator> newGrounded = new List<EdgeAggregator>();
-        EdgeAggregator newEquationEdge;
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
+        Deduction newEquationEdge;
 
-        //            if (angEq.HasRelationPredecessor(congAng) || congAng.HasRelationPredecessor(angEq)) return newGrounded;
+        //            if (angEq.HasRelationPredecessor(congAng) || congAng.HasRelationPredecessor(angEq)) return deductions;
 
-        newEquationEdge = performEquationSubstitution(arcEq, congArcs, congArcs.ca1, congArcs.ca2);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
-        newEquationEdge = performEquationSubstitution(arcEq, congArcs, congArcs.ca2, congArcs.ca1);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(arcEq, congArcs, congArcs.getFirstArc(), congArcs.getSecondArc());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(arcEq, congArcs, congArcs.getSecondArc(), congArcs.getFirstArc());
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
 
-        return newGrounded;
+        return deductions;
     }
 
-    private static List<EdgeAggregator> handleNewAngleArcEquation(AngleArcEquation angleArcEq)
+
+    private static ArrayList<Deduction> HandleNewAngleArcEquation(AngleArcEquation angleArcEq)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         //New transitivity?
         for (GeometricCongruentArcs gcas : geoCongArcs)
         {
-            newGrounded.addRange(createAngleArcEquationFromArcSubstitution(angleArcEq, gcas));
+            deductions.addAll(CreateAngleArcEquationFromArcSubstitution(angleArcEq, gcas));
         }
         for (GeometricCongruentAngles gcas : geoCongAngles)
         {
-            newGrounded.addRange(createAngleArcEquationFromAngleSubstitution(angleArcEq, gcas));
+            deductions.addAll(CreateAngleArcEquationFromAngleSubstitution(angleArcEq, gcas));
         }
 
         // New equations? G + G -> A
         for (GeometricArcEquation garcs : geoArcEqs)
         {
-            newGrounded.addRange(createNewEquation(garcs, angleArcEq));
+            deductions.addAll(CreateNewEquation(garcs, angleArcEq));
         }
         for (GeometricAngleEquation gangs : geoAngleEqs)
         {
-            newGrounded.addRange(createNewEquation(gangs, angleArcEq));
+            deductions.addAll(CreateNewEquation(gangs, angleArcEq));
         }
         for (GeometricAngleArcEquation gangs : geoAngleArcEqs)
         {
-            newGrounded.addRange(createNewEquation(gangs, angleArcEq));
+            deductions.addAll(CreateNewEquation(gangs, angleArcEq));
         }
 
         if (angleArcEq instanceof GeometricAngleArcEquation)
@@ -983,26 +1024,26 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? G + A -> A
             for (AlgebraicCongruentArcs acas : algCongArcs)
             {
-                newGrounded.addRange(createAngleArcEquationFromArcSubstitution(angleArcEq, acas));
+                deductions.addAll(CreateAngleArcEquationFromArcSubstitution(angleArcEq, acas));
             }
 
             for (AlgebraicCongruentAngles acas : algCongAngles)
             {
-                newGrounded.addRange(createAngleArcEquationFromAngleSubstitution(angleArcEq, acas));
+                deductions.addAll(CreateAngleArcEquationFromAngleSubstitution(angleArcEq, acas));
             }
 
             // New equations? G + A -> A
             for (AlgebraicArcEquation aarcs : algArcEqs)
             {
-                newGrounded.addRange(createNewEquation(aarcs, angleArcEq));
+                deductions.addAll(CreateNewEquation(aarcs, angleArcEq));
             }
             for (AlgebraicAngleEquation aangs : algAngleEqs)
             {
-                newGrounded.addRange(createNewEquation(aangs, angleArcEq));
+                deductions.addAll(CreateNewEquation(aangs, angleArcEq));
             }
             for (GeometricAngleArcEquation gangs : geoAngleArcEqs)
             {
-                newGrounded.addRange(createNewEquation(gangs, angleArcEq));
+                deductions.addAll(CreateNewEquation(gangs, angleArcEq));
             }
         }
 
@@ -1014,59 +1055,59 @@ public class TransitiveSubstitution extends Axiom
             // New transitivity? A + A -> A
             for (AlgebraicCongruentArcs oldACAS : algCongArcs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleArcEquationFromArcSubstitution(angleArcEq, oldACAS)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleArcEquationFromArcSubstitution(angleArcEq, oldACAS)));
             }
 
             for (AlgebraicCongruentAngles oldACAS : algCongAngles)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createAngleArcEquationFromAngleSubstitution(angleArcEq, oldACAS)));
+                deductions.addAll(MakePurelyAlgebraic(CreateAngleArcEquationFromAngleSubstitution(angleArcEq, oldACAS)));
             }
 
             // New equations? A + A -> A
             for (AlgebraicArcEquation aarcs : algArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(aarcs, angleArcEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(aarcs, angleArcEq)));
             }
             for (AlgebraicAngleEquation aangs : algAngleEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(aangs, angleArcEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(aangs, angleArcEq)));
             }
             for (GeometricAngleArcEquation gangs : geoAngleArcEqs)
             {
-                newGrounded.addRange(makePurelyAlgebraic(createNewEquation(gangs, angleArcEq)));
+                deductions.addAll(MakePurelyAlgebraic(CreateNewEquation(gangs, angleArcEq)));
             }
         }
 
-        return newGrounded;
+        return deductions;
     }
 
-    private static List<EdgeAggregator> createAngleArcEquationFromArcSubstitution(AngleArcEquation angleArcEq, CongruentArcs congArcs) 
+    private static ArrayList<Deduction> CreateAngleArcEquationFromArcSubstitution(AngleArcEquation angleArcEq, CongruentArcs congArcs) 
     {
-        return createEquationFromSubstitution(angleArcEq, congArcs, congArcs.ca1, congArcs.ca2);
+        return CreateEquationFromSubstitution(angleArcEq, congArcs, congArcs.getFirstArc(), congArcs.getSecondArc());
     }
 
-    private static List<EdgeAggregator> createAngleArcEquationFromAngleSubstitution(AngleArcEquation angleArcEq, CongruentAngles congAngles)
+    private static ArrayList<Deduction> CreateAngleArcEquationFromAngleSubstitution(AngleArcEquation angleArcEq, CongruentAngles congAngles)
     {
-        return createEquationFromSubstitution(angleArcEq, congAngles, congAngles.ca1, congAngles.ca2);
+        return CreateEquationFromSubstitution(angleArcEq, congAngles, congAngles.GetFirstAngle(), congAngles.GetSecondAngle());
     }
 
-    private static List<EdgeAggregator> createEquationFromSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause c1, GroundedClause c2)
+    private static ArrayList<Deduction> CreateEquationFromSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause c1, GroundedClause c2)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
-        EdgeAggregator newEquationEdge;
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
+        Deduction newEquationEdge;
 
-        newEquationEdge = performEquationSubstitution(eq, subbedEq, c1, c2);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
-        newEquationEdge = performEquationSubstitution(eq, subbedEq, c2, c1);
-        if (newEquationEdge != null) newGrounded.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(eq, subbedEq, c1, c2);
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
+        newEquationEdge = PerformEquationSubstitution(eq, subbedEq, c2, c1);
+        if (newEquationEdge != null) deductions.add(newEquationEdge);
 
-        return newGrounded;
+        return deductions;
     }
 
     //
     // Substitute some clause (subbedEq) into an equation (eq)
     //
-    private static EdgeAggregator performEquationSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause toFind, GroundedClause toSub)
+    private static Deduction PerformEquationSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause toFind, GroundedClause toSub)
     {
         //Debug.WriteLine("Substituting with " + eq.ToString() + " and " + subbedEq.ToString());
 
@@ -1078,57 +1119,57 @@ public class TransitiveSubstitution extends Axiom
         Equation newEq = null;
         if (eq instanceof SegmentEquation)
         {
-            newEq = new AlgebraicSegmentEquation(eq.lhs.deepCopy(), eq.rhs.deepCopy());
+            newEq = new AlgebraicSegmentEquation(eq.getLHS().deepCopy(), eq.getRHS().deepCopy());
         }
         else if (eq instanceof AngleEquation)
         {
-            newEq = new AlgebraicAngleEquation(eq.lhs.deepCopy(), eq.rhs.deepCopy());
+            newEq = new AlgebraicAngleEquation(eq.getLHS().deepCopy(), eq.getRHS().deepCopy());
         }
         else if (eq instanceof ArcEquation)
         {
-            newEq = new AlgebraicArcEquation(eq.lhs.deepCopy(), eq.rhs.deepCopy());
+            newEq = new AlgebraicArcEquation(eq.getLHS().deepCopy(), eq.getRHS().deepCopy());
         }
         else if (eq instanceof AngleArcEquation)
         {
-            newEq = new AlgebraicAngleArcEquation(eq.lhs.deepCopy(), eq.rhs.deepCopy());
+            newEq = new AlgebraicAngleArcEquation(eq.getLHS().deepCopy(), eq.getRHS().deepCopy());
         }
 
         // Substitute into the copy
-        newEq.Substitute(toFind, toSub);
+        newEq.substitute(toFind, toSub);
 
-        List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(eq);
         antecedent.add(subbedEq);
 
         //
-        // simplify the equation
+        // Simplify the equation
         //
         Equation simplified = Simplification.simplify(newEq);
 
         // Create a congruence relationship if it applies
-        GroundedClause newCongruence = handleCongruence(simplified);
-        if (newCongruence != null) return new EdgeAggregator(antecedent, newCongruence, annotation);
+        GroundedClause newCongruence = HandleCongruence(simplified);
+        if (newCongruence != null) return new Deduction(antecedent, newCongruence, ANNOTATION);
 
         // If a congruence was not established, create a complementary or supplementary relationship, if applicable
         if (simplified instanceof AngleEquation && newCongruence == null)
         {
-            GroundedClause newRelation = handleAngleRelation(simplified);
-            if (newRelation != null) return new EdgeAggregator(antecedent, newRelation, annotation);
+            GroundedClause newRelation = HandleAngleRelation(simplified);
+            if (newRelation != null) return new Deduction(antecedent, newRelation, ANNOTATION);
         }
 
-        return new EdgeAggregator(antecedent, simplified, annotation);
+        return new Deduction(antecedent, simplified, ANNOTATION);
     }
 
     //
-    // This is pure transitivity where A + B = C , A + B = D -> C = D
+    // This instanceof pure transitivity where A + B = C , A + B = D -> C = D
     //
-    private static EdgeAggregator performNonAtomicEquationSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause toFind, GroundedClause toSub)
+    private static Deduction PerformNonAtomicEquationSubstitution(Equation eq, GroundedClause subbedEq, GroundedClause toFind, GroundedClause toSub)
     {
         //Debug.WriteLine("Substituting with " + eq.ToString() + " and " + subbedEq.ToString());
 
-        // If there is a deduction relationship between the given congruences, do not perform another substitution
+        // If there instanceof a deduction relationship between the given congruences, do not perform another substitution
         //  subbedEq.HasPredecessor(eq)
-        //if (eq.HasGeneralPredecessor(subbedEq) || subbedEq.HasGeneralPredecessor(eq)) return new EdgeAggregator(null, null);
+        //if (eq.HasGeneralPredecessor(subbedEq) || subbedEq.HasGeneralPredecessor(eq)) return new Deduction(null, null);
 
         //
         // Verify that the non-atomic sides to both equations are the exact same
@@ -1137,18 +1178,18 @@ public class TransitiveSubstitution extends Axiom
         GroundedClause atomicOriginal = null;
         if (eq.getAtomicity() == Equation.LEFT_ATOMIC)
         {
-            nonAtomicOriginal = eq.rhs;
-            atomicOriginal = eq.lhs;
+            nonAtomicOriginal = eq.getRHS();
+            atomicOriginal = eq.getLHS();
         }
         else if (eq.getAtomicity() == Equation.RIGHT_ATOMIC)
         {
-            nonAtomicOriginal = eq.lhs;
-            atomicOriginal = eq.rhs;
+            nonAtomicOriginal = eq.getLHS();
+            atomicOriginal = eq.getRHS();
         }
 
         // We collect all the flattened terms
-        List<GroundedClause> originalTerms = nonAtomicOriginal.collectTerms();
-        List<GroundedClause> subbedTerms = toFind.collectTerms();
+        ArrayList<GroundedClause> originalTerms = nonAtomicOriginal.collectTerms();
+        ArrayList<GroundedClause> subbedTerms = toFind.collectTerms();
 
         // Now, the lists must be the same; we check for containment : both directions
         for (GroundedClause originalTerm : originalTerms)
@@ -1162,10 +1203,10 @@ public class TransitiveSubstitution extends Axiom
         }
 
         // Hypergraph
-        List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(eq);
         antecedent.add(subbedEq);
-        EdgeAggregator newEdge;
+        Deduction newEdge;
 
         //
         // Generate a simple equation or an algebraic congruent statement
@@ -1184,11 +1225,10 @@ public class TransitiveSubstitution extends Axiom
 
             if (newEquation == null)
             {
-                //debug.writeLine("");
-                ExceptionHandler.throwException(new NullReferenceException("Unexpected Problem : Non-atomic substitution (equation)..."));
+                ExceptionHandler.throwException(new Exception("Unexpected Problem : Non-atomic substitution (equation)..."));
             }
 
-            newEdge = new EdgeAggregator(antecedent, newEquation, annotation);
+            newEdge = new Deduction(antecedent, newEquation, ANNOTATION);
         }
         else
         {
@@ -1204,11 +1244,10 @@ public class TransitiveSubstitution extends Axiom
 
             if (newCongruent == null)
             {
-                Debug.WriteLine("");
-                ExceptionHandler.throwException(new NullReferenceException("Unexpected Problem : Non-atomic substitution (Congruence)..."));
+                ExceptionHandler.throwException(new Exception("Unexpected Problem : Non-atomic substitution (Congruence)..."));
             }
 
-            newEdge = new EdgeAggregator(antecedent, newCongruent, annotation);
+            newEdge = new Deduction(antecedent, newCongruent, ANNOTATION);
         }
 
         return newEdge;
@@ -1217,68 +1256,68 @@ public class TransitiveSubstitution extends Axiom
     //
     // Given two equations, perform a direct, transitive substitution of one equation into the other (and vice versa)
     //
-    private static List<EdgeAggregator> performEquationTransitiviteSubstitution(Equation eq1, Equation eq2)
+    private static ArrayList<Deduction> PerformEquationTransitiviteSubstitution(Equation eq1, Equation eq2)
     {
-        List<GroundedClause> newRelations = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> newRelations = new ArrayList<GroundedClause>();
 
         //
         // Collect the terms from each side of both equations
         //
-        List<GroundedClause> lhsTermsEq1 = eq1.lhs.collectTerms();
-        List<GroundedClause> lhsTermsEq2 = eq2.lhs.collectTerms();
-        List<GroundedClause> rhsTermsEq1 = eq1.rhs.collectTerms();
-        List<GroundedClause> rhsTermsEq2 = eq2.rhs.collectTerms();
+        ArrayList<GroundedClause> lhsTermsEq1 = eq1.getLHS().collectTerms();
+        ArrayList<GroundedClause> lhsTermsEq2 = eq2.getLHS().collectTerms();
+        ArrayList<GroundedClause> rhsTermsEq1 = eq1.getRHS().collectTerms();
+        ArrayList<GroundedClause> rhsTermsEq2 = eq2.getRHS().collectTerms();
 
-        int equationType = getEquationType(eq1);
+        int equationType = GetEquationType(eq1);
 
         //
         // Construct the new equations using all possible combinations
         //
-        if (equalLists(lhsTermsEq1, lhsTermsEq2))
+        if (EqualLists(lhsTermsEq1, lhsTermsEq2))
         {
-            GroundedClause newEq = constructNewEquation(equationType, eq1.rhs, eq2.rhs);
+            GroundedClause newEq = ConstructNewEquation(equationType, eq1.getRHS(), eq2.getRHS());
             if (newEq != null) newRelations.add(newEq);
         }
-        if (equalLists(lhsTermsEq1, rhsTermsEq2))
+        if (EqualLists(lhsTermsEq1, rhsTermsEq2))
         {
-            GroundedClause newEq = constructNewEquation(equationType, eq1.rhs, eq2.lhs);
+            GroundedClause newEq = ConstructNewEquation(equationType, eq1.getRHS(), eq2.getLHS());
             if (newEq != null) newRelations.add(newEq);
         }
-        if (equalLists(rhsTermsEq1, lhsTermsEq2))
+        if (EqualLists(rhsTermsEq1, lhsTermsEq2))
         {
-            GroundedClause newEq = constructNewEquation(equationType, eq1.lhs, eq2.rhs);
+            GroundedClause newEq = ConstructNewEquation(equationType, eq1.getLHS(), eq2.getRHS());
             if (newEq != null) newRelations.add(newEq);
         }
-        if (equalLists(rhsTermsEq1, rhsTermsEq2))
+        if (EqualLists(rhsTermsEq1, rhsTermsEq2))
         {
-            GroundedClause newEq = constructNewEquation(equationType, eq1.lhs, eq2.lhs);
+            GroundedClause newEq = ConstructNewEquation(equationType, eq1.getLHS(), eq2.getLHS());
             if (newEq != null) newRelations.add(newEq);
         }
 
         //
         // Construct the hypergraph edges for all of the new relationships
         //
-        List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
+        ArrayList<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(eq1);
         antecedent.add(eq2);
 
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         for (GroundedClause gc : newRelations)
         {
-            newGrounded.add(new EdgeAggregator(antecedent, gc, annotation));
+            deductions.add(new Deduction(antecedent, gc, ANNOTATION));
         }
 
-        return newGrounded;
+        return deductions;
     }
 
     //
-    // Given two equations, if one equation is atomic, substitute into the other (and vice versa)
+    // Given two equations, if one equation instanceof atomic, substitute into the other (and vice versa)
     //
-    //private static List<KeyValuePair<List<GroundedClause>, GroundedClause>> PerformEquationDirectSubstitution(Equation eq1, Equation eq2)
+    //private static ArrayList<KeyValuePair<ArrayList<GroundedClause>, GroundedClause>> PerformEquationDirectSubstitution(Equation eq1, Equation eq2)
     //{
     //    //
-    //    // Does the new equation have one side which is isolated (an atomic expression)?
+    //    // Does the new equation have one side which instanceof isolated (an atomic expression)?
     //    //
     //    int atomicSide = newEq.GetAtomicity();
 
@@ -1287,13 +1326,13 @@ public class TransitiveSubstitution extends Axiom
     //    switch (atomicSide)
     //    {
     //        case Equation.LEFT_ATOMIC:
-    //            atomicExp = newEq.lhs;
-    //            otherSide = newEq.rhs;
+    //            atomicExp = newEq.getLHS();
+    //            otherSide = newEq.getRHS();
     //            break;
 
     //        case Equation.RIGHT_ATOMIC:
-    //            atomicExp = newEq.rhs;
-    //            otherSide = newEq.lhs;
+    //            atomicExp = newEq.getRHS();
+    //            otherSide = newEq.getLHS();
     //            break;
 
     //        case Equation.BOTH_ATOMIC:
@@ -1301,125 +1340,117 @@ public class TransitiveSubstitution extends Axiom
     //            break;
 
     //        case Equation.NONE_ATOMIC:
-    //            // If neither side of this new equation are atomic, for simplicity,
+    //            // If neither side of this new equation are atomic, for simplicty,
     //            // we do not perform a substitution
-    //            return new List<EdgeAggregator>();
+    //            return new ArrayList<Deduction>();
     //    }
 
-    //    KeyValuePair<List<GroundedClause>, GroundedClause> cl;
-    //    // One side of the equation is atomic
+    //    KeyValuePair<ArrayList<GroundedClause>, GroundedClause> cl;
+    //    // One side of the equation instanceof atomic
     //    if (atomicExp != null)
     //    {
-    //        // Check to see if the old equation is dually atomic as
+    //        // Check to see if the old equation instanceof dually atomic as
     //        // we will want to substitute the old eq into the new one
     //        int oldAtomic = oldEq.GetAtomicity();
     //        if (oldAtomic != Equation.BOTH_ATOMIC)
     //        {
     //            // Simple sub of new equation into old
-    //            cl = performEquationSubstitution(oldEq, newEq, atomicExp, otherSide);
-    //            if (cl.Value != null) newGrounded.add(cl);
+    //            cl = PerformEquationSubstitution(oldEq, newEq, atomicExp, otherSide);
+    //            if (cl.Value != null) deductions.add(cl);
 
     //            //
     //            // In the case where we have a situation of the form: A + B = C
     //            //                                                    A + B = D  -> C = D
     //            //
     //            // Perform a non-atomic substitution
-    //            cl = performNonAtomicEquationSubstitution(oldEq, newEq, otherSide, atomicExp);
-    //            if (cl.Value != null) newGrounded.add(cl);
+    //            cl = PerformNonAtomicEquationSubstitution(oldEq, newEq, otherSide, atomicExp);
+    //            if (cl.Value != null) deductions.add(cl);
     //        }
     //        else if (oldAtomic == Equation.BOTH_ATOMIC)
     //        {
     //            // Dual sub of old equation into new
-    //            cl = performEquationSubstitution(newEq, oldEq, oldEq.lhs, oldEq.rhs);
-    //            if (cl.Value != null) newGrounded.add(cl);
-    //            cl = performEquationSubstitution(newEq, oldEq, oldEq.rhs, oldEq.lhs);
-    //            if (cl.Value != null) newGrounded.add(cl);
+    //            cl = PerformEquationSubstitution(newEq, oldEq, oldEq.getLHS(), oldEq.getRHS());
+    //            if (cl.Value != null) deductions.add(cl);
+    //            cl = PerformEquationSubstitution(newEq, oldEq, oldEq.getRHS(), oldEq.getLHS());
+    //            if (cl.Value != null) deductions.add(cl);
     //        }
     //    }
     //    // The new equation has both sides atomic; try to sub : the other side
     //    else
     //    {
-    //        cl = performEquationSubstitution(oldEq, newEq, newEq.lhs, newEq.rhs);
-    //        if (cl.Value != null) newGrounded.add(cl);
-    //        cl = performEquationSubstitution(oldEq, newEq, newEq.rhs, newEq.lhs);
-    //        if (cl.Value != null) newGrounded.add(cl);
+    //        cl = PerformEquationSubstitution(oldEq, newEq, newEq.getLHS(), newEq.getRHS());
+    //        if (cl.Value != null) deductions.add(cl);
+    //        cl = PerformEquationSubstitution(oldEq, newEq, newEq.getRHS(), newEq.getLHS());
+    //        if (cl.Value != null) deductions.add(cl);
     //    }
 
-    //    return newGrounded;
+    //    return deductions;
     //}
 
     //
     // If both sides of the substituted equation are atomic and not Numeric Values, create a congruence relationship instead.
     //
-    private static GroundedClause handleCongruence(Equation simplified)
+    private static GroundedClause HandleCongruence(Equation simplified)
     {
         // Both sides must be atomic and multiplied by a factor of 1 for a proper congruence
+        if (simplified.getAtomicity() != Equation.BOTH_ATOMIC) return null;
 
-        //Why can't I access the variable BOTH_ATOMIC?  How do I reference it?
-        if (simplified.getAtomicity() != Equation.BOTH_ATOMIC) return null;         //HALP
+        if (!simplified.IsProperCongruence()) return null;
 
-        if (!simplified.isProperCongruence()) return null;
         // Then create a congruence, whether it be angle or segment
         Congruent newCongruent = null;
         if (simplified instanceof AlgebraicAngleEquation)
         {
             // Do not generate for lines; that is, 180^o angles
-            //if (((Angle)simplified.lhs).IsStraightAngle() && ((Angle)simplified.lhs).IsStraightAngle()) return null;
-            newCongruent = new AlgebraicCongruentAngles((Angle)simplified.lhs, (Angle)simplified.rhs);
+            //if (((Angle)simplified.getLHS()).IsStraightAngle() && ((Angle)simplified.getLHS()).IsStraightAngle()) return null;
+            newCongruent = new AlgebraicCongruentAngles((Angle)simplified.getLHS(), (Angle)simplified.getRHS());
         }
         else if (simplified instanceof AlgebraicSegmentEquation)
         {
-            newCongruent = new AlgebraicCongruentSegments((Segment)simplified.lhs, (Segment)simplified.rhs);
+            newCongruent = new AlgebraicCongruentSegments((Segment)simplified.getLHS(), (Segment)simplified.getRHS());
         }
         else if (simplified instanceof AlgebraicArcEquation)
         {
-            newCongruent = new AlgebraicCongruentArcs((Arc)simplified.lhs, (Arc)simplified.rhs);
+            newCongruent = new AlgebraicCongruentArcs((Arc)simplified.getLHS(), (Arc)simplified.getRHS());
         }
 
-        // There is no need to simplify a congruence, so just return
+        // There instanceof no need to simplify a congruence, so just return
         return newCongruent;
     }
 
     //
     // For generic generation of transitive congruent clauses
     //
-
-    //I have not a clue for this one...
-
-    //Original C# Signature
-    //private static List<EdgeAggregator> createCongruent<T>(T css, T geoCong, int numSharedExps) where T : Congruent
-    //Attempted Translation
-    private static <T extends Equation> List<EdgeAggregator> createCongruent(T css, T geoCong, int numSharedExps) 
+    private static ArrayList<Deduction> CreateCongruent<T>(T css, T geoCong, int numSharedExps)
     {
         {
+            ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
-            List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
-
-            //if (css.HasRelationPredecessor(geoCongSeg) || geoCongSeg.HasRelationPredecessor(css)) return newGrounded;
+            //if (css.HasRelationPredecessor(geoCongSeg) || geoCongSeg.HasRelationPredecessor(css)) return deductions;
 
             switch (numSharedExps)
             {
                 case 0:
-                    // Nothing is shared: do nothing
+                    // Nothing instanceof shared: do nothing
                     break;
 
                 case 1:
                     // Expected case to create a new congruence relationship
-                    return Congruent.createTransitiveCongruence(css, geoCong);
+                    return Congruent.CreateTransitiveCongruence(css, geoCong);
 
                 case 2:
-                    // This is either reflexive or the exact same congruence relationship (which shouldn't happen)
+                    // This instanceof either reflexive or the exact same congruence relationship (which shouldn't happen)
                     break;
 
                 default:
                     throw new Exception("Congruent Statements may only have 0, 1, or 2 common expressions; not, " + numSharedExps);
             }
 
-            return newGrounded;
+            return deductions;
         }
     }
 
-    private static int getEquationType(Equation eq)
+    private static int GetEquationType(Equation eq)
     {
         if (eq instanceof SegmentEquation) return SEGMENT_EQUATION;
         if (eq instanceof AngleEquation) return ANGLE_EQUATION;
@@ -1431,33 +1462,18 @@ public class TransitiveSubstitution extends Axiom
     //
     // Given two news sides for an equation, create the equation. If possible, create a congruence or a supplementary / complementary relationship
     //
-    private static GroundedClause constructNewEquation(int equationType, GroundedClause left, GroundedClause right)
+    private static GroundedClause ConstructNewEquation(int equationType, GroundedClause left, GroundedClause right)
     {
         //
         //Account for possibility that substitution may require a change : equation type between Angle, Arc, and AngleArc
         //
         if (equationType != SEGMENT_EQUATION)
         {
-            List<GroundedClause> terms = new List<GroundedClause>();
-            terms.addRange(left.collectTerms());
-            terms.addRange(right.collectTerms());
-
-            //I need a refresher on how any should work
-            boolean hasAngle = false;
-            for (GroundedClause gc : terms)
-                if (gc instanceof Angle)
-                {
-                    hasAngle = true;
-                    break;
-                }
-
-            boolean hasArc = false;
-            for (GroundedClause gc : terms)
-                if (gc instanceof Angle)
-                {
-                    hasAngle = true;
-                    break;
-                }
+            ArrayList<GroundedClause> terms = new ArrayList<GroundedClause>();
+            terms.addAll(left.collectTerms());
+            terms.addAll(right.collectTerms());
+            Boolean hasAngle = terms.Any(c => c instanceof Angle);
+            Boolean hasArc = terms.Any(c => c instanceof Arc);
             if (hasAngle && hasArc) equationType = ANGLE_ARC_EQUATION;
             else if (hasAngle) equationType = ANGLE_EQUATION;
             else if (hasArc) equationType = ARC_EQUATION;
@@ -1478,9 +1494,9 @@ public class TransitiveSubstitution extends Axiom
         else if (equationType == ARC_EQUATION)
         {
             //Do not try to relate arcs from non-congruent circles
-            Arc arc1 = (left instanceof Arc) ? (Arc) left : null;
-            Arc arc2 = (right instanceof Arc) ?  (Arc) right : null;
-            if (arc1 != null && arc2 != null && !utilities.compareValues(arc1.theCircle.radius, arc2.theCircle.radius)) return null;
+            Arc arc1 = (left instanceof Arc) ? (Arc)left : null;
+            Arc arc2 = (right instanceof Arc) ? (Arc)right : null;
+            if (arc1 != null && arc2 != null && !Utilities.CompareValues(arc1.getCircle().getRadius(), arc2.getCircle().getRadius())) return null;
 
             newEq = new AlgebraicArcEquation(left, right);
         }
@@ -1490,15 +1506,15 @@ public class TransitiveSubstitution extends Axiom
         }
 
         //
-        // simplify the equation
+        // Simplify the equation
         //
         Equation simplified = Simplification.simplify(newEq);
         if (simplified == null) return null;
-
+        
         //
         // Create a congruence relationship if it applies
         //
-        GroundedClause newCongruence = handleCongruence(simplified);
+        GroundedClause newCongruence = HandleCongruence(simplified);
         if (newCongruence != null) return newCongruence;
 
         //
@@ -1506,7 +1522,7 @@ public class TransitiveSubstitution extends Axiom
         //
         if (equationType == ANGLE_EQUATION)
         {
-            GroundedClause newRelation = handleAngleRelation(simplified);
+            GroundedClause newRelation = HandleAngleRelation(simplified);
             if (newRelation != null) return newRelation;
         }
 
@@ -1514,48 +1530,48 @@ public class TransitiveSubstitution extends Axiom
         return simplified;
     }
 
-
     //
     // Given an old and new set of angle measure equations substitute if possible.
     //
-    private static List<EdgeAggregator> createNewEquation(Equation oldEq, Equation newEq)
+    private static ArrayList<Deduction> CreateNewEquation(Equation oldEq, Equation newEq)
     {
-        List<EdgeAggregator> newGrounded = new ArrayList<EdgeAggregator>();
+        ArrayList<Deduction> deductions = new ArrayList<Deduction>();
 
         //Debug.WriteLine("Considering combining: " + oldEq + " + " + newEq);
 
         // Avoid redundant equation generation
-        //            if (oldEq.HasRelationPredecessor(newEq) || newEq.HasRelationPredecessor(oldEq)) return newGrounded;
+        //            if (oldEq.HasRelationPredecessor(newEq) || newEq.HasRelationPredecessor(oldEq)) return deductions;
 
-        // Determine if there is a direct, transitive relationship with the equations
-        newGrounded.addAll(performEquationTransitiviteSubstitution(oldEq, newEq));
+        // Determine if there instanceof a direct, transitive relationship with the equations
+        deductions.addAll(PerformEquationTransitiviteSubstitution(oldEq, newEq));
 
         // If we have an atomic situation, substitute into the other equation
-        //newGrounded.addRange(PerformEquationDirectSubstitution(oldEq, newEq));
+        //deductions.addAll(PerformEquationDirectSubstitution(oldEq, newEq));
 
-        return newGrounded;
+        return deductions;
     }
+
     //
     // add predecessors to the equations, congruence relationships, etc.
     //
-    private static void markPredecessors(List<EdgeAggregator> edges)
+    private static void MarkPredecessors(ArrayList<Deduction> edges)
     {
-        for (EdgeAggregator edge : edges)
+        for (Deduction edge : edges)
         {
             for (GroundedClause predNode : edge.getAntecedent())
             {
-                edge.consequent.addRelationPredecessor(predNode);
-                edge.consequent.addRelationPredecessors(predNode.getRelationPredecessors());
+                edge.getConsequent().addRelationPredecessor(predNode);
+                edge.getConsequent().addRelationPredecessors(predNode.getRelationPredecessors());
             }
         }
     }
 
     // Sets all of the deduced nodes to be purely algebraic: A + A -> A
-    private static List<EdgeAggregator> makePurelyAlgebraic(List<EdgeAggregator> edges)
+    private static ArrayList<Deduction> MakePurelyAlgebraic(ArrayList<Deduction> edges)
     {
-        for (EdgeAggregator edge : edges)
+        for (Deduction edge : edges)
         {
-            edge.consequent.makePurelyAlgebraic();
+            edge.getConsequent().makePurelyAlgebraic();
         }
 
         return edges;
@@ -1564,7 +1580,7 @@ public class TransitiveSubstitution extends Axiom
     //
     // Check equivalence of lists by verifying dual containment.
     //
-    private static boolean equalLists(List<GroundedClause> list1, List<GroundedClause> list2)
+    private static Boolean EqualLists(ArrayList<GroundedClause> list1, ArrayList<GroundedClause> list2)
     {
         for (GroundedClause val1 : list1)
         {
@@ -1582,163 +1598,162 @@ public class TransitiveSubstitution extends Axiom
     //
     // add the new grounded clause to the correct list.
     //
-
     private static void addToAppropriateList(GroundedClause c)
     {
         if (c instanceof GeometricCongruentSegments)
         {
-            geoCongSegments.add((GeometricCongruentSegments) c);
+            geoCongSegments.add((GeometricCongruentSegments)c);
         }
         else if (c instanceof GeometricSegmentEquation)
         {
-            geoSegmentEqs.add((GeometricSegmentEquation) c);
+            geoSegmentEqs.add((GeometricSegmentEquation)c);
         }
         else if (c instanceof GeometricCongruentAngles)
         {
-            geoCongAngles.add((GeometricCongruentAngles) c);
+            geoCongAngles.add((GeometricCongruentAngles)c);
         }
         else if (c instanceof GeometricAngleEquation)
         {
-            geoAngleEqs.add((GeometricAngleEquation) c);
+            geoAngleEqs.add((GeometricAngleEquation)c);
         }
         else if (c instanceof GeometricCongruentArcs)
         {
-            geoCongArcs.add((GeometricCongruentArcs) c);
+            geoCongArcs.add((GeometricCongruentArcs)c);
         }
         else if (c instanceof GeometricArcEquation)
         {
-            geoArcEqs.add((GeometricArcEquation) c);
+            geoArcEqs.add((GeometricArcEquation)c);
         }
         else if (c instanceof GeometricAngleArcEquation)
         {
-            geoAngleArcEqs.add((GeometricAngleArcEquation) c);
+            geoAngleArcEqs.add((GeometricAngleArcEquation)c);
         }
         else if (c instanceof AlgebraicSegmentEquation)
         {
-            algSegmentEqs.add((AlgebraicSegmentEquation) c);
+            algSegmentEqs.add((AlgebraicSegmentEquation)c);
         }
-        else if (AlgebraicAngleEquation)
+        else if (c instanceof AlgebraicAngleEquation)
         {
-            algAngleEqs.add((AlgebraicAngleEquation) c);
+            algAngleEqs.add((AlgebraicAngleEquation)c);
         }
         else if (c instanceof AlgebraicArcEquation)
         {
-            algArcEqs.add((AlgebraicArcEquation) c);
+            algArcEqs.add((AlgebraicArcEquation)c);
         }
         else if (c instanceof AlgebraicAngleArcEquation)
         {
-            algAngleArcEqs.add((AlgebraicAngleArcEquation) c);
+            algAngleArcEqs.add((AlgebraicAngleArcEquation)c);
         }
         else if (c instanceof AlgebraicCongruentSegments)
         {
-            algCongSegments.add((AlgebraicCongruentSegments) c);
+            algCongSegments.add((AlgebraicCongruentSegments)c);
         }
         else if (c instanceof AlgebraicCongruentAngles)
         {
-            algCongAngles.add((AlgebraicCongruentAngles) c);
+            algCongAngles.add((AlgebraicCongruentAngles)c);
         }
         else if (c instanceof AlgebraicCongruentArcs)
         {
-            algCongArcs.add((AlgebraicCongruentArcs) c);
+            algCongArcs.add((AlgebraicCongruentArcs)c);
         }
         else if (c instanceof SegmentRatio)
         {
-            propSegs.add((SegmentRatio) c);
+            propSegs.add((SegmentRatio)c);
         }
         //else if (c instanceof AlgebraicSegmentRatioEquation)
         //{
-        //    algPropSegs.add((AlgebraicSegmentRatioEquation) c);
+        //    algPropSegs.add(c as AlgebraicSegmentRatioEquation);
         //}
         else if (c instanceof GeometricProportionalAngles)
         {
-            geoPropAngs.add((GeometricProportionalAngles) c);
+            geoPropAngs.add((GeometricProportionalAngles)c);
         }
         else if (c instanceof AlgebraicProportionalAngles)
         {
-            algPropAngs.add((AlgebraicProportionalAngles) c);
+            algPropAngs.add((AlgebraicProportionalAngles)c);
         }
     }
 
     //
     // add the new grounded clause to the correct list.
     //
-    private static boolean clauseHasBeenDeduced(GroundedClause c)
+    private static Boolean ClauseHasBeenDeduced(GroundedClause c)
     {
         if (c instanceof GeometricCongruentSegments)
         {
-            return geoCongSegments.contains((GeometricCongruentSegments) c);
+            return geoCongSegments.contains((GeometricCongruentSegments)c);
         }
         else if (c instanceof GeometricSegmentEquation)
         {
-            return geoSegmentEqs.contains((GeometricSegmentEquation) c);
+            return geoSegmentEqs.contains((GeometricSegmentEquation)c);
         }
         else if (c instanceof GeometricCongruentAngles)
         {
-            return geoCongAngles.contains((GeometricCongruentAngles) c);
+            return geoCongAngles.contains((GeometricCongruentAngles)c);
         }
         else if (c instanceof GeometricAngleEquation)
         {
-            return geoAngleEqs.contains((GeometricAngleEquation) c);
+            return geoAngleEqs.contains((GeometricAngleEquation)c);
         }
         else if (c instanceof GeometricCongruentArcs)
         {
-            return geoCongArcs.contains((GeometricCongruentArcs) c);
+            return geoCongArcs.contains((GeometricCongruentArcs)c);
         }
         else if (c instanceof GeometricArcEquation)
         {
-            return geoArcEqs.contains((GeometricArcEquation) c);
+            return geoArcEqs.contains((GeometricArcEquation)c);
         }
         else if (c instanceof GeometricAngleArcEquation)
         {
-            return geoAngleArcEqs.contains((GeometricAngleArcEquation) c);
+            return geoAngleArcEqs.contains((GeometricAngleArcEquation)c);
         }
         else if (c instanceof AlgebraicSegmentEquation)
         {
-            return algSegmentEqs.contains((AlgebraicSegmentEquation) c);
+            return algSegmentEqs.contains((AlgebraicSegmentEquation)c);
         }
         else if (c instanceof AlgebraicAngleEquation)
         {
-            return algAngleEqs.contains((AlgebraicAngleEquation) c);
+            return algAngleEqs.contains((AlgebraicAngleEquation)c);
         }
         else if (c instanceof AlgebraicArcEquation)
         {
-            return algArcEqs.contains((AlgebraicArcEquation) c);
+            return algArcEqs.contains((AlgebraicArcEquation)c);
         }
         else if (c instanceof AlgebraicAngleArcEquation)
         {
-            return algAngleArcEqs.contains((AlgebraicAngleArcEquation) c);
+            return algAngleArcEqs.contains((AlgebraicAngleArcEquation)c);
         }
         else if (c instanceof AlgebraicCongruentSegments)
         {
-            return algCongSegments.contains((AlgebraicCongruentSegments) c);
+            return algCongSegments.contains((AlgebraicCongruentSegments)c);
         }
         else if (c instanceof AlgebraicCongruentAngles)
         {
-            return algCongAngles.contains((AlgebraicCongruentAngles) c);
+            return algCongAngles.contains((AlgebraicCongruentAngles)c);
         }
         else if (c instanceof AlgebraicCongruentArcs)
         {
-            return algCongArcs.contains((AlgebraicCongruentArcs) c);
+            return algCongArcs.contains((AlgebraicCongruentArcs)c);
         }
         else if (c instanceof GeometricSegmentRatioEquation)
         {
-            return propSegs.contains((SegmentRatio) c);
+            return propSegs.contains((SegmentRatio)c);
         }
         //else if (c instanceof AlgebraicSegmentRatioEquation)
         //{
-        //    return algPropSegs.contains((AlgebraicSegmentRatioEquation) c);
+        //    return algPropSegs.Contains(c as AlgebraicSegmentRatioEquation);
         //}
         else if (c instanceof GeometricProportionalAngles)
         {
-            return geoPropAngs.contains((GeometricProportionalAngles) c);
+            return geoPropAngs.contains((GeometricProportionalAngles)c);
         }
         else if (c instanceof AlgebraicProportionalAngles)
         {
-            return algPropAngs.contains((AlgebraicProportionalAngles) c);
+            return algPropAngs.contains((AlgebraicProportionalAngles)c);
         }
 
         return false;
     }
-    */
+
 
 }
