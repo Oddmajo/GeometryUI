@@ -77,9 +77,17 @@ public class Triangle extends Polygon
     //    private ArrayList<Triangle> congruencePairs() { return congruencePairs; }
     //    private ArrayList<Triangle> similarPairs() { return similarPairs; }
 
-    public Triangle(Segment ... segs) { setTriangle(segs[0], segs[1], segs[2]); }
+    public Triangle(Segment ... segs) 
+    {
+        super(segs[0],segs[1],segs[2]);
+        setTriangle(segs[0], segs[1], segs[2]);
+    }
 
-    public Triangle(Point ... pts) { setTriangle(pts[0], pts[1], pts[2]); }
+    public Triangle(Point ... pts)
+    {
+        super(new Segment(pts[0],pts[1]), new Segment(pts[1],pts[2]), new Segment(pts[0],pts[2]));
+        setTriangle(pts[0], pts[1], pts[2]); 
+    }
 
     //public Triangle(List<Point> points) { setTriangle(points.get(0), points.get(1), points.get(2)); }
 
@@ -907,8 +915,16 @@ public class Triangle extends Polygon
     public boolean CoordinateSimilar(Triangle thatTriangle)
     {
         ArrayList<Boolean> congruentAngle = new ArrayList<Boolean>();
-        ArrayList<Angle> thisAngles = this.angles;
-        ArrayList<Angle> thatAngles = thatTriangle.angles;
+        ArrayList<Angle> thisAngles = new ArrayList<Angle>();//this.angles;
+        ArrayList<Angle> thatAngles = new ArrayList<Angle>();//thatTriangle.angles;
+        
+        thatAngles.add(thatTriangle._angleA);
+        thatAngles.add(thatTriangle._angleB);
+        thatAngles.add(thatTriangle._angleC);
+        
+        thisAngles.add(_angleA);
+        thisAngles.add(_angleB);
+        thisAngles.add(_angleC);
         
         if(thisAngles == null)
             System.out.println("thisAngles is null");

@@ -60,7 +60,7 @@ public class FactComputer
 {
     //should i even need this since we have all points in the point factory?
     private ArrayList<Point> points;
-    private ArrayList<Strengthened> strengthens;
+    private ArrayList<Strengthened> strengthens; //I believe this is an old concept and should be deleted
     private ArrayList<Circle> circles;
     private ArrayList<Arc> arcs;
     private ArrayList<Segment> segments;
@@ -147,11 +147,47 @@ public class FactComputer
         strengthens = new ArrayList<Strengthened>();
         initializeLists();
         
-        circles = c;
-        arcs = a;
-        segments = s;
-        points = p; //do we need?
-        sectors = sec;
+        if(c!=null)
+        {
+            circles = c;
+        }
+        else
+        {
+            circles = new ArrayList<Circle>();
+        }
+        if(a!=null)
+        {
+            arcs = a;
+        }
+        else
+        {
+            arcs = new ArrayList<Arc>();
+        }
+        if(s!=null)
+        {
+            segments = s;
+        }
+        else
+        {
+            segments = new ArrayList<Segment>();
+        }
+        if(p!=null)
+        {
+            points = p; //do we need?
+        }
+        else
+        {
+            points = new ArrayList<Point>(); //my question is how do we not have points at this stage?????
+        }
+        if(sec!=null)
+        {
+            sectors = sec;
+        }
+        else
+        {
+            sectors = new ArrayList<Sector>();
+        }
+            
         //graph = new QueryableHypergraph();
         calc = new PolygonCalculator(segments);
         polygons = calc.GetPolygons();
@@ -417,8 +453,6 @@ public class FactComputer
         {
             for(int t2 = t1 +1; t2 < triangles.size(); t2++)
             {
-                System.out.println(triangles.get(t1).toString());
-                System.out.println(triangles.get(t2).toString());
                 Pair<Triangle,Triangle> corresponding = triangles.get(t1).CoordinateCongruent(triangles.get(t2));
                 if(corresponding.getKey() != null && corresponding.getValue() != null)
                 {
@@ -433,8 +467,7 @@ public class FactComputer
         
         
         
-        //WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //THIS IS UNTESTED. IT SEEMS TO ONLY COMPILE IF I TAKE OUT THE TEMPLATE PARAMETER
+        
 //        //Arc congruences
 //        CalculateArcCongruences(minorArcs);
 //        CalculateArcCongruences(majorArcs);
@@ -459,6 +492,24 @@ public class FactComputer
                     altitudes.add(new Altitude(tri,segment));
                 }
             }
+            for(Strengthened s : Triangle.canBeStrengthened(tri))
+            {
+                if(s.getStrengthened() instanceof IsoscelesTriangle)
+                {
+                    strengthIsoscelesTriangles.add(s);
+                    isoscelesTriangles.add((IsoscelesTriangle)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof EquilateralTriangle)
+                {
+                    strengthEquilateralTriangles.add(s);
+                    equilateralTriangles.add((EquilateralTriangle)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof RightTriangle)
+                {
+                    strengthRightTriangles.add(s);
+                    rightTriangles.add((RightTriangle)s.getStrengthened());
+                }
+            }
         }
         
         //calculate ande bisectors
@@ -475,6 +526,54 @@ public class FactComputer
                     }
                 }
             }
+        }
+        
+        for(Quadrilateral quad : quadrilaterals)
+        {
+            for(Strengthened s : Quadrilateral.CanBeStrengthened(quad))
+            {
+                if(s.getStrengthened() instanceof Kite)
+                {
+                    strengthKites.add(s);
+                    kites.add((Kite)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof Rectangle)
+                {
+                    strengthRectangles.add(s);
+                    rectangles.add((Rectangle)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof Square)
+                {
+                    strengthSquares.add(s);
+                    squares.add((Square)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof Parallelogram)
+                {
+                    strengthParallelograms.add(s);
+                    parallelograms.add((Parallelogram)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof Trapezoid)
+                {
+                    strengthTrapezoids.add(s);
+                    trapezoids.add((Trapezoid)s.getStrengthened());
+                }
+               
+                else if(s.getStrengthened() instanceof Rhombus)
+                {
+                    strengthRhombuses.add(s);
+                    rhombuses.add((Rhombus)s.getStrengthened());
+                }
+                else if(s.getStrengthened() instanceof IsoscelesTrapezoid)
+                {
+                    strengthIsoscelesTrapezoids.add(s);
+                    isoscelesTrapezoids.add((IsoscelesTrapezoid)s.getStrengthened());
+                }
+            }
+        }
+        
+        for(Triangle t : triangles)
+        {
+            
         }
         
         //Dumping the relations
@@ -638,17 +737,14 @@ public class FactComputer
                 {
                     if(p instanceof Triangle)
                     {
-                        System.out.println("adding a triangle");
                         triangles.add((Triangle)p);
                     }
                     else if(p instanceof Quadrilateral)
                     {
-                        System.out.println("adding a quadrilateral");
                         quadrilaterals.add((Quadrilateral)p);
                     }
                     else if(p instanceof ConcavePolygon)
                     {
-                        System.out.println("adding a concave polygon");
                         concavePolygons.add((ConcavePolygon)p);
                     }
                 }
