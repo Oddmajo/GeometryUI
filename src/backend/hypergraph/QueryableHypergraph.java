@@ -19,9 +19,18 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentArcs;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentArcs;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentSegments;
+import backend.ast.Descriptors.Relations.Proportionalities.AlgebraicProportionalAngles;
+import backend.ast.Descriptors.Relations.Proportionalities.GeometricProportionalAngles;
+import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
@@ -1502,5 +1511,107 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     public Set<SegmentRatioEquation> getSegmentRatioEquations()
     {
         return _segmentRatioEquations;
+    }
+
+    public HashSet<GeometricCongruentSegments> getGeometricCongruentSegments()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricCongruentAngles> getGeomtricCongruentAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricCongruentArcs> getGeometricCongruentArcs()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicCongruentSegments> getAlgebraicCongruentSegments()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicCongruentAngles> getAlgebraicCongruentAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicCongruentArcs> getAlgebraicCogruentArcs()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricSegmentEquation> getGeometricSegmentEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicSegmentEquation> getAlgebraicSegmentEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicAngleEquation> getAlgebraicAngleEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricAngleEquation> getGeometricAngleEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricArcEquation> getGeomtricArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicArcEquation> getAlgebraicArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricAngleArcEquation> getGeometricAngleArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicAngleArcEquation> getAlgebraicAngleArcEquations()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<SegmentRatio> getSegmentRatios()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricProportionalAngles> getGeometricProportionalAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicProportionalAngles> getAlgebraicProportionalAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

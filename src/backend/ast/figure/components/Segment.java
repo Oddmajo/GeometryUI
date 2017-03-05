@@ -151,6 +151,17 @@ public class Segment extends DimensionalLength
      * @return true / false if the two lines (infinite) are collinear
      */
     public boolean isCollinearWith(Segment that) { return LineDelegate.areCollinear(this, that); }
+    
+    /**
+     * 
+     * @param that -- another segment
+     * @return true / false if the two lines are collinear but do not touch
+     *       A     B
+     *       __    __
+     *      |  |__|  |
+     *      |________|
+     */
+    public boolean isCollinearWithoutOverlap(Segment that) { return !LineDelegate.areCollinear(this, that) && LineDelegate.collinear(this, that); }
 
     /*
      * @param that -- another segment

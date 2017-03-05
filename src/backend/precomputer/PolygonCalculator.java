@@ -211,7 +211,7 @@ public class PolygonCalculator
                         //
                         if (segments.get(s1).sharedVertex(segments.get(s2)) == null)
                         {
-                            if (segments.get(s1).coincideWithoutOverlap(segments.get(s2)))
+                            if (segments.get(s1).isCollinearWithoutOverlap(((((segments.get(s2)))))))
                             {
                                 eligible[s1][s2] = true;
                                 eligible[s2][s1] = true;

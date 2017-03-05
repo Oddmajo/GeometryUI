@@ -41,7 +41,7 @@ import backend.utilities.translation.OutSingle;
 
 public class Polygon extends Shape
 {
-    public static final int MAX_POLYGON_SIDES = 6;
+    public static final int MAX_POLYGON_SIDES = 8;
 
     //
     // Indices to access a polygon array container

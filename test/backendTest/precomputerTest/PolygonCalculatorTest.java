@@ -199,7 +199,7 @@ public class PolygonCalculatorTest
         PolygonCalculator pc = new PolygonCalculator(segs);
         ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
         System.out.println("Coinciding Test:  " + polys );
-        assertTrue(polys.get(1).size() == 1);
+        assertTrue(polys.get(5).size() == 1);
     }
     
 
@@ -355,7 +355,8 @@ public class PolygonCalculatorTest
 
         System.out.println("Not Failed Polygon Bug: " + polys3);
 
-        
+        assertTrue(polys3.get(0).size() == 0);
+        assertTrue(polys3.get(2).size() == 0);
         System.out.println("done\n");
     }
     
@@ -456,7 +457,8 @@ public class PolygonCalculatorTest
         assertTrue(polys3.get(1).size() == 3);
         assertTrue(polys3.get(2).size() == 6);
         assertTrue(polys3.get(3).size() == 0);
-        
+        assertTrue(polys3.get(4).size() == 0);
+        assertTrue(polys3.get(5).size() == 0);
 //        System.out.println("Only Long segments: " +  polys);
 //        System.out.println("Only Short segments: " + polys2);
         
