@@ -19,15 +19,18 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.SimilarTriangles;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentArcs;
 import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentSegments;
+import backend.ast.Descriptors.Relations.Congruences.AlgebraicCongruentTriangles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentArcs;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentSegments;
+import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.AlgebraicProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
@@ -1610,6 +1613,24 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     }
 
     public HashSet<AlgebraicProportionalAngles> getAlgebraicProportionalAngles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<SimilarTriangles> getSimilarTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<GeometricCongruentTriangles> getGeometricCongruentTriangles()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public HashSet<AlgebraicCongruentTriangles> getAlgebraicCongruentTriangles()
     {
         // TODO Auto-generated method stub
         return null;
