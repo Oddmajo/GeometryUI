@@ -78,4 +78,20 @@ public class Deduction
         //
         return _antecedent.equals(that._antecedent);
     }
+    
+    // toString method
+    @Override
+    public String toString()
+    {
+        String output = "{";
+        
+        output += _annotation + ": From ";
+        for (GroundedClause a : _antecedent)
+        {
+            output += a + ", ";
+        }
+        output += "To " + _consequent + "}";
+        
+        return output;
+    }
 }

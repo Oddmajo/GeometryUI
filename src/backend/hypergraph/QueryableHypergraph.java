@@ -67,7 +67,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     // number of nodes
     protected int _nodeCount;
     public int getNodeCount() { return _nodeCount; }
-    
+
     // number of edges
     protected int _edgeCount;
     public int getEdgeCount() { return _edgeCount; }
@@ -75,7 +75,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     public QueryableHypergraph()
     {
         super();
-        
+
         _nodeCount = 0;
         _edgeCount = 0;
         initQueryContainers();
@@ -87,6 +87,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     //      (1) add a node to the hypergraph like normal.
     //      (2) add the node to the appropriate queryable containers (for fast access)
     //
+    @SuppressWarnings("unchecked")
     @Override
     public boolean addNode(T data)
     {
@@ -101,7 +102,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             _nodeCount++;
 
             // Add to the proper queryable containers
-            addToQueryableContainers(data);
+            addToQueryableContainers((T) clauseData);
 
             return true;
         }
@@ -407,12 +408,26 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof InMiddle)
         {
-            for (InMiddle im : _inMiddles)
+            if (data instanceof Midpoint)
             {
-                if (data.structurallyEquals(im))
+                for (Midpoint m : _midpoints)
                 {
-                    target = im;
-                    break;
+                    if (data.structurallyEquals(m))
+                    {
+                        target = m;
+                        break;
+                    }
+                }
+            }
+            else // all InMiddles
+            {
+                for (InMiddle im : _inMiddles)
+                {
+                    if (data.structurallyEquals(im))
+                    {
+                        target = im;
+                        break;
+                    }
                 }
             }
         }
@@ -599,17 +614,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         // 
         // Descriptors
         //
-        else if (data instanceof Midpoint)
-        {
-            for (Midpoint m : _midpoints)
-            {
-                if (data.structurallyEquals(m))
-                {
-                    target = m;
-                    break;
-                }
-            }
-        }
 
         //
         // Handle all equation types
@@ -632,10 +636,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             }
             else // TODO: equation handler 
             {
-//                if (data.structurallyEquals(_equationHandler))
-//                {
-//                    target = _equationHandler;
-//                }
+                //                if (data.structurallyEquals(_equationHandler))
+                //                {
+                //                    target = _equationHandler;
+                //                }
             }
         }
         else if (data instanceof SegmentRatioEquation)
@@ -661,10 +665,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 sourceIDs.add(source.getID());
             }
-            
+
             // create a hyperedge
             Hyperedge<Annotation> newEdge = new Hyperedge<Annotation>(sourceIDs, targetID, d.getAnnotation());
-            
+
             // add hyperedge to the QHG
             if (!super.addEdge((Hyperedge<A>) newEdge))
             {
@@ -687,23 +691,26 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
 
     }
-    
+
     //
     // multiple edge addition
     //
     // @author Drew Whitmire
     public boolean addAllEdges(Set<Deduction> deductions)
     {
+        System.out.println("QHG: in addAllEdges");
         // add each deduction as hyperedge
         for (Deduction d : deductions)
         {
+            System.out.println("QHG: Attempting to add edge");
             // if the edge is unsuccessfully added, return false
             if (!addEdge(d))
             {
+                System.out.println("QHG: Failed to add edge");
                 return false;
             }
         }
-        
+
         // all edges successfully added
         return true;
     }
@@ -1041,6 +1048,11 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else if (data instanceof InMiddle)
         {
             _inMiddles.add((InMiddle) data);
+
+            if (data instanceof Midpoint)
+            {
+                _midpoints.add((Midpoint) data);
+            }
         }
         else if (data instanceof Median)
         {
@@ -1112,18 +1124,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 _majorArcs.add((MajorArc)data);
             }
         }
-        else if (data instanceof Midpoint)
-        {
-            _midpoints.add((Midpoint)data);
-        }
 
         //
         // Descriptors
         //
-        else if (data instanceof Midpoint)
-        {
-            _midpoints.add((Midpoint) data);
-        }
 
         //
         // Handle all equation types

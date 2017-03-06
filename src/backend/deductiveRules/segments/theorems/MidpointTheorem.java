@@ -51,6 +51,7 @@ public class MidpointTheorem extends Theorem
 
         // Acquire all Midpoint clauses from the hypergraph
         Set<Midpoint> midpoints = _qhg.getMidpoints();
+        System.out.println("Midpoint Theorem: midpoints = " + midpoints.toString());
                 
         for (Midpoint midpt : midpoints)
         {
@@ -58,6 +59,7 @@ public class MidpointTheorem extends Theorem
             
             if (returned.size() != 2)
             {
+                System.out.println("MidpointTheorem: expect 2 deduced clauses.");
                 // LoggerFactory.getLogger(LoggerFactory.HYPERGRAPH_EDGE_CONSTRUCTION).writeln(NAME + ": Expect 2 deduced clauses.");
                 ExceptionHandler.throwException(NAME + ": Expect 2 deduced clauses.");
             }
@@ -109,8 +111,12 @@ public class MidpointTheorem extends Theorem
         Multiplication product2 = new Multiplication(new NumericValue(2), new Segment(midpt.getPoint(), midpt.getSegment().getPoint2()));
 
         // 2X = AB
+        // TODO: these do not work @author Drew W
         SegmentEquation hgEq1 = _qhg.getSegmentEquation(new GeometricSegmentEquation(product1, midpt.getSegment()));
         SegmentEquation hgEq2 = _qhg.getSegmentEquation(new GeometricSegmentEquation(product2, midpt.getSegment()));
+        
+        System.out.println("MidpointTheorem: hgEq1 = " + hgEq1);
+        System.out.println("MidpointTheorem: hgEq2 = " + hgEq2);
 
         // For hypergraph
         Deduction d1 = new Deduction(original, hgEq1, ANNOTATION);
