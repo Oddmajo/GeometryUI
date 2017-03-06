@@ -79,6 +79,9 @@ public class MidpointTest
         qhg.addAllEdges(deductions.getDeductions());
         
         // check number of edges
+        System.out.println("Number of edges: " + qhg.getEdgeCount());
+        System.out.println("Number of nodes: " + qhg.getNodeCount());
+        System.out.println(qhg.toString());
         return qhg.getEdgeCount() == expected;
     }
 

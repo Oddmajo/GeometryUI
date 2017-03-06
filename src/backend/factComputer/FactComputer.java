@@ -13,6 +13,7 @@ import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
+import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
@@ -88,6 +89,7 @@ public class FactComputer
     private ArrayList<Strengthened> strengthPerpBisectors;
     
     private ArrayList<InMiddle> inMiddles;
+    private ArrayList<Midpoint> midPoints;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
@@ -193,6 +195,7 @@ public class FactComputer
         polygons = calc.GetPolygons();
         setFigures();
         CalculateRelations();
+        CalculateStrengthening();
         setContainer();
     }    
     
@@ -204,64 +207,65 @@ public class FactComputer
     //sets all the lists in the FactComputerContainer so it can be returned
     private void setContainer()
     {
-//        container.setAltitudes(altitudes);
-//        container.setAngleBisectors(angleBisectors);
-//        container.setAngleEquations(angleEquations);
-//        container.setAnglePairRelations(anglePairRelations);
-//        container.setAngles(angles);
-//        container.setArcs(arcs);
-//        container.setCircles(circles);
-//        container.setCollinears(collinears);
-//        container.setComplementaryAngles(complementaryAngles);
-//        container.setConcavePolygons(concavePolygons);
-//        container.setCongruentAngles(congruentAngles);
-//        container.setCongruentArcs(congruentArcs);
-//        container.setCongruentCircles(congruentCircles);
-//        container.setCongruentSegments(congruentSegments);
-//        container.setCongruentTriangles(congruentTriangles);
-//        container.setEquilateralTriangles(equilateralTriangles);
-//        container.setInMiddles(inMiddles);
-//        container.setIntersections(intersections);
-//        container.setIsoscelesTrapezoids(isoscelesTrapezoids);
-//        container.setIsoscelesTriangles(isoscelesTriangles);
-//        container.setKites(kites);
-//        container.setMedians(medians);
-//        container.setParallelograms(parallelograms);
-//        container.setParallels(parallels);
-//        container.setPerpBisectors(perpBisectors);
-//        container.setPerpendiculars(perpendiculars);
-//        container.setPoints(points);
-//        container.setProportionalAngles(proportionalAngles);
-//        container.setQuadrilaterals(quadrilaterals);
-//        container.setRectangles(rectangles);
-//        container.setRhombuses(rhombuses);
-//        container.setRightAngles(rightAngles);
-//        container.setRightTriangles(rightTriangles);
-//        container.setSectors(sectors);
-//        container.setSegmentBisectors(segmentBisectors);
-//        container.setSegmentRatios(segmentRatios);
-//        container.setSegments(segments);
-//        container.setSimilarTriangles(similarTriangles);
-//        container.setSquares(squares);
-//        container.setStrengthAngleEquations(strengthAngleEquations);
-//        container.setStrengthenedPerps(strengthenedPerps);
-//        container.setStrengthens(strengthens); // I think this is old and needs to be removed
-//        container.setStrengthEquilateralTriangles(strengthEquilateralTriangles);
-//        container.setStrengthIsoscelesTrapezoids(strengthIsoscelesTrapezoids);
-//        container.setStrengthIsoscelesTriangles(strengthIsoscelesTriangles);
-//        container.setStrengthKites(strengthKites);
-//        container.setStrengthParallelograms(strengthParallelograms);
-//        container.setStrengthPerpBisectors(strengthPerpBisectors);
-//        container.setStrengthRectangles(strengthRectangles);
-//        container.setStrengthRhombuses(strengthRhombuses);
-//        container.setStrengthRightAngles(strengthRightAngles);
-//        container.setStrengthRightTriangles(strengthRightTriangles);
-//        container.setStrengthSegmentBisectors(strengthSegmentBisectors);
-//        container.setStrengthSquares(strengthSquares);
-//        container.setStrengthTrapezoids(strengthTrapezoids);
-//        container.setSupplementaryAngles(supplementaryAngles);
-//        container.setTrapezoids(trapezoids);
-//        container.setTriangles(triangles);
+        container.setAltitudes(altitudes);
+        container.setAngleBisectors(angleBisectors);
+        container.setAngleEquations(angleEquations);
+        container.setAnglePairRelations(anglePairRelations);
+        container.setAngles(angles);
+        container.setArcs(arcs);
+        container.setCircles(circles);
+        container.setCollinears(collinears);
+        container.setComplementaryAngles(complementaryAngles);
+        container.setConcavePolygons(concavePolygons);
+        container.setCongruentAngles(congruentAngles);
+        container.setCongruentArcs(congruentArcs);
+        container.setCongruentCircles(congruentCircles);
+        container.setCongruentSegments(congruentSegments);
+        container.setCongruentTriangles(congruentTriangles);
+        container.setEquilateralTriangles(equilateralTriangles);
+        container.setInMiddles(inMiddles);
+        container.setIntersections(intersections);
+        container.setIsoscelesTrapezoids(isoscelesTrapezoids);
+        container.setIsoscelesTriangles(isoscelesTriangles);
+        container.setKites(kites);
+        container.setMedians(medians);
+        container.setMidPoints(midPoints);
+        container.setParallelograms(parallelograms);
+        container.setParallels(parallels);
+        container.setPerpBisectors(perpBisectors);
+        container.setPerpendiculars(perpendiculars);
+        container.setPoints(points);
+        container.setProportionalAngles(proportionalAngles);
+        container.setQuadrilaterals(quadrilaterals);
+        container.setRectangles(rectangles);
+        container.setRhombuses(rhombuses);
+        container.setRightAngles(rightAngles);
+        container.setRightTriangles(rightTriangles);
+        container.setSectors(sectors);
+        container.setSegmentBisectors(segmentBisectors);
+        container.setSegmentRatios(segmentRatios);
+        container.setSegments(segments);
+        container.setSimilarTriangles(similarTriangles);
+        container.setSquares(squares);
+        container.setStrengthAngleEquations(strengthAngleEquations);
+        container.setStrengthenedPerps(strengthenedPerps);
+        //container.setStrengthens(strengthens); // I think this is old and needs to be removed
+        container.setStrengthEquilateralTriangles(strengthEquilateralTriangles);
+        container.setStrengthIsoscelesTrapezoids(strengthIsoscelesTrapezoids);
+        container.setStrengthIsoscelesTriangles(strengthIsoscelesTriangles);
+        container.setStrengthKites(strengthKites);
+        container.setStrengthParallelograms(strengthParallelograms);
+        container.setStrengthPerpBisectors(strengthPerpBisectors);
+        container.setStrengthRectangles(strengthRectangles);
+        container.setStrengthRhombuses(strengthRhombuses);
+        container.setStrengthRightAngles(strengthRightAngles);
+        container.setStrengthRightTriangles(strengthRightTriangles);
+        container.setStrengthSegmentBisectors(strengthSegmentBisectors);
+        container.setStrengthSquares(strengthSquares);
+        container.setStrengthTrapezoids(strengthTrapezoids);
+        container.setSupplementaryAngles(supplementaryAngles);
+        container.setTrapezoids(trapezoids);
+        container.setTriangles(triangles);
     }
     private void initializeLists()
     {
@@ -292,6 +296,7 @@ public class FactComputer
         strengthPerpBisectors = new ArrayList<Strengthened>();
         
         inMiddles = new ArrayList<InMiddle>();
+        midPoints = new ArrayList<Midpoint>();
         medians = new ArrayList<Median>();
         segmentBisectors = new ArrayList<SegmentBisector>();
         strengthSegmentBisectors = new ArrayList<Strengthened>();
@@ -345,6 +350,13 @@ public class FactComputer
         //Segment, Parallel, and Perpendicular, and congruences
         for(int s1 = 0; s1 < segments.size(); s1++)
         {
+            for(Point p : points)
+            {
+                if(segments.get(s1).pointLiesBetweenEndpoints(p))
+                {
+                    inMiddles.add(new InMiddle(p,segments.get(s1)));
+                }
+            }
             for(int s2 = s1 + 1; s2 < segments.size(); s2++)
             {
                 //Congruence
@@ -528,6 +540,9 @@ public class FactComputer
             }
         }
         
+        //
+        // Can a quadrilateral be strenghtened? Quad -> trapezoid, Quad -> Parallelogram?, etc.
+        //
         for(Quadrilateral quad : quadrilaterals)
         {
             for(Strengthened s : Quadrilateral.CanBeStrengthened(quad))
@@ -571,10 +586,7 @@ public class FactComputer
             }
         }
         
-        for(Triangle t : triangles)
-        {
-            
-        }
+
         
         //Dumping the relations
         if(Utilities.DEBUG)
@@ -613,76 +625,16 @@ public class FactComputer
         return strengthened;
     }
     
-    //need to calculate and then split them accordingly
+    //old concept that I have kinda changed. This should just be merged with calculate relations
     public void CalculateStrengthening()
-    {
-        //
-        // Can a quadrilateral be strenghtened? Quad -> trapezoid, Quad -> Parallelogram?, etc.
-        //
-        for(Quadrilateral quad : quadrilaterals)
-        {
-            //strengthened.addAll(Quadrilateral.CanBeStrengthened(quad));
-            for(Strengthened obj : Quadrilateral.CanBeStrengthened(quad))
-            {
-                if(obj.getStrengthened() instanceof Parallelogram)
-                {
-                    strengthParallelograms.add(obj);
-                    parallelograms.add((Parallelogram)obj.getStrengthened());
-                }
-                else if(obj.getStrengthened() instanceof Rectangle)
-                {
-                    strengthRectangles.add(obj);
-                    rectangles.add((Rectangle)obj.getStrengthened());
-                }
-                else if(obj.getStrengthened() instanceof Rhombus)
-                {
-                    strengthRhombuses.add(obj);
-                    rhombuses.add((Rhombus)obj.getStrengthened());
-                }
-                else if(obj.getStrengthened() instanceof Square)
-                {
-                    strengthSquares.add(obj);
-                    squares.add((Square)obj.getStrengthened());
-                }
-            }
-        }
-        
-        //can a triangle be strengthened? scalene -> isosceles -> equilateral?
-        for(Triangle t : triangles)
-        {
-            //strengthened.addAll(Triangle.canBeStrengthened(t));
-            for(Strengthened obj : Triangle.canBeStrengthened(t))
-            {
-                if(obj.getStrengthened() instanceof RightTriangle)
-                {
-                    strengthRightTriangles.add(obj);
-                    rightTriangles.add((RightTriangle)obj.getStrengthened());
-                }
-                else if(obj.getStrengthened() instanceof EquilateralTriangle)
-                {
-                    strengthEquilateralTriangles.add(obj);
-                    equilateralTriangles.add((EquilateralTriangle)obj.getStrengthened());
-                }
-                else if(obj.getStrengthened() instanceof IsoscelesTriangle)
-                {
-                    strengthIsoscelesTriangles.add(obj);
-                    isoscelesTriangles.add((IsoscelesTriangle)obj.getStrengthened());
-                }
-                
-            }
-        }
-        
-        
-        
-        
-        //This needs to be changed to new Lists
+    {   
         //can an inMiddle relationship be classified as a midpoint?
         for(InMiddle im : inMiddles)
         {
             Strengthened s = im.canBeStrengthened();
             if(s!=null)
             {
-                strengthened.add(s);
+                midPoints.add((Midpoint)s.getStrengthened());
             }
         }
         
@@ -713,22 +665,6 @@ public class FactComputer
     
     public void setFigures()
     {
-//        for(ArrayList<Polygon> list: polygons)
-//        {
-//            System.out.println(list.toString());
-//        }
-//        for(Segment s : segments)
-//        {
-//            System.out.println(s.toPrettyString());
-//        }
-//        for(Point p : points)
-//        {
-//            System.out.println(p.toString());
-//        }
-//        for(InMiddle m: inMiddles)
-//        {
-//            System.out.println(" here" + m.toString());
-//        }
         for(ArrayList<Polygon> list: polygons)
         {
             for(Polygon p : list)

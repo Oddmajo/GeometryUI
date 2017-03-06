@@ -32,14 +32,6 @@ public class Main
         test.premade_Triangles();
         s = test.getSegments();
         p = test.getPoints();
-//        for(Segment segs: s)
-//        {
-//            System.out.println(segs.toString());
-//        }
-//        for(Point po : p)
-//        {
-//            System.out.println(po.toString());
-//        }
         try
         {
             LoggerFactory.initialize();

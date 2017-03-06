@@ -12,6 +12,7 @@ import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.Median;
+import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
@@ -51,7 +52,7 @@ import backend.symbolicAlgebra.equations.AngleEquation;
 public class FactComputerContainer
 {
     private ArrayList<Point> points;
-    private ArrayList<Strengthened> strengthens;
+    //private ArrayList<Strengthened> strengthens;
     private ArrayList<Circle> circles;
     private ArrayList<Arc> arcs;
     private ArrayList<Segment> segments;
@@ -79,6 +80,7 @@ public class FactComputerContainer
     private ArrayList<Strengthened> strengthPerpBisectors;
     
     private ArrayList<InMiddle> inMiddles;
+    private ArrayList<Midpoint> midPoints;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
@@ -124,7 +126,7 @@ public class FactComputerContainer
         ArrayList<HashSet<GroundedClause>> master = new ArrayList<HashSet<GroundedClause>>();
         
         master.add(new HashSet<>(points));
-        master.add(new HashSet<>(strengthens)); //I think this is an old concept
+        //master.add(new HashSet<>(strengthens)); //I think this is an old concept
         master.add(new HashSet<>(circles));
         master.add(new HashSet<>(arcs));
         master.add(new HashSet<>(segments));
@@ -192,6 +194,7 @@ public class FactComputerContainer
         master.add(new HashSet<>(strengthSquares));
         master.add(new HashSet<>(congruentCircles));
         master.add(new HashSet<>(concavePolygons));
+        master.add(new HashSet<>(midPoints));
         
         return master;
     }
@@ -208,16 +211,16 @@ public class FactComputerContainer
     }
 
 
-    public HashSet<Strengthened> getStrengthens()
-    {
-        return new HashSet<Strengthened>(strengthens);
-    }
-
-
-    public void setStrengthens(ArrayList<Strengthened> strengthens)
-    {
-        this.strengthens = strengthens;
-    }
+//    public HashSet<Strengthened> getStrengthens()
+//    {
+//        return new HashSet<Strengthened>(strengthens);
+//    }
+//
+//
+//    public void setStrengthens(ArrayList<Strengthened> strengthens)
+//    {
+//        this.strengthens = strengthens;
+//    }
 
 
     public HashSet<Circle> getCircles()
@@ -499,6 +502,15 @@ public class FactComputerContainer
         this.inMiddles = inMiddles;
     }
 
+    public HashSet<Midpoint> getMidPoints()
+    {
+        return new HashSet<Midpoint>(midPoints);
+    }
+    
+    public void setMidPoints(ArrayList<Midpoint> midpoints)
+    {
+        this.midPoints = midpoints;
+    }
 
     public HashSet<Median> getMedians()
     {

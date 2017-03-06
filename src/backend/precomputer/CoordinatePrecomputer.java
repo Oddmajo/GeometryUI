@@ -116,11 +116,38 @@ public class CoordinatePrecomputer
     //this should be the used constructor
     public CoordinatePrecomputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p)
     {
-        circles = c;
-        arcs = a;
-        segments = s;
-        points = p;
-        
+        if(c!= null)
+        {
+            circles = c;
+        }
+        else
+        {
+            circles = new ArrayList<Circle>();
+        }
+        if(a != null)
+        {
+            arcs = a;
+        }
+        else
+        {
+            arcs = new ArrayList<Arc>();
+        }
+        if(s!=null)
+        {
+            segments = s;
+        }
+        else
+        {
+            segments = new ArrayList<Segment>();
+        }
+        if(p != null)
+        {
+            points = p;    
+        }
+        else
+        {
+            points = new ArrayList<Point>();
+        }
         sectors = new ArrayList<Sector>();
         PointFactory.initialize(points);
         findRelations();
