@@ -18,6 +18,8 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Relations.AlgebraicSimilarTriangles;
+import backend.ast.Descriptors.Relations.GeometricSimilarTriangles;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentArcs;
@@ -26,6 +28,8 @@ import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.parallel.AlgebraicParallel;
+import backend.ast.Descriptors.parallel.GeometricParallel;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
@@ -47,7 +51,10 @@ import backend.ast.figure.components.triangles.EquilateralTriangle;
 import backend.ast.figure.components.triangles.IsoscelesTriangle;
 import backend.ast.figure.components.triangles.RightTriangle;
 import backend.ast.figure.components.triangles.Triangle;
+import backend.symbolicAlgebra.equations.AngleArcEquation;
 import backend.symbolicAlgebra.equations.AngleEquation;
+import backend.symbolicAlgebra.equations.ArcEquation;
+import backend.symbolicAlgebra.equations.SegmentEquation;
 
 public class FactComputerContainer
 {
@@ -120,6 +127,13 @@ public class FactComputerContainer
     private ArrayList<CongruentCircles> congruentCircles;
     private ArrayList<ConcavePolygon> concavePolygons;
     
+    private ArrayList<GeometricParallel> geometricParallels;
+    private ArrayList<AlgebraicParallel> algebraicParallels;
+    private ArrayList<GeometricSimilarTriangles> geometricSimilarTriangles;
+    private ArrayList<AlgebraicSimilarTriangles> algebraicSimilarTriangles;
+    private ArrayList<SegmentEquation> segmentEquations;
+    private ArrayList<ArcEquation> arcEquations;
+    private ArrayList<AngleArcEquation> angleArcEquations;
     
     public ArrayList<HashSet<GroundedClause>> getAllLists()
     {
@@ -195,6 +209,15 @@ public class FactComputerContainer
         master.add(new HashSet<>(congruentCircles));
         master.add(new HashSet<>(concavePolygons));
         master.add(new HashSet<>(midPoints));
+        
+        master.add(new HashSet<>(geometricParallels));
+        master.add(new HashSet<>(algebraicParallels));
+        master.add(new HashSet<>(geometricSimilarTriangles));
+        master.add(new HashSet<>(algebraicSimilarTriangles));
+        master.add(new HashSet<>(segmentEquations));
+        
+        master.add(new HashSet<>(arcEquations));
+        master.add(new HashSet<>(angleArcEquations));
         
         return master;
     }
@@ -907,7 +930,76 @@ public class FactComputerContainer
         this.concavePolygons = concavePolygons;
     }
 
+    public HashSet<GeometricParallel> getGeometricParallels()
+    {
+        return new HashSet<GeometricParallel>(geometricParallels);
+    }
+    
+    public void setGeometricParallels(ArrayList<GeometricParallel> geometricParallels)
+    {
+        this.geometricParallels = geometricParallels;
+    }
 
+    public HashSet<AlgebraicParallel> getAlgebraicParallels()
+    {
+        return new HashSet<AlgebraicParallel>(algebraicParallels);
+    }
+    
+    public void setAlgebraicParallels(ArrayList<AlgebraicParallel> algebraicParallels)
+    {
+        this.algebraicParallels = algebraicParallels;
+    }
+    
+    public HashSet<GeometricSimilarTriangles> getGeometricSimilarTriangles()
+    {
+        return new HashSet<GeometricSimilarTriangles>(geometricSimilarTriangles);
+    }
+    
+    public void setGeometricSimilarTriangles(ArrayList<GeometricSimilarTriangles> geometricSimilarTriangles)
+    {
+        this.geometricSimilarTriangles = geometricSimilarTriangles;
+    }
+    
+    public HashSet<AlgebraicSimilarTriangles> getAlgebraicSimilarTriangles()
+    {
+        return new HashSet<AlgebraicSimilarTriangles>(algebraicSimilarTriangles);
+    }
+    
+    public void setAlgebraicSimilarTriangles(ArrayList<AlgebraicSimilarTriangles> slgebraicSimilarTriangles)
+    {
+        this.algebraicSimilarTriangles = slgebraicSimilarTriangles;
+    }
+    
+    public HashSet<SegmentEquation> getSegmentEquation()
+    {
+        return new HashSet<SegmentEquation>(segmentEquations);
+    }
+    
+    public void setSegmentEquation(ArrayList<SegmentEquation> segmentEquation)
+    {
+        this.segmentEquations = segmentEquation;
+    }
+    
+    public HashSet<ArcEquation> getArcEquation()
+    {
+        return new HashSet<ArcEquation>(arcEquations);
+    }
+    
+    public void setArcEquation(ArrayList<ArcEquation> arcEquations)
+    {
+        this.arcEquations = arcEquations;
+    }
+    
+    public HashSet<AngleArcEquation> getAngleArcEquation()
+    {
+        return new HashSet<AngleArcEquation>(angleArcEquations);
+    }
+    
+    public void setAngleArcEquation(ArrayList<AngleArcEquation> angleArcEquations)
+    {
+        this.angleArcEquations = angleArcEquations;
+    }
+    
     public FactComputerContainer()
     {
         circles = new ArrayList<Circle>();
@@ -975,5 +1067,13 @@ public class FactComputerContainer
         
         congruentCircles = new ArrayList<CongruentCircles>();
         concavePolygons = new ArrayList<ConcavePolygon>();
+        
+        geometricParallels = new ArrayList<GeometricParallel>();
+        algebraicParallels = new ArrayList<AlgebraicParallel>();
+        geometricSimilarTriangles = new ArrayList<GeometricSimilarTriangles>();
+        algebraicSimilarTriangles = new ArrayList<AlgebraicSimilarTriangles>();
+        segmentEquations = new ArrayList<SegmentEquation>();
+        arcEquations = new ArrayList<ArcEquation>();
+        angleArcEquations = new ArrayList<AngleArcEquation>();
     }
 }
