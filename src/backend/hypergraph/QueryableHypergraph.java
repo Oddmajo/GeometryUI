@@ -254,12 +254,37 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof CongruentAngles)
         {
-            for (CongruentAngles ca : _CongruentAngles)
+            if (data instanceof GeometricCongruentAngles)
             {
-                if (data.structurallyEquals(ca))
+                for (GeometricCongruentAngles gca : _geomtricCongruentAngles)
                 {
-                    target = ca;
-                    break;
+                    if (data.structurallyEquals(gca))
+                    {
+                        target = gca;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof AlgebraicCongruentAngles)
+            {
+                for (AlgebraicCongruentAngles aca : _algebraicCongruentAngles)
+                {
+                    if (data.structurallyEquals(aca))
+                    {
+                        target = aca;
+                        break;
+                    }
+                }
+            }
+            else // all congruent angles
+            {
+                for (CongruentAngles ca : _CongruentAngles)
+                {
+                    if (data.structurallyEquals(ca))
+                    {
+                        target = ca;
+                        break;
+                    }
                 }
             }
         }
@@ -386,12 +411,37 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof CongruentSegments)
         {
-            for (CongruentSegments cs : _congruentSegments)
+            if (data instanceof GeometricCongruentSegments)
             {
-                if (data.structurallyEquals(cs))
+                for (GeometricCongruentSegments gcs : _geometricCongruentSegments)
                 {
-                    target = cs;
-                    break;
+                    if (data.structurallyEquals(gcs))
+                    {
+                        target = gcs;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof AlgebraicCongruentSegments)
+            {
+                for (AlgebraicCongruentSegments acs : _algebraicCongruentSegments)
+                {
+                    if (data.structurallyEquals(acs))
+                    {
+                        target = acs;
+                        break;
+                    }
+                }
+            }
+            else // all congruentSegments
+            {
+                for (CongruentSegments cs : _congruentSegments)
+                {
+                    if (data.structurallyEquals(cs))
+                    {
+                        target = cs;
+                        break;
+                    }
                 }
             }
         }
@@ -599,17 +649,43 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 }
             }
         }
-        else if (data instanceof Midpoint)
+        else if (data instanceof CongruentArcs)
         {
-            for (Midpoint m : _midpoints)
+            if (data instanceof GeometricCongruentArcs)
             {
-                if (data.structurallyEquals(m))
+                for (GeometricCongruentArcs gca : _geometricCongruentArcs)
                 {
-                    target = m;
-                    break;
+                    if (data.structurallyEquals(gca))
+                    {
+                        target = gca;
+                        break;
+                    }
+                }
+            }
+            else if (data instanceof AlgebraicCongruentArcs)
+            {
+                for (AlgebraicCongruentArcs aca : _algebraicCongruentArcs)
+                {
+                    if (data.structurallyEquals(aca))
+                    {
+                        target = aca;
+                        break;
+                    }
+                }
+            }
+            else // all congruent arcs
+            {
+                for (CongruentArcs ca : _congruentArcs)
+                {
+                    if (data.structurallyEquals(ca))
+                    {
+                        target = ca;
+                        break;
+                    }
                 }
             }
         }
+
 
         // 
         // Descriptors
@@ -625,14 +701,11 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             // add specific equations
             if (data instanceof AngleEquation)
             {
-                for (AngleEquation ae : _angleEquations)
-                {
-                    if (data.structurallyEquals(ae))
-                    {
-                        target = ae;
-                        break;
-                    }
-                }
+                target = getAngleEquation((AngleEquation) data);
+            }
+            else if (data instanceof SegmentRatioEquation)
+            {
+                target = getSegmentRatioEquation((SegmentRatioEquation) data);
             }
             else // TODO: equation handler 
             {
@@ -640,17 +713,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 //                {
                 //                    target = _equationHandler;
                 //                }
-            }
-        }
-        else if (data instanceof SegmentRatioEquation)
-        {
-            for (SegmentRatioEquation sre : _segmentRatioEquations)
-            {
-                if (data.structurallyEquals(sre))
-                {
-                    target = sre;
-                    break;
-                }
             }
         }
 
@@ -742,6 +804,8 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     public HashSet<Supplementary> _supplementaryAngles;
     public HashSet<Angle> _angles;
     public HashSet<AnglePairRelation> _anglePairRelations;
+    public HashSet<GeometricCongruentAngles> _geomtricCongruentAngles;
+    public HashSet<AlgebraicCongruentAngles> _algebraicCongruentAngles;
 
     //
     // Triangles
@@ -762,6 +826,8 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     public HashSet<Median> _medians;
     public HashSet<SegmentBisector> _segmentBisectors;
     public HashSet<CongruentSegments> _congruentSegments;
+    public HashSet<GeometricCongruentSegments> _geometricCongruentSegments;
+    public HashSet<AlgebraicCongruentSegments> _algebraicCongruentSegments;
 
     //
     // Parallels
@@ -788,6 +854,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     private HashSet<MajorArc> _majorArcs;
     private HashSet<Arc> _arcs;
     public HashSet<CongruentCircles> _congruentCircles;
+    public HashSet<GeometricCongruentArcs> _geometricCongruentArcs;
+    public HashSet<AlgebraicCongruentArcs> _algebraicCongruentArcs;
+    public HashSet<CongruentArcs> _congruentArcs;
 
     //
     // Descriptors
@@ -798,9 +867,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     // Equations
     //
     protected EquationQueryHandler _equationHandler;
-    public HashSet<Equation> _equations;
-    public HashSet<AngleEquation> _angleEquations;
-    public Set<SegmentRatioEquation> _segmentRatioEquations;
 
     //
     // Strengthened Clauses
@@ -849,6 +915,8 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         _supplementaryAngles = new HashSet<Supplementary>();
         _angles = new HashSet<Angle>();
         _anglePairRelations = new HashSet<AnglePairRelation>();
+        _geomtricCongruentAngles = new HashSet<GeometricCongruentAngles>();
+        _algebraicCongruentAngles = new HashSet<AlgebraicCongruentAngles>();
 
         //
         // Triangles
@@ -869,6 +937,8 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         _medians = new HashSet<Median>();
         _segmentBisectors = new HashSet<SegmentBisector>();
         _congruentSegments = new HashSet<CongruentSegments>();
+        _geometricCongruentSegments = new HashSet<GeometricCongruentSegments>();
+        _algebraicCongruentSegments = new HashSet<AlgebraicCongruentSegments>();
 
         //
         // Parallels
@@ -893,6 +963,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         _minorArcs = new HashSet<MinorArc>();
         _majorArcs = new HashSet<MajorArc>();
         _arcs = new HashSet<Arc>();
+        _geometricCongruentArcs = new HashSet<GeometricCongruentArcs>();
+        _algebraicCongruentArcs = new HashSet<AlgebraicCongruentArcs>();
+        _congruentArcs = new HashSet<CongruentArcs>();
 
         //
         // Descriptors
@@ -903,8 +976,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         // Equations
         //
         _equationHandler = new EquationQueryHandler();
-        _angleEquations = new HashSet<AngleEquation>();
-        _segmentRatioEquations = new HashSet<SegmentRatioEquation>();
 
 
         //
@@ -987,6 +1058,15 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else if (data instanceof CongruentAngles)
         {
             _CongruentAngles.add((CongruentAngles) data);
+
+            if (data instanceof GeometricCongruentAngles)
+            {
+                _geomtricCongruentAngles.add((GeometricCongruentAngles) data);
+            }
+            else if (data instanceof AlgebraicCongruentAngles)
+            {
+                _algebraicCongruentAngles.add((AlgebraicCongruentAngles) data);
+            }
         }
 
         //
@@ -1040,6 +1120,15 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else if (data instanceof CongruentSegments)
         {
             _congruentSegments.add((CongruentSegments) data);
+
+            if (data instanceof GeometricCongruentSegments)
+            {
+                _geometricCongruentSegments.add((GeometricCongruentSegments) data);
+            }
+            else if (data instanceof AlgebraicCongruentSegments)
+            {
+                _algebraicCongruentSegments.add((AlgebraicCongruentSegments) data);
+            }
         }
         else if (data instanceof SegmentBisector)
         {
@@ -1124,6 +1213,19 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 _majorArcs.add((MajorArc)data);
             }
         }
+        else if (data instanceof CongruentArcs)
+        {
+            _congruentArcs.add((CongruentArcs) data);
+            
+            if (data instanceof GeometricCongruentArcs)
+            {
+                _geometricCongruentArcs.add((GeometricCongruentArcs) data);
+            }
+            else if (data instanceof AlgebraicCongruentArcs)
+            {
+                _algebraicCongruentArcs.add((AlgebraicCongruentArcs) data);
+            }
+        }
 
         //
         // Descriptors
@@ -1137,16 +1239,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else if (data instanceof Equation)
         {
             _equationHandler.add((Equation)data);
-
-            // add specific equations
-            if (data instanceof AngleEquation)
-            {
-                _angleEquations.add((AngleEquation) data);
-            }
-        }
-        else if (data instanceof SegmentRatioEquation)
-        {
-            _segmentRatioEquations.add((SegmentRatioEquation) data);
         }
 
         //
@@ -1482,7 +1574,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
 
     public HashSet<AngleEquation> getAngleEquations()
     {
-        return _angleEquations;
+        return _equationHandler.getAngleEquations();
     }
 
     public HashSet<Strengthened> getStrengthenedAngleEquations()
@@ -1522,43 +1614,37 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
 
     public Set<SegmentRatioEquation> getSegmentRatioEquations()
     {
-        return _segmentRatioEquations;
+        return _equationHandler.getSegmentRatioEquations();
     }
 
     public HashSet<GeometricCongruentSegments> getGeometricCongruentSegments()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _geometricCongruentSegments;
     }
 
     public HashSet<GeometricCongruentAngles> getGeomtricCongruentAngles()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _geomtricCongruentAngles;
     }
 
     public HashSet<GeometricCongruentArcs> getGeometricCongruentArcs()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _geometricCongruentArcs;
     }
 
     public HashSet<AlgebraicCongruentSegments> getAlgebraicCongruentSegments()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _algebraicCongruentSegments;
     }
 
     public HashSet<AlgebraicCongruentAngles> getAlgebraicCongruentAngles()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _algebraicCongruentAngles;
     }
 
     public HashSet<AlgebraicCongruentArcs> getAlgebraicCogruentArcs()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _algebraicCongruentArcs;
     }
 
     public HashSet<GeometricSegmentEquation> getGeometricSegmentEquations()
@@ -1645,25 +1731,25 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         return null;
     }
 
-    public ArrayList<GeometricParallel> getGeometricParallels()
+    public HashSet<GeometricParallel> getGeometricParallels()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public ArrayList<AlgebraicParallel> getAlgebraicParallels()
+    public HashSet<AlgebraicParallel> getAlgebraicParallels()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public ArrayList<GeometricSimilarTriangles> getGeometricSimilarTriangles()
+    public HashSet<GeometricSimilarTriangles> getGeometricSimilarTriangles()
     {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public ArrayList<AlgebraicSimilarTriangles> getAlgebraicSimilarTriangles()
+    public HashSet<AlgebraicSimilarTriangles> getAlgebraicSimilarTriangles()
     {
         // TODO Auto-generated method stub
         return null;
@@ -1689,7 +1775,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
 
     public HashSet<CongruentArcs> getCongruentArcs()
     {
-        // TODO Auto-generated method stub
-        return null;
+        return _congruentArcs;
     }
 }

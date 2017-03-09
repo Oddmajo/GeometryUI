@@ -112,7 +112,7 @@ public class Hypergraph<T, A extends Annotation>
             {
                 graphS += currEdge.toString();
             }
-            graphS += ")";
+            graphS += ")\n";
         }
         
         return graphS;
