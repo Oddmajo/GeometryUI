@@ -7,6 +7,7 @@ import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Altitude;
 import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.AnglePairRelation;
+import backend.ast.Descriptors.CircleIntersection;
 import backend.ast.Descriptors.Collinear;
 import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.Descriptor;
@@ -19,6 +20,8 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Arcs_and_Circles.CircleCircleIntersection;
+import backend.ast.Descriptors.Arcs_and_Circles.CircleSegmentIntersection;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentArcs;
@@ -49,6 +52,7 @@ import backend.ast.figure.components.triangles.EquilateralTriangle;
 import backend.ast.figure.components.triangles.IsoscelesTriangle;
 import backend.ast.figure.components.triangles.RightTriangle;
 import backend.ast.figure.components.triangles.Triangle;
+import backend.ast.figure.delegates.intersections.IntersectionDelegate;
 import backend.hypergraph.QueryableHypergraph;
 import backend.precomputer.PolygonCalculator;
 import backend.symbolicAlgebra.NumericValue;
@@ -63,6 +67,7 @@ import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.translation.OutPair;
 
 public class FactComputer
 {
@@ -73,6 +78,10 @@ public class FactComputer
     private ArrayList<Arc> arcs;
     private ArrayList<Segment> segments;
     private ArrayList<Sector> sectors;
+    
+    //This might need to be expanded into circlecircle and circlesegment intersections - simple fix
+    //as of JPN commit 3/14/2017 this is populated starting at line 661
+    private ArrayList<CircleIntersection> circleIntersections;
     
     private ArrayList<CongruentArcs> congruentArcs;
     private ArrayList<AngleBisector> angleBisectors;
@@ -528,14 +537,6 @@ public class FactComputer
             }
         }
         
-        
-        
-        
-//        //Arc congruences
-//        CalculateArcCongruences(minorArcs);
-//        CalculateArcCongruences(majorArcs);
-//        CalculateArcCongruences(semiCircles);
-        
         //
         // Calculate all segment relations to triangles: bisector, median, altitude, perpendicular bisector
         //
@@ -643,6 +644,81 @@ public class FactComputer
             }
         }
         
+      //WARNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //THIS IS UNTESTED. IT SEEMS TO ONLY COMPILE IF I TAKE OUT THE TEMPLATE PARAMETER
+//        //Arc congruences
+//        CalculateArcCongruences(minorArcs);
+//        CalculateArcCongruences(majorArcs);
+//        CalculateArcCongruences(semiCircles);    
+        
+        //calculate congruent circles
+        //calculate circle intersections
+        //calculate congruent arcs
+        //calculate arc intersections
+        //calculate inscribed angle?
+        //
+        
+        for(int c1 = 0; c1 < circles.size(); c1++)
+        {
+
+            for(int c2 = c1 + 1; c2 < circles.size(); c2++)
+            {
+                //calculate congruent circles
+                if(circles.get(c1).CoordinateCongruent(circles.get(c2)))
+                {
+                    congruentCircles.add(new CongruentCircles(circles.get(c1), circles.get(c2)));
+                }
+                //calculate circle intersections
+                OutPair<Point, Point> intersections = null;
+                if(IntersectionDelegate.findIntersection(circles.get(c1), circles.get(c2), intersections))
+                {
+                    //CircleCircleIntersection is FUUUUUUCKED - only accepts a single point for intersection, and most of the code is commented out 
+                    //  this works for tangential intersection, and breaks otherwise
+                    
+                    //it could be that for each intersection, a CircleCircleIntersection is created - this will be followed for now
+                    circleIntersections.add(new CircleCircleIntersection(intersections.getKey(), circles.get(c1), circles.get(c2)));
+                    if(!(intersections.getValue() == null))
+                        circleIntersections.add(new CircleCircleIntersection(intersections.getValue(), circles.get(c1), circles.get(c2)));
+                    
+                }
+            }
+            //calculate segment intersections
+            for(int s = 0; s < segments.size(); s++)
+            {
+                OutPair<Point, Point> intersections = null;
+                if(IntersectionDelegate.findIntersection(circles.get(c1), segments.get(s), intersections))
+                {
+                    //There exists the same issue in CircleSegmentIntersection - only a single point is realized
+                    //  handling in same fashion as above for now
+                    circleIntersections.add(new CircleSegmentIntersection(intersections.getKey(), circles.get(c1), segments.get(s)));
+                    if(!(intersections.getValue() == null))
+                        circleIntersections.add(new CircleCircleIntersection(intersections.getValue(), circles.get(c1), circles.get(c1)));
+                }
+            }
+            //calculate inscribed angles?
+            //  there isn't a descriptor class for this - so doesn't look like it needs to be done
+            //  in case it needs to be in the future:
+            //  for every angle
+            //      check if vertex is on the circle
+            //      check if both rays extend into the circle
+            //          (note this is slightly more complicated than at first glance - i.e. the second point that defines the ray could lay 
+            //              in the circle, on the circle, or outside the circle)
+        }
+        
+        for(int a1 = 0; a1 < arcs.size(); a1++)
+        {
+            for(int a2 = a1 + 1; a2 < arcs.size(); a2++)
+            {
+                //calculate congruent arcs
+                if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
+                {
+                    congruentArcs.add(new CongruentArcs(arcs.get(a1),arcs.get(a2)));
+                }
+                
+            }
+            //There exists an ArcInMiddle descriptor class - what is that? how is one defined geometrically?
+        }
+        
 
         
         //Dumping the relations
@@ -659,22 +735,6 @@ public class FactComputer
         }
     }
     
-    //slightly changed from C# but this should be alright
-    //CAN THIS EVER NOT BE AN ARC? IF NOT WHY WAS IT TYPE T?
-    private <T extends Arc> void CalculateArcCongruences(ArrayList<T> arcs)
-    {
-        for(int a1 = 0; a1< arcs.size(); a1++)
-        {
-            for(int a2 = a1+1; a2 < arcs.size(); a2++)
-            {
-                if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
-                { 
-                    arcEquations.add(new ArcEquation(arcs.get(a1),arcs.get(a2)));
-                    congruentArcs.add(new CongruentArcs(arcs.get(a1), arcs.get(a2)));
-                }
-            }
-        }
-    }
     
     //can we determine any stregnthening in the figure class (scalene to equilateral, etc)
     ArrayList<Strengthened> strengthened = new ArrayList<Strengthened>();

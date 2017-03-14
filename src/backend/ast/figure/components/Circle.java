@@ -82,6 +82,9 @@ public class Circle extends Shape
     
     public void addPointOnCircle(Point p)
     {
+        if(!PointFactory.contains(p))
+            PointFactory.generatePoint(p);
+        
         if(!pointsOnCircle.contains(p))
             pointsOnCircle.add(p);
     }
