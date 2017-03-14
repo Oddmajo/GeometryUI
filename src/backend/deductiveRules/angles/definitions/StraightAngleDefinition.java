@@ -25,11 +25,9 @@ package backend.deductiveRules.angles.definitions;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.AngleBisector;
 import backend.ast.Descriptors.Collinear;
 import backend.ast.figure.components.angles.Angle;
 import backend.deductiveRules.Deduction;
@@ -37,7 +35,6 @@ import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
-import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.list.Utilities;
 
 /**

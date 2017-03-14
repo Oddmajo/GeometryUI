@@ -7,19 +7,14 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Median;
-import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.parallel.Parallel;
-import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Theorem;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
-import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ExceptionHandler;
 import backend.utilities.exception.NotImplementedException;
 

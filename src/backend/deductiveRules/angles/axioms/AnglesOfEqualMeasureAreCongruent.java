@@ -114,10 +114,10 @@ public class AnglesOfEqualMeasureAreCongruent extends Axiom
         if (numeral == null || angle == null) return new Pair<Angle, Double>(null, (double)0);
 
         // The multiplier must be one for: 2mABC = 45, not acceptable; something weird happened anyway
-        if (angle.getMulitplier() != 1)
-        {
-            return new Pair<Angle, Double>(angle, numeral.getDoubleValue() * (1.0 / angle.getMulitplier()));
-        }
+//        if (angle.getMulitplier() != 1)
+//        {
+//            return new Pair<Angle, Double>(angle, numeral.getDoubleValue() * (1.0 / angle.getMulitplier()));
+//        }
 
         return new Pair<Angle,Double>(angle, numeral.getDoubleValue());
     }

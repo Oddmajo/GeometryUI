@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
@@ -33,7 +31,6 @@ public class PerpendicularParallelTransversal extends Theorem
     public PerpendicularParallelTransversal(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
