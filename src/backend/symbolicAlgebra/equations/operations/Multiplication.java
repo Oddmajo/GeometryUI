@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.Pair;
+import backend.utilities.exception.ExceptionHandler;
 
 public class Multiplication extends ArithmeticOperation
 {
@@ -99,7 +100,11 @@ public class Multiplication extends ArithmeticOperation
         return list;
 
     }
-
+    public Multiplication deepCopy()
+    {
+        return new Multiplication(leftExp.deepCopy(), rightExp.deepCopy());
+    }
+    
     public boolean Equals(Object obj)
     {
         if (obj == null || (Multiplication)obj == null) return false;

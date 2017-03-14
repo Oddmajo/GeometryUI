@@ -2,8 +2,7 @@ package backend.symbolicAlgebra.equations;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.ArithmeticNode;

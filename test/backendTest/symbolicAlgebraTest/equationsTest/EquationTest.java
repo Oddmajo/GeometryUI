@@ -13,14 +13,14 @@ public abstract class EquationTest
     public static void reportFailure(Equation original, Equation simplified, Equation expected)
     {
         System.out.println("Simplification FAILED; given " + original.toString() +
-                                             "; acquired " + simplified.toString() +
-                                            "; expected: " + expected.toString());        
+                                             ";\n\t acquired " + simplified.toString() +
+                                            ";\n\t expected: " + expected.toString() + "\n");        
     }
     
     public static void reportSuccess(Equation original, Equation simplified, Equation expected)
     {
         System.out.println("Simplification SUCCEEDED; given " + original.toString() +
-                                                "; acquired " + simplified.toString() +
-                                               "; expected: " + expected.toString());        
+                                                ";\n\t acquired " + simplified.toString() +
+                                               ";\n\t expected: " + expected.toString() + "\n");        
     }
 }

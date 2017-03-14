@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import backend.ast.GroundedClause;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.Pair;
+import backend.utilities.exception.ExceptionHandler;
 
 public class Subtraction extends ArithmeticOperation
 {
@@ -101,51 +102,8 @@ public class Subtraction extends ArithmeticOperation
         return (this.leftExp.equals(that.leftExp) && this.rightExp.equals(that.rightExp));
     }
 
-    //    public void simplify()
-    //    {
-    //        if (leftExp.getClass().equals(rightExp.getClass()))
-    //        {
-    //            if (leftExp instanceof AlgebraicSegmentEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof GeometricSegmentEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof AlgebraicAngleEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof GeometricAngleEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof AlgebraicArcEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof GeometricArcEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof AlgebraicAngleArcEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof GeometricAngleArcEquation)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof NumericValue)
-    //            {
-    //
-    //            }
-    //            else if (leftExp instanceof ArithmeticOperation)
-    //            {
-    //                ((ArithmeticOperation) leftExp).simplify();
-    //                ((ArithmeticOperation) rightExp).simplify();
-    //            }
-    //        }
-    //    }
+    public Subtraction deepCopy()
+    {
+        return new Subtraction(leftExp.deepCopy(), rightExp.deepCopy());
+    }
 }

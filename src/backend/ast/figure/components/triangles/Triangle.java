@@ -1,6 +1,8 @@
 package backend.ast.figure.components.triangles;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
 
 import backend.ast.GroundedClause;
@@ -1039,33 +1041,33 @@ public class Triangle extends Polygon
     //    }
 
 
-    //    // Returns the exact correspondence between the triangles; <this, that>
-    //    public Dictionary<Point, Point> PointsCorrespond(Triangle thatTriangle)
-    //    {
-    //        if (!this.StructurallyEquals(thatTriangle)) return null;
-    //
-    //        List<Point> thatTrianglePts = thatTriangle.points;
-    //        List<Point> thisTrianglePts = this.points;
-    //
-    //        // Find the index of the first point (in this Triangle) 
-    //        int i = 0;
-    //        for (; i < 3; i++)
-    //        {
-    //            if (thisTrianglePts.get(0).StructurallyEquals(thatTrianglePts.get(i))) break;
-    //        }
-    //
-    //        // Sanity check; something bad happened
-    //        if (i == 3) return null;
-    //
-    //        Dictionary<Point, Point> correspondence = new Dictionary<Point, Point>();
-    //        for (int j = 0; j < 3; j++)
-    //        {
-    //            if (!thisTrianglePts.get(j).StructurallyEquals(thatTrianglePts.get((j + i) % 3))) return null;
-    //            correspondence.Add(thisTrianglePts.get(j), thatTrianglePts.get((j + i) % 3));
-    //        }
-    //
-    //        return correspondence;
-    //    }
+        // Returns the exact correspondence between the triangles; <this, that>
+        public Dictionary<Point, Point> PointsCorrespond(Triangle thatTriangle)
+        {
+            if (!this.structurallyEquals(thatTriangle)) return null;
+    
+            List<Point> thatTrianglePts = thatTriangle.points;
+            List<Point> thisTrianglePts = this.points;
+    
+            // Find the index of the first point (in this Triangle) 
+            int i = 0;
+            for (; i < 3; i++)
+            {
+                if (thisTrianglePts.get(0).structurallyEquals(thatTrianglePts.get(i))) break;
+            }
+    
+            // Sanity check; something bad happened
+            if (i == 3) return null;
+    
+            Dictionary<Point, Point> correspondence = new Hashtable<Point, Point>();
+            for (int j = 0; j < 3; j++)
+            {
+                if (!thisTrianglePts.get(j).structurallyEquals(thatTrianglePts.get((j + i) % 3))) return null;
+                correspondence.put(thisTrianglePts.get(j), thatTrianglePts.get((j + i) % 3));
+            }
+    
+            return correspondence;
+        }
 
 
 

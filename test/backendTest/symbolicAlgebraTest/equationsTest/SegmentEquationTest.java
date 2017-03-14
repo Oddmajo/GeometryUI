@@ -19,25 +19,27 @@ public class SegmentEquationTest extends EquationTest
         LoggerFactory.initialize();
         System.out.println("Running SegmentEquation Test...");
         axEqualsB();
-        System.out.println("Done");
+        axEqualsBX();
+        //axPlusBYEqualsZero();
+        System.out.println("All tests done");
         LoggerFactory.close();
     }
-    
-    public void axEqualsB()
+
+    public void axPlusBYEqualsZero()
     {
-        System.out.print("\t aX = b...");
+        System.out.print("\t aX + bY = 0...");
 
         for (int i = 0; i < 100; i++)
         {
             SegmentEquationGenerator generator = new SegmentEquationGenerator(); 
-            
-            Pair<Equation, Equation> eqs = generator.generateAXequalsBequation();
-            
+
+            Pair<Equation, Equation> eqs = generator.generateAXplusBYequalsZeroequation();
+
             SegmentEquation original = (SegmentEquation)eqs.first();
             SegmentEquation algSimplified = (SegmentEquation)eqs.second();
 
             report(original, algSimplified);
-            
+
             SegmentEquation symSimplified = null;
             try
             {
@@ -64,52 +66,143 @@ public class SegmentEquationTest extends EquationTest
                 reportSuccess(original, symSimplified, algSimplified);
             }
         }
-        
-        System.out.println("Done");
+
+        System.out.println("Ax + By = 0 Done");
     }
-    
-    
-    
-//    
-//    
-//    @Test
-//    public void segmentEquationTest()
-//    {
-//        System.out.println("Running SegmentEquation Test...");
-//        for (int i = 0; i < 100; i++)
-//        {
-//            SegmentEquation eq = null, eq2 = null;
-//            try
-//            {
-//                eq = new SegmentEquation(EquationGenerator.genAdditionEquationPair());
-//                eq2 = new SegmentEquation(eq);
-//                Simplification.simplify(eq);
-//            }
-//            catch (ArgumentException e)
-//            {
-//                ExceptionHandler.throwException(new ArgumentException(e.toString()));
-//            }
-//            catch (CloneNotSupportedException e)
-//            {
-//                ExceptionHandler.throwException(new CloneNotSupportedException());
-//            }
-//
-//            if (eq == null)
-//            {
-//                System.out.println("Failed from eq being null at iteration " + i + "...");
-//                break;
-//            }
-//            if (eq2 == null)
-//            {
-//                System.out.println("Failed from eq2 being null at iteration " + i + "...");
-//                break;
-//            }
-//            else if (!eq.equals(eq2))
-//            {
-//                System.out.println("Failed from eq != eq2 at iteration " + i + "...");
-//                break;
-//            }
-//        }
-//        System.out.println("Done");
-//    }
+
+    public void axEqualsBX()
+    { 
+        System.out.print("\t aX = bX...");
+
+        for (int i = 0; i < 100; i++)
+        {
+            SegmentEquationGenerator generator = new SegmentEquationGenerator(); 
+
+            Pair<Equation, Equation> eqs = generator.generateAXequalsBXequation();
+
+            SegmentEquation original = (SegmentEquation)eqs.first();
+            SegmentEquation algSimplified = (SegmentEquation)eqs.second();
+
+            report(original, algSimplified);
+
+            SegmentEquation symSimplified = null;
+            try
+            {
+                symSimplified = (SegmentEquation) Simplification.simplify(original);
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ArgumentException e)
+            {
+                e.printStackTrace();
+            }
+
+            //
+            // Verify the results
+            //
+            if (!symSimplified.structurallyEquals(algSimplified))
+            {
+                reportFailure(original, symSimplified, algSimplified);
+            }
+            else
+            {
+                reportSuccess(original, symSimplified, algSimplified);
+            }
+        }
+
+        System.out.println("Ax=Bx Done");
+    }
+
+
+    public void axEqualsB()
+    {
+        System.out.print("\t aX = b...");
+
+        for (int i = 0; i < 100; i++)
+        {
+            SegmentEquationGenerator generator = new SegmentEquationGenerator(); 
+
+            Pair<Equation, Equation> eqs = generator.generateAXequalsBequation();
+
+            SegmentEquation original = (SegmentEquation)eqs.first();
+            SegmentEquation algSimplified = (SegmentEquation)eqs.second();
+
+            report(original, algSimplified);
+
+            SegmentEquation symSimplified = null;
+            try
+            {
+                symSimplified = (SegmentEquation) Simplification.simplify(original);
+            }
+            catch (CloneNotSupportedException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ArgumentException e)
+            {
+                e.printStackTrace();
+            }
+
+            //
+            // Verify the results
+            //
+            if (!symSimplified.structurallyEquals(algSimplified))
+            {
+                reportFailure(original, symSimplified, algSimplified);
+            }
+            else
+            {
+                reportSuccess(original, symSimplified, algSimplified);
+            }
+        }
+
+        System.out.println("Ax=B Done");
+    }
+
+
+
+    //    
+    //    
+    //    @Test
+    //    public void segmentEquationTest()
+    //    {
+    //        System.out.println("Running SegmentEquation Test...");
+    //        for (int i = 0; i < 100; i++)
+    //        {
+    //            SegmentEquation eq = null, eq2 = null;
+    //            try
+    //            {
+    //                eq = new SegmentEquation(EquationGenerator.genAdditionEquationPair());
+    //                eq2 = new SegmentEquation(eq);
+    //                Simplification.simplify(eq);
+    //            }
+    //            catch (ArgumentException e)
+    //            {
+    //                ExceptionHandler.throwException(new ArgumentException(e.toString()));
+    //            }
+    //            catch (CloneNotSupportedException e)
+    //            {
+    //                ExceptionHandler.throwException(new CloneNotSupportedException());
+    //            }
+    //
+    //            if (eq == null)
+    //            {
+    //                System.out.println("Failed from eq being null at iteration " + i + "...");
+    //                break;
+    //            }
+    //            if (eq2 == null)
+    //            {
+    //                System.out.println("Failed from eq2 being null at iteration " + i + "...");
+    //                break;
+    //            }
+    //            else if (!eq.equals(eq2))
+    //            {
+    //                System.out.println("Failed from eq != eq2 at iteration " + i + "...");
+    //                break;
+    //            }
+    //        }
+    //        System.out.println("Done");
+    //    }
 }

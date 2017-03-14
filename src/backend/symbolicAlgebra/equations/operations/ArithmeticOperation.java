@@ -2,9 +2,11 @@ package backend.symbolicAlgebra.equations.operations;
 
 import java.util.ArrayList;
 import backend.ast.GroundedClause;
+import backend.ast.figure.components.Segment;
 import backend.symbolicAlgebra.ArithmeticNode;
 import backend.symbolicAlgebra.NumericValue;
 import backend.utilities.Pair;
+import backend.utilities.exception.ExceptionHandler;
 
 public class ArithmeticOperation extends ArithmeticNode
 {
@@ -91,7 +93,7 @@ public class ArithmeticOperation extends ArithmeticNode
         return "(" + leftExp.toString() + " + " + rightExp.toString() + ")";
     }
 
-
+    @Override
     public boolean equals(Object obj)
     {
         if (obj == null) return false;
@@ -108,4 +110,18 @@ public class ArithmeticOperation extends ArithmeticNode
         }
         return false;
     }
+
+    public boolean structurallyEquals(Object obj)
+    {
+        if (!(obj instanceof ArithmeticOperation))
+        {
+            return false;
+        }
+        ArithmeticOperation ao = (ArithmeticOperation) obj;
+        if (!(this.rightExp instanceof Segment))
+            return (this.rightExp).equals(ao.rightExp);
+        Segment s = (Segment)(this.rightExp);
+        return s.equals((Segment)(ao.rightExp));
+    }
+
 }

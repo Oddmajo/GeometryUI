@@ -1,13 +1,12 @@
 package backend.symbolicAlgebra.equations;
 
 import java.util.List;
-
-import backend.utilities.ast_helper.Utilities;
+import backend.utilities.ast_helper.*;
 import backend.utilities.exception.ArgumentException;
-import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.exception.*;
 import backend.ast.GroundedClause;
-import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.NumericValue;
 
 public class SegmentEquation extends Equation

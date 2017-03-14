@@ -1,13 +1,11 @@
 package backend.symbolicAlgebra.equations;
 
 import java.util.List;
-
-import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.*;
 import backend.ast.figure.components.arcs.Arc;
 import backend.symbolicAlgebra.NumericValue;
-import backend.utilities.ast_helper.Utilities;
-import backend.utilities.exception.ArgumentException;
-import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.exception.*;
+import backend.utilities.ast_helper.*;
 import backend.ast.GroundedClause;
 
 public class ArcEquation extends Equation

@@ -8,7 +8,7 @@ import backend.ast.figure.components.Segment;
 public class VariableFactory
 {
     private static char currentVariable = 'a';
-    
+
     private static HashMap<Segment, Character> hashmap = new HashMap<Segment, Character>(100);
     static int variableCounter = 97;
 
@@ -16,7 +16,7 @@ public class VariableFactory
     {
 
     }
-    
+
     public VariableFactory(ArrayList<Segment> segmentList)
     {
         genVariable(segmentList);
@@ -39,13 +39,13 @@ public class VariableFactory
         for (Segment s : segmentList)
         {
             result.add(genVariable(s));
+            genVariable(s);
         }
         return result;
-
     }
+    
     private static void updateName()
     {
-
         currentVariable++;
     }
 

@@ -34,7 +34,7 @@ public class Addition extends ArithmeticOperation
         if (obj == null || (obj instanceof Addition) == false) return false;
         return super.equals((Addition)obj);
     }
-    
+
     //NOTE
     //Print out the parallel arrays as a way to check during debugging
     public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
@@ -74,16 +74,20 @@ public class Addition extends ArithmeticOperation
                     multipliers.add(rightExp);
                 }
         }
-        else if ((!(leftExp instanceof ArithmeticOperation)) && (!(rightExp instanceof ArithmeticOperation)))
+        else
         {
             terms.add(leftExp);
             multipliers.add(new NumericValue(1));
-            
+
             terms.add(rightExp);
             multipliers.add(new NumericValue(1));
         }
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
         return list;
     }
-
+    
+    public Addition deepCopy()
+    {
+        return new Addition(leftExp.deepCopy(), rightExp.deepCopy());
+    }
 }

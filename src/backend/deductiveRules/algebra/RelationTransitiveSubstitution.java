@@ -27,12 +27,12 @@ public class RelationTransitiveSubstitution extends Definition
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
       // Transitivity of Parallel Lines
-      private static ArrayList<GeometricParallel> geoParallel;
-      private static ArrayList<AlgebraicParallel> algParallel;
+      private static HashSet<GeometricParallel> geoParallel;
+      private static HashSet<AlgebraicParallel> algParallel;
 
       // Transitvity of Similar Triangles
-      private static ArrayList<GeometricSimilarTriangles> geoSimilarTriangles;
-      private static ArrayList<AlgebraicSimilarTriangles> algSimilarTriangles;
+      private static HashSet<GeometricSimilarTriangles> geoSimilarTriangles;
+      private static HashSet<AlgebraicSimilarTriangles> algSimilarTriangles;
 
 
     public RelationTransitiveSubstitution(QueryableHypergraph<GroundedClause, Annotation> qhg)

@@ -1,7 +1,9 @@
 package backendTest.symbolicAlgebraTest.equationsTest.generator;
 
 import backend.ast.figure.components.Point;
+import backend.symbolicAlgebra.NumericValue;
 import backend.symbolicAlgebra.equations.Equation;
+import backend.symbolicAlgebra.equations.operations.Multiplication;
 import backend.utilities.Pair;
 import backend.ast.figure.components.*;
 
@@ -39,7 +41,8 @@ public abstract class EquationGenerator
     protected static Pair<Integer, Integer> reduce(int a, int b)
     {
         int gcd = gcd(a, b);
-        
+        if (gcd == 0)
+            gcd = 1;
         return new Pair<Integer, Integer>(a / gcd, b / gcd);
     }
 
@@ -82,17 +85,17 @@ public abstract class EquationGenerator
     
     
     
-    protected static Random rng = new Random();
+    protected static Random rng = new Random(5);
     protected static final int MAX_COORD = 10;
 
     public static int genCoordinate()
     {
-        return rng.nextInt() % MAX_COORD + 1;
+        return rng.nextInt(MAX_COORD) + 1;
     }
 
     public static String genName()
     {
-        return "Segment " + rng.nextInt() % MAX_COORD;
+        return "Segment " + rng.nextInt(MAX_COORD);
     }
 
     public static Point genPoint()
@@ -100,7 +103,7 @@ public abstract class EquationGenerator
         return new Point(genName(), genCoordinate(), genCoordinate());
     }
 
-    public static Segment genSegment(int multiplier)
+    public static Segment genSegment()
     {
         Point p = genPoint();
         Point q = genPoint();
@@ -112,12 +115,21 @@ public abstract class EquationGenerator
             q = genPoint();
         }
         Segment pg = new Segment(p, q);
-        pg.setMultiplier(multiplier);
+        //pg.setMultiplier(multiplier);
 
         return pg;
     }
 
-
+    public static Multiplication genSegmentGivenMultiplier(int multiplier)
+    {
+        return new Multiplication(new NumericValue(multiplier), genSegment());
+    }
+    
+    public static Multiplication genSegmentGivenMultiplierAndSegment(int multiplier, Segment seg)
+    {
+        return new Multiplication(new NumericValue(multiplier), seg);
+    }
+    
 
 //    //
 //    // Construct a segment equation, also construct the simplified equation.
