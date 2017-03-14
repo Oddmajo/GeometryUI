@@ -109,4 +109,9 @@ public class PointFactory
             }
         }
     }
+    
+    public static ArrayList<Point> getAllPoints()
+    {
+        return database;
+    }
 }

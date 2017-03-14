@@ -51,7 +51,14 @@ import backend.ast.figure.components.triangles.RightTriangle;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.hypergraph.QueryableHypergraph;
 import backend.precomputer.PolygonCalculator;
+import backend.symbolicAlgebra.NumericValue;
+import backend.symbolicAlgebra.equations.AngleArcEquation;
 import backend.symbolicAlgebra.equations.AngleEquation;
+import backend.symbolicAlgebra.equations.ArcEquation;
+import backend.symbolicAlgebra.equations.SegmentEquation;
+import backend.symbolicAlgebra.equations.operations.Addition;
+import backend.symbolicAlgebra.equations.operations.Multiplication;
+import backend.utilities.AngleFactory;
 import backend.utilities.Pair;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.DebugException;
@@ -104,7 +111,6 @@ public class FactComputer
     
     private ArrayList<RightAngle> rightAngles;
     private ArrayList<Strengthened> strengthRightAngles;
-    private ArrayList<AngleEquation> angleEquations;
     private ArrayList<Strengthened> strengthAngleEquations;
     private ArrayList<Complementary> complementaryAngles;
     private ArrayList<CongruentAngles> congruentAngles;
@@ -128,6 +134,11 @@ public class FactComputer
     
     private ArrayList<CongruentCircles> congruentCircles;
     private ArrayList<ConcavePolygon> concavePolygons;
+    
+    private ArrayList<SegmentEquation> segmentEquations;
+    private ArrayList<ArcEquation> arcEquations;
+    private ArrayList<AngleEquation> angleEquations;
+    private ArrayList<AngleArcEquation> angleArcEquations;
     
     //private QueryableHypergraph graph;
     private FactComputerContainer container;
@@ -208,11 +219,13 @@ public class FactComputer
     private void setContainer()
     {
         container.setAltitudes(altitudes);
+        container.setAngleArcEquation(angleArcEquations);
         container.setAngleBisectors(angleBisectors);
         container.setAngleEquations(angleEquations);
         container.setAnglePairRelations(anglePairRelations);
         container.setAngles(angles);
         container.setArcs(arcs);
+        container.setArcEquation(arcEquations);
         container.setCircles(circles);
         container.setCollinears(collinears);
         container.setComplementaryAngles(complementaryAngles);
@@ -243,6 +256,7 @@ public class FactComputer
         container.setRightTriangles(rightTriangles);
         container.setSectors(sectors);
         container.setSegmentBisectors(segmentBisectors);
+        container.setSegmentEquation(segmentEquations);
         container.setSegmentRatios(segmentRatios);
         container.setSegments(segments);
         container.setSimilarTriangles(similarTriangles);
@@ -336,6 +350,11 @@ public class FactComputer
         congruentCircles = new ArrayList<CongruentCircles>();
         concavePolygons = new ArrayList<ConcavePolygon>();
         
+        segmentEquations = new ArrayList<SegmentEquation>();
+        arcEquations = new ArrayList<ArcEquation>();
+        angleEquations = new ArrayList<AngleEquation>();
+        angleArcEquations = new ArrayList<AngleArcEquation>();
+        
         container = new FactComputerContainer();
     }
 
@@ -354,7 +373,24 @@ public class FactComputer
             {
                 if(segments.get(s1).pointLiesBetweenEndpoints(p))
                 {
-                    inMiddles.add(new InMiddle(p,segments.get(s1)));
+                    InMiddle m = new InMiddle(p,segments.get(s1));
+                    inMiddles.add(m);
+                    Segment seg1 = new Segment(segments.get(s1).getPoint1(),p);
+                    Segment seg2 = new Segment(segments.get(s1).getPoint2(),p);
+                    int si1 = -1;
+                    int si2 = -1;
+                    for(int seg = 0; seg<segments.size(); seg++)
+                    {
+                        if(segments.get(seg).structurallyEquals(seg1))
+                        {
+                            si1 = seg;
+                        }
+                        else if(segments.get(seg).structurallyEquals(seg2))
+                        {
+                            si2 = seg;
+                        }
+                    }
+                    segmentEquations.add(new SegmentEquation(new Addition(segments.get(si1),segments.get(si2)), segments.get(s1) )); // AB + BC = AC
                 }
             }
             for(int s2 = s1 + 1; s2 < segments.size(); s2++)
@@ -363,6 +399,7 @@ public class FactComputer
                 if(segments.get(s1).coordinateCongruent(segments.get(s2)))
                 {
                     congruentSegments.add(new CongruentSegments(segments.get(s1),segments.get(s2)));
+                    segmentEquations.add(new SegmentEquation(segments.get(s1),segments.get(s2)));
                 }
                 
                 //Parallel
@@ -380,25 +417,34 @@ public class FactComputer
                     Point intersectionBisec = segments.get(s1).coordinateBisector(segments.get(s2));//return the actual intersection point
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
+                        //don't need to add equations here since it will be added later
                         perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
+                        
                     }
                     else if(intersectionPerp != null)
                     {
+                        //TODO : add equations for all angles = and = 90
                         perpendiculars.add(new Perpendicular(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2))));
                     }
                     else if(intersectionBisec != null)
                     {
+                        //TODO : add equations
                         segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s1), segments.get(s2)),segments.get(s2)));
+                        //since it is a bisector AB = BC
+                        //segmentEquations.add(new SegmentEquation(  ,  )); //segments.get(s2) //is this the correct segment?? 
                     }
                     
                     //we may have a bisector in the other direction
                     intersectionBisec = segments.get(s2).coordinateBisector(segments.get(s1));
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
-                                perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
+                        //the equations are either already added for this intersection, just in a different order
+                        perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
                     }
                     else if(intersectionBisec != null)
                     {
+                        //TODO : add equations
+                        //since it is a bisector AB = BC
                         segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s2), segments.get(s1)), segments.get(s1)));
                     }
                 }
@@ -415,7 +461,9 @@ public class FactComputer
                             //System.Diagnostics.Debug.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2));
                             ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + segments.get(s1) + " : " + segments.get(s2)));
                         }
-                        segmentRatios.add(new SegmentRatio(segments.get(s1), segments.get(s2)));
+                        SegmentRatio ratio = new SegmentRatio(segments.get(s1), segments.get(s2));
+                        segmentRatios.add(ratio);
+                        segmentEquations.add(new SegmentEquation(new Multiplication(new NumericValue(ratio.getDictatedProportion()) , ratio.getSmallerSegment() ) , ratio.getLargerSegment() )); //this should be the correct usage
                     }
                 }
             }
@@ -429,15 +477,18 @@ public class FactComputer
                 if(angles.get(a1).CoordinateCongruent(angles.get(a2)) && !Utilities.CompareValues(angles.get(a1).getMeasure(), 180))
                 {
                     congruentAngles.add(new CongruentAngles(angles.get(a1),angles.get(a2)));
+                    angleEquations.add(new AngleEquation(angles.get(a1),angles.get(a2))); // m<ABC = m<DEF
                 }
                 
                 if(angles.get(a1).IsComplementaryTo(angles.get(a2)))
                 {
                     complementaryAngles.add(new Complementary(angles.get(a1),angles.get(a2)));
+                    angleEquations.add(new AngleEquation(new Addition(angles.get(a1),angles.get(a2)),new NumericValue(90) )); // m<ABC + m<CBD = 90
                 }
                 else if(angles.get(a1).IsSupplementaryTo(angles.get(a2)))
                 {
                     supplementaryAngles.add(new Supplementary(angles.get(a1), angles.get(a2)));
+                    angleEquations.add(new AngleEquation(new Addition(angles.get(a1),angles.get(a2)),new NumericValue(180) )); // m<ABC + m<CBD = 180 
                 }
                 
                 //Proportional angle measure
@@ -524,7 +575,7 @@ public class FactComputer
             }
         }
         
-        //calculate ande bisectors
+        //calculate and bisectors
         for(Angle angle : angles)
         {
             if(!Utilities.CompareValues(angle.getMeasure(),  180))
@@ -534,7 +585,13 @@ public class FactComputer
                     //angle bisector
                     if(angle.CoordinateAngleBisector(segment))
                     {
-                        angleBisectors.add(new AngleBisector(angle,segment));
+                        AngleBisector bi = new AngleBisector(angle,segment);
+                        angleBisectors.add(bi);
+                        Pair<Angle,Angle> p = bi.getBisectedAngles();
+                        angleEquations.add(new AngleEquation( p.first() , p.second() ));
+                        angleEquations.add(new AngleEquation(new Addition(p.first(),p.second()), angle));
+                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.first() ), angle  ));
+                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.second() ), angle  ));
                     }
                 }
             }
@@ -612,6 +669,7 @@ public class FactComputer
             {
                 if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
                 { 
+                    arcEquations.add(new ArcEquation(arcs.get(a1),arcs.get(a2)));
                     congruentArcs.add(new CongruentArcs(arcs.get(a1), arcs.get(a2)));
                 }
             }
@@ -634,7 +692,27 @@ public class FactComputer
             Strengthened s = im.canBeStrengthened();
             if(s!=null)
             {
-                midPoints.add((Midpoint)s.getStrengthened());
+                Midpoint m = (Midpoint)s.getStrengthened();
+                midPoints.add(m);
+                //these two segments exist but have no good way of retrieving the segment from the two points
+                Segment s1 = new Segment(m.getSegment().getPoint1(),m.getPoint());
+                Segment s2 = new Segment(m.getPoint(),m.getSegment().getPoint2());
+                int si1 = -1;
+                int si2 = -1;
+                for(int seg = 0; seg<segments.size(); seg++)
+                {
+                    if(segments.get(seg).structurallyEquals(s1))
+                    {
+                        si1 = seg;
+                    }
+                    else if(segments.get(seg).structurallyEquals(s2))
+                    {
+                        si2 = seg;
+                    }
+                }
+                segmentEquations.add(new SegmentEquation(new Multiplication(new NumericValue(2),segments.get(si1)),m.getSegment())); // 2AB = AC
+                segmentEquations.add(new SegmentEquation(new Multiplication(new NumericValue(2),segments.get(si2)),m.getSegment())); // 2BC = AC
+                //segmentEquations.add(new SegmentEquation( new Addition( (new Segment(m.getSegment().getPoint1(),m.getPoint())) , (new Segment(m.getPoint(),m.getSegment().getPoint2())) ) , m.getSegment()));
             }
         }
         
