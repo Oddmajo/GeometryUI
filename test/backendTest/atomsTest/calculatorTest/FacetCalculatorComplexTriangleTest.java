@@ -123,12 +123,14 @@ public class FacetCalculatorComplexTriangleTest
         LoggerFactory.close();
     }
     
-    @Test public void facetCalculator_LargeComplexTriangle_125Points_Test()
+    @Test public void facetCalculator_LargeComplexTriangle_125Points_Test() throws IOException
     {
+        LoggerFactory.initialize();
+        
         System.out.println("Running facetCalculator_LargeComplexTriangle_125Points_Test...");
         
         // variable declarations/instantiations
-        int n = 125;
+        int n = 200;
         Point p1 = new Point("p1", 1, 1);
         Point p2 = new Point("p2", 123, 538);
         Point p3 = new Point("p3", 333, 120);
@@ -142,6 +144,8 @@ public class FacetCalculatorComplexTriangleTest
         // create the facet calculator
         FacetCalculator calc = new FacetCalculator(graph);
         System.out.println("Number of Primitives: " + calc.GetPrimitives().size());
+        
+        LoggerFactory.close();
         
         // assert the number of facets identified is correct
         assert(calc.GetPrimitives().size() == ((n+1)*(n+1)) );
