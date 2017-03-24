@@ -52,12 +52,12 @@ public class PrimitiveToRegionConverter
         {
             ExceptionHandler.throwException(new AtomicRegionException("A filament occurred in conversion to atomic regions."));
         }
-        // why is this commented out? *****************************************************************************************
+        // why is this commented out? (it works without it)
         // regions.AddRange(HandleFilaments(graph, circles, filaments));
 
-
-
-
+        //
+        // Main Cycle Calculation (Method below)
+        //
         ComposeCycles(graph, cycles);
 
         // check to see what cycles were composed

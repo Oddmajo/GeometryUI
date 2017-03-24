@@ -45,11 +45,20 @@ public class LoggerFactory
      * <p>
      * @modified Drew Whitmire
      * added default logger and made default exception logger a child of the default logger
-     * I added file paths just to test.  They need to be updated in the future to be generic to
-     * work for anybody.
+     * moved back to initialize to handle multiple calls to initialize and close (uses a semaphore
+     * to only close if the close matches up with the first initialize)
+     * EX:
+     *      initialize() // actually initializes
+     *      initialize() // does nothing
+     *      close()      // does nothing
+     *      initialize() // does nothing  
+     *      close()      // does nothing
+     *      close()      // actually closes
      */
     static 
     {
+        // This is all old code.  If you wish to move back to this type of initialization, take the code out 
+        // of the Initialize() function.
 //        _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
 //        _loggers = new ArrayList<Logger>();
 //        buildLogger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DebugLog.txt");                     // debug logger id 0
@@ -241,7 +250,7 @@ public class LoggerFactory
             _ids = new IdFactory(EXCEPTION_OUTPUT_ID + 1);
             _loggers = new ArrayList<Logger>();
             buildLogger(path + "\\src\\backend\\logs\\DebugLog.txt");                     // debug logger id 0
-            buildLogger(path + "\\src\\backend\\logs\\MatlabLog.txt");                     // matlab logger id 1
+            buildLogger(path + "\\src\\backend\\logs\\MatlabLog.txt");                    // matlab logger id 1
             
             // default logger id 2
             //_loggers.add(new Logger("C:\\Users\\Drew W\\Documents\\bradley\\iTutor\\DefaultLog.txt"));     

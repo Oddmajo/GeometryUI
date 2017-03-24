@@ -101,7 +101,7 @@ public class Logger
     {
         _theFilePath = null;
         _parentId = null;
-        _loggerId = -1;
+        _loggerId = -1; // invalid logger id
         open(writer);
     }
 

@@ -29,14 +29,20 @@ public class FacetCalculator
     private ArrayList<Primitive> primitives;
     public ArrayList<Primitive> GetPrimitives() { return primitives; }
     
-    // local copy of epsilon
+    /**
+     * Local copy of epsilon
+     * <p>
+     * This is different from the epsilon used elsewhere in the backend.
+     * It was calibrated using trial-and-error with the ComplexTriangleGeneratorTest
+     * @author Drew Whitmire
+     */
     public static final double EPSILON = 0.0000000001;
 
     /**
      * Locale copy of compare values with local EPSILON to refine facet calculation
      * @param a
      * @param b
-     * @return
+     * @return true if values are within EPSILON of each other
      */
     public static boolean CompareValues(double a, double b)
     {
@@ -45,25 +51,35 @@ public class FacetCalculator
 
     public FacetCalculator(PlanarGraph g)
     {
+        // input graph
         graph = g;
 
+        // initialize list of primitives
+        primitives = new ArrayList<Primitive>();
+        
+        // output graph to Logger if debugging
         if (Utilities.ATOMIC_REGION_GEN_DEBUG)
         {
             ExceptionHandler.throwException(new AtomicRegionException(graph.toString()));
         }
 
-        primitives = new ArrayList<Primitive>();
-
+        //
+        // Actual Primitive Calculation
+        //
         ExtractPrimitives();
+        
+        
     }
 
     //
     // We want our first vector to be downward (-90 degrees std unit circle)
     // (this returns the clockwise-most neighbor)
+    // The first neighbor is the opposite of subsequent neighbors in a cycle 
+    // using this algorithm.
     //
     private Point GetFirstNeighbor(Point currentPt)
     {
-        //System.out.println("Begin get first neighbor");
+        //System.out.println("Begin get first neighbor"); // this was for debugging
         
         Point imaginaryPrevPt = new Point("", currentPt.getX(), currentPt.getY() + 1);
         Point prevCurrVector = Point.MakeVector(imaginaryPrevPt, currentPt);
@@ -93,8 +109,6 @@ public class FacetCalculator
             // if (GeometryTutorLib.Utilities.GreaterThan(crossProduct, 0)) angleMeasure = angleMeasure;
             if (CompareValues(crossProduct, 0)) angleMeasure = 180;
             
-            // this should be crossProduct > 0
-            // why not just use angle measure itself?
             else if (crossProduct < 0) angleMeasure = 360 - angleMeasure;
 
             // If there are have the same angle, choose the one farther away (it is due to two connections)
@@ -111,6 +125,7 @@ public class FacetCalculator
                     currentNextPoint = neighbor;
                 }
             }
+            // if angleMeasure is smaller than currentAngle, neighbor becomes the currentNextPoint
             else if (angleMeasure < currentAngle)
             {
                 currentAngle = angleMeasure;
@@ -158,7 +173,8 @@ public class FacetCalculator
                 // if (GeometryTutorLib.Utilities.GreaterThan(crossProduct, 0)) angleMeasure = angleMeasure;
                 if (CompareValues(crossProduct, 0))
                 {
-                    //commenting this out to see if it will work without it - Drew
+                      // TODO: Dr. Alvin needs to look at this
+                      //commenting this out to see if it will work without it - Drew
 //                    // Circles create a legitimate situation where we want to walk back in the same 'collinear' path.
 //                    if (Point.OppositeVectors(prevCurrVector, currentNeighborVector))
 //                    {
@@ -170,7 +186,8 @@ public class FacetCalculator
 //                    }
                     angleMeasure = 180;
                 }
-                // why not just angle measure? why subtract from 360?
+                
+                // if crossProduct < 0, then we want the angle measure going in the opposite direction
                 else if (crossProduct < 0) angleMeasure = 360 - angleMeasure;
 
                 // If there are have the same angle, choose the one farther away (it is due to two connections)
@@ -187,7 +204,7 @@ public class FacetCalculator
                         currentNextPoint = neighbor;
                     }
                 }
-                // should this be else if?
+                // if angleMeasure is smaller than currentAngle, neighbor becomes the currentNextPoint
                 else if (angleMeasure < currentAngle)
                 {
                     currentAngle = angleMeasure;
@@ -199,21 +216,25 @@ public class FacetCalculator
         return currentNextPoint;
     }
 
+    
+    /**
+     * Main primitive calculator function
+     * utilizes GetFirstNeighbor and GetTightestCounterClockwiseNeighbor
+     */
     private void ExtractPrimitives()
     {
         //
         // Lexicographically sorted heap of all points in the graph.
         //
         LexicographicPoints heap = new LexicographicPoints();
-        //System.out.println("graph.count: " + graph.count());
+        
+        // add all nodes to the heap
         for (int gIndex = 0; gIndex < graph.count(); gIndex++)
         {
-            //System.out.println("adding gIndex: " + gIndex + " to heap");
-            //System.out.println("gIndex: " + graph.getNodes().get(gIndex).getPoint());
             heap.add(graph.getNodes().get(gIndex).getPoint());
-            //System.out.println("heap: " + heap.toString());
         }
 
+        // if debugging, send the heap to the Logger
         if (Utilities.ATOMIC_REGION_GEN_DEBUG)
         {
             ExceptionHandler.throwException(new AtomicRegionException(heap.toString()));
@@ -222,12 +243,9 @@ public class FacetCalculator
         //
         // Exhaustively analyze all points in the graph.
         //
-        // int count = 0;
         while (!heap.isEmpty())
-        {
-            
-            //System.out.println("heap: " + heap.toString());
-            //System.out.println("Extract primitives node: " + count);
+        {            
+            // get lexicographically first point and index
             Point v0 = heap.peekMin();
             int v0Index = graph.indexOf(v0);
 
@@ -235,28 +253,19 @@ public class FacetCalculator
             {
                 case 0:
                     // Isolated point
-                    //System.out.println("Isolated Point: " + count);
                     ExtractIsolatedPoint(v0, heap);
                     break;
 
                 case 1:
                     // Filament: start at this node and indicate the next point is its only neighbor
-                    //System.out.println("Filament: " + count);
-                    //System.out.println("v0: " + v0);
-                    //System.out.println("v1: " + graph.getNodes().get(v0Index).getEdges().get(0).getTarget());
                     ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
                     break;
 
                 default:
                     // filament or minimal cycle
-                    //System.out.println("filament or minimal cycle: " + count);
-                    //System.out.println("v0: " + v0);
                     ExtractPrimitive(v0, heap);
                     break;
             }
-            //System.out.println("heap: " + heap.toString());
-            //count++;
-            //if (count > 10) break;
         }
     }
 
@@ -266,11 +275,9 @@ public class FacetCalculator
     void ExtractIsolatedPoint (Point v0, LexicographicPoints heap)
     {
         heap.remove(v0);
-        //System.out.println("removing node: " + v0);
         graph.removeNode(v0);
 
         primitives.add(new IsolatedPoint(v0));
-        //System.out.println("primitives.get(0): " + primitives.get(0));
 
         if (Utilities.ATOMIC_REGION_GEN_DEBUG)
         {
@@ -280,34 +287,35 @@ public class FacetCalculator
 
     void ExtractFilament (Point v0, Point v1, LexicographicPoints heap)
     {
-        //System.out.println("In ExtractFilament");
         int v0Index = graph.indexOf(v0);
 
+        // if it is a filament from a cycle removal
+        // this does not count as a primitive and will not be added to the primitive list
         if (graph.isCycleEdge(v0, v1))
         {
-            //System.out.println("Is cycle edge:");
+            // beginning of filament
             if (graph.getNodes().get(v0Index).nodeDegree() >= 3)
             {
                 graph.removeEdge(v0, v1);
                 v0 = v1;
                 v0Index = graph.indexOf(v0);
-                // redundant?
+                
+                // end point of filament
                 if (graph.getNodes().get(v0Index).nodeDegree() == 1)
                 {
                     v1 = graph.getNodes().get(v0Index).getEdges().get(0).getTarget();
                 }
             }
 
+            // while in the filament, remove it
             while (graph.getNodes().get(v0Index).nodeDegree() == 1)
             {
                 v1 = graph.getNodes().get(v0Index).getEdges().get(0).getTarget();
                 
                 if (graph.isCycleEdge(v0, v1))
                 {
-                    //System.out.println("Is cycle edge " + v0 + " to " + v1 + ", removing");
                     heap.remove(v0);
                     graph.removeEdge(v0, v1);
-                    //System.out.println("removing node: " + v0);
                     graph.removeNode(v0);
                     v0 = v1;
                     v0Index = graph.indexOf(v0);
@@ -318,13 +326,15 @@ public class FacetCalculator
                 }
             }
 
+            // remove last point if not connected to anything else
             if (graph.getNodes().get(v0Index).nodeDegree() == 0)
             {
                 heap.remove(v0);
-                //System.out.println("removing node: " + v0);
                 graph.removeNode(v0);
             }
         }
+        // filament was pre-existing in the graph
+        // this counts as a primitive and will be added to the primitive list
         else
         {
             //System.out.println("Not Cycle Edge");
@@ -332,7 +342,6 @@ public class FacetCalculator
 
             if (graph.getNodes().get(v0Index).nodeDegree() >= 3)
             {
-                //System.out.println("NodeDegree >= 3");
                 primitive.add(v0);
                 graph.removeEdge(v0,v1);
                 v0 = v1;
@@ -346,29 +355,29 @@ public class FacetCalculator
 
             while (graph.getNodes().get(v0Index).nodeDegree() == 1)
             {
-                //System.out.println("In while loop");
                 primitive.add(v0);
                 v1 = graph.getNodes().get(v0Index).getEdges().get(0).getTarget();
                 heap.remove(v0);
                 graph.removeEdge(v0, v1);
-                //System.out.println("removing node: " + v0);
                 graph.removeNode(v0);
                 v0 = v1;
-                // i added this
+                
+                // This was missing
+                // @author Drew Whitmire
                 v0Index = graph.indexOf(v0);
             }
             
-            //System.out.println("Adding " + v0 + " to primitive filament");
             primitive.add(v0);
 
             if (graph.getNodes().get(v0Index).nodeDegree() == 0)
             {
                 heap.remove(v0);
                 graph.removeEdge(v0, v1);
-                //System.out.println("removing node: " + v0);
                 graph.removeNode(v0);
             }
             
+            //
+            // Add filament to the primitive list
             primitives.add(primitive);
 
             if (Utilities.ATOMIC_REGION_GEN_DEBUG)
@@ -392,11 +401,6 @@ public class FacetCalculator
         Point v1 = GetFirstNeighbor(v0); //  GetClockwiseMost(new Point("", v0.X, v0.Y + 1), v0);
         Point vPrev = v0;
         Point vCurr = v1;
-        
-        // test prints:
-        //System.out.println("v0: " + v0);
-        //System.out.println("vPrev: " + vPrev);
-        //System.out.println("vCurr: " + vCurr);
 
         int v0Index = graph.indexOf(v0);
         int v1Index = graph.indexOf(v1);
@@ -407,15 +411,8 @@ public class FacetCalculator
             sequence.add(vCurr);
             visited.add(vCurr);
             Point vNext = GetTightestCounterClockwiseNeighbor(vPrev, vCurr);
-            //System.out.println("vNext: " + vNext);
             vPrev = vCurr;
             vCurr = vNext;
-            
-            // test prints:
-            //System.out.println("vPrev: " + vPrev);
-            //System.out.println("vCurr: " + vCurr + " end of cycle");
-            //System.out.println("vCurr == null: " + (vCurr == null));
-            //if (vCurr == null) break;
         }
 
         //
@@ -423,19 +420,17 @@ public class FacetCalculator
         //
         if (vCurr == null)
         {
-            //System.out.println("Filament");
             // Filament found, not necessarily rooted at v0.
             // while not root of filament, get the next node
             while (graph.getNodes().get(v0Index).nodeDegree() == 2)
             {
-                //System.out.println("getting next node...");
                 v0 = graph.getNodes().get(v0Index).getEdges().get(0).getTarget();
                 v0Index = graph.indexOf(v0);
             }
-            //System.out.println("v0: " + v0);
-            //System.out.println("v1: " + graph.getNodes().get(v0Index).getEdges().get(0).getTarget());
+            // call ExctractFilament to handle
             ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
         }
+        
         //
         // Minimal cycle found.
         //
@@ -444,8 +439,8 @@ public class FacetCalculator
             //System.out.println("Minimal Cycle");
             MinimalCycle primitive = new MinimalCycle();
 
+            // add to primitive list
             primitive.AddAll(sequence);
-
             primitives.add(primitive);
 
             if (Utilities.ATOMIC_REGION_GEN_DEBUG)
@@ -456,7 +451,6 @@ public class FacetCalculator
             // Mark that these edges are a part of a cycle
             for (int p = 0; p < sequence.size(); p++)
             {
-                //ystem.out.println("Marking cycle edge");
                 graph.markCycleEdge(sequence.get(p), sequence.get(p+1 < sequence.size() ? p+1 : 0));
             }
 
@@ -467,7 +461,6 @@ public class FacetCalculator
             //
             if (graph.getNodes().get(v0Index).nodeDegree() == 1)
             {
-                //System.out.println("Extracting Filament");
                 // Remove the filament rooted at v0.
                 ExtractFilament(v0, graph.getNodes().get(v0Index).getEdges().get(0).getTarget(), heap);
             }
@@ -480,7 +473,6 @@ public class FacetCalculator
             {
                 if (graph.getNodes().get(v1Index).nodeDegree() == 1)
                 {
-                    //System.out.println("Extracting Filament fom v1");
                     // Remove the filament rooted at v1.
                     ExtractFilament(v1, graph.getNodes().get(v1Index).getEdges().get(0).getTarget(), heap);
                 }
@@ -495,7 +487,6 @@ public class FacetCalculator
             // cycle. This implies v0 is part of a filament. Locate the
             // starting point for the filament by traversing from v0 away
             // from the initial v1. 
-            //System.out.println("vCurr already visited");
             while (graph.getNodes().get(v0Index).nodeDegree() == 2)
             {
                 // Choose between the the two neighbors

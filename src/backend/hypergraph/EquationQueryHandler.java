@@ -8,6 +8,7 @@ import backend.utilities.exception.ExceptionHandler;
 
 //
 // @author C. Alvin
+// @author D. Whitmire
 //
 // An encapsulated form of a quick lookup mechanism for equations
 //
@@ -83,6 +84,7 @@ public final class EquationQueryHandler
     //
     public void add(Equation eq)
     {
+        // add to general list which contains all equations in the handler
         _generalEqs.add(eq);
 
         //
@@ -101,12 +103,10 @@ public final class EquationQueryHandler
 
             if (eq instanceof GeometricSegmentEquation)
             {
-                _geometricEqs.add(eq);
                 _geometricSegmentEqs.add((GeometricSegmentEquation) eq);
             }
             else if (eq instanceof AlgebraicSegmentEquation)
             {
-                _algebraicEqs.add(eq);
                 _algebraicSegmentEqs.add((AlgebraicSegmentEquation) eq);
             }
         }
@@ -116,12 +116,10 @@ public final class EquationQueryHandler
             
             if (eq instanceof GeometricAngleEquation)
             {
-                _geometricEqs.add(eq);
                 _geometricAngleEqs.add((GeometricAngleEquation) eq);
             }
             else if (eq instanceof AlgebraicAngleEquation)
             {
-                _algebraicEqs.add(eq);
                 _algebraicAngleEqs.add((AlgebraicAngleEquation) eq);
             }
         }
@@ -131,12 +129,10 @@ public final class EquationQueryHandler
             
             if (eq instanceof GeometricAngleEquation)
             {
-                _geometricEqs.add(eq);
                 _geomtricArcEqs.add((GeometricArcEquation) eq);
             }
             else if (eq instanceof AlgebraicAngleEquation)
             {
-                _algebraicEqs.add(eq);
                 _algebraicArcEqs.add((AlgebraicArcEquation) eq);
             }
         }
@@ -146,12 +142,10 @@ public final class EquationQueryHandler
             
             if (eq instanceof GeometricAngleEquation)
             {
-                _geometricEqs.add(eq);
                 _geometricAngleArcEqs.add((GeometricAngleArcEquation) eq);
             }
             else if (eq instanceof AlgebraicAngleEquation)
             {
-                _algebraicEqs.add(eq);
                 _algebraicAngleArcEqs.add((AlgebraicAngleArcEquation) eq);
             }
         }

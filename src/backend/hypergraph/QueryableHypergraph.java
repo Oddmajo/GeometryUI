@@ -145,7 +145,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     @SuppressWarnings("unchecked")
     public boolean addEdge(Deduction d)
     {
+        //
         // find target node within QHG
+        //
         GroundedClause data = d.getConsequent();
         GroundedClause target = null;
 

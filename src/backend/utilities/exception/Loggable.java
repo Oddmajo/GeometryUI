@@ -3,6 +3,14 @@ package backend.utilities.exception;
 import backend.utilities.logger.Logger;
 
 /**
+ * I was never able to get his idea to work in practice due to the 
+ * conflicting nature of "abstract" or "interface" and "static"
+ * <p>
+ * These functions need to be static so they can be set for each child class,
+ * but if they are static in the parent class then the static variable is the 
+ * same for every child class.
+ * <p>
+ * This is currently and unused class
  * @author Drew W
  *
  */

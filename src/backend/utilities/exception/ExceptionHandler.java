@@ -42,9 +42,9 @@ public class ExceptionHandler
      */
     public static String throwException(String message)
     {
-        // variables for logging
-        //Class loggerClass = null;
-        int loggerID = -1;
+        // write to the default exception logger
+        int loggerID = DEFAULT_LOGGER_ID;
+        
         // concatenate the message string to the stack trace and return it
         String output = "EXCEPTION: (" + message.getClass().getSimpleName() + ") " + message;
 
@@ -59,9 +59,11 @@ public class ExceptionHandler
         }
         
         // write to the default exception logger
-        loggerID = DEFAULT_LOGGER_ID;
         LoggerFactory.getLogger(loggerID).writeln(output);
         
+        // returns a string for debugging purposes
+        // you can print the exception to the console directly using
+        // System.out.print(ExceptionHandler.throwException("something bad happened"));
         return output += "\n\tloggerID = " + loggerID;
     }
 
@@ -104,7 +106,7 @@ public class ExceptionHandler
         {
             loggerID = NotImplementedException.getLoggerID();
         }
-        // more checks to come
+        // more classes may need to be added in the future
 
         // get the message and stack trace from the exception
         // turn it into a string and write to the default logger
