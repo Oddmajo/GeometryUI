@@ -901,6 +901,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 // throw exception, something bad happened
                 ExceptionHandler.throwException(new DebugException("QHG: Edge Unsuccessfully Added.  Edge pre-existing"));
+                System.out.println("QHG: Edge Unsuccessfully Added.  Edge pre-existing");
                 return false;
             }
             else // edge added successfully
@@ -913,6 +914,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         else // target is not in QHG, can't add edge
         {
             // throw exception, something bad happened
+            System.out.println("QHG: Edge Unsuccessfully Added.  Target Node Does Not Exist.");
             ExceptionHandler.throwException(new DebugException("QHG: Edge Unsuccessfully Added.  Target Node Does Not Exist."));
             return false;
         }

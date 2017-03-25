@@ -96,6 +96,20 @@ public class FactConnector
     private QueryableHypergraph<GroundedClause, Annotation> _qhg;
     private Set<Deduction> deductions;
     public Set<Deduction> getDeductions() { return deductions; }
+    
+    public String toString()
+    {
+        String output = "Deductions: " + deductions.size() + " [\n";
+        
+        for (Deduction d : deductions)
+        {
+            output += d + "\n";
+        }
+        
+        output += "]";
+        
+        return output;
+    }
 
     public FactConnector(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {

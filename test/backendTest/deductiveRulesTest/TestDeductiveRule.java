@@ -43,7 +43,7 @@ public class TestDeductiveRule
         
         // get deductions
         FactConnector deductions = new FactConnector(qhg);
-        System.out.println("Deductions: " + deductions.getDeductions()); 
+        System.out.println(deductions.toString()); 
         
         // add edges to qhg
         System.out.println("Adding edges to QHG");
