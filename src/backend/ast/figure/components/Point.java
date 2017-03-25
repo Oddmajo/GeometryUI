@@ -303,9 +303,9 @@ public class Point extends Figure implements Comparable
     {
         if (X == (int) X && Y == (int) Y)
         {
-            return "(" + X + ", " + Y + ")";
+            return "Point(" + X + ", " + Y + ")";
         }
-        return "(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
+        return "Point(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
 
     @Override
