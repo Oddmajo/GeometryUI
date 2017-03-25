@@ -2,8 +2,10 @@ package channels.fromUI;
 
 import java.util.ArrayList;
 import backend.ast.figure.Figure;
+import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.components.arcs.Arc;
 
 public class Diagram 
 {
@@ -13,6 +15,8 @@ public class Diagram
     {
         points = new ArrayList<Point>();
         lineSegments = new ArrayList<Segment>();
+        circles = new ArrayList<Circle>();
+        arcs = new ArrayList<Arc>();
     }
     public String toString()
     {
@@ -79,7 +83,45 @@ public class Diagram
         return lineSegments.contains(s);
     }
     
+    //-----------------------------------------------------------------------------------------------------------------------
+    private ArrayList<Circle> circles;
     
+    public ArrayList<Circle> getCircles()
+    {
+        return circles;
+    }
+    public void addCircle(Circle c)
+    {
+        circles.add(c);
+    }
+    public boolean removeCircle(Circle c)
+    {
+        return circles.remove(c);
+    }
+    public boolean containsCircle(Circle c)
+    {
+        return circles.contains(c);
+    }
+    
+    //-----------------------------------------------------------------------------------------------------------------------
+    private ArrayList<Arc> arcs;
+    
+    public ArrayList<Arc> getArcs()
+    {
+        return arcs;
+    }
+    public void addArc(Arc a)
+    {
+        arcs.add(a);
+    }
+    public boolean removeSegment(Arc a)
+    {
+        return arcs.remove(a);
+    }
+    public boolean containsSegment(Arc a)
+    {
+        return arcs.contains(a);
+    }
     //-----------------------------------------------------------------------------------------------------------------------
     //
     // The following section will include all premade diagrams for testing purposes.  

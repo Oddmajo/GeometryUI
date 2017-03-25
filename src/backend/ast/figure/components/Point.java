@@ -319,7 +319,7 @@ public class Point extends Figure implements Comparable
 
     public String SimpleToString()
     {
-        if (name == "") return "(" + String.format("%1$.1f", X) + ", " + String.format("%1$.3f", Y) + ")";
+        if (name == "") return "Point(" + String.format("%1$.1f", X) + ", " + String.format("%1$.3f", Y) + ")";
         else return name;
     }
 

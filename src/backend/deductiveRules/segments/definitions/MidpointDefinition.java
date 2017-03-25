@@ -100,7 +100,7 @@ public class MidpointDefinition extends Definition
         // For hypergraph
         ArrayList<GroundedClause> antecedent = Utilities.MakeList(original);
 
-        // Backward: Midpoint(M, Segment(A, B)) -> InMiddle(A, M, B)
+        // Backward: Midpoint(M, Segment(A, B)) -> InMiddle(M, Segment(A, B))
         deductions.add(new Deduction(antecedent, im, ANNOTATION));
 
         //

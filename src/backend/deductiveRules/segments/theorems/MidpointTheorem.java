@@ -112,6 +112,7 @@ public class MidpointTheorem extends Theorem
 
         // 2X = AB
         // TODO: these do not work @author Drew W
+        //  TODO: verify that these actually work now @author JPN
         SegmentEquation hgEq1 = _qhg.getSegmentEquation(new GeometricSegmentEquation(product1, midpt.getSegment()));
         SegmentEquation hgEq2 = _qhg.getSegmentEquation(new GeometricSegmentEquation(product2, midpt.getSegment()));
         

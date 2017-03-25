@@ -29,22 +29,13 @@ public class MidpointTest
     {
         // create diagram
         Diagram midpointDiagram = new Diagram();
-        
-        // create points and segments
-        Point a = new Point("A", 0, 0);
-        Point b = new Point("B", 2, 0);
-        Point m = new Point("M", 1, 0);
-        Segment ab = new Segment(a, b);
-        
-        // add points and segments to diagram object
-        midpointDiagram.addSegment(ab);
-        midpointDiagram.addPoint(m);
+        midpointDiagram.premade_Midpoint();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.MIDPOINT_THEOREM.ordinal());
         
-        assertTrue(TestDeductiveRule.test(midpointDiagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(midpointDiagram, 2, flags));
     }
     
     @Test
@@ -52,16 +43,7 @@ public class MidpointTest
     {
         // create diagram
         Diagram midpointDiagram = new Diagram();
-        
-        // create points and segments
-        Point a = new Point("A", 0, 0);
-        Point b = new Point("B", 2, 0);
-        Point m = new Point("M", 1, 0);
-        Segment ab = new Segment(a, b);
-        
-        // add points and segments to diagram object
-        midpointDiagram.addSegment(ab);
-        midpointDiagram.addPoint(m);
+        midpointDiagram.premade_Midpoint();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
