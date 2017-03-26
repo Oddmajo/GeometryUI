@@ -83,9 +83,9 @@ public class ParallelSegmentsTransitivity extends Theorem
             if (query1.containsKey(i.getSegment1()))
             {
                 // if segment2 is not in the group, add it
-                if (!query1.get(i).contains(i.getSegment2()))
+                if (!query1.get(i.getSegment1()).contains(i.getSegment2()))
                 {
-                    query1.get(i).add(i.getSegment2());
+                    query1.get(i.getSegment1()).add(i.getSegment2());
                 }
             }
             // segment1 is not a group, add it
@@ -104,9 +104,9 @@ public class ParallelSegmentsTransitivity extends Theorem
             if (query1.containsKey(i.getSegment2()))
             {
                 // if segment1 is not in the group, add it
-                if (!query1.get(i).contains(i.getSegment1()))
+                if (!query1.get(i.getSegment2()).contains(i.getSegment1()))
                 {
-                    query1.get(i).add(i.getSegment1());
+                    query1.get(i.getSegment2()).add(i.getSegment1());
                 }
             }
             // segment2 is not a group, add it
@@ -145,6 +145,8 @@ public class ParallelSegmentsTransitivity extends Theorem
             // Dr. Alvin Needs to look at this class
             ExceptionHandler.throwException(new NotImplementedException());
             //newGrounded.Add(new KeyValuePair<List<GroundedClause>, GroundedClause>(antecedent, newParallel));
+            // TODO: Make sure deductions are added to deductios list correctly (was commented out in the original C#)
+            //  We don't know exactly how to add these deductions @author Drew and Jay
 
 
         }

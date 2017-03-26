@@ -110,6 +110,7 @@ public class MidpointDefinition extends Definition
         Segment right = new Segment(midpt.getPoint(), midpt.getSegment().getPoint2());
         CongruentSegments ccss = new CongruentSegments(left, right);
         deductions.add(new Deduction(antecedent, ccss, ANNOTATION));
+        System.out.println("Midpoint Definition - deduction added:" + new Deduction(antecedent, ccss, ANNOTATION));
 
         return deductions;
     }
@@ -148,6 +149,7 @@ public class MidpointDefinition extends Definition
         antecedent.add(css);
 
         deductions.add(new Deduction(antecedent, newMidpoint, ANNOTATION));
+        System.out.println("Midpoint Definition - deduction added:" + new Deduction(antecedent, newMidpoint, ANNOTATION));
 
         return deductions;
     }

@@ -19,8 +19,10 @@ public class ParallelSegmentTransitivityTest
     /**
      * There is a problem with the query in ParallelSegmentTransitivity -Nick 3/14
      * 
+     * E---F
+     * C---D
+     * A---B    
      * 
-     * A---B  C---D  E---F
      * @throws IOException
      */
     @Test
@@ -33,11 +35,11 @@ public class ParallelSegmentTransitivityTest
         Point a = new Point("A", 0, 0);
         Point b = new Point("B", 2, 0);
         
-        Point c = new Point("C", 3, 0);
-        Point d = new Point("D", 4, 0);
+        Point c = new Point("C", 0, 2);
+        Point d = new Point("D", 2, 2);
         
-        Point e = new Point("E", 6, 0);
-        Point f = new Point("F", 7, 0);
+        Point e = new Point("E", 0, 4);
+        Point f = new Point("F", 2, 4);
         
         Segment ab = new Segment(a, b);
         Segment cd = new Segment(c, d);
