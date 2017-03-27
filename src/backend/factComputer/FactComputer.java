@@ -380,6 +380,25 @@ public class FactComputer
         {
             for(Point p : points)
             {
+                if(segments.get(s1).pointLiesOnLine(p))
+                {
+//                    for(Collinear c: collinears)
+//                    {
+//                        if()//if it belongs to that object
+//                        {
+//                            c.verify();
+//                            c.AddCollinearPoint(p);
+//                        }
+//                        else
+//                        {
+//                            ArrayList<Point> pointslist = new ArrayList<Point>();
+//                            pointslist.add(p);
+//                            pointslist.add(segments.get(s1).getPoint1());
+//                            pointslist.add(segments.get(s1).getPoint2());
+//                            collinears.add(new Collinear());
+//                        }
+//                    }
+                }
                 if(segments.get(s1).pointLiesBetweenEndpoints(p))
                 {
                     InMiddle m = new InMiddle(p,segments.get(s1));
@@ -426,19 +445,28 @@ public class FactComputer
                     Point intersectionBisec = segments.get(s1).coordinateBisector(segments.get(s2));//return the actual intersection point
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
-                        //don't need to add equations here since it will be added later
-                        perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)), segments.get(s2)));
+                        Intersection i = new Intersection(intersectionPerp,segments.get(s1),segments.get(s2));
+                        intersections.add(i);
+                        PerpendicularBisector pb = new PerpendicularBisector(i,segments.get(s2));
+                        perpBisectors.add(pb);
+                        strengthPerpBisectors.add(new Strengthened(i,pb));
                         
                     }
                     else if(intersectionPerp != null)
                     {
                         //TODO : add equations for all angles = and = 90
-                        perpendiculars.add(new Perpendicular(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2))));
+                        Intersection i = new Intersection(intersectionPerp,segments.get(s1),segments.get(s2));
+                        intersections.add(i);
+                        Perpendicular p = new Perpendicular(i);
+                        perpendiculars.add(p);
+                        strengthenedPerps.add(new Strengthened( i ,  p));
                     }
                     else if(intersectionBisec != null)
                     {
                         //TODO : add equations
-                        segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s1), segments.get(s2)),segments.get(s2)));
+                        Intersection i = new Intersection(intersectionBisec,segments.get(s1),segments.get(s2));
+                        intersections.add(i);
+                        segmentBisectors.add(new SegmentBisector(i,segments.get(s2)));
                         //since it is a bisector AB = BC
                         //segmentEquations.add(new SegmentEquation(  ,  )); //segments.get(s2) //is this the correct segment?? 
                     }
@@ -448,13 +476,17 @@ public class FactComputer
                     if(intersectionPerp != null && intersectionBisec != null)
                     {
                         //the equations are either already added for this intersection, just in a different order
-                        perpBisectors.add(new PerpendicularBisector(new Intersection(intersectionPerp, segments.get(s1), segments.get(s2)),segments.get(s1)));
+                        Intersection i = new Intersection(intersectionPerp,segments.get(s1),segments.get(s2));
+                        intersections.add(i);
+                        perpBisectors.add(new PerpendicularBisector(i,segments.get(s1)));
                     }
                     else if(intersectionBisec != null)
                     {
                         //TODO : add equations
                         //since it is a bisector AB = BC
-                        segmentBisectors.add(new SegmentBisector(new Intersection(intersectionBisec, segments.get(s2), segments.get(s1)), segments.get(s1)));
+                        Intersection i = new Intersection(intersectionBisec,segments.get(s2),segments.get(s1));
+                        intersections.add(i);
+                        segmentBisectors.add(new SegmentBisector(i, segments.get(s1)));
                     }
                 }
                 
@@ -512,7 +544,12 @@ public class FactComputer
                             //System.Diagnostics.Debu.WriteLine("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2));
                             ExceptionHandler.throwException(new DebugException("< " + proportion.getKey() + ", " + proportion.getValue() + " >: " + angles.get(a1) + " : " + angles.get(a2)));
                         }
-                        proportionalAngles.add(new ProportionalAngles(angles.get(a1), angles.get(a2)));
+                        ProportionalAngles propang = new ProportionalAngles(angles.get(a1), angles.get(a2));
+                        proportionalAngles.add(propang);
+                        angleEquations.add(new AngleEquation( new Multiplication( new NumericValue((double)(propang.getProportion().getKey())/(propang.getProportion().getValue())) , propang.getSmallerAngle() ) , propang.getLargerAngle() ));
+                        angleEquations.add(new AngleEquation(new Multiplication( new NumericValue((double)(propang.getProportion().getValue())/(propang.getProportion().getKey())),propang.getLargerAngle()),propang.getSmallerAngle()));
+                        //well the key is always greater than value but I don't know which one is associate to which
+                        //the above may be backwards
                     }
                 }
             }
@@ -529,6 +566,7 @@ public class FactComputer
                 if(corresponding.getKey() != null && corresponding.getValue() != null)
                 {
                     congruentTriangles.add(new CongruentTriangles(corresponding.getKey(), corresponding.getValue()));
+                    //do we have an equation to show congruence between polygons??
                 }
                 else if(triangles.get(t1).CoordinateSimilar(triangles.get(t2)))
                 {
@@ -547,13 +585,15 @@ public class FactComputer
                 //median
                 if(tri.isMedian(segment))
                 {
-                    medians.add(new Median(segment, tri));
+                    medians.add(new Median(segment, tri)); 
+                    //there are two congruent segments here but are they already calculated??
                 }
                 
                 //Altitude
                 if(tri.isAltitude(segment))
                 {
                     altitudes.add(new Altitude(tri,segment));
+                    //angleEquations.add(new AngleEquation(  ,  )); //the two angles are equal and have a measure of 90
                 }
             }
             for(Strengthened s : Triangle.canBeStrengthened(tri))
@@ -589,10 +629,10 @@ public class FactComputer
                         AngleBisector bi = new AngleBisector(angle,segment);
                         angleBisectors.add(bi);
                         Pair<Angle,Angle> p = bi.getBisectedAngles();
-                        angleEquations.add(new AngleEquation( p.first() , p.second() ));
-                        angleEquations.add(new AngleEquation(new Addition(p.first(),p.second()), angle));
-                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.first() ), angle  ));
-                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.second() ), angle  ));
+                        angleEquations.add(new AngleEquation( p.first() , p.second() )); // <abc = <cbd
+                        angleEquations.add(new AngleEquation(new Addition(p.first(),p.second()), angle)); // <abc +<cbd = <abd
+                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.first() ), angle  )); // 2*<abc = <abd
+                        angleEquations.add(new AngleEquation(new Multiplication(new NumericValue(2) ,  p.second() ), angle  )); // 2*<cbd = <abd
                     }
                 }
             }
@@ -718,8 +758,6 @@ public class FactComputer
             }
             //There exists an ArcInMiddle descriptor class - what is that? how is one defined geometrically?
         }
-        
-
         
         //Dumping the relations
         if(Utilities.DEBUG)
