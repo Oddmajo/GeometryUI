@@ -30,6 +30,7 @@ package backend.precomputer;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import backend.ast.GroundedClause;
@@ -178,9 +179,11 @@ public class CoordinatePrecomputer
     
     private void findRelations()
     {
-        ArrayList<Segment> segs = new ArrayList<Segment>();
+        HashSet<Segment> segs = new HashSet<Segment>();
+        HashSet<Point> segPoint = new HashSet<Point>();
         for(Segment s : segments)
         {
+            segPoint.clear();
             if(!points.contains(s.getPoint1()))
             {
                 if(!PointFactory.contains(s.getPoint1()))
@@ -213,7 +216,6 @@ public class CoordinatePrecomputer
                     }
                 }
             }
-            
             for(Point p : points)
             {
                 // A-B-C 
@@ -221,46 +223,34 @@ public class CoordinatePrecomputer
                 //will check for midpoint in fact computer
                 if(s.pointLiesOnSegment(p)) 
                 {
-                    //check to see if this segment is already created
-                    boolean made1 = false;
-                    boolean made2 = false;
-                    for(Segment seg : segments)
+                    segPoint.add(p);
+                }
+            }
+            for(Point p1 : segPoint)
+            {
+                for(Point p2: segPoint)
+                {
+                    if(!p1.structurallyEquals(p2))
                     {
-                        if( (seg.getPoint1().structurallyEquals(s.getPoint1()) && seg.getPoint2().structurallyEquals(p)) )
+                        boolean made1 = false;
+                        Segment match = new Segment(p1,p2);
+                        if(structurallyContains(segments,match) || structurallyContains(new ArrayList<Segment>(segs),match))
                         {
                             //then this segment is created
                             made1 = true;
                         }
-                        if((seg.getPoint1().structurallyEquals(p) && seg.getPoint2().structurallyEquals(s.getPoint2())))
+                        Segment match2 = new Segment(p2,p1);
+                        if(structurallyContains(segments,match2)|| structurallyContains(new ArrayList<Segment>(segs),match2))
                         {
-                            made2=true;
+                            made1 = true;
                         }
-                    }
-                    //if they are not found to be made then we need to make the segments
-                    if(!made1)
-                    {
-                        if(!s.getPoint1().structurallyEquals(p))
+                        if(!made1)
                         {
-                            segs.add(new Segment(s.getPoint1(),p));
-                        }
-                    }
-                    if(!made2)
-                    {
-                        if(!s.getPoint2().structurallyEquals(p))
-                        {
-                            segs.add(new Segment(p,s.getPoint2()));
+                            segs.add(new Segment(p1,p2));
                         }
                     }
                 }
-                //Either B-A-C or A-B-C or A-B-C
-                //but maybe this will would create segments that shouldn't exist?
-//                if(s.pointLiesOnLine(p))
-//                {
-//                    
-//                }
             }
-            
-
         }
         segments.addAll(segs);
         
@@ -403,9 +393,9 @@ public class CoordinatePrecomputer
         }
     }
     
-    private boolean structurallyContains(ArrayList<Point> list, Point that)
+    private <T extends GroundedClause> boolean structurallyContains(ArrayList<T> list, T that)
     {
-        for(Point thisS : list)
+        for(T thisS : list)
         {
             if(thisS.structurallyEquals(that))
             {

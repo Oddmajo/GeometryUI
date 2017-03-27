@@ -46,8 +46,10 @@ import backend.ast.figure.components.triangles.Triangle;
 import backend.precomputer.CoordinatePrecomputer;
 import backend.utilities.logger.LoggerFactory;
 import backendTest.astTest.figure.EquationSegment;
+import channels.fromUI.Diagram;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
+import backend.ast.figure.components.arcs.Arc;
 import backend.ast.figure.components.arcs.MajorArc;
 import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.arcs.Semicircle;
@@ -58,568 +60,715 @@ import org.junit.Assert;
 public class CoordinatePrecomputerTest 
 {	
 	
-	@Test
-	public void simpleVerticalParallelSegment()
-	{
-		System.out.print("Starting Precomputer Simple Vertical parallel Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0),new Point("",0,10));
-		Segment seg2 = new Segment(new Point("",1,0), new Point("",1,9));
-		
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Parallel)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleHorizontalParallelSegment()
-	{
-		System.out.print("Starting Precomputer Simple Horizontal parallel Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg3 = new Segment(new Point("",0,0), new Point("",10,0));
-		Segment seg4 = new Segment(new Point("",0,1), new Point("",9,1));
-		clauses.add(seg3);
-		clauses.add(seg4);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Parallel)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleParallelSegment()
-	{
-		System.out.print("Starting Precomputer Simple parallel Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,1), new Point("",1,2));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Parallel)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-		
-	}
-	
-	@Test
-	public void simpleZeroCongruentSegment()
-	{
-		System.out.print("Starting Precomputer Simple zero length congruent Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,0));
-		Segment seg2 = new Segment(new Point("",1,0), new Point("",1,0));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof CongruentSegments)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleCongruentSegment()
-	{
-		System.out.print("Starting Precomputer Simple congruent Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,1));
-		Segment seg2 = new Segment(new Point("",1,1), new Point("",2,2));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof CongruentSegments)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleVerticalPerpendicularSegment()
-	{
-		System.out.print("Starting Precomputer Simple Vertical Perpdenicular Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,-1), new Point("",0,1));
-		Segment seg2 = new Segment(new Point("",-1,0), new Point("",1,0));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Perpendicular)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simplePerpendicularSegment()
-	{
-		System.out.print("Starting Precomputer Simple Perpdenicular Segment test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",2,2));
-		Segment seg2 = new Segment(new Point("",0,1), new Point("",1,0));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Perpendicular)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simplePerpendicularSegmentBisector()
-	{
-		System.out.print("Starting Precomputer Simple Perpendicular SegmentBisector test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,10));
-		Segment seg2 = new Segment(new Point("",-2,5), new Point("",2,5));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof PerpendicularBisector)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	//This test fails when it is a Perpendicular Bisector because PerpBisector inheirts from Perp 
-	@Test
-	public void simpleSegmentBisector()
-	{
-		System.out.print("Starting Precomputer Simple SegmentBisector test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,10));
-		Segment seg2 = new Segment(new Point("",0,5), new Point("",-6,7));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof SegmentBisector)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	//please look deeper into this test
-	@Test
-	public void simpleRatio()
-	{
-		System.out.print("Starting Precomputer Simple Ratio test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",0,3));
-		clauses.add(seg1);
-		clauses.add(seg2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			//System.out.println(d.toString());
-			if(d instanceof SegmentRatio)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void rightTriangle()
-	{
-		System.out.print("Starting Precomputer Right Triangle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Triangle tri = new Triangle(new Point("",0,0), new Point("",1,0), new Point("",0,1));
-		clauses.add(tri);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		compute.CalculateStrengthening();
-		if(compute.GetStrengthenedClauses().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Strengthened d : compute.GetStrengthenedClauses())
-		{
-			if(d.getStrengthened() instanceof RightTriangle)
-			{
-				System.out.println("Passed");
-				return;
-			}
-			
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void equilateralTriangle()
-	{
-		System.out.print("Starting Precomputer Equilateral Triangle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Triangle tri = new Triangle(new Point("",0,0), new Point("",6,0), new Point("",3,3*Math.sqrt(3)));
-		clauses.add(tri);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		compute.CalculateStrengthening();
-		if(compute.GetStrengthenedClauses().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Strengthened d : compute.GetStrengthenedClauses())
-		{
-			if(d.getStrengthened() instanceof EquilateralTriangle)
-			{
-				System.out.println("Passed");
-				return;
-			}
-			
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void isoscelesTriangle()
-	{
-		System.out.print("Starting Precomputer Isosceles Triangle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Triangle tri = new Triangle(new Point("",2,6), new Point("",8,2), new Point("",11,13));
-		clauses.add(tri);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		compute.CalculateStrengthening();
-		if(compute.GetStrengthenedClauses().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Strengthened d : compute.GetStrengthenedClauses())
-		{
-			if(d.getStrengthened() instanceof IsoscelesTriangle)
-			{
-				System.out.println("Passed");
-				return;
-			}
-			
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleCongruentAngles()
-	{
-		System.out.print("Starting Precompute Simple Congruent Angle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,0));
-		Segment seg3 = new Segment(new Point("",2,2), new Point("",2,3));
-		Segment seg4 = new Segment(new Point("",2,2), new Point("",3,2));
-		Angle ang1 = new Angle(seg1,seg2);
-		Angle ang2 = new Angle(seg3,seg4);
-		clauses.add(ang1);
-		clauses.add(ang2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof CongruentAngles)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-		
-	}
-	
-	@Test
-	public void simpleSuppAngles()
-	{
-		System.out.print("Starting Precompute Simple Supplementary Angle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,0));
-		Segment seg3 = new Segment(new Point("",0,0), new Point("",0,1));
-		Segment seg4 = new Segment(new Point("",0,0), new Point("",-1,0));
-		Angle ang1 = new Angle(seg1,seg2);
-		Angle ang2 = new Angle(seg3,seg4);
-		clauses.add(ang1);
-		clauses.add(ang2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Supplementary)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void simpleCompAngles()
-	{
-		System.out.print("Starting Precomputer Simple Complementary Angle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,0));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
-		Segment seg3 = new Segment(new Point("",0,0), new Point("",1,1));
-		Segment seg4 = new Segment(new Point("",0,0), new Point("",0,1));
-		Angle ang1 = new Angle(seg1,seg2);
-		Angle ang2 = new Angle(seg3,seg4);
-		clauses.add(ang1);
-		clauses.add(ang2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof Complementary)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	@Test
-	public void propAngles()
-	{
-		System.out.print("Starting Precomputer Proportional Angle test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,0));
-		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
-		Segment seg3 = new Segment(new Point("",0,0), new Point("",1,0));
-		Segment seg4 = new Segment(new Point("",0,0), new Point("",0,1));
-		Angle ang1 = new Angle(seg1,seg2);
-		Angle ang2 = new Angle(seg3,seg4);
-		clauses.add(ang1);
-		clauses.add(ang2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() == 0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof ProportionalAngles)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-
-	//curently fails cause triangle.getAngles is returning null
-	@Test
-	public void congruentTriangles()
-	{
-		System.out.print("Starting Precomputer Congruent Triangles test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Triangle t1 = new Triangle(new Point("",0,0), new Point("",1,1), new Point("",1,0));
-		Triangle t2 = new Triangle(new Point("",2,0), new Point("",1,1), new Point("",3,1));
-		clauses.add(t1);
-		clauses.add(t2);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() ==0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d: compute.GetPrecomputedRelations())
-		{
-			if(d instanceof CongruentTriangles)
-			{
-				System.out.println("Passed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
-	
-	//incomplete until the above test is also fixed
-	@Test
-	public void similarTriangles()
-	{
-		
-	}
-	
-	@Test
-	public void angleBisector()
-	{
-		System.out.print("Starting Precomputer angleBisector test...");
-		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
-		Segment seg1 = new Segment(new Point("",0,0),new Point("",1,1));
-		Segment seg2 = new Segment(new Point("",0,0),new Point("",1,0));
-		Segment seg3 = new Segment(new Point("",0,0),new Point("",0,1));
-		Angle ang1 = new Angle(seg2,seg3); 
-		clauses.add(seg1);
-		clauses.add(ang1);
-		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
-		compute.CalculateRelations();
-		if(compute.GetPrecomputedRelations().size() ==0)
-		{
-			System.out.println("Failed");
-			assert(false);
-		}
-		for(Descriptor d : compute.GetPrecomputedRelations())
-		{
-			if(d instanceof AngleBisector)
-			{
-				System.out.println("Passsed");
-				return;
-			}
-		}
-		System.out.println("Failed");
-		assert(false);
-	}
+    @Test
+    public void segmentTest()
+    {
+        System.out.print("Starting precomputer segmentTest... ");
+        Diagram test = new Diagram();
+        test.premade_Midpoint();
+        CoordinatePrecomputer compute = new CoordinatePrecomputer(null,null,test.getSegments(),test.getPoints());
+        ArrayList<Circle> circles = compute.getCircles();
+        ArrayList<Arc> arcs = compute.getArcs();
+        ArrayList<Segment> segments = compute.getSegments();
+        ArrayList<Point> points = compute.getPoints();
+        
+        if(circles.size() != 0)
+        {
+            System.out.println("FAILED. too many circles " + circles.size());
+            assert(false);
+        }
+        else if(arcs.size() != 0 )
+        {
+            System.out.println("FAILED. too many arcs " + arcs.size());
+            assert(false);
+        }
+        else if(segments.size() != 3)
+        {
+            System.out.println("FAILED. do not have correct amount of segments: " + segments.size());
+            assert(false);
+        }
+        else if(points.size() != 3)
+        {
+            System.out.println("FAILED. do not have correct amount of points: " + points.size());
+            assert(false);
+        }
+        
+        System.out.println("Passed");
+        assert(true);
+    }
+    
+    @Test
+    public void triangleTest()
+    {
+        System.out.print("Starting precomputer triangleTest... ");
+        Diagram test = new Diagram();
+        test.premade_Triangles();
+        CoordinatePrecomputer compute = new CoordinatePrecomputer(null,null,test.getSegments(),test.getPoints());
+        ArrayList<Circle> circles = compute.getCircles();
+        ArrayList<Arc> arcs = compute.getArcs();
+        ArrayList<Segment> segments = compute.getSegments();
+        ArrayList<Point> points = compute.getPoints();
+        
+        if(circles.size() != 0)
+        {
+            System.out.println("FAILED. too many circles " + circles.size());
+            assert(false);
+        }
+        else if(arcs.size() != 0 )
+        {
+            System.out.println("FAILED. too many arcs " + arcs.size());
+            assert(false);
+        }
+        else if(segments.size() != 14)
+        {
+            System.out.println("FAILED. do not have correct amount of segments: " + segments.size());
+            assert(false);
+        }
+        else if(points.size() != 6)
+        {
+            System.out.println("FAILED. do not have correct amount of points: " + points.size());
+            assert(false);
+        }
+        
+        System.out.println("Passed");
+        assert(true);
+    }
+    
+    @Test
+    public void ParallelogramTest()
+    {
+        System.out.print("Starting precomputer ParallelogramTest... ");
+        Diagram test = new Diagram();
+        test.premade_Parallelogram();
+        CoordinatePrecomputer compute = new CoordinatePrecomputer(null,null,test.getSegments(),test.getPoints());
+        ArrayList<Circle> circles = compute.getCircles();
+        ArrayList<Arc> arcs = compute.getArcs();
+        ArrayList<Segment> segments = compute.getSegments();
+        ArrayList<Point> points = compute.getPoints();
+        
+        if(circles.size() != 0)
+        {
+            System.out.println("FAILED. too many circles " + circles.size());
+            assert(false);
+        }
+        else if(arcs.size() != 0 )
+        {
+            System.out.println("FAILED. too many arcs " + arcs.size());
+            assert(false);
+        }
+        else if(segments.size() != 5)
+        {
+            System.out.println("FAILED. do not have correct amount of segments: " + segments.size());
+            assert(false);
+        }
+        else if(points.size() != 4)
+        {
+            System.out.println("FAILED. do not have correct amount of points: " + points.size());
+            assert(false);
+        }
+        
+        System.out.println("Passed");
+        assert(true);
+    }
+    
+    @Test
+    public void ParallelLineTest()
+    {
+        System.out.print("Starting precomputer ParallelLineTest... ");
+        Diagram test = new Diagram();
+        test.premade_ParallelLines();
+        CoordinatePrecomputer compute = new CoordinatePrecomputer(null,null,test.getSegments(),test.getPoints());
+        ArrayList<Circle> circles = compute.getCircles();
+        ArrayList<Arc> arcs = compute.getArcs();
+        ArrayList<Segment> segments = compute.getSegments();
+        ArrayList<Point> points = compute.getPoints();
+        
+        if(circles.size() != 0)
+        {
+            System.out.println("FAILED. too many circles " + circles.size());
+            assert(false);
+        }
+        else if(arcs.size() != 0 )
+        {
+            System.out.println("FAILED. too many arcs " + arcs.size());
+            assert(false);
+        }
+        else if(points.size() != 8)
+        {
+            System.out.println("FAILED. do not have correct amount of points: " + points.size());
+            assert(false);
+        }
+        else if(segments.size() != 12)
+        {
+            System.out.println("FAILED. do not have correct amount of segments: " + segments.size());
+            assert(false);
+        }
+        System.out.println("Passed");
+        assert(true);
+    }
+    
+//	@Test
+//	public void simpleVerticalParallelSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple Vertical parallel Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0),new Point("",0,10));
+//		Segment seg2 = new Segment(new Point("",1,0), new Point("",1,9));
+//		
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Parallel)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleHorizontalParallelSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple Horizontal parallel Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg3 = new Segment(new Point("",0,0), new Point("",10,0));
+//		Segment seg4 = new Segment(new Point("",0,1), new Point("",9,1));
+//		clauses.add(seg3);
+//		clauses.add(seg4);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Parallel)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleParallelSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple parallel Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,1), new Point("",1,2));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Parallel)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//		
+//	}
+//	
+//	@Test
+//	public void simpleZeroCongruentSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple zero length congruent Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,0));
+//		Segment seg2 = new Segment(new Point("",1,0), new Point("",1,0));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof CongruentSegments)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleCongruentSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple congruent Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,1));
+//		Segment seg2 = new Segment(new Point("",1,1), new Point("",2,2));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof CongruentSegments)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleVerticalPerpendicularSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple Vertical Perpdenicular Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,-1), new Point("",0,1));
+//		Segment seg2 = new Segment(new Point("",-1,0), new Point("",1,0));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Perpendicular)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simplePerpendicularSegment()
+//	{
+//		System.out.print("Starting Precomputer Simple Perpdenicular Segment test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",2,2));
+//		Segment seg2 = new Segment(new Point("",0,1), new Point("",1,0));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Perpendicular)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simplePerpendicularSegmentBisector()
+//	{
+//		System.out.print("Starting Precomputer Simple Perpendicular SegmentBisector test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,10));
+//		Segment seg2 = new Segment(new Point("",-2,5), new Point("",2,5));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof PerpendicularBisector)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	//This test fails when it is a Perpendicular Bisector because PerpBisector inheirts from Perp 
+//	@Test
+//	public void simpleSegmentBisector()
+//	{
+//		System.out.print("Starting Precomputer Simple SegmentBisector test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,10));
+//		Segment seg2 = new Segment(new Point("",0,5), new Point("",-6,7));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof SegmentBisector)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	//please look deeper into this test
+//	@Test
+//	public void simpleRatio()
+//	{
+//		System.out.print("Starting Precomputer Simple Ratio test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",0,3));
+//		clauses.add(seg1);
+//		clauses.add(seg2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			//System.out.println(d.toString());
+//			if(d instanceof SegmentRatio)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void rightTriangle()
+//	{
+//		System.out.print("Starting Precomputer Right Triangle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Triangle tri = new Triangle(new Point("",0,0), new Point("",1,0), new Point("",0,1));
+//		clauses.add(tri);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		compute.CalculateStrengthening();
+//		if(compute.GetStrengthenedClauses().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Strengthened d : compute.GetStrengthenedClauses())
+//		{
+//			if(d.getStrengthened() instanceof RightTriangle)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//			
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void equilateralTriangle()
+//	{
+//		System.out.print("Starting Precomputer Equilateral Triangle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Triangle tri = new Triangle(new Point("",0,0), new Point("",6,0), new Point("",3,3*Math.sqrt(3)));
+//		clauses.add(tri);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		compute.CalculateStrengthening();
+//		if(compute.GetStrengthenedClauses().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Strengthened d : compute.GetStrengthenedClauses())
+//		{
+//			if(d.getStrengthened() instanceof EquilateralTriangle)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//			
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void isoscelesTriangle()
+//	{
+//		System.out.print("Starting Precomputer Isosceles Triangle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Triangle tri = new Triangle(new Point("",2,6), new Point("",8,2), new Point("",11,13));
+//		clauses.add(tri);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		compute.CalculateStrengthening();
+//		if(compute.GetStrengthenedClauses().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Strengthened d : compute.GetStrengthenedClauses())
+//		{
+//			if(d.getStrengthened() instanceof IsoscelesTriangle)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//			
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleCongruentAngles()
+//	{
+//		System.out.print("Starting Precompute Simple Congruent Angle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,0));
+//		Segment seg3 = new Segment(new Point("",2,2), new Point("",2,3));
+//		Segment seg4 = new Segment(new Point("",2,2), new Point("",3,2));
+//		Angle ang1 = new Angle(seg1,seg2);
+//		Angle ang2 = new Angle(seg3,seg4);
+//		clauses.add(ang1);
+//		clauses.add(ang2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof CongruentAngles)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//		
+//	}
+//	
+//	@Test
+//	public void simpleSuppAngles()
+//	{
+//		System.out.print("Starting Precompute Simple Supplementary Angle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,0));
+//		Segment seg3 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Segment seg4 = new Segment(new Point("",0,0), new Point("",-1,0));
+//		Angle ang1 = new Angle(seg1,seg2);
+//		Angle ang2 = new Angle(seg3,seg4);
+//		clauses.add(ang1);
+//		clauses.add(ang2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Supplementary)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void simpleCompAngles()
+//	{
+//		System.out.print("Starting Precomputer Simple Complementary Angle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,0));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
+//		Segment seg3 = new Segment(new Point("",0,0), new Point("",1,1));
+//		Segment seg4 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Angle ang1 = new Angle(seg1,seg2);
+//		Angle ang2 = new Angle(seg3,seg4);
+//		clauses.add(ang1);
+//		clauses.add(ang2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof Complementary)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	@Test
+//	public void propAngles()
+//	{
+//		System.out.print("Starting Precomputer Proportional Angle test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0), new Point("",1,0));
+//		Segment seg2 = new Segment(new Point("",0,0), new Point("",1,1));
+//		Segment seg3 = new Segment(new Point("",0,0), new Point("",1,0));
+//		Segment seg4 = new Segment(new Point("",0,0), new Point("",0,1));
+//		Angle ang1 = new Angle(seg1,seg2);
+//		Angle ang2 = new Angle(seg3,seg4);
+//		clauses.add(ang1);
+//		clauses.add(ang2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() == 0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof ProportionalAngles)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//
+//	//curently fails cause triangle.getAngles is returning null
+//	@Test
+//	public void congruentTriangles()
+//	{
+//		System.out.print("Starting Precomputer Congruent Triangles test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Triangle t1 = new Triangle(new Point("",0,0), new Point("",1,1), new Point("",1,0));
+//		Triangle t2 = new Triangle(new Point("",2,0), new Point("",1,1), new Point("",3,1));
+//		clauses.add(t1);
+//		clauses.add(t2);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() ==0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d: compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof CongruentTriangles)
+//			{
+//				System.out.println("Passed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
+//	
+//	//incomplete until the above test is also fixed
+//	@Test
+//	public void similarTriangles()
+//	{
+//		
+//	}
+//	
+//	@Test
+//	public void angleBisector()
+//	{
+//		System.out.print("Starting Precomputer angleBisector test...");
+//		ArrayList<GroundedClause> clauses = new ArrayList<GroundedClause>();
+//		Segment seg1 = new Segment(new Point("",0,0),new Point("",1,1));
+//		Segment seg2 = new Segment(new Point("",0,0),new Point("",1,0));
+//		Segment seg3 = new Segment(new Point("",0,0),new Point("",0,1));
+//		Angle ang1 = new Angle(seg2,seg3); 
+//		clauses.add(seg1);
+//		clauses.add(ang1);
+//		CoordinatePrecomputer compute = new CoordinatePrecomputer(clauses);
+//		compute.CalculateRelations();
+//		if(compute.GetPrecomputedRelations().size() ==0)
+//		{
+//			System.out.println("Failed");
+//			assert(false);
+//		}
+//		for(Descriptor d : compute.GetPrecomputedRelations())
+//		{
+//			if(d instanceof AngleBisector)
+//			{
+//				System.out.println("Passsed");
+//				return;
+//			}
+//		}
+//		System.out.println("Failed");
+//		assert(false);
+//	}
 
 }
