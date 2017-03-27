@@ -813,6 +813,39 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 }
             }
         }
+        
+        else if (target instanceof Strengthened)
+        {
+            System.out.println("hello");
+            if (((Strengthened) target).getStrengthened() instanceof Midpoint)
+            {
+                for (Strengthened streng : _sMidpoints)
+                {
+                    if (data.structurallyEquals(streng))
+                    {
+                        target = streng;
+                        break;
+                    }
+                }
+            }
+//            private HashSet<Strengthened> _sTriangles;
+//            private HashSet<Strengthened> _sIsoTriangles;
+//            private HashSet<Strengthened> _sRightTriangles;
+//            private HashSet<Strengthened> _sEqTriangles;
+//            private HashSet<Strengthened> _sQuadrilaterals;
+//            public HashSet<Strengthened> _strengthenedPerpendicular;
+//            public HashSet<Strengthened> _strengthenedPerpendicularBisectors;
+//            public HashSet<Strengthened> _strengthenedSegmentBisectors;
+//            public HashSet<Strengthened> _strengthenedIsoscelesTrapezoids;
+//            public HashSet<Strengthened> _strengthenedRightAngles;
+//            public HashSet<Strengthened> _strengthenedTrapezoids;
+//            public HashSet<Strengthened> _strengthenedKites;
+//            public HashSet<Strengthened> _strengthenedParallelograms;
+//            public HashSet<Strengthened> _strengthenedRectangles;
+//            public HashSet<Strengthened> _strengthenedRhombuses;
+//            public HashSet<Strengthened> _strengthenedSquares;
+//            public HashSet<Strengthened> _strengthenedAngleEquations;
+        }
 
 
         // 
@@ -880,6 +913,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 target = getGeneralEquation((Equation) data);
             }
         }
+       
 
         // if target is not null, get target ID
         if (target != null)
@@ -927,6 +961,8 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     // @author Drew Whitmire
     public boolean addAllEdges(Set<Deduction> deductions)
     {
+        boolean bool = true;
+
         System.out.println("QHG: in addAllEdges");
         // add each deduction as hyperedge
         for (Deduction d : deductions)
@@ -935,13 +971,13 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             // if the edge is unsuccessfully added, return false
             if (!addEdge(d))
             {
-                System.out.println("QHG: Failed to add edge");
-                return false;
+                System.out.println("QHG: Failed to add edge " + d.toString());
+                bool = false;
             }
         }
 
         // all edges successfully added
-        return true;
+        return bool;
     }
 
 

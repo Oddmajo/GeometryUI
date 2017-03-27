@@ -49,6 +49,6 @@ public class MidpointTest
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.MIDPOINT_DEFINITION.ordinal());
         
-        assertTrue(TestDeductiveRule.test(midpointDiagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(midpointDiagram, 5, flags));
     }
 }

@@ -169,6 +169,7 @@ public class FactComputerContainer
         master.add(new HashSet<>(perpBisectors));
         master.add(new HashSet<>(strengthPerpBisectors));
         master.add(new HashSet<>(inMiddles));
+        master.add(new HashSet<>(strengthMidPoints));
         
         master.add(new HashSet<>(medians));
         master.add(new HashSet<>(segmentBisectors));
