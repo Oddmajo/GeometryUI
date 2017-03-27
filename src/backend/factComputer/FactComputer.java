@@ -106,6 +106,7 @@ public class FactComputer
     
     private ArrayList<InMiddle> inMiddles;
     private ArrayList<Midpoint> midPoints;
+    private ArrayList<Strengthened> strengthMidPoints;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
@@ -277,6 +278,7 @@ public class FactComputer
         container.setStrengthIsoscelesTrapezoids(strengthIsoscelesTrapezoids);
         container.setStrengthIsoscelesTriangles(strengthIsoscelesTriangles);
         container.setStrengthKites(strengthKites);
+        container.setStrengthMidPoints(strengthMidPoints);
         container.setStrengthParallelograms(strengthParallelograms);
         container.setStrengthPerpBisectors(strengthPerpBisectors);
         container.setStrengthRectangles(strengthRectangles);
@@ -320,6 +322,7 @@ public class FactComputer
         
         inMiddles = new ArrayList<InMiddle>();
         midPoints = new ArrayList<Midpoint>();
+        strengthMidPoints = new ArrayList<Strengthened>();
         medians = new ArrayList<Median>();
         segmentBisectors = new ArrayList<SegmentBisector>();
         strengthSegmentBisectors = new ArrayList<Strengthened>();
@@ -788,6 +791,7 @@ public class FactComputer
         for(InMiddle im : inMiddles)
         {
             Strengthened s = im.canBeStrengthened();
+            strengthMidPoints.add(s);
             if(s!=null)
             {
                 Midpoint m = (Midpoint)s.getStrengthened();

@@ -88,6 +88,7 @@ public class FactComputerContainer
     
     private ArrayList<InMiddle> inMiddles;
     private ArrayList<Midpoint> midPoints;
+    private ArrayList<Strengthened> strengthMidPoints;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
@@ -535,6 +536,15 @@ public class FactComputerContainer
         this.midPoints = midpoints;
     }
 
+    public HashSet<Strengthened> getStrengthMidPoints()
+    {
+        return new HashSet<Strengthened>(strengthMidPoints);
+    }
+    
+    public void setStrengthMidPoints(ArrayList<Strengthened> _sMidPoints)
+    {
+        this.strengthMidPoints = _sMidPoints;
+    }
     public HashSet<Median> getMedians()
     {
         return new HashSet<Median>(medians);
