@@ -103,6 +103,20 @@ public class InMiddle extends Descriptor
     }
     
     @Override
+    public boolean structurallyEquals(Object obj)
+    {
+        if(obj != null && obj instanceof InMiddle)
+        {
+            InMiddle im = (InMiddle)obj;
+            
+            return im.point.structurallyEquals(point) && im.segment.structurallyEquals(segment);
+        }
+        
+        //this is untested but if the if statement isn't hit then it probably should return false anyways
+        return false;
+    }
+    
+    @Override
     public String toString()
     {
     	return "InMiddle(" + point.toString() + ", " + segment.toString() + ") " + justification;

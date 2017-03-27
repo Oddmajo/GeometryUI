@@ -1354,11 +1354,13 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof InMiddle)
         {
-            _inMiddles.add((InMiddle) data);
-
             if (data instanceof Midpoint)
             {
                 _midpoints.add((Midpoint) data);
+            }
+            else
+            {
+                _inMiddles.add((InMiddle) data);
             }
         }
         else if (data instanceof Median)

@@ -18,6 +18,8 @@ import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
 import backend.utilities.ast_helper.Utilities;
 
+
+
 public class MidpointDefinition extends Definition
 {
 
@@ -66,19 +68,22 @@ public class MidpointDefinition extends Definition
         
         for (InMiddle im : inMiddles)
         {
-            
+            System.out.println(im);
             for (Midpoint midpt : midpoints)
             {
+                System.out.println(midpt);
                 deductions.addAll(deduceFromMidpoint(im, midpt, midpt));
             }
 
             for (Strengthened streng : strengs)
             {
+                System.out.println(streng);
                 deductions.addAll(deduceFromMidpoint(im, (Midpoint)streng.getStrengthened(), streng));
             }
 
             for (CongruentSegments css : conSegs)
             {                
+                System.out.println(css);
                 deductions.addAll(deduceToMidpoint(im, css));
             }
         }
@@ -110,7 +115,6 @@ public class MidpointDefinition extends Definition
         Segment right = new Segment(midpt.getPoint(), midpt.getSegment().getPoint2());
         CongruentSegments ccss = new CongruentSegments(left, right);
         deductions.add(new Deduction(antecedent, ccss, ANNOTATION));
-        System.out.println("Midpoint Definition - deduction added:" + new Deduction(antecedent, ccss, ANNOTATION));
 
         return deductions;
     }
@@ -149,7 +153,6 @@ public class MidpointDefinition extends Definition
         antecedent.add(css);
 
         deductions.add(new Deduction(antecedent, newMidpoint, ANNOTATION));
-        System.out.println("Midpoint Definition - deduction added:" + new Deduction(antecedent, newMidpoint, ANNOTATION));
 
         return deductions;
     }
