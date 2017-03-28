@@ -13,14 +13,14 @@ import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 
-public class SegmentBisectorTest
+public class PerpendicularBisectorDefinitionTest
 {
 
     /**
-     * Breaks somewhere in fact computer -Nick 3/28
-     *      C
-     *       \
-     *        \
+     * Out of bounds in fact computer -Nick 3/28
+     *         C
+     *         |
+     *         |
      * A-------M--------B
 
      * @throws IOException
@@ -35,7 +35,7 @@ public class SegmentBisectorTest
         Point a = new Point("A", 1, 0);
         Point b = new Point("B", 3, 0);
         
-        Point c = new Point("C", 1, 2);
+        Point c = new Point("C", 2, 1);
         Point m = new Point("M", 2, 0);
         
         Segment ab = new Segment(a, b);
@@ -47,21 +47,21 @@ public class SegmentBisectorTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal());
         
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 
     
     /**
-     * Intersections are null and null -Nick 3/28
-     *      C
-     *       \
-     *        \
+     * Intersections are null and null && Not creating any deductions (Probably because null and null) -Nick 3/28
+     *         C
+     *         |
+     *         |
      * A-------M--------B
-     *          \
-     *           \
-     *            D
+     *         |
+     *         |
+     *         D
 
      * @throws IOException
      */
@@ -75,8 +75,8 @@ public class SegmentBisectorTest
         Point a = new Point("A", 1, 0);
         Point b = new Point("B", 3, 0);
         
-        Point c = new Point("C", 1, 2);
-        Point d = new Point("d", 3, -2);
+        Point c = new Point("C", 2, 1);
+        Point d = new Point("d", 2, -1);
         
         Segment ab = new Segment(a, b);
         Segment cd = new Segment(c, d);
@@ -87,8 +87,9 @@ public class SegmentBisectorTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal());
         
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
+
 }

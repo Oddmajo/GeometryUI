@@ -13,16 +13,14 @@ import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 
-public class ParallelSegmentTransitivityTest
+public class SegmentAdditionAxiomTest
 {
 
     /**
-     * There is a problem with the query not adding deductions in ParallelSegmentTransitivity -Nick 3/14
+     * A     M     B
+     * *-----*-----*
      * 
-     * E---F
-     * C---D
-     * A---B    
-     * 
+     * AM + MB = AB
      * @throws IOException
      */
     @Test
@@ -30,31 +28,23 @@ public class ParallelSegmentTransitivityTest
     {
         // create diagram
         Diagram diagram = new Diagram();
-        
+
         // create points and segments
         Point a = new Point("A", 0, 0);
         Point b = new Point("B", 2, 0);
         
-        Point c = new Point("C", 0, 2);
-        Point d = new Point("D", 2, 2);
-        
-        Point e = new Point("E", 0, 4);
-        Point f = new Point("F", 2, 4);
+        Point m = new Point("M", 1, 0);
         
         Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        Segment ef = new Segment(e, f);
-        
+
         // add points and segments to diagram object
         diagram.addSegment(ab);
-        diagram.addSegment(cd);
-        diagram.addSegment(ef);
-        
+        diagram.addPoint(m);
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PARALLEL_SEGMENTS_TRANSITIVITY.ordinal());
-        
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_ADDITION_AXIOM.ordinal());
+
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 

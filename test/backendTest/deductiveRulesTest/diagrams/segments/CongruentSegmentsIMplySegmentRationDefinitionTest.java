@@ -13,16 +13,20 @@ import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 
-public class ParallelSegmentTransitivityTest
+public class CongruentSegmentsIMplySegmentRationDefinitionTest
 {
 
     /**
-     * There is a problem with the query not adding deductions in ParallelSegmentTransitivity -Nick 3/14
-     * 
-     * E---F
-     * C---D
-     * A---B    
-     * 
+     *  Not adding edges - Likely Structurally Equals -Nick 3/28
+     *  
+     *     C            F
+     *     /\           /\
+     *    /  \         /  \
+     *   /    \       /    \
+     *  /______\     /______\
+     *  A       B   D        E
+     *  
+     *  
      * @throws IOException
      */
     @Test
@@ -30,31 +34,37 @@ public class ParallelSegmentTransitivityTest
     {
         // create diagram
         Diagram diagram = new Diagram();
-        
+
         // create points and segments
         Point a = new Point("A", 0, 0);
         Point b = new Point("B", 2, 0);
+        Point c = new Point("C", 1, 3);
         
-        Point c = new Point("C", 0, 2);
-        Point d = new Point("D", 2, 2);
+        Point d = new Point("d", 3, 0);
+        Point e = new Point("e", 5, 0);
+        Point f = new Point("f", 4, 3);
         
-        Point e = new Point("E", 0, 4);
-        Point f = new Point("F", 2, 4);
+        
         
         Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        Segment ef = new Segment(e, f);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
         
+        Segment de = new Segment(d, e);
+        Segment ef = new Segment(e, f);
+        Segment fd = new Segment(f, d);
         // add points and segments to diagram object
         diagram.addSegment(ab);
-        diagram.addSegment(cd);
+        diagram.addSegment(bc);
+        diagram.addSegment(ac);
+        diagram.addSegment(de);
         diagram.addSegment(ef);
-        
+        diagram.addSegment(fd);
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PARALLEL_SEGMENTS_TRANSITIVITY.ordinal());
-        
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.CONGRUENT_SEGMENTS_IMPLY_PROPORTIONAL_SEGMENTS_DEFINITION.ordinal());
+
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 

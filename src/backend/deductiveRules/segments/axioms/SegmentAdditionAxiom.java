@@ -42,6 +42,10 @@ public class SegmentAdditionAxiom extends Axiom
         return deductions;
     }
 
+    // A     M     B
+    // *-----*-----*
+    // inMiddle -> Segment AM + Segment AB = AM as GeometricSegmentEquation AM + MB = AM
+    //
     public Set<Deduction> deduceInMiddle()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();

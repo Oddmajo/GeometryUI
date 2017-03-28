@@ -138,17 +138,18 @@ public class RightAngleDefinition extends Definition
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> lhs = eq.getLHS().collectTerms();
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> rhs = eq.getRHS().collectTerms();
 
+        //TODO Not sure how collectTerms works now. Check this code -Nick 3/28
         Angle angle = null;
         NumericValue value = null;
-        if (lhs.get(0) instanceof Angle && rhs.get(0) instanceof NumericValue)
+        if (lhs.second().get(0) instanceof Angle && rhs.second().get(0) instanceof NumericValue)
         {
-            angle = (Angle)lhs.get(0);
-            value = (NumericValue)rhs.get(0);
+            angle = (Angle)lhs.second().get(0);
+            value = (NumericValue)rhs.second().get(0);
         }
-        else if (rhs.get(0) instanceof Angle && lhs.get(0) instanceof NumericValue)
+        else if (rhs.second().get(0) instanceof Angle && lhs.second().get(0) instanceof NumericValue)
         {
-            angle = (Angle)rhs.get(0);
-            value = (NumericValue)lhs.get(0);
+            angle = (Angle)rhs.second().get(0);
+            value = (NumericValue)lhs.second().get(0);
         }
         else
             return deductions;

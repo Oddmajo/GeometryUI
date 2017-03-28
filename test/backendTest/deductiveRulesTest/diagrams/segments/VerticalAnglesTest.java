@@ -17,7 +17,7 @@ public class VerticalAnglesTest
 {
 
     /**
-     * 
+     * Not creating edges - Probably structurally equals -Nick 3/28
      *      C
      *       \
      *        \

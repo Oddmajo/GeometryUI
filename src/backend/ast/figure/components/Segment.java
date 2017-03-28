@@ -306,8 +306,8 @@ public class Segment extends DimensionalLength
      */
     public Point other(Point p)
     {
-        if (p.equals(_point1)) return _point2;
-        if (p.equals(_point2)) return _point1;
+        if (p.structurallyEquals(_point1)) return _point2;
+        if (p.structurallyEquals(_point2)) return _point1;
 
         return null;
     }

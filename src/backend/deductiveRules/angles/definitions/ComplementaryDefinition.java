@@ -134,12 +134,14 @@ public class ComplementaryDefinition extends Definition
         //
         // Acquire the two angles from the equation
         //
+        
+        //TODO Not sure how collectTerms works now. Check this code -Nick 3/28
         Pair<Integer, Integer> cards = eq.getCardinalities();
-        List<GroundedClause> terms = cards.getKey() == 2 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
-        List<GroundedClause> singleton = cards.getKey() == 1 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> terms = cards.getKey() == 2 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
+        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> singleton = cards.getKey() == 1 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
 
-        Angle angle1 = (Angle) terms.get(0);
-        Angle angle2 = (Angle) terms.get(1);
+        Angle angle1 = (Angle) terms.second().get(0);
+        Angle angle2 = (Angle) terms.second().get(1);
 
         // Create the resultant angle to compare to the input right angle
         Segment shared = angle1.IsAdjacentTo(angle2);

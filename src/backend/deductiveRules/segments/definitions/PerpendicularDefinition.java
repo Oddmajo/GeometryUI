@@ -6,16 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Perpendicular;
-import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
-import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
@@ -178,7 +174,6 @@ public class PerpendicularDefinition extends Definition
             newGrounded.add(new Deduction(antecedent, bottomLeft, ANNOTATION));
             newGrounded.add(new Deduction(antecedent, topLeft, ANNOTATION));
         }
-        else return newGrounded;
 
         return newGrounded;
     }
