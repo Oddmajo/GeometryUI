@@ -813,8 +813,16 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 }
             }
         }
+
+        //
+        // Strengthened 
+        //
         else if (data instanceof Strengthened)
         {
+
+            //
+            // Midpoints
+            //
             if (((Strengthened) data).getStrengthened() instanceof Midpoint)
             {
                 for (Strengthened streng : _sMidpoints)
@@ -826,26 +834,258 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                     }
                 }
             }
+
+            //
+            // Triangles
+            //
+            else if (((Strengthened) data).getStrengthened() instanceof Triangle)
+            {
+                if (((Strengthened) data).getStrengthened() instanceof IsoscelesTriangle)
+                {
+                    for (Strengthened streng : _sIsoTriangles)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+                else if (((Strengthened) data).getStrengthened() instanceof RightTriangle)
+                {
+                    for (Strengthened streng : _sRightTriangles)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+                else if (((Strengthened) data).getStrengthened() instanceof EquilateralTriangle)
+                {
+                    for (Strengthened streng : _sEqTriangles)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (Strengthened streng : _sTriangles)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //
+            // Quadrilaterals
+            //
+            else if (((Strengthened) data).getStrengthened() instanceof Quadrilateral)
+            {
+                //
+                // Trapezoids
+                //
+                if (((Strengthened) data).getStrengthened() instanceof Trapezoid)
+                {
+                    if (((Strengthened) data).getStrengthened() instanceof IsoscelesTrapezoid)
+                    {
+                        for (Strengthened streng : _strengthenedIsoscelesTrapezoids)
+                        {
+                            if (data.structurallyEquals(streng))
+                            {
+                                target = streng;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (Strengthened streng : _strengthenedTrapezoids)
+                        {
+                            if (data.structurallyEquals(streng))
+                            {
+                                target = streng;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                //
+                // Kites
+                //
+                else if (((Strengthened) data).getStrengthened() instanceof Kite)
+                {
+                    for (Strengthened streng : _strengthenedKites)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+
+                //
+                // Parallelograms
+                //
+                else if (((Strengthened) data).getStrengthened() instanceof Parallelogram)
+                {
+                    if (((Strengthened) data).getStrengthened() instanceof Rectangle)
+                    {
+                        for (Strengthened streng : _strengthenedRectangles)
+                        {
+                            if (data.structurallyEquals(streng))
+                            {
+                                target = streng;
+                                break;
+                            }
+                        }
+                    }
+                    else if (((Strengthened) data).getStrengthened() instanceof Rhombus)
+                    {
+                        if (((Strengthened) data).getStrengthened() instanceof Square)
+                        {
+                            for (Strengthened streng : _strengthenedSquares)
+                            {
+                                if (data.structurallyEquals(streng))
+                                {
+                                    target = streng;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            for (Strengthened streng : _strengthenedRhombuses)
+                            {
+                                if (data.structurallyEquals(streng))
+                                {
+                                    target = streng;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    //
+                    // Base Parallelograms
+                    //
+                    else
+                    {
+                        for (Strengthened streng : _strengthenedParallelograms)
+                        {
+                            if (data.structurallyEquals(streng))
+                            {
+                                target = streng;
+                                break;
+                            }
+                        }
+                    }
+
+                }
+
+                //
+                // Base Quadrilaterals
+                //
+                else
+                {
+                    for (Strengthened streng : _sQuadrilaterals)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            //
+            // Perpendiculars
+            //
+            else if (((Strengthened) data).getStrengthened() instanceof Perpendicular)
+            {
+                if (((Strengthened) data).getStrengthened() instanceof PerpendicularBisector)
+                {
+                    for (Strengthened streng : _strengthenedPerpendicularBisectors)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for (Strengthened streng : _strengthenedPerpendicular)
+                    {
+                        if (data.structurallyEquals(streng))
+                        {
+                            target = streng;
+                            break;
+                        }
+                    }
+                }
+
+            }
+
+            //
+            // SegmentBisectors
+            //
+            else if (((Strengthened) data).getStrengthened() instanceof SegmentBisector)
+            {
+                for (Strengthened streng : _strengthenedSegmentBisectors)
+                {
+                    if (data.structurallyEquals(streng))
+                    {
+                        target = streng;
+                        break;
+                    }
+                }
+            }
             
-//            private HashSet<Strengthened> _sTriangles;
-//            private HashSet<Strengthened> _sIsoTriangles;
-//            private HashSet<Strengthened> _sRightTriangles;
-//            private HashSet<Strengthened> _sEqTriangles;
-//            private HashSet<Strengthened> _sQuadrilaterals;
-//            public HashSet<Strengthened> _strengthenedPerpendicular;
-//            public HashSet<Strengthened> _strengthenedPerpendicularBisectors;
-//            public HashSet<Strengthened> _strengthenedSegmentBisectors;
-//            public HashSet<Strengthened> _strengthenedIsoscelesTrapezoids;
-//            public HashSet<Strengthened> _strengthenedRightAngles;
-//            public HashSet<Strengthened> _strengthenedTrapezoids;
-//            public HashSet<Strengthened> _strengthenedKites;
-//            public HashSet<Strengthened> _strengthenedParallelograms;
-//            public HashSet<Strengthened> _strengthenedRectangles;
-//            public HashSet<Strengthened> _strengthenedRhombuses;
-//            public HashSet<Strengthened> _strengthenedSquares;
-//            public HashSet<Strengthened> _strengthenedAngleEquations;
+            //
+            // Right Angles
+            //
+            else if (((Strengthened) data).getStrengthened() instanceof RightAngle)
+            {
+                for (Strengthened streng : _strengthenedRightAngles)
+                {
+                    if (data.structurallyEquals(streng))
+                    {
+                        target = streng;
+                        break;
+                    }
+                }
+            }
+            
+            //
+            // Equations
+            //
+            else if(((Strengthened) data).getStrengthened() instanceof AngleEquation)
+            {
+                for (Strengthened streng : _strengthenedAngleEquations)
+                {
+                    if (data.structurallyEquals(streng))
+                    {
+                        target = streng;
+                        break;
+                    }
+                }
+            }
         }
-        
+
 
 
         // 
@@ -913,7 +1153,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 target = getGeneralEquation((Equation) data);
             }
         }
-       
+
 
         // if target is not null, get target ID
         if (target != null)
@@ -1253,20 +1493,19 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         //
         else if (data instanceof Angle)
         {
-            // general angle list
-            _angles.add((Angle) data);
-
             // specific types of angles list
             if (data instanceof RightAngle)
             {
                 _rightAngles.add((RightAngle) data);
             }
-
+            // general angle list
+            else
+            {
+                _angles.add((Angle) data);
+            }
         }      
         else if (data instanceof AnglePairRelation)
         {
-            _anglePairRelations.add((AnglePairRelation) data);
-
             if (data instanceof Complementary)
             {
                 _complementaryAngles.add((Complementary) data);
@@ -1275,6 +1514,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 _supplementaryAngles.add((Supplementary) data);
             }
+            else
+            {
+                _anglePairRelations.add((AnglePairRelation) data);
+            }
         }        
         else if (data instanceof AngleBisector) 
         {
@@ -1282,8 +1525,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof CongruentAngles)
         {
-            _CongruentAngles.add((CongruentAngles) data);
-
             if (data instanceof GeometricCongruentAngles)
             {
                 _geomtricCongruentAngles.add((GeometricCongruentAngles) data);
@@ -1291,6 +1532,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof AlgebraicCongruentAngles)
             {
                 _algebraicCongruentAngles.add((AlgebraicCongruentAngles) data);
+            }
+            else
+            {
+                _CongruentAngles.add((CongruentAngles) data);
             }
         }
         else if (data instanceof GeometricProportionalAngles)
@@ -1307,9 +1552,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         //
         else if (data instanceof Triangle)
         {
-            // all triangles
-            _triangles.add((Triangle) data);
-
             // specific types of triangles
             if (data instanceof RightTriangle)
             {
@@ -1323,6 +1565,11 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 _isoscelesTriangles.add((IsoscelesTriangle) data);
             }
+            // all triangles
+            else
+            {
+                _triangles.add((Triangle) data);
+            }
         }
         else if (data instanceof Altitude)
         {
@@ -1330,8 +1577,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof SimilarTriangles)
         {
-            _similarTriangles.add((SimilarTriangles) data);
-
             if (data instanceof GeometricSimilarTriangles)
             {
                 _geometricSimilarTriangles.add((GeometricSimilarTriangles) data);
@@ -1339,6 +1584,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof AlgebraicSimilarTriangles)
             {
                 _algebraicSimilarTriangles.add((AlgebraicSimilarTriangles) data);
+            }
+            else
+            {
+                _similarTriangles.add((SimilarTriangles) data);
             }
         }
         else if (data instanceof GeometricCongruentTriangles)
@@ -1355,26 +1604,28 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         //
         else if (data instanceof Intersection)
         {
-            // all intersections
-            _intersections.add((Intersection) data);
-
             // specific types of intersections
             if (data instanceof Perpendicular)
             {
-                _perpendiculars.add((Perpendicular) data);
-
                 // specific types of perpendiculars
                 if (data instanceof PerpendicularBisector)
                 {
                     _perpendicularBisectors.add((PerpendicularBisector) data);
                 }
+                else
+                {
+                    _perpendiculars.add((Perpendicular) data);
+                }
+            }
+            // all intersections
+            else
+            {
+                _intersections.add((Intersection) data);
             }
 
         }
         else if (data instanceof CongruentSegments)
         {
-            _congruentSegments.add((CongruentSegments) data);
-
             if (data instanceof GeometricCongruentSegments)
             {
                 _geometricCongruentSegments.add((GeometricCongruentSegments) data);
@@ -1382,6 +1633,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof AlgebraicCongruentSegments)
             {
                 _algebraicCongruentSegments.add((AlgebraicCongruentSegments) data);
+            }
+            else
+            {
+                _congruentSegments.add((CongruentSegments) data);
             }
         }
         else if (data instanceof SegmentBisector)
@@ -1417,8 +1672,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         //
         else if (data instanceof Parallel)
         {
-            _parallels.add((Parallel) data);
-
             if (data instanceof GeometricParallel)
             {
                 _geometricParallels.add((GeometricParallel) data);
@@ -1427,6 +1680,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 _algebraicParallels.add((AlgebraicParallel) data);
             }
+            else
+            {
+                _parallels.add((Parallel) data);
+            }
         }
 
         //
@@ -1434,26 +1691,27 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         // 
         else if (data instanceof Quadrilateral)
         {
-            // all quadrilaterals
-            _quadrilaterals = new HashSet<Quadrilateral>();
-
             // specific quadrilaterals
             if (data instanceof Trapezoid)
             {
-                _trapezoids.add((Trapezoid) data);
-
                 if (data instanceof IsoscelesTrapezoid)
                 {
                     _isoscelesTrapezoids.add((IsoscelesTrapezoid) data);
                 }
+                else
+                {
+                    _trapezoids.add((Trapezoid) data);
+                }
             }
             else if (data instanceof Parallelogram)
             {
-                _parallelograms.add((Parallelogram) data);
-
                 if (data instanceof Rectangle)
                 {
                     _rectangles.add((Rectangle) data);
+                }
+                else
+                {
+                    _parallelograms.add((Parallelogram) data);
                 }
             }
             else if (data instanceof Kite)
@@ -1463,6 +1721,11 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof Square)
             {
                 _Squares.add((Square) data);
+            }
+            // all quadrilaterals
+            else
+            {
+                _quadrilaterals = new HashSet<Quadrilateral>();
             }
         }
 
@@ -1475,8 +1738,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (data instanceof Arc)
         {
-            _arcs.add((Arc)data);
-
             if (data instanceof MinorArc)
             {
                 _minorArcs.add((MinorArc)data);
@@ -1485,11 +1746,13 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 _majorArcs.add((MajorArc)data);
             }
+            else
+            {
+                _arcs.add((Arc)data);
+            }
         }
         else if (data instanceof CongruentArcs)
         {
-            _congruentArcs.add((CongruentArcs) data);
-
             if (data instanceof GeometricCongruentArcs)
             {
                 _geometricCongruentArcs.add((GeometricCongruentArcs) data);
@@ -1497,6 +1760,10 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             else if (data instanceof AlgebraicCongruentArcs)
             {
                 _algebraicCongruentArcs.add((AlgebraicCongruentArcs) data);
+            }
+            else
+            {
+                _congruentArcs.add((CongruentArcs) data);
             }
         }
 
@@ -1533,8 +1800,6 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         }
         else if (strengthened instanceof Triangle)
         {
-            _sTriangles.add(s);
-
             if (strengthened instanceof IsoscelesTriangle)
             {
                 _sIsoTriangles.add(s);
@@ -1547,19 +1812,23 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             {
                 _sEqTriangles.add(s);
             }
+            else
+            {
+                _sTriangles.add(s);
+            }
         }
         else if (strengthened instanceof Quadrilateral)
         {
-            _sQuadrilaterals.add(s);
-
             // specific types
             if (strengthened instanceof Parallelogram)
             {
-                _strengthenedParallelograms.add(s);
-
                 if (strengthened instanceof Rectangle)
                 {
                     _strengthenedRectangles.add(s);
+                }
+                else
+                {
+                    _strengthenedParallelograms.add(s);
                 }
             }
             else if (strengthened instanceof Kite)
@@ -1568,16 +1837,29 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
             }
             else if (strengthened instanceof Trapezoid)
             {
-                _strengthenedTrapezoids.add(s);
-
                 if (strengthened instanceof IsoscelesTrapezoid)
                 {
                     _strengthenedIsoscelesTrapezoids.add(s);
                 }
+                else
+                {
+                    _strengthenedTrapezoids.add(s);
+                }
             }
-            else if (strengthened instanceof Square)
+            else if (strengthened instanceof Rhombus)
             {
-                _strengthenedSquares.add(s);
+                if (strengthened instanceof Square)
+                {
+                    _strengthenedSquares.add(s);
+                }
+                else
+                {
+                    _strengthenedRhombuses.add(s);
+                }
+            }
+            else
+            {
+                _sQuadrilaterals.add(s);
             }
         }
         else if (strengthened instanceof Perpendicular)
