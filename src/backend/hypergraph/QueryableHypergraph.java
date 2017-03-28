@@ -813,11 +813,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 }
             }
         }
-        
-        else if (target instanceof Strengthened)
+        else if (data instanceof Strengthened)
         {
-            System.out.println("hello");
-            if (((Strengthened) target).getStrengthened() instanceof Midpoint)
+            if (((Strengthened) data).getStrengthened() instanceof Midpoint)
             {
                 for (Strengthened streng : _sMidpoints)
                 {
@@ -828,6 +826,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                     }
                 }
             }
+            
 //            private HashSet<Strengthened> _sTriangles;
 //            private HashSet<Strengthened> _sIsoTriangles;
 //            private HashSet<Strengthened> _sRightTriangles;
@@ -846,6 +845,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
 //            public HashSet<Strengthened> _strengthenedSquares;
 //            public HashSet<Strengthened> _strengthenedAngleEquations;
         }
+        
 
 
         // 
