@@ -117,20 +117,22 @@ public class SegmentRatio extends Descriptor
 
         return this.proportion.getKey() == that.proportion.getKey() && this.proportion.getKey() == that.proportion.getKey();
     }
-//
-//    public override bool StructurallyEquals(Object obj)
-//    {
-//        SegmentRatio p = obj as SegmentRatio;
-//        if (p == null) return false;
-//        return smallerSegment.StructurallyEquals(p.smallerSegment) && largerSegment.StructurallyEquals(p.largerSegment);
-//    }
-//
-//    public override bool Equals(Object obj)
-//    {
-//        SegmentRatio p = obj as SegmentRatio;
-//        if (p == null) return false;
-//        return smallerSegment.Equals(p.smallerSegment) && largerSegment.Equals(p.largerSegment) && base.Equals(obj);
-//    }
+
+    @Override
+    public boolean structurallyEquals(Object obj)
+    {
+        SegmentRatio p = (SegmentRatio)obj;
+        if (p == null) return false;
+        return smallerSegment.structurallyEquals(p.smallerSegment) && largerSegment.structurallyEquals(p.largerSegment);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        SegmentRatio p = (SegmentRatio)obj;
+        if (p == null) return false;
+        return smallerSegment.equals(p.smallerSegment) && largerSegment.equals(p.largerSegment) && super.equals(obj);
+    }
 //
 //    public override int GetHashCode() { return base.GetHashCode(); }
 //

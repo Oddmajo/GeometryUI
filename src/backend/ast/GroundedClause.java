@@ -212,12 +212,12 @@ public abstract class GroundedClause implements Cloneable
 
     public String toString()
     {
-        return this.toString();
+        return null;
     }
     
     public String toPrettyString()
     {
-        return this.toString();
+        return null;
     }
     
     

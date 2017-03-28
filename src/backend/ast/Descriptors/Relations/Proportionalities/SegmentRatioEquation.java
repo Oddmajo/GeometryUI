@@ -166,7 +166,8 @@ public class SegmentRatioEquation extends Descriptor
         return GetOtherImpliedRatio(that);
     }
 
-    public Boolean StructurallyEquals(Object obj)
+    @Override
+    public boolean structurallyEquals(Object obj)
     {
         if (obj != null && obj instanceof SegmentRatioEquation)
         {
@@ -178,7 +179,8 @@ public class SegmentRatioEquation extends Descriptor
         return false;
     }
 
-    public Boolean Equals(Object obj)
+    @Override
+    public boolean equals(Object obj)
     {
         if (obj != null && obj instanceof SegmentRatioEquation)
         {
@@ -189,7 +191,9 @@ public class SegmentRatioEquation extends Descriptor
         }
         return false;
     }
-    public String ToString()
+    
+    @Override
+    public String toString()
     {
         return "ProportionalEquation(" + lhs.toString() + " = " + rhs.toString() + ") ";
     }
