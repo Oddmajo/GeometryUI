@@ -83,7 +83,8 @@ public class FactComputer
     
     //This might need to be expanded into circlecircle and circlesegment intersections - simple fix
     //as of JPN commit 3/14/2017 this is populated starting at line 661
-    private ArrayList<CircleIntersection> circleIntersections;
+    private ArrayList<CircleIntersection> circleCircleIntersections;
+    private ArrayList<CircleIntersection> circleSegmentIntersections;
     
     private ArrayList<CongruentArcs> congruentArcs;
     private ArrayList<AngleBisector> angleBisectors;
@@ -703,66 +704,7 @@ public class FactComputer
         //calculate inscribed angle?
         //
         
-        for(int c1 = 0; c1 < circles.size(); c1++)
-        {
-
-            for(int c2 = c1 + 1; c2 < circles.size(); c2++)
-            {
-                //calculate congruent circles
-                if(circles.get(c1).CoordinateCongruent(circles.get(c2)))
-                {
-                    congruentCircles.add(new CongruentCircles(circles.get(c1), circles.get(c2)));
-                }
-                //calculate circle intersections
-                OutPair<Point, Point> intersections = null;
-                if(IntersectionDelegate.findIntersection(circles.get(c1), circles.get(c2), intersections))
-                {
-                    //CircleCircleIntersection is FUUUUUUCKED - only accepts a single point for intersection, and most of the code is commented out 
-                    //  this works for tangential intersection, and breaks otherwise
-                    
-                    //it could be that for each intersection, a CircleCircleIntersection is created - this will be followed for now
-                    circleIntersections.add(new CircleCircleIntersection(intersections.getKey(), circles.get(c1), circles.get(c2)));
-                    if(!(intersections.getValue() == null))
-                        circleIntersections.add(new CircleCircleIntersection(intersections.getValue(), circles.get(c1), circles.get(c2)));
-                    
-                }
-            }
-            //calculate segment intersections
-            for(int s = 0; s < segments.size(); s++)
-            {
-                OutPair<Point, Point> intersections = null;
-                if(IntersectionDelegate.findIntersection(circles.get(c1), segments.get(s), intersections))
-                {
-                    //There exists the same issue in CircleSegmentIntersection - only a single point is realized
-                    //  handling in same fashion as above for now
-                    circleIntersections.add(new CircleSegmentIntersection(intersections.getKey(), circles.get(c1), segments.get(s)));
-                    if(!(intersections.getValue() == null))
-                        circleIntersections.add(new CircleCircleIntersection(intersections.getValue(), circles.get(c1), circles.get(c1)));
-                }
-            }
-            //calculate inscribed angles?
-            //  there isn't a descriptor class for this - so doesn't look like it needs to be done
-            //  in case it needs to be in the future:
-            //  for every angle
-            //      check if vertex is on the circle
-            //      check if both rays extend into the circle
-            //          (note this is slightly more complicated than at first glance - i.e. the second point that defines the ray could lay 
-            //              in the circle, on the circle, or outside the circle)
-        }
         
-        for(int a1 = 0; a1 < arcs.size(); a1++)
-        {
-            for(int a2 = a1 + 1; a2 < arcs.size(); a2++)
-            {
-                //calculate congruent arcs
-                if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
-                {
-                    congruentArcs.add(new CongruentArcs(arcs.get(a1),arcs.get(a2)));
-                }
-                
-            }
-            //There exists an ArcInMiddle descriptor class - what is that? how is one defined geometrically?
-        }
         
         //Dumping the relations
         if(Utilities.DEBUG)
@@ -875,6 +817,8 @@ public class FactComputer
                     //  Create a minor arc using the inMiddle point and the appropriate end point
                     //  check to see if the midpoint of that arc is on the target arc - the goal is yes
                     //  if it doesn't, then create a major arc instead
+                    
+                    //TODO: DOES NOT HANDLE SEMICIRCLES
                     Arc copyArc1 = new MinorArc(arcs.get(a1).getCircle(), arcs.get(a1).getEndpoint1(), p);
                     if(!arcs.get(a1).PointLiesStrictlyOn(copyArc1.Midpoint()))
                     {
