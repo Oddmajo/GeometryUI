@@ -18,6 +18,8 @@ public class ParallelSegmentTransitivityTest
 
     /**
      * There is a problem with the query not adding deductions in ParallelSegmentTransitivity -Nick 3/14
+     *      ParallelSegmentTransitivity in backend/deductiveRules/segments/theorems does not actually 
+     *      populate its list of deductions when called - JPN 3/29
      * 
      * E---F
      * C---D

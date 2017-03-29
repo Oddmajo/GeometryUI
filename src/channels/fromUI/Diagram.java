@@ -392,7 +392,7 @@ public class Diagram
         this.points.clear();
         
         Point a = new Point("A", 0, 0);
-        Point c = new Point("C", 2, 1);
+        Point c = new Point("C", 1, 1);
         Point m = new Point("M", 2, 0);
         
         Segment ab = new Segment(a, c);

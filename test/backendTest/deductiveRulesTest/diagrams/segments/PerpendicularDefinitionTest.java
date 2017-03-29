@@ -18,6 +18,7 @@ public class PerpendicularDefinitionTest
     
     /**
      * Check Stands on Endpoint? OR check if deductions are being added -Nick 3/28
+     *      Check if the intersection is even being found - JPN 3/29
      *         C
      *         |
      *         |
@@ -40,7 +41,9 @@ public class PerpendicularDefinitionTest
     }
 
     /**
-     * Out of bounds in fact computer -Nick 3/28
+     * Previous issues resolved.
+     *      finds 2 deductions, no edges added
+     *       - JPN 3/29
      *         C
      *         |
      *         |
@@ -64,7 +67,11 @@ public class PerpendicularDefinitionTest
 
     
     /**
-     * Intersections are null and null && Not creating any deductions (Probably because null and null) -Nick 3/28
+     * Previous issues fixed.
+     *      12 deductions found
+     *      All failed to be added as edges (Target Node DNE)
+     *      - JPN 3/29
+     * 
      *         C
      *         |
      *         |

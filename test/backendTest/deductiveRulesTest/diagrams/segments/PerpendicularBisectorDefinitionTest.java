@@ -17,7 +17,11 @@ public class PerpendicularBisectorDefinitionTest
 {
 
     /**
-     * Out of bounds in fact computer -Nick 3/28
+     * Previous errors resolved.
+     *      Currently finds 4 deductions, only one is added to QHG
+     *      Need to check proper # of deductions
+     *       -JPN 3/29
+     *      
      *         C
      *         |
      *         |
@@ -41,7 +45,13 @@ public class PerpendicularBisectorDefinitionTest
 
     
     /**
-     * Intersections are null and null && Not creating any deductions (Probably because null and null) -Nick 3/28
+     * Previous errors resolved.
+     *      Currently finds 24 deductions, adds 6 added as edges to QHG
+     *      Of the errors to add:
+     *          12 - Target Node Does Not Exist
+     *          6  - Edge pre-existing
+     *       -JPN 3/29
+     *          
      *         C
      *         |
      *         |

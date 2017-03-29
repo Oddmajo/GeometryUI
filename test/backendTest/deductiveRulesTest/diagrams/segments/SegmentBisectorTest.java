@@ -41,7 +41,9 @@ public class SegmentBisectorTest
 
     
     /**
-     * Intersections are null and null -Nick 3/28
+     * Previous issues resolved.
+     *      need to verify deductions/edges added
+     *       - JPN 3/29
      *      C
      *       \
      *        \
@@ -63,6 +65,6 @@ public class SegmentBisectorTest
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 14, flags));
     }
 }
