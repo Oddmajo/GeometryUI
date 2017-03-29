@@ -28,18 +28,7 @@ public class SegmentAdditionAxiomTest
     {
         // create diagram
         Diagram diagram = new Diagram();
-
-        // create points and segments
-        Point a = new Point("A", 0, 0);
-        Point b = new Point("B", 2, 0);
-        
-        Point m = new Point("M", 1, 0);
-        
-        Segment ab = new Segment(a, b);
-
-        // add points and segments to diagram object
-        diagram.addSegment(ab);
-        diagram.addPoint(m);
+        diagram.premade_Midpoint();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();

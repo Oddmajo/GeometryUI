@@ -176,7 +176,7 @@ public class CoordinatePrecomputerTest
     {
         System.out.print("Starting precomputer ParallelLineTest... ");
         Diagram test = new Diagram();
-        test.premade_ParallelLines();
+        test.premade_ParallelTransversal();
         CoordinatePrecomputer compute = new CoordinatePrecomputer(null,null,test.getSegments(),test.getPoints());
         ArrayList<Circle> circles = compute.getCircles();
         ArrayList<Arc> arcs = compute.getArcs();

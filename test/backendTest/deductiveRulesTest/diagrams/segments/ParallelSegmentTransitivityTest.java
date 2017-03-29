@@ -30,25 +30,7 @@ public class ParallelSegmentTransitivityTest
     {
         // create diagram
         Diagram diagram = new Diagram();
-        
-        // create points and segments
-        Point a = new Point("A", 0, 0);
-        Point b = new Point("B", 2, 0);
-        
-        Point c = new Point("C", 0, 2);
-        Point d = new Point("D", 2, 2);
-        
-        Point e = new Point("E", 0, 4);
-        Point f = new Point("F", 2, 4);
-        
-        Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        Segment ef = new Segment(e, f);
-        
-        // add points and segments to diagram object
-        diagram.addSegment(ab);
-        diagram.addSegment(cd);
-        diagram.addSegment(ef);
+        diagram.premade_TransitiveParallels();
         
         
         // create flags array

@@ -32,20 +32,7 @@ public class VerticalAnglesTest
     {
         // create diagram
         Diagram diagram = new Diagram();
-        
-        // create points and segments
-        Point a = new Point("A", 0, 0);
-        Point b = new Point("B", 3, 0);
-        
-        Point c = new Point("C", 1, 1);
-        Point d = new Point("D", 2, -1);
-        
-        Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        
-        // add points and segments to diagram object
-        diagram.addSegment(ab);
-        diagram.addSegment(cd);
+        diagram.premade_ThroughSegmentBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();

@@ -209,7 +209,7 @@ public class Diagram
      *      ______/____________
      *           /
      */
-    public void premade_ParallelLines()
+    public void premade_ParallelTransversal()
     {
         this.lineSegments.clear();
         this.points.clear();
@@ -348,5 +348,136 @@ public class Diagram
         
     }
     
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *         |
+     *         |
+     *         |
+     *   ______|______
+     */
+    public void premade_PerpendicularBisector()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point b = new Point("B", 4, 0);
+        Point c = new Point("C", 2, 1);
+        Point m = new Point("M", 2, 0);
+        
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+        
+        this.addPoint(a);
+        this.addPoint(b);
+        this.addPoint(c);
+        this.addPoint(m);
+        
+        this.addSegment(ab);
+        this.addSegment(cm);
+        
+    }
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *         |
+     *         |
+     *         |
+     *   ______|
+     */
+    public void premade_Perpendicular()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point c = new Point("C", 2, 1);
+        Point m = new Point("M", 2, 0);
+        
+        Segment ab = new Segment(a, c);
+        Segment cm = new Segment(c, m);
+        
+        this.addPoint(a);
+        this.addPoint(c);
+        this.addPoint(m);
+        
+        this.addSegment(ab);
+        this.addSegment(cm);
+        
+    }
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *         |
+     *         |
+     *         |
+     *   ______|______
+     *         |
+     *         |
+     *         |
+     *         |
+     */
+    public void premade_ThroughPerpendicularBisector()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point b = new Point("B", 4, 0);
+        Point c = new Point("C", 2, 1);
+        Point m = new Point("M", 2, -1);
+        
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+        
+        this.addPoint(a);
+        this.addPoint(b);
+        this.addPoint(c);
+        this.addPoint(m);
+        
+        this.addSegment(ab);
+        this.addSegment(cm);
+        
+    }
     
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *    _________________
+     *    
+     *    _________________
+     *    
+     *    _________________
+     */
+    public void premade_TransitiveParallels()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point b = new Point("B", 2, 0);
+        
+        Point c = new Point("C", 0, 2);
+        Point d = new Point("D", 2, 2);
+        
+        Point e = new Point("E", 0, 4);
+        Point f = new Point("F", 2, 4);
+        
+        Segment ab = new Segment(a, b);
+        Segment cd = new Segment(c, d);
+        Segment ef = new Segment(e, f);
+        
+        this.addPoint(a);
+        this.addPoint(b);
+        this.addPoint(c);
+        this.addPoint(d);
+        this.addPoint(e);
+        this.addPoint(f);
+        
+        this.addSegment(ab);
+        this.addSegment(cd);
+        this.addSegment(ef);
+        
+    }
 }
