@@ -282,5 +282,71 @@ public class Diagram
         
     }
     
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *      \
+     *       \
+     *        \
+     *   ______\______
+     */
+    public void premade_SegmentBisector()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point b = new Point("B", 4, 0);
+        
+        Point c = new Point("C", 1, 2);
+        Point m = new Point("M", 2, 0);
+        
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+        
+        this.addPoint(a);
+        this.addPoint(b);
+        this.addPoint(c);
+        this.addPoint(m);
+        
+        this.addSegment(ab);
+        this.addSegment(cm);
+        
+    }
+    
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
+     *      \
+     *       \
+     *        \
+     *   ______\______
+     *          \
+     *           \ 
+     *            \
+     */
+    public void premade_ThroughSegmentBisector()
+    {
+        this.lineSegments.clear();
+        this.points.clear();
+        
+        Point a = new Point("A", 0, 0);
+        Point b = new Point("B", 4, 0);
+        Point c = new Point("C", 1, 2);
+        Point d = new Point("D", 3, -2);
+        
+        Segment ab = new Segment(a, b);
+        Segment cd = new Segment(c, d);
+        
+        this.addPoint(a);
+        this.addPoint(b);
+        this.addPoint(c);
+        this.addPoint(d);
+        
+        this.addSegment(ab);
+        this.addSegment(cd);
+        
+    }
+    
     
 }
