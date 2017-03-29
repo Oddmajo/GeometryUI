@@ -38,6 +38,8 @@ import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
+import backend.ast.figure.components.arcs.MajorArc;
+import backend.ast.figure.components.arcs.MinorArc;
 import backend.ast.figure.components.polygon.ConcavePolygon;
 import backend.ast.figure.components.polygon.Polygon;
 import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;
@@ -816,6 +818,102 @@ public class FactComputer
                 segmentEquations.add(new SegmentEquation(new Multiplication(new NumericValue(2),segments.get(si2)),m.getSegment())); // 2BC = AC
                 //segmentEquations.add(new SegmentEquation( new Addition( (new Segment(m.getSegment().getPoint1(),m.getPoint())) , (new Segment(m.getPoint(),m.getSegment().getPoint2())) ) , m.getSegment()));
             }
+        }
+        
+        for(int c1 = 0; c1 < circles.size(); c1++)
+        {
+
+            for(int c2 = c1 + 1; c2 < circles.size(); c2++)
+            {
+                //calculate congruent circles
+                if(circles.get(c1).CoordinateCongruent(circles.get(c2)))
+                {
+                    congruentCircles.add(new CongruentCircles(circles.get(c1), circles.get(c2)));
+                }
+                //calculate circle intersections
+                OutPair<Point, Point> intersections = null;
+                if(IntersectionDelegate.findIntersection(circles.get(c1), circles.get(c2), intersections))
+                {
+                    //Circle-Figure-Intersection only accepts a single point of intersection.
+                    //As such, a single intersection object is created for each instance of intersection
+                    circleCircleIntersections.add(new CircleCircleIntersection(intersections.getKey(), circles.get(c1), circles.get(c2)));
+                    if(!(intersections.getValue() == null))
+                        circleCircleIntersections.add(new CircleCircleIntersection(intersections.getValue(), circles.get(c1), circles.get(c2)));
+                    
+                }
+            }
+            //calculate segment intersections
+            for(int s = 0; s < segments.size(); s++)
+            {
+                OutPair<Point, Point> intersections = null;
+                if(IntersectionDelegate.findIntersection(circles.get(c1), segments.get(s), intersections))
+                {
+                    //Circle-Figure-Intersection only accepts a single point of intersection.
+                    //As such, a single intersection object is created for each instance of intersection
+                    circleSegmentIntersections.add(new CircleSegmentIntersection(intersections.getKey(), circles.get(c1), segments.get(s)));
+                    if(!(intersections.getValue() == null))
+                        circleSegmentIntersections.add(new CircleSegmentIntersection(intersections.getValue(), circles.get(c1), segments.get(s)));
+                }
+            }
+            //calculate inscribed angles?
+            //  there isn't a descriptor class for this - so doesn't look like it needs to be done
+            //  in case it needs to be in the future:
+            //  for every angle
+            //      check if vertex is on the circle
+            //      check if both rays extend into the circle
+            //          (note this is slightly more complicated than at first glance - i.e. the second point that defines the ray could lay 
+            //              in the circle, on the circle, or outside the circle)
+        }
+        
+        for(int a1 = 0; a1 < arcs.size(); a1++)
+        {
+            for(Point p : points)
+            {
+                if(arcs.get(a1).PointLiesStrictlyOn(p))
+                {
+                    //For each 'half' of the arc:
+                    //  Create a minor arc using the inMiddle point and the appropriate end point
+                    //  check to see if the midpoint of that arc is on the target arc - the goal is yes
+                    //  if it doesn't, then create a major arc instead
+                    Arc copyArc1 = new MinorArc(arcs.get(a1).getCircle(), arcs.get(a1).getEndpoint1(), p);
+                    if(!arcs.get(a1).PointLiesStrictlyOn(copyArc1.Midpoint()))
+                    {
+                        copyArc1 = new MajorArc(arcs.get(a1).getCircle(), arcs.get(a1).getEndpoint1(), p);
+                    }
+                    
+                    Arc copyArc2 = new MinorArc(arcs.get(a1).getCircle(), arcs.get(a1).getEndpoint2(), p);
+                    if(!arcs.get(a1).PointLiesStrictlyOn(copyArc2.Midpoint()))
+                    {
+                        copyArc2 = new MajorArc(arcs.get(a1).getCircle(), arcs.get(a1).getEndpoint2(), p);
+                    }
+                    
+                    int arc1 = -1;
+                    int arc2 = -1;
+                    for(int arc = 0; arc < arcs.size(); arc++)
+                    {
+                        if(arcs.get(arc).structurallyEquals(copyArc1))
+                        {
+                            arc1 = arc;
+                        }
+                        else if(arcs.get(arc).structurallyEquals(copyArc2))
+                        {
+                            arc1 = arc;
+                        }
+                    }
+                    
+                    arcEquations.add(new ArcEquation(new Addition(arcs.get(arc1), arcs.get(arc2)),arcs.get(a1)));
+                }
+            }
+            
+            for(int a2 = a1 + 1; a2 < arcs.size(); a2++)
+            {
+                //calculate congruent arcs
+                if(arcs.get(a1).CoordinateCongruent(arcs.get(a2)))
+                {
+                    congruentArcs.add(new CongruentArcs(arcs.get(a1),arcs.get(a2)));
+                }
+            }
+            //There exists an ArcInMiddle descriptor class - what is that? how is one defined geometrically?
         }
         
         //right angles
