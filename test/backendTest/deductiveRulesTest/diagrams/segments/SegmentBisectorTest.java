@@ -36,7 +36,7 @@ public class SegmentBisectorTest
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 2, flags));
     }
 
     

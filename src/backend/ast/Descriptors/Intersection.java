@@ -1489,6 +1489,6 @@ public class Intersection extends Descriptor
     @Override 
     public String toString()
     {
-    	return intersect.toPrettyString() + " is the intersection of " + lhs.toPrettyString() + " and " + rhs.toPrettyString() + ".";
+    	return intersect.toString() + " is the intersection of " + lhs.toString() + " and " + rhs.toString() + ".";
     }
 }

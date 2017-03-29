@@ -75,8 +75,11 @@ public class SegmentBisectorDefinition extends Definition
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         Set<InMiddle> middles = _qhg.getInMiddles();
+        System.out.println(middles.toString());
         Set<SegmentBisector> segmentBisectors = _qhg.getSegmentBisectors();
+        System.out.println(segmentBisectors.toString());
         Set<Strengthened> strengs = _qhg.getStrengthenedSegmentBisectors();
+        System.out.println(strengs.toString());
 
         for (SegmentBisector segmentBisector : segmentBisectors)
         {
@@ -151,6 +154,7 @@ public class SegmentBisectorDefinition extends Definition
                 // If we have a corner situation, we are not interested
                 if (i.StandsOnEndpoint()) return deductions;
 
+                System.out.println("Intersection: " + i);
                 deductions.addAll(deduceToSegmentBisector(shared, i, cs));
             }
         }

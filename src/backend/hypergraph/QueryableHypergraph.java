@@ -1303,6 +1303,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     //
     // Circles
     //
+    // TODO: Add _semiCircles container
     private HashSet<Circle> _circles;
     private HashSet<MinorArc> _minorArcs;
     private HashSet<MajorArc> _majorArcs;

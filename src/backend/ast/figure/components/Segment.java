@@ -393,8 +393,8 @@ public class Segment extends DimensionalLength
         if (!(obj instanceof Segment)) return false;
         Segment that = (Segment)obj;
 
-        return _point1.structurallyEquals(that.getPoint1()) && _point2.structurallyEquals(that.getPoint2()) ||
-                _point1.structurallyEquals(that.getPoint2()) && _point2.structurallyEquals(that.getPoint1());
+        return (_point1.structurallyEquals(that.getPoint1()) && _point2.structurallyEquals(that.getPoint2())) ||
+               (_point1.structurallyEquals(that.getPoint2()) && _point2.structurallyEquals(that.getPoint1()));
     }
 
     @Override
@@ -437,7 +437,7 @@ public class Segment extends DimensionalLength
     //
     public Point coordinatePerpendicular(Segment s)
     {
-        if (this.isSegmentPerpendicular(s)) return null;
+        if (!this.isSegmentPerpendicular(s)) return null;
 
         return this.segmentIntersection(s);
     }
