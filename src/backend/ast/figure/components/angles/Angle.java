@@ -122,7 +122,7 @@ public class Angle extends Figure
 
         // Avoid minor calculation issues and retarget the given value to specific angles. 
         // 0 or 180 degrees
-        if (backend.utilities.math.MathUtilities.doubleEquals(Math.abs(cosAngle), 1))
+        if (backend.utilities.math.MathUtilities.doubleEquals(Math.abs(cosAngle), 1) || backend.utilities.math.MathUtilities.doubleEquals(Math.abs(cosAngle), -1))
         {
             cosAngle = cosAngle < 0 ? -1 : 1;
         }

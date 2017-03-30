@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.angles.Angle;
+import backend.utilities.AngleFactory;
 import backend.utilities.math.MathUtilities;
 
 public class AngleEquivalence
@@ -16,16 +17,25 @@ public class AngleEquivalence
         main = m;
         equivalentAngles = new HashSet<Angle>();
         equivalentAngles.add(main);
-        equivalentAngles.addAll(getEquivalentAngles(main));
+        //equivalentAngles.addAll(getEquivalentAngles(main));
     }
     
     public AngleEquivalence(Angle m, ArrayList<Angle> eq)
     {
         main = m;
         equivalentAngles = new HashSet<Angle>(eq);
+        if(!equivalentAngles.contains(m))
+        {
+            equivalentAngles.add(m);
+        }
     }
     
-    public static HashSet<Angle> getEquivalentAngles(Angle s)
+    public int getSize()
+    {
+        return equivalentAngles.size();
+    }
+    
+    public static HashSet<Angle> getEquivalentAngles(Angle s) //this function currently doesn't work
     {
         HashSet<Angle> equivalantAngles = new HashSet<Angle>();
         
@@ -110,7 +120,7 @@ public class AngleEquivalence
     
     public Boolean addEquivalence(Angle ag)
     {
-        if(isEquivalent(ag))
+        if(isEquivalent(ag) && !structurallyContains(ag))
         {
             equivalentAngles.add(ag);
             return true;
@@ -121,5 +131,19 @@ public class AngleEquivalence
     public Angle getMain()
     {
         return main;
+    }
+    
+    public Boolean structurallyContains(Angle a)
+    {
+        for(Angle ang : equivalentAngles)
+        {
+            if(AngleFactory.checkPoints(ang,a))
+            {
+                //System.out.println("ang " + ang + " is a: " + a);
+                return true;
+            }
+            //System.out.println("ang " + ang + " is NOT a: " + a);
+        }
+        return false;
     }
 }
