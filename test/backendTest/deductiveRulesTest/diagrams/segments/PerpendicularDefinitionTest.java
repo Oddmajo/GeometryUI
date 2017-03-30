@@ -25,6 +25,8 @@ public class PerpendicularDefinitionTest
      * A-------M
 
      * @throws IOException
+     * 
+     * Intersections are ignoring endpoints, only checking betweenness @author Drew W
      */
     @Test
     public void testOnEnd() throws IOException
@@ -50,6 +52,8 @@ public class PerpendicularDefinitionTest
      * A-------M--------B
 
      * @throws IOException
+     * 
+     * 
      */
     @Test
     public void testOn() throws IOException
@@ -81,6 +85,8 @@ public class PerpendicularDefinitionTest
      *         D
 
      * @throws IOException
+     * 
+     * PerpendicularBisector block needs strenghthened and perpendicular objects added
      */
     @Test
     public void testCrossing() throws IOException

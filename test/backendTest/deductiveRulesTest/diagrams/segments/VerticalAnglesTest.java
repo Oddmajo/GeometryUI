@@ -18,6 +18,7 @@ public class VerticalAnglesTest
 
     /**
      * Not creating edges - Probably structurally equals -Nick 3/28
+     * One of the deductions is being duplicated and has no "from" grounded clause - Drew 3/30
      *      C
      *       \
      *        \

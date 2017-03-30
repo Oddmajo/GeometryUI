@@ -17,7 +17,7 @@ public class GeometricSegmentRatioEquation extends SegmentRatioEquation
         {
         GeometricSegmentRatioEquation gsr = (GeometricSegmentRatioEquation)obj;
 
-        return super.Equals(gsr);
+        return super.equals(gsr);
         }
         return false;
     }
