@@ -12,6 +12,7 @@ import backend.ast.figure.components.Segment;
 import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 
 public class ParallelSegmentTransitivityTest
 {
@@ -31,8 +32,7 @@ public class ParallelSegmentTransitivityTest
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = new Diagram();
-        diagram.premade_TransitiveParallels();
+        Diagram diagram = DiagramGenerator.premade_TransitiveParallels();
         
         
         // create flags array

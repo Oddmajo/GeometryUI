@@ -12,6 +12,7 @@ import backend.ast.figure.components.Segment;
 import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 
 public class PerpendicularBisectorDefinitionTest
 {
@@ -33,8 +34,7 @@ public class PerpendicularBisectorDefinitionTest
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = new Diagram();
-        diagram.premade_PerpendicularBisector();
+        Diagram diagram = DiagramGenerator.premade_PerpendicularBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
@@ -66,8 +66,7 @@ public class PerpendicularBisectorDefinitionTest
     public void testThrough() throws IOException
     {
         // create diagram
-        Diagram diagram = new Diagram();
-        diagram.premade_ThroughPerpendicularBisector();
+        Diagram diagram = DiagramGenerator.premade_ThroughPerpendicularBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();

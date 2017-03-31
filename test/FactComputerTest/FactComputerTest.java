@@ -11,6 +11,7 @@ import backend.precomputer.Precomputer;
 import backend.utilities.AngleEquivalenceRelation;
 import backend.utilities.PointFactory;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 
 public class FactComputerTest
 {
@@ -85,8 +86,7 @@ public class FactComputerTest
         PointFactory.clear();
         AngleEquivalenceRelation.getInstance().clear();
         
-        Diagram test = new Diagram();
-        test.premade_Midpoint();
+        Diagram test = DiagramGenerator.premade_Midpoint();
         Precomputer pc = new Precomputer(test.getPoints(), test.getSegments());
         pc.analyze();
         FactComputer fc = new FactComputer(pc);

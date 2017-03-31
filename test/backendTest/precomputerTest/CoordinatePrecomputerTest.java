@@ -47,6 +47,7 @@ import backend.precomputer.Precomputer;
 import backend.utilities.logger.LoggerFactory;
 import backendTest.astTest.figure.EquationSegment;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.arcs.Arc;
@@ -64,8 +65,7 @@ public class CoordinatePrecomputerTest
     public void segmentTest()
     {
         System.out.print("Starting precomputer segmentTest... ");
-        Diagram test = new Diagram();
-        test.premade_Midpoint();
+        Diagram test = DiagramGenerator.premade_Midpoint();
         Precomputer compute = new Precomputer(null,null,test.getSegments(),test.getPoints());
         ArrayList<Circle> circles = compute.getCircles();
         ArrayList<Arc> arcs = compute.getArcs();
@@ -101,8 +101,7 @@ public class CoordinatePrecomputerTest
     public void triangleTest()
     {
         System.out.print("Starting precomputer triangleTest... ");
-        Diagram test = new Diagram();
-        test.premade_Triangles();
+        Diagram test = DiagramGenerator.premade_Triangles();
         Precomputer compute = new Precomputer(null,null,test.getSegments(),test.getPoints());
         ArrayList<Circle> circles = compute.getCircles();
         ArrayList<Arc> arcs = compute.getArcs();
@@ -138,8 +137,7 @@ public class CoordinatePrecomputerTest
     public void ParallelogramTest()
     {
         System.out.print("Starting precomputer ParallelogramTest... ");
-        Diagram test = new Diagram();
-        test.premade_Parallelogram();
+        Diagram test = DiagramGenerator.premade_ParallelogramDiagonal();
         Precomputer compute = new Precomputer(null,null,test.getSegments(),test.getPoints());
         ArrayList<Circle> circles = compute.getCircles();
         ArrayList<Arc> arcs = compute.getArcs();
@@ -175,8 +173,7 @@ public class CoordinatePrecomputerTest
     public void ParallelLineTest()
     {
         System.out.print("Starting precomputer ParallelLineTest... ");
-        Diagram test = new Diagram();
-        test.premade_ParallelTransversal();
+        Diagram test = DiagramGenerator.premade_ParallelTransversal();
         Precomputer compute = new Precomputer(null,null,test.getSegments(),test.getPoints());
         ArrayList<Circle> circles = compute.getCircles();
         ArrayList<Arc> arcs = compute.getArcs();

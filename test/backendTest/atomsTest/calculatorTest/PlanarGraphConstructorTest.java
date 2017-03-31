@@ -16,6 +16,7 @@ import backend.atoms.calculator.PlanarGraphConstructor;
 import backend.atoms.undirectedPlanarGraph.PlanarGraph;
 import backend.atoms.undirectedPlanarGraph.PlanarGraphNode;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 
 public class PlanarGraphConstructorTest
 {
@@ -25,8 +26,7 @@ public class PlanarGraphConstructorTest
         System.out.println("Running PlanarGraphConstuctorTriangleTest");
         
         // create the triangle diagram
-        Diagram diagram = new Diagram();
-        diagram.premade_Triangles();
+        Diagram diagram = DiagramGenerator.premade_Triangles();
         
         // construct the planar graph
         PlanarGraphConstructor graphConstructor = new PlanarGraphConstructor(diagram);
