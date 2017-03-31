@@ -83,9 +83,14 @@ public class PerpendicularDefinition extends Definition
     public Set<Deduction> deduceFromPerpendicular()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
+        
+        // test stuff
+        System.out.println(_qhg.getIntersections().toString());
 
         Set<Perpendicular> perpendiculars = _qhg.getPerpendicular();
+        System.out.println(perpendiculars.toString());
         Set<Strengthened> streng = _qhg.getStrengthenedPerpendicular();
+        System.out.println(streng.toString());
 
         for (Perpendicular p : perpendiculars)
         {

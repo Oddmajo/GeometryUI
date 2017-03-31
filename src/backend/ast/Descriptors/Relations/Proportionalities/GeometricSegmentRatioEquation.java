@@ -17,8 +17,9 @@ public class GeometricSegmentRatioEquation extends SegmentRatioEquation
         {
             GeometricSegmentRatioEquation gsr = (GeometricSegmentRatioEquation)obj;
 
-            return super.equals(gsr);
+			return super.equals(gsr);
         }
+
         return false;
     }
     public String ToString()

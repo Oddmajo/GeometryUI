@@ -53,6 +53,11 @@ public class SegmentBisectorTest
      *            D
 
      * @throws IOException
+     * 
+     * The To deduction for this definition is duplicating two of the Segment Bisector deductions
+     * (the "long" segment bisectors)
+     * This needs to be looked into
+     * @author Drew W
      */
     @Test
     public void testThrough() throws IOException
@@ -65,6 +70,6 @@ public class SegmentBisectorTest
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_BISECTOR_DEFINITION.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 14, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 12, flags));
     }
 }

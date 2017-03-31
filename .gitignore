@@ -1,1 +1,4 @@
 /bin/
+src/backend/logs/exception/GeneralExceptionLog.txt
+src/backend/logs/DefaultLog.txt
+src/backend/logs/exception/GeneralExceptionLog.txt

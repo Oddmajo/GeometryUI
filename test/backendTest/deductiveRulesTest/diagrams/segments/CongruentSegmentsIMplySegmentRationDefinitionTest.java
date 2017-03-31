@@ -28,6 +28,11 @@ public class CongruentSegmentsIMplySegmentRationDefinitionTest
      *  
      *  
      * @throws IOException
+     * 
+     * GeometricSegmentRatioEquation currently lives in ast->descriptors->relations->proportionalities
+     * ProportionalEquation is actually a SegmentRatioEquation (same directory as above)
+     * These are not currently being calculated in the fact computer and believed to be in the wrong directory
+     * @author Drew W 3/30
      */
     @Test
     public void test() throws IOException

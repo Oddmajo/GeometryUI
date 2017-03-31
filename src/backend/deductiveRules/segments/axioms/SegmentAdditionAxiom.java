@@ -45,6 +45,7 @@ public class SegmentAdditionAxiom extends Axiom
     // A     M     B
     // *-----*-----*
     // inMiddle -> Segment AM + Segment AB = AM as GeometricSegmentEquation AM + MB = AM
+    // I think this should be: inMiddle -> Segment AM + Segment MB = AB as GeometricSegmentEquation AM + MB = AB
     //
     public Set<Deduction> deduceInMiddle()
     {
