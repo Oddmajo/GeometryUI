@@ -29,7 +29,7 @@ public class PolygonCalculatorTest
         segs.add(seg2);
         segs.add(seg3);
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         
         System.out.println(polys);
         assertTrue(polys.get(0).size() == 1);
@@ -63,7 +63,7 @@ public class PolygonCalculatorTest
         segs.add(seg4);
         segs.add(seg5);
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         System.out.println(polys);
         assertTrue(polys.get(0).size() == 1);
         System.out.println("Done\n");
@@ -89,7 +89,7 @@ public class PolygonCalculatorTest
         segs.add(seg3);
         segs.add(seg4);
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         
         System.out.println(polys);
         assertTrue(polys.get(1).size() == 1);
@@ -119,7 +119,7 @@ public class PolygonCalculatorTest
         segs.add(seg4);
         segs.add(seg5);
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         
         System.out.println(polys);
         assertTrue(polys.get(2).size() == 1);
@@ -153,7 +153,7 @@ public class PolygonCalculatorTest
         segs.add(seg5);
         segs.add(seg6);
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         System.out.println(polys);
         assertTrue(polys.get(3).size() == 1);
         System.out.println("Done\n");
@@ -197,7 +197,7 @@ public class PolygonCalculatorTest
         segs.add(seg7);
         
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         System.out.println("Coinciding Test:  " + polys );
         assertTrue(polys.get(5).size() == 1);
     }
@@ -223,7 +223,7 @@ public class PolygonCalculatorTest
         segs2.add(seg5);
         
         PolygonCalculator pc2 = new PolygonCalculator(segs2);
-        ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys2 = pc2.getPolygons();
         System.out.println("Collinear Bug Short: (Expect None) " + polys2 );
         assertTrue(polys2.get(0).size() == 0);
     }
@@ -248,7 +248,7 @@ public class PolygonCalculatorTest
         segs.add(seg2);
         
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
         
         System.out.println("Collinear Bug Long: (Expect None) " + polys);
         assertTrue(polys.get(0).size() == 0);
@@ -308,7 +308,7 @@ public class PolygonCalculatorTest
         segs4.add(seg2);
         
         PolygonCalculator pc4 = new PolygonCalculator(segs4);
-        ArrayList<ArrayList<Polygon>> polys4 = pc4.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys4 = pc4.getPolygons();
         
         System.out.println("Crosses Bug: " + polys4);
         System.out.println("Middle Crosses " + seg1.segmentIntersection(seg2));
@@ -351,7 +351,7 @@ public class PolygonCalculatorTest
         segs3.add(segE);
 
         PolygonCalculator pc3 = new PolygonCalculator(segs3);
-        ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys3 = pc3.getPolygons();
 
         System.out.println("Not Failed Polygon Bug: " + polys3);
 
@@ -444,14 +444,14 @@ public class PolygonCalculatorTest
         segs3.add(Tseg13);
         
         PolygonCalculator pc = new PolygonCalculator(segs);
-        ArrayList<ArrayList<Polygon>> polys = pc.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys = pc.getPolygons();
        
         PolygonCalculator pc2 = new PolygonCalculator(segs2);
         @SuppressWarnings("unused")
-        ArrayList<ArrayList<Polygon>> polys2 = pc2.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys2 = pc2.getPolygons();
         
         PolygonCalculator pc3 = new PolygonCalculator(segs3);
-        ArrayList<ArrayList<Polygon>> polys3 = pc3.GetPolygons();
+        ArrayList<ArrayList<Polygon>> polys3 = pc3.getPolygons();
         System.out.println("All Segments: " + polys3);
         assertTrue(polys3.get(0).size() == 12 );
         assertTrue(polys3.get(1).size() == 3);

@@ -14,7 +14,7 @@ import backend.utilities.math.MathUtilities;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
@@ -561,8 +561,8 @@ public class Triangle extends Polygon
 
     public Angle _angleBelongs(CongruentAngles ccas)
     {
-        if (HasAngle(ccas.GetFirstAngle())) return ccas.GetFirstAngle();
-        if (HasAngle(ccas.GetSecondAngle())) return ccas.GetSecondAngle();
+        if (HasAngle(ccas.first())) return ccas.first();
+        if (HasAngle(ccas.second())) return ccas.second();
         return null;
     }
 
@@ -597,7 +597,7 @@ public class Triangle extends Polygon
     }
 
     // Of the propportional pair, return the segment that applies to this triangle
-    public Segment GetSegment(SegmentRatio prop)
+    public Segment GetSegment(ProportionalSegments prop)
     {
         if (HasSegment(prop.getSmallerSegment())) return prop.getSmallerSegment();
         if (HasSegment(prop.getLargerSegment())) return prop.getLargerSegment();

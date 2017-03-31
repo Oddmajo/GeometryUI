@@ -77,8 +77,8 @@ public class SupplementaryAndCongruentImplyRightAngles extends Theorem
         HashSet<Deduction> deductions = new HashSet<Deduction>();
 
         //The given pairs must contain the same angles (i.e., the angles must be both supplementary AND congruent)
-        if (!((supplementary.getAngle1().equals(conAngles.GetFirstAngle()) && supplementary.getAngle2().equals(conAngles.GetSecondAngle())) ||
-           (supplementary.getAngle2().equals(conAngles.GetFirstAngle()) && supplementary.getAngle1().equals(conAngles.GetSecondAngle())))) return deductions;
+        if (!((supplementary.getAngle1().equals(conAngles.first()) && supplementary.getAngle2().equals(conAngles.second())) ||
+           (supplementary.getAngle2().equals(conAngles.first()) && supplementary.getAngle1().equals(conAngles.second())))) return deductions;
         //if (!(supplementary.StructurallyEquals(conAngles))) return newGrounded;
 
         //

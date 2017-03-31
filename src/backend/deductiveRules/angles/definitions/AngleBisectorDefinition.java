@@ -111,8 +111,8 @@ public class AngleBisectorDefinition extends Definition
                     
                     //take the first angle, and passing the shared segment as a ray, get the other ray, and return it as a segment
                     //then do the same for the other angle
-                    Segment seg1 = cas.GetFirstAngle().other(shared.asRay(cas.GetFirstAngle().getVertex())).asSegment();
-                    Segment seg2 = cas.GetSecondAngle().other(shared.asRay(cas.GetSecondAngle().getVertex())).asSegment();
+                    Segment seg1 = cas.first().other(shared.asRay(cas.first().getVertex())).asSegment();
+                    Segment seg2 = cas.second().other(shared.asRay(cas.second().getVertex())).asSegment();
                     
                     Angle overall = new Angle(seg1, seg2);
                     

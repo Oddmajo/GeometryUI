@@ -21,7 +21,11 @@ public class Equation extends ArithmeticNode
     public GroundedClause getRHS() { return rhs; }
 
     // Disallow empty object creation
-    protected Equation() { ExceptionHandler.throwException(new IllegalArgumentException("Empty equation creation.")); }
+    protected Equation()
+    { 
+        System.out.println("Empty equation creation.");
+        ExceptionHandler.throwException(new IllegalArgumentException("Empty equation creation."));
+    }
 
     public Equation(Equation eq) { this(eq.lhs, eq.rhs); }
 

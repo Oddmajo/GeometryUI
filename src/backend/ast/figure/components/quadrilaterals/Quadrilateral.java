@@ -370,7 +370,7 @@ public class Quadrilateral extends Polygon
     //
     public boolean HasOppositeCongruentAngles(CongruentAngles cas)
     {
-        return AreOppositeAngles(cas.GetFirstAngle(), cas.GetSecondAngle());
+        return AreOppositeAngles(cas.first(), cas.second());
     }
 
     //

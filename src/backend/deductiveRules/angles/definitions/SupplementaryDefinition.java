@@ -77,9 +77,9 @@ public class SupplementaryDefinition extends Definition
         HashSet<Deduction> deductions = new HashSet<Deduction>();
         
         if (cas.isReflexive()) return deductions;
-        if (!(cas.GetFirstAngle() instanceof RightAngle) || !(cas.GetSecondAngle() instanceof RightAngle)) return deductions;
+        if (!(cas.first() instanceof RightAngle) || !(cas.second() instanceof RightAngle)) return deductions;
         
-        Supplementary supp = new Supplementary(cas.GetFirstAngle(), cas.GetSecondAngle());
+        Supplementary supp = new Supplementary(cas.first(), cas.second());
 
         supp.setNotASourceNode();
         supp.setNotAGoalNode();

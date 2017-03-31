@@ -3,7 +3,7 @@ package backend.ast.Descriptors.Relations.Proportionalities;
 public class GeometricSegmentRatioEquation extends SegmentRatioEquation
 {
 
-    public GeometricSegmentRatioEquation(SegmentRatio r1, SegmentRatio r2)
+    public GeometricSegmentRatioEquation(ProportionalSegments r1, ProportionalSegments r2)
     { 
         super(r1, r2);
     }
@@ -15,9 +15,9 @@ public class GeometricSegmentRatioEquation extends SegmentRatioEquation
     {
         if (obj != null && obj instanceof GeometricSegmentRatioEquation)
         {
-        GeometricSegmentRatioEquation gsr = (GeometricSegmentRatioEquation)obj;
+            GeometricSegmentRatioEquation gsr = (GeometricSegmentRatioEquation)obj;
 
-        return super.Equals(gsr);
+            return super.equals(gsr);
         }
         return false;
     }

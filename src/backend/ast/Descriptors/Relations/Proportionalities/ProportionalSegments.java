@@ -10,7 +10,7 @@ import backend.utilities.math.MathUtilities;
 /// <summary>
 /// Describes a point that lies on a segmant.
 /// </summary>
-public class SegmentRatio extends Descriptor
+public class ProportionalSegments extends Descriptor
 {
 	protected Segment smallerSegment;
 	protected Segment largerSegment;
@@ -43,7 +43,7 @@ public class SegmentRatio extends Descriptor
 		return dictatedProportion;
 	}
 	
-	public SegmentRatio(Segment segment1, Segment segment2)
+	public ProportionalSegments(Segment segment1, Segment segment2)
 	{
 		super();
 		smallerSegment = segment1.length() < segment2.length() ? segment1 : segment2;
@@ -108,7 +108,7 @@ public class SegmentRatio extends Descriptor
     //
     // Compare the numeric proportion between the relations
     //
-    public Boolean ProportionallyEquals(SegmentRatio that)
+    public Boolean ProportionallyEquals(ProportionalSegments that)
     {
         if (this.proportion.getKey() == -1 && this.proportion.getKey() == -1)
         {
@@ -121,7 +121,7 @@ public class SegmentRatio extends Descriptor
     @Override
     public boolean structurallyEquals(Object obj)
     {
-        SegmentRatio p = (SegmentRatio)obj;
+        ProportionalSegments p = (ProportionalSegments)obj;
         if (p == null) return false;
         return smallerSegment.structurallyEquals(p.smallerSegment) && largerSegment.structurallyEquals(p.largerSegment);
     }
@@ -129,7 +129,7 @@ public class SegmentRatio extends Descriptor
     @Override
     public boolean equals(Object obj)
     {
-        SegmentRatio p = (SegmentRatio)obj;
+        ProportionalSegments p = (ProportionalSegments)obj;
         if (p == null) return false;
         return smallerSegment.equals(p.smallerSegment) && largerSegment.equals(p.largerSegment) && super.equals(obj);
     }

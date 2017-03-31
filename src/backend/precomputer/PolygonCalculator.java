@@ -20,7 +20,7 @@ public class PolygonCalculator
         segments = segs;
     }
 
-    public ArrayList<ArrayList<Polygon>> GetPolygons()
+    public ArrayList<ArrayList<Polygon>> getPolygons()
     {
         if (polygons == null)
         {

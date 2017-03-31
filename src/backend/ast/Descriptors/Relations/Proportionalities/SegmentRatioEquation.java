@@ -16,17 +16,17 @@ import backend.utilities.exception.ExceptionHandler;
 public class SegmentRatioEquation extends Descriptor
 {
 
-    protected SegmentRatio lhs;
-    public SegmentRatio getlhs() { return lhs; }
+    protected ProportionalSegments lhs;
+    public ProportionalSegments getlhs() { return lhs; }
 
-    protected SegmentRatio rhs;
-    public SegmentRatio getrhs() { return rhs; }
+    protected ProportionalSegments rhs;
+    public ProportionalSegments getrhs() { return rhs; }
 
     private ArrayList<Segment> segments;
     //public KeyValuePair<int, int> proportion { get; protected set; }
     //public double dictatedProportion { get; protected set; }
 
-    public SegmentRatioEquation(SegmentRatio ell, SegmentRatio r)
+    public SegmentRatioEquation(ProportionalSegments ell, ProportionalSegments r)
     {
         super();
 
@@ -115,7 +115,7 @@ public class SegmentRatioEquation extends Descriptor
     //
     //  if x / y = z / w   and we are checking for  x / z OR y / w
     //
-    private Boolean HasImpliedRatio(SegmentRatio thatRatio)
+    private Boolean HasImpliedRatio(ProportionalSegments thatRatio)
     {
         if (thatRatio.HasSegment(lhs.largerSegment) && thatRatio.HasSegment(rhs.largerSegment)) return true;
         if (thatRatio.HasSegment(lhs.smallerSegment) && thatRatio.HasSegment(rhs.smallerSegment)) return true;
@@ -123,16 +123,16 @@ public class SegmentRatioEquation extends Descriptor
         return false;
     }
 
-    private SegmentRatio GetOtherImpliedRatio(SegmentRatio thatRatio)
+    private ProportionalSegments GetOtherImpliedRatio(ProportionalSegments thatRatio)
     {
         if (thatRatio.HasSegment(lhs.largerSegment) && thatRatio.HasSegment(rhs.largerSegment))
         {
-            return new SegmentRatio(lhs.smallerSegment, rhs.smallerSegment);
+            return new ProportionalSegments(lhs.smallerSegment, rhs.smallerSegment);
         }
 
         if (thatRatio.HasSegment(lhs.smallerSegment) && thatRatio.HasSegment(rhs.smallerSegment))
         {
-            return new SegmentRatio(lhs.largerSegment, rhs.largerSegment);
+            return new ProportionalSegments(lhs.largerSegment, rhs.largerSegment);
         }
 
         return null;
@@ -143,7 +143,7 @@ public class SegmentRatioEquation extends Descriptor
         return GetSharedRatio(that) != null;
     }
 
-    public SegmentRatio GetSharedRatio(SegmentRatioEquation that)
+    public ProportionalSegments GetSharedRatio(SegmentRatioEquation that)
     {
         // Check for the obvious shared ratio
         if (lhs.structurallyEquals(that.lhs)) return that.lhs;
@@ -157,7 +157,7 @@ public class SegmentRatioEquation extends Descriptor
         return null;
     }
 
-    public SegmentRatio GetOtherRatio(SegmentRatio that)
+    public ProportionalSegments GetOtherRatio(ProportionalSegments that)
     {
         // Check for the obvious shared ratio
         if (lhs.structurallyEquals(that)) return this.rhs;

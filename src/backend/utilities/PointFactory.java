@@ -1,7 +1,9 @@
 package backend.utilities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import backend.ast.figure.components.Point;
 
@@ -13,19 +15,29 @@ public class PointFactory
 {
     // This is a static class (one instance)
     private PointFactory() {}
-    
+
     private static final String _prefix = "_*_";
     private static String currentName = "A";
     private static int numLetters = 1;
 
     //
-    // CTA: This needs to be changed to a custom hashtable implementation
+    // A hased container for the database of points;
+    // This requires the Point class implement equals based solely on the individual values and not a name
+    // We need a get() method; HashSet doesn't offer one.
+    // Each entry is a <Key, Value> pair where Key == Value
     //
-    private static ArrayList<Point> database = new ArrayList<Point>();
+    private static HashMap<Point, Point> database = new HashMap<Point, Point>();
 
-    public static void initialize(List<Point> initPoints)
+    /**
+     * @param points A list of named points
+     * 
+     */
+    public static void initialize(List<Point> points)
     {
-        database.addAll(initPoints);
+        for (Point pt : points)
+        {
+            PointFactory.generatePoint(pt);
+        }
     }
 
     /*
@@ -40,31 +52,68 @@ public class PointFactory
         return _prefix.equals(that.name.substring(0, 3));
     }
 
+    /**
+     * @param pt -- (x, y) coordinate pair object
+     * @return a point (if it already exists) or a completely new point that has been added to the database
+     */
+    public static Point generatePoint(Point pt)
+    {
+        return GeneratePoint(pt.name, pt.getX(), pt.getY());
+    }
+    
+    /**
+     * @param x -- single coordinate
+     * @param y -- single coordinate
+     * @return a point (if it already exists) or a completely new point that has been added to the database
+     */
     public static Point GeneratePoint(double x, double y)
     {
-        int index = database.indexOf(new Point("", x, y));
-        if (index != -1) return database.get(index);
-
+        //
+        // Point already contained?
+        //
+        Point pt = database.get(new Point("", x, y));
+        if (pt != null) return pt;
+        
+        //
+        // Point not contained so generate and add it
+        //
         Point newPt = new Point(getCurrentName(), x, y);
-        Point oldPt = backend.utilities.ast_helper.Utilities.GetStructurally(database, newPt);
-
-        if (oldPt != null) return oldPt;
-
-        database.add(newPt);
+        database.put(newPt, newPt);
 
         return newPt;
     }
 
-    /*
-     * Simple containment; no updating
+    /**
+     * @param name -- the name of the point 
+     * @param x -- single coordinate
+     * @param y -- single coordinate
+     * @return a point (if it already exists) or a completely new point that has been added to the database
+     *  The name of the point is used only in the case where a NEW point is generated
      */
-    public static boolean contains(double x, double y) { return database.indexOf(new Point("", x, y)) != -1; }
-    public static boolean contains(Point p) { return contains(p.getX(), p.getY()); }
-    
-    public static Point generatePoint(Point pt)
+    public static Point GeneratePoint(String name, double x, double y)
     {
-        return GeneratePoint(pt.getX(), pt.getY());
+        //
+        // Point already contained?
+        //
+        Point pt = database.get(new Point("", x, y));
+        if (pt != null) return pt;
+        
+        //
+        // Point not contained so generate and add it
+        //
+        Point newPt = new Point(name != "" ? name : getCurrentName(), x, y);
+        database.put(newPt, newPt);
+
+        return newPt;
     }
+
+    /**
+     * @param x -- single coordinate
+     * @param y -- single coordinate
+     * @return simple containment; no updating
+     */
+    public static boolean contains(double x, double y) { return database.containsKey(new Point("", x, y)); }
+    public static boolean contains(Point p) { return contains(p.getX(), p.getY()); }
 
     // Reset for the next problem
     public static void reset()
@@ -109,9 +158,20 @@ public class PointFactory
             }
         }
     }
-    
-    public static ArrayList<Point> getAllPoints()
+
+    /**
+     * @return The entire database of points.
+     */
+    public static Set<Point> getAllPoints()
     {
-        return database;
+        return database.keySet();
+    }
+    
+    /**
+     * Clear the factory
+     */
+    public static void clear()
+    {
+        database.clear();
     }
 }

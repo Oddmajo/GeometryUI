@@ -8,7 +8,7 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Median;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
@@ -109,9 +109,9 @@ public class SSSSimilarity extends Theorem
         //
         // Collect all of the applicable segments
         //
-        SegmentRatio shared = sre1.GetSharedRatio(sre2);
-        SegmentRatio other1 = sre1.GetOtherRatio(shared);
-        SegmentRatio other2 = sre2.GetOtherRatio(shared);
+        ProportionalSegments shared = sre1.GetSharedRatio(sre2);
+        ProportionalSegments other1 = sre1.GetOtherRatio(shared);
+        ProportionalSegments other2 = sre2.GetOtherRatio(shared);
 
         Segment seg1Tri1 = ct1.GetSegment(shared);
         Segment seg2Tri1 = ct1.GetSegment(other1);

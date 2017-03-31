@@ -10,7 +10,7 @@ import backend.factComputer.FactConnector;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.DeductionFlags;
 import backend.hypergraph.QueryableHypergraph;
-import backend.precomputer.CoordinatePrecomputer;
+import backend.precomputer.Precomputer;
 import backend.utilities.logger.LoggerFactory;
 import channels.fromUI.Diagram;
 
@@ -27,7 +27,7 @@ public class TestDeductiveRule
         DeductionFlags.setFlags(flags);
         
         // create the precomputer object
-        CoordinatePrecomputer precomp = new CoordinatePrecomputer(null, null, d.getSegments(), d.getPoints());
+        Precomputer precomp = new Precomputer(null, null, d.getSegments(), d.getPoints());
         
         // create fact computer object and get lists
         FactComputer factComp = new FactComputer(precomp.getCircles(), precomp.getArcs(), precomp.getSegments(), precomp.getPoints(), precomp.getSectors());

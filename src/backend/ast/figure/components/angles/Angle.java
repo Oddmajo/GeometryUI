@@ -9,7 +9,6 @@ You should have received a copy of the GNU Affero General Public License along w
  * @author Nick Celiberti
  */
 package backend.ast.figure.components.angles;
-import java.util.ArrayList;
 import java.util.List;
 
 import backend.ast.GroundedClause;
@@ -18,7 +17,6 @@ import backend.ast.figure.Figure;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
 import backend.ast.figure.components.Segment;
-import backend.ast.figure.components.triangles.Triangle;
 import backend.ast.figure.delegates.AngleDelegate;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
@@ -195,7 +193,11 @@ public class Angle extends Figure
      */
     public Point equalVertices(Angle angle) { return getVertex().equals(angle.getVertex()) ? getVertex() : null; }
     
-    
+    /*
+     * @param that -- an angle
+     * @return if these two angle have the same measure (within epsilon)
+     */
+    public boolean equalMeasure(Angle that) { return MathUtilities.doubleEquals(this.measure, that.measure); }    
     
     
     
@@ -388,11 +390,21 @@ public class Angle extends Figure
         return this.equates(thatAngle);
     }
 
-    private static final int[] VALID_CONCRETE_SPECIAL_ANGLES = { 30, 45 }; // 0 , 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330 }; // 15, 22.5, ...
-
-
-    private static boolean IsSpecialAngle(double measure)
+    private static final int[] VALID_CONCRETE_SPECIAL_ANGLES = { 0, 30, 45, 60, 90, 120, 135, 150, 180, 210, 225, 240, 270, 300, 315, 330 }; // 15, 22.5, ...
+    
+    /**
+     * 
+     * @param measure -- an angle measure
+     * @return if the double is equal to one of the special angles stated in VALID_CONCRETE_SPECIAL_ANGLES.
+     */
+    public static boolean isSpecialAngle(double measure)
     {
+        // Do we even have an integer given to us?
+        if (!MathUtilities.doubleEquals((int)measure, measure)) return false;
+        
+        // Simple check; all special angles are multiples of 15
+        if ((int)measure % 15 != 0) return false;
+        
         for (int d : VALID_CONCRETE_SPECIAL_ANGLES)
         {
             if (MathUtilities.GCD((int)measure, d) == d) return true;
@@ -620,12 +632,18 @@ public class Angle extends Figure
     {
         if (obj == null) return false;
         if (!(obj instanceof Angle)) return false;
-        Angle angle = (Angle)obj ;
+        Angle that = (Angle)obj;
 
         // Measures must be the same.
-        if (!MathUtilities.doubleEquals(this.measure, angle.measure)) return false;
+        if (!MathUtilities.doubleEquals(this.measure, that.measure)) return false;
 
-        return super.equals(obj) && structurallyEquals(obj);
+        // The vertices need to be the same.
+        if (!this.getVertex().structurallyEquals(that.getVertex())) return false;
+        
+        // The other points need to be the same
+        if (this.A.structurallyEquals(that.A) && this.C.structurallyEquals(that.C)) return true;
+
+        return this.A.structurallyEquals(that.C) && this.C.structurallyEquals(that.A);
     }
 
 //    @Override

@@ -22,6 +22,8 @@ public class AngleEquation extends Equation
 
     public AngleEquation(GroundedClause left, GroundedClause right)
     {
+        super(left, right);
+        
         double sumL = SumSide(left.collectTerms().getValue());
         double sumR = SumSide(right.collectTerms().getValue());
 

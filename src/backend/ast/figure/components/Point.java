@@ -7,8 +7,6 @@ You should have received a copy of the GNU Affero General Public License along w
  */
 package backend.ast.figure.components;
 
-import java.util.ArrayList;
-
 import backend.ast.GroundedClause;
 import backend.ast.figure.Figure;
 import backend.ast.figure.components.angles.Angle;
@@ -22,7 +20,7 @@ import backend.utilities.math.MathUtilities;
  * @author Nick Celiberti
  * @author C. Alvin
  */
-public class Point extends Figure implements Comparable
+public class Point extends Figure implements Comparable<Point>
 {
     public static final int NUM_SEGS_TO_APPROX_ARC = 0;
     private static int CURRENT_ID = 0;
@@ -263,6 +261,12 @@ public class Point extends Figure implements Comparable
 
         return false;
     }
+    
+    @Override
+    public int hashCode()
+    {
+        return new Double(X).hashCode() + new Double(Y).hashCode();
+    }
 
     // Make a deep copy of this object; this is actually shallow, but is all that is required.
     public GroundedClause DeepCopy() 
@@ -283,6 +287,7 @@ public class Point extends Figure implements Comparable
     public boolean structurallyEquals(Object obj)
     {
         if (obj == null) return false;
+
         if (!(obj instanceof Point)) return false;
 
         Point pt =  (Point)obj;
@@ -293,9 +298,12 @@ public class Point extends Figure implements Comparable
     @Override
     public boolean equals(Object obj)
     {
-        if (!structurallyEquals(obj)) return false;
+        if (this == obj) return true;
+        
+        return structurallyEquals(obj);
 
-        return name.equals(((Point)obj).name);
+        // For the PointFactory to work, we need to hash based solely on the individual values
+        //        return name.equals(((Point)obj).name);
     }
 
     @Override
@@ -303,9 +311,9 @@ public class Point extends Figure implements Comparable
     {
         if (X == (int) X && Y == (int) Y)
         {
-            return "Point(" + X + ", " + Y + ")";
+            return "Point(" + name + ")(" + X + ", " + Y + ")";
         }
-        return "Point(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
+        return "Point(" + name + ")(" + String.format("%1$.3f", X) + ", " + String.format("%1$.3f", Y) + ")"; 
     }
 
     @Override
@@ -351,13 +359,10 @@ public class Point extends Figure implements Comparable
     }
 
     @Override
-    public int compareTo(Object o)
+    public int compareTo(Point that)
     {
-        if (o == null) return 1;
-        if (!(o instanceof Point)) return 1;
+        if (that == null) return 1;
 
-        return Point.LexicographicOrdering(this, (Point)o);
+        return Point.LexicographicOrdering(this, that);
     }
-
-
 }

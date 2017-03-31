@@ -6,6 +6,8 @@ import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.arcs.Arc;
+import backend.utilities.AngleEquivalenceRelation;
+import backend.utilities.PointFactory;
 
 public class Diagram 
 {
@@ -18,6 +20,7 @@ public class Diagram
         circles = new ArrayList<Circle>();
         arcs = new ArrayList<Arc>();
     }
+
     public String toString()
     {
         String s = "Points:\n";

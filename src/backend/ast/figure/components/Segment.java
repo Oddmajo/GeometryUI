@@ -203,7 +203,7 @@ public class Segment extends DimensionalLength
      * @param p -- a point
      * @return true if @pt is one of the endpoints of this segment
      */
-    public boolean has(Point p) { return _point1.equals(p) || _point2.equals(p); }
+    public boolean has(Point p) { return _point1.structurallyEquals(p) || _point2.structurallyEquals(p); }
 
     /*
      * @return true if this segment is horizontal (by analysis of both endpoints having same y-coordinate)
@@ -357,7 +357,14 @@ public class Segment extends DimensionalLength
         return intersectionPt != null;
     }
 
-
+    @Override
+    public int hashCode()
+    {
+        return _point1.hashCode() + _point2.hashCode();
+    }
+    
+    
+    
     //
     // To be verified as a necessity....BEGIN
     //

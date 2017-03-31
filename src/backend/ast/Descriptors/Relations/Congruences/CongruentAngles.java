@@ -33,6 +33,7 @@ import backend.ast.figure.components.triangles.Triangle;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
+import backend.utilities.math.MathUtilities;
 
 //
 // This class has two roles:
@@ -46,14 +47,8 @@ public class CongruentAngles extends Congruent
 	protected Angle ca2;
 	
 	//the original code had these getters even though that it was a public property in C#. So i did not make two getters
-	public Angle GetFirstAngle()
-	{
-		return ca1;
-	}
-	public Angle GetSecondAngle()
-	{
-		return ca2;
-	}
+	public Angle first() { return ca1; }
+	public Angle second() { return ca2; }
 	
 	//Deduced Node Information
 	public CongruentAngles(Angle a1, Angle a2)
@@ -70,20 +65,25 @@ public class CongruentAngles extends Congruent
 	@Override
 	public boolean structurallyEquals(Object obj)
 	{
-		if(obj != null && obj instanceof CongruentAngles)
-		{
-			CongruentAngles cas = (CongruentAngles)obj;
-			
-			if(!Utilities.CompareValues(this.ca1.getMeasure(), cas.ca1.getMeasure()))
-			{
-				return false;
-			}
-			return (ca1.structurallyEquals(cas.ca1) && ca2.structurallyEquals(cas.ca2)) ||
-	                   (ca1.structurallyEquals(cas.ca2) && ca2.structurallyEquals(cas.ca1));
-		}
+		if(obj == null) return false;
 		
-		//This is untested but should be correct. IF the if isn't hit then it should never be equal
-    	return false;
+		if (!(obj instanceof CongruentAngles)) return false;
+
+        CongruentAngles that = (CongruentAngles) obj;	
+
+        // Check angle measures directly
+        if (!MathUtilities.doubleEquals(this.ca1.getMeasure(), that.ca1.getMeasure())) return false;
+
+        // Check the pairs of angles for equality
+	    if (ca1.structurallyEquals(that.ca1) && ca2.structurallyEquals(that.ca2)) return true;
+
+        return ca1.structurallyEquals(that.ca2) && ca2.structurallyEquals(that.ca1);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+	    return ca1.hashCode() + ca2.hashCode();
 	}
 	
 	@Override

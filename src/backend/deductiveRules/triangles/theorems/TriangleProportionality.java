@@ -7,7 +7,7 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
@@ -175,8 +175,8 @@ public class TriangleProportionality extends Theorem
         // Construct the new proprtional relationship and resultant equation
         //
         Point sharedVertex = triangleSide1.sharedVertex(triangleSide2);
-        SegmentRatio newProp1 = new SegmentRatio(new Segment(sharedVertex, off2), triangleSide1);
-        SegmentRatio newProp2 = new SegmentRatio(new Segment(sharedVertex, off1), triangleSide2);
+        ProportionalSegments newProp1 = new ProportionalSegments(new Segment(sharedVertex, off2), triangleSide1);
+        ProportionalSegments newProp2 = new ProportionalSegments(new Segment(sharedVertex, off1), triangleSide2);
 
         SegmentEquation newEq = new SegmentEquation(newProp1, newProp2);
 

@@ -18,6 +18,7 @@ import backend.ast.Descriptors.PerpendicularBisector;
 import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Supplementary;
+import backend.ast.Descriptors.Arcs_and_Circles.ArcInMiddle;
 import backend.ast.Descriptors.Relations.AlgebraicSimilarTriangles;
 import backend.ast.Descriptors.Relations.GeometricSimilarTriangles;
 import backend.ast.Descriptors.Relations.SimilarTriangles;
@@ -27,7 +28,7 @@ import backend.ast.Descriptors.Relations.Congruences.CongruentCircles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.parallel.AlgebraicParallel;
 import backend.ast.Descriptors.parallel.GeometricParallel;
 import backend.ast.Descriptors.parallel.Parallel;
@@ -87,13 +88,14 @@ public class FactComputerContainer
     private ArrayList<Strengthened> strengthPerpBisectors;
     
     private ArrayList<InMiddle> inMiddles;
-    private ArrayList<Midpoint> midPoints;
+    private ArrayList<ArcInMiddle> arcInMiddles;
+    private ArrayList<Midpoint> midpoints;
     private ArrayList<Strengthened> strengthMidPoints;
     private ArrayList<Median> medians;
     private ArrayList<SegmentBisector> segmentBisectors;
     private ArrayList<Strengthened> strengthSegmentBisectors;
     private ArrayList<CongruentSegments> congruentSegments;
-    private ArrayList<SegmentRatio> segmentRatios;
+    private ArrayList<ProportionalSegments> segmentRatios;
     
     private ArrayList<Trapezoid> trapezoids;
     private ArrayList<Strengthened> strengthTrapezoids;
@@ -169,6 +171,7 @@ public class FactComputerContainer
         master.add(new HashSet<>(perpBisectors));
         master.add(new HashSet<>(strengthPerpBisectors));
         master.add(new HashSet<>(inMiddles));
+        master.add(new HashSet<>(arcInMiddles));
         master.add(new HashSet<>(strengthMidPoints));
         
         master.add(new HashSet<>(medians));
@@ -210,7 +213,7 @@ public class FactComputerContainer
         master.add(new HashSet<>(strengthSquares));
         master.add(new HashSet<>(congruentCircles));
         master.add(new HashSet<>(concavePolygons));
-        master.add(new HashSet<>(midPoints));
+        master.add(new HashSet<>(midpoints));
         
         master.add(new HashSet<>(geometricParallels));
         master.add(new HashSet<>(algebraicParallels));
@@ -526,15 +529,25 @@ public class FactComputerContainer
     {
         this.inMiddles = inMiddles;
     }
+    
+    public HashSet<ArcInMiddle> getArcInMiddles()
+    {
+        return new HashSet<ArcInMiddle>(arcInMiddles);
+    }    
 
+    public void setArcInMiddles(ArrayList<ArcInMiddle> arcInMiddles)
+    {
+        this.arcInMiddles = arcInMiddles;
+    }
+    
     public HashSet<Midpoint> getMidPoints()
     {
-        return new HashSet<Midpoint>(midPoints);
+        return new HashSet<Midpoint>(midpoints);
     }
     
     public void setMidPoints(ArrayList<Midpoint> midpoints)
     {
-        this.midPoints = midpoints;
+        this.midpoints = midpoints;
     }
 
     public HashSet<Strengthened> getStrengthMidPoints()
@@ -542,7 +555,7 @@ public class FactComputerContainer
         return new HashSet<Strengthened>(strengthMidPoints);
     }
     
-    public void setStrengthMidPoints(ArrayList<Strengthened> _sMidPoints)
+    public void setStrengthMidpoints(ArrayList<Strengthened> _sMidPoints)
     {
         this.strengthMidPoints = _sMidPoints;
     }
@@ -594,13 +607,13 @@ public class FactComputerContainer
     }
 
 
-    public HashSet<SegmentRatio> getSegmentRatios()
+    public HashSet<ProportionalSegments> getSegmentRatios()
     {
-        return new HashSet<SegmentRatio>(segmentRatios);
+        return new HashSet<ProportionalSegments>(segmentRatios);
     }
 
 
-    public void setSegmentRatios(ArrayList<SegmentRatio> segmentRatios)
+    public void setSegmentRatios(ArrayList<ProportionalSegments> segmentRatios)
     {
         this.segmentRatios = segmentRatios;
     }
@@ -1044,7 +1057,7 @@ public class FactComputerContainer
         segmentBisectors = new ArrayList<SegmentBisector>();
         strengthSegmentBisectors = new ArrayList<Strengthened>();
         congruentSegments = new ArrayList<CongruentSegments>(); 
-        segmentRatios = new ArrayList<SegmentRatio>();
+        segmentRatios = new ArrayList<ProportionalSegments>();
         
         trapezoids = new ArrayList<Trapezoid>();
         strengthTrapezoids = new ArrayList<Strengthened>();

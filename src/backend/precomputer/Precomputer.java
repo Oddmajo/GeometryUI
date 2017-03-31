@@ -56,7 +56,7 @@ import backend.ast.Descriptors.Relations.Congruences.CongruentArcs;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.*;
 import backend.ast.figure.components.angles.Angle;
@@ -74,129 +74,110 @@ import backend.utilities.PointFactory;
 import backend.utilities.ast_helper.Utilities;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
-public class CoordinatePrecomputer
+public class Precomputer
 {
+    protected ArrayList<Arc> _arcs;
+    public ArrayList<Arc> getArcs() { return _arcs; }
+
+    protected ArrayList<Segment> _segments;
+    public ArrayList<Segment> getSegments() { return _segments; }
+
+    protected ArrayList<Circle> _circles;
+    public ArrayList<Circle> getCircles() { return _circles; }
+
+    protected ArrayList<Point> _points;
+    public ArrayList<Point> getPoints() { return _points; }
+
+    protected ArrayList<Sector> _sectors;
+    public ArrayList<Sector> getSectors() { return _sectors; }
+
+    protected boolean _analyzed;
+    /** @return Whether the Precomputer analysis was invoked and completed */
+    public boolean analyzed() { return _analyzed; }
     
-      private ArrayList<Arc> arcs;
-      private ArrayList<Segment> segments;
-      private ArrayList<Circle> circles;
-      private ArrayList<Point> points;
-      private ArrayList<Sector> sectors;
-    
-    
-    public CoordinatePrecomputer(ArrayList<GroundedClause> figure)
+    public Precomputer(ArrayList<GroundedClause> figure)
     {
-//        circles = new ArrayList<Circle>();
-//        quadrilaterals = new ArrayList<Quadrilateral>();
-//        triangles = new ArrayList<Triangle>();
-//        segments = new ArrayList<Segment>();
-//        angles = new ArrayList<Angle>();
-//        collinear = new ArrayList<Collinear>();
-//
-//        inMiddles = new ArrayList<InMiddle>();
-//        intersections = new ArrayList<Intersection>();
-//        perpendiculars = new ArrayList<Perpendicular>();
-//        parallels = new ArrayList<Parallel>();
-//
-//        minorArcs = new ArrayList<MinorArc>();
-//        majorArcs = new ArrayList<MajorArc>();
-//        semiCircles = new ArrayList<Semicircle>();
-//        sectors = new ArrayList<Sector>();
-//        arcInMiddle = new ArrayList<ArcInMiddle>();
-//
-        arcs = new ArrayList<Arc>();
-        circles = new ArrayList<Circle>();
-        segments = new ArrayList<Segment>();
-        points = new ArrayList<Point>();
-        sectors = new ArrayList<Sector>();
-        FilterClauses(figure);
-        findRelations();
-        //FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
+        _arcs = new ArrayList<Arc>();
+        _circles = new ArrayList<Circle>();
+        _segments = new ArrayList<Segment>();
+        _points = new ArrayList<Point>();
+        _sectors = new ArrayList<Sector>();
+
+        // Given a single list, split into constituencies
+        filterClauses(figure);
+        _analyzed = false;
+    }
+
+    /**
+     * Precomputation is based on 4 basic lists of elements
+     * @param c -- a list of Circles
+     * @param a -- a list of Arcs
+     * @param s -- a list of Segments
+     * @param p -- a list of Points
+     * 
+     * Note: this constructor is preferred.
+     */
+    public Precomputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p)
+    {
+        _circles = c != null ? c : new ArrayList<Circle>();
+        _arcs = a != null ? a : new ArrayList<Arc>();
+        _segments = s != null ? s : new ArrayList<Segment>();
+        _points = p != null ? p : new ArrayList<Point>();
+        _sectors = new ArrayList<Sector>();
+        
+        _analyzed = false;
+    }
+
+    /**
+     * Alternative precomputer construction with only points and segments
+     * @param p -- a list of Points
+     * @param s -- a list of Segments
+     */
+    public Precomputer(ArrayList<Point> p, ArrayList<Segment> s)
+    {
+        _points  = p;
+        _segments = s;
+
+        _circles = new ArrayList<Circle>();
+        _arcs = new ArrayList<Arc>();
+        _sectors = new ArrayList<Sector>();
+        
+        _analyzed = false;
+    }
+
+    /**
+     * Invoke the precomputation procedure.
+     */
+    public void analyze()
+    {
+        PointFactory.initialize(_points);
+
+        computeSegmentRelations();
+        computeArcRelations();
+        computeCircleRelations();
+        
+        // Analysis is complete
+        _analyzed = true;
     }
     
-    //this should be the used constructor
-    public CoordinatePrecomputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p)
+    private void computeSegmentRelations()
     {
-        if(c!= null)
+        ArrayList<Segment> segs = new ArrayList<Segment>();
+        for(Segment s : _segments)
         {
-            circles = c;
-        }
-        else
-        {
-            circles = new ArrayList<Circle>();
-        }
-        if(a != null)
-        {
-            arcs = a;
-        }
-        else
-        {
-            arcs = new ArrayList<Arc>();
-        }
-        if(s!=null)
-        {
-            segments = s;
-        }
-        else
-        {
-            segments = new ArrayList<Segment>();
-        }
-        if(p != null)
-        {
-            points = p;    
-        }
-        else
-        {
-            points = new ArrayList<Point>();
-        }
-        sectors = new ArrayList<Sector>();
-        PointFactory.initialize(points);
-        findRelations();
-        //FactComputer facts = new FactComputer(circles,arcs,segments,points,sectors);
-    }
-    
-    public ArrayList<Arc> getArcs()
-    {
-        return arcs;
-    }
-    public ArrayList<Circle> getCircles()
-    {
-        return circles;
-    }
-    public ArrayList<Segment> getSegments()
-    {
-        return segments;
-    }
-    public ArrayList<Point> getPoints()
-    {
-        return points;
-    }
-    public ArrayList<Sector> getSectors()
-    {
-        return sectors;
-    }
-    
-    
-    private void findRelations()
-    {
-        HashSet<Segment> segs = new HashSet<Segment>();
-        HashSet<Point> segPoint = new HashSet<Point>();
-        for(Segment s : segments)
-        {
-            segPoint.clear();
-            if(!points.contains(s.getPoint1()))
+            if(!_points.contains(s.getPoint1()))
             {
                 if(!PointFactory.contains(s.getPoint1()))
                     PointFactory.generatePoint(s.getPoint1());
-                points.add(s.getPoint1());
+                _points.add(s.getPoint1());
             }
-            if(!points.contains(s.getPoint2()))
+            if(!_points.contains(s.getPoint2()))
             {   
                 if(!PointFactory.contains(s.getPoint2()))
                     PointFactory.generatePoint(s.getPoint2());
-                points.add(s.getPoint2());
+                _points.add(s.getPoint2());
             }
-            for(Segment s2 : segments)
+            for(Segment s2 : _segments)
             {
                 if(!s.equals(s2))
                 {
@@ -204,9 +185,9 @@ public class CoordinatePrecomputer
                     {
                         if(!PointFactory.isGenerated(s.segmentIntersection(s2)))
                         {
-                            if(!structurallyContains(points,s.segmentIntersection(s2)))
+                            if(!structurallyContains(_points,s.segmentIntersection(s2)))
                             {
-                                points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
+                                _points.add(PointFactory.generatePoint(s.segmentIntersection(s2))); //this should find the intersection point and make a new point right?
                             }
                             else
                             {
@@ -216,65 +197,81 @@ public class CoordinatePrecomputer
                     }
                 }
             }
-            for(Point p : points)
+
+            for(Point p : _points)
             {
                 // A-B-C 
                 //need to check if AB & BC & AC are in the segment list and that all three points are added to points
                 //will check for midpoint in fact computer
                 if(s.pointLiesOnSegment(p)) 
                 {
-                    segPoint.add(p);
-                }
-            }
-            for(Point p1 : segPoint)
-            {
-                for(Point p2: segPoint)
-                {
-                    if(!p1.structurallyEquals(p2))
+                    //check to see if this segment is already created
+                    boolean made1 = false;
+                    boolean made2 = false;
+                    for(Segment seg : _segments)
                     {
-                        boolean made1 = false;
-                        Segment match = new Segment(p1,p2);
-                        if(structurallyContains(segments,match) || structurallyContains(new ArrayList<Segment>(segs),match))
+                        if( (seg.getPoint1().structurallyEquals(s.getPoint1()) && seg.getPoint2().structurallyEquals(p)) )
                         {
                             //then this segment is created
                             made1 = true;
                         }
-                        Segment match2 = new Segment(p2,p1);
-                        if(structurallyContains(segments,match2)|| structurallyContains(new ArrayList<Segment>(segs),match2))
+                        if((seg.getPoint1().structurallyEquals(p) && seg.getPoint2().structurallyEquals(s.getPoint2())))
                         {
-                            made1 = true;
+                            made2=true;
                         }
-                        if(!made1)
+                    }
+                    //if they are not found to be made then we need to make the segments
+                    if(!made1)
+                    {
+                        if(!s.getPoint1().structurallyEquals(p))
                         {
-                            segs.add(new Segment(p1,p2));
+                            segs.add(new Segment(s.getPoint1(),p));
+                        }
+                    }
+                    if(!made2)
+                    {
+                        if(!s.getPoint2().structurallyEquals(p))
+                        {
+                            segs.add(new Segment(p,s.getPoint2()));
                         }
                     }
                 }
+                //Either B-A-C or A-B-C or A-B-C
+                //but maybe this will would create segments that shouldn't exist?
+                //                if(s.pointLiesOnLine(p))
+                //                {
+                //                    
+                //                }
             }
+
+
         }
-        segments.addAll(segs);
-        
+        _segments.addAll(segs);
+    }
+
+    private void computeArcRelations()
+    {
         //might need to add checking to see if any random point is on the circle?
-        for(Arc a : arcs)
+        for(Arc a : _arcs)
         {
             //sectors.add(new Sector(a));
-            
+
             //check both endpoints to see if they are contained in points
             //  if not, add them
             //  does an issue potentially pop up regarding this? unsure, consult with Tom/Alvin
-            if(!points.contains(a.getEndpoint1()))
+            if(!_points.contains(a.getEndpoint1()))
             {
                 if(!PointFactory.contains(a.getEndpoint1()))
                     PointFactory.generatePoint(a.getEndpoint1());
-                points.add(a.getEndpoint1());   
+                _points.add(a.getEndpoint1());   
             }
-            if(!points.contains(a.getEndpoint2()))
+            if(!_points.contains(a.getEndpoint2()))
             {
                 if(!PointFactory.contains(a.getEndpoint2()))
                     PointFactory.generatePoint(a.getEndpoint2());
-                points.add(a.getEndpoint2());   
+                _points.add(a.getEndpoint2());   
             }
-            
+
             //if the two endpoints are not in the circle's PointsOnCircle list, add them
             if(!a.getCircle().getPointsOnCircle().contains(a.getEndpoint1()))
             {
@@ -284,26 +281,29 @@ public class CoordinatePrecomputer
             {
                 a.getCircle().addPointOnCircle(a.getEndpoint2());
             }
-            
-            sectors.add(new Sector(a));
-            
+
+            _sectors.add(new Sector(a));
+
             //The handler for circles will add complementary angles
         }
-        
-        for(Circle c: circles)
+    }
+
+    private void computeCircleRelations()
+    {
+        for(Circle c: _circles)
         {
             //Make sure the centerpoint is in points
-            if(!points.contains(c.getCenter()))
+            if(!_points.contains(c.getCenter()))
             {
                 if(!PointFactory.contains(c.getCenter()))
                     PointFactory.generatePoint(c.getCenter());
-                points.add(c.getCenter());
+                _points.add(c.getCenter());
             }
-            
+
             //go through the list of points
             //  for each point, check if it is on the circle
             //  if not, add it to 
-            for(Point p : points)
+            for(Point p : _points)
             {
                 if(PointLiesOnDelegate.pointLiesOn(c, p))
                 {
@@ -318,11 +318,11 @@ public class CoordinatePrecomputer
             ArrayList<Point> circlePoints = c.getPointsOnCircle();
             for(int i = 0; i < circlePoints.size(); i++)
             {
-                if(!points.contains(circlePoints.get(i)))
+                if(!_points.contains(circlePoints.get(i)))
                 {
                     if(!PointFactory.contains(circlePoints.get(i)))
                         PointFactory.generatePoint(circlePoints.get(i));
-                    points.add(circlePoints.get(i));
+                    _points.add(circlePoints.get(i));
                 }
                 for(int j = i + 1; j < circlePoints.size(); j++)
                 {
@@ -340,16 +340,16 @@ public class CoordinatePrecomputer
                         one = new MajorArc(c, circlePoints.get(i), circlePoints.get(j));
                         two = new MinorArc(c, circlePoints.get(i), circlePoints.get(j));
                     }
-                    
-                    if(!arcs.contains(one))
+
+                    if(!_arcs.contains(one))
                     {
-                        arcs.add(one);
-                        sectors.add(new Sector(one));
+                        _arcs.add(one);
+                        _sectors.add(new Sector(one));
                     }
-                    if(!arcs.contains(two)) 
+                    if(!_arcs.contains(two)) 
                     {
-                        arcs.add(two);
-                        sectors.add(new Sector(two));
+                        _arcs.add(two);
+                        _sectors.add(new Sector(two));
                     }
                 }
             }
@@ -357,45 +357,10 @@ public class CoordinatePrecomputer
             //then create a new sector based off of that arc
         }
     }
-    
-    //Split the figure into the constituent clauses
-    private void FilterClauses(ArrayList<GroundedClause> figure)
-    {
-        for(GroundedClause clause : figure)
-        {
-        	if(clause != null)
-        	{
-	            if(clause instanceof Circle)
-	            {
-	                circles.add((Circle)clause);
-	            }
-	            else if(clause instanceof Arc)
-	            {
-	                arcs.add((Arc)clause);
-	            }
-	            else if (clause instanceof Segment)
-	            {
-	                segments.add((Segment)clause);
-	            }
-	            else if(clause instanceof Point)
-	            {
-	                if(!PointFactory.isGenerated((Point)clause))
-	                {
-	                    PointFactory.generatePoint((Point)clause);
-	                }
-	                if(!points.contains((Point)clause))
-	                {
-	                    points.add((Point)clause);
-	                }
-	            }
 
-        	}
-        }
-    }
-    
-    private <T extends GroundedClause> boolean structurallyContains(ArrayList<T> list, T that)
+    private boolean structurallyContains(ArrayList<Point> list, Point that)
     {
-        for(T thisS : list)
+        for(Point thisS : list)
         {
             if(thisS.structurallyEquals(that))
             {
@@ -403,5 +368,43 @@ public class CoordinatePrecomputer
             }
         }
         return false;
+    }
+
+    /*
+     * @param figure -- a list of clauses describing the given figure.
+     * This method splits those clauses into appropriate bins.
+     */
+    private void filterClauses(ArrayList<GroundedClause> figure)
+    {
+        for(GroundedClause clause : figure)
+        {
+            if(clause != null)
+            {
+                if(clause instanceof Circle)
+                {
+                    _circles.add((Circle)clause);
+                }
+                else if(clause instanceof Arc)
+                {
+                    _arcs.add((Arc)clause);
+                }
+                else if (clause instanceof Segment)
+                {
+                    _segments.add((Segment)clause);
+                }
+                else if(clause instanceof Point)
+                {
+                    // This is weird as an artifact of the original C# code.
+                    if(!PointFactory.isGenerated((Point)clause))
+                    {
+                        PointFactory.generatePoint((Point)clause);
+                    }
+                    if(!_points.contains((Point)clause))
+                    {
+                        _points.add((Point)clause);
+                    }
+                }
+            }
+        }
     }
 }

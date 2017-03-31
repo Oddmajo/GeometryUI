@@ -63,8 +63,8 @@ public class ProportionalAngles extends Descriptor
 	 // Return the number of shared angles in both congruences
     public int SharesNumClauses(CongruentAngles thatCas)
     {
-        int numShared = smallerAngle.equals(thatCas.GetFirstAngle()) || smallerAngle.equals(thatCas.GetSecondAngle()) ? 1 : 0;
-        numShared += largerAngle.equals(thatCas.GetFirstAngle()) || largerAngle.equals(thatCas.GetSecondAngle()) ? 1 : 0;
+        int numShared = smallerAngle.equals(thatCas.first()) || smallerAngle.equals(thatCas.second()) ? 1 : 0;
+        numShared += largerAngle.equals(thatCas.first()) || largerAngle.equals(thatCas.second()) ? 1 : 0;
 
         return numShared;
     }
@@ -127,7 +127,7 @@ public class ProportionalAngles extends Descriptor
     {
         if (SharesNumClauses(thatCas) != 1) return null;
 
-        return smallerAngle.equals(thatCas.GetFirstAngle()) || smallerAngle.equals(thatCas.GetSecondAngle()) ? smallerAngle : largerAngle;
+        return smallerAngle.equals(thatCas.first()) || smallerAngle.equals(thatCas.second()) ? smallerAngle : largerAngle;
     }
 
     // Return the shared angle in both congruences

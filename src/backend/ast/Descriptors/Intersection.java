@@ -1274,13 +1274,13 @@ public class Intersection extends Descriptor
     //
     public Angle GetInducedNonStraightAngle(CongruentAngles congAngles)
     {
-    	if(this.InducesNonStraightAngle(congAngles.GetFirstAngle()))
+    	if(this.InducesNonStraightAngle(congAngles.first()))
     	{
-    		return congAngles.GetFirstAngle();
+    		return congAngles.first();
     	}
-    	if(this.InducesNonStraightAngle(congAngles.GetSecondAngle()))
+    	if(this.InducesNonStraightAngle(congAngles.second()))
     	{
-    		return congAngles.GetSecondAngle();
+    		return congAngles.second();
     	}
     	return null;
     }
@@ -1303,7 +1303,7 @@ public class Intersection extends Descriptor
     //
     public boolean InducesBothAngles(CongruentAngles conAngles)
     {
-    	return this.InducesNonStraightAngle(conAngles.GetFirstAngle()) && this.InducesNonStraightAngle(conAngles.GetSecondAngle());
+    	return this.InducesNonStraightAngle(conAngles.first()) && this.InducesNonStraightAngle(conAngles.second());
     }
     
     public Segment OtherSegment(Segment thatSegment)

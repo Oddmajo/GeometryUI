@@ -7,7 +7,7 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
@@ -111,8 +111,8 @@ public class CongruentSegmentsImplySegmentRatioDefinition extends Axiom
         propAntecedent.add(css1);
         propAntecedent.add(css2);
 
-        SegmentRatio ratio1 = new SegmentRatio(seg1Tri1, seg1Tri2);
-        SegmentRatio ratio2 = new SegmentRatio(seg2Tri1, seg2Tri2);
+        ProportionalSegments ratio1 = new ProportionalSegments(seg1Tri1, seg1Tri2);
+        ProportionalSegments ratio2 = new ProportionalSegments(seg2Tri1, seg2Tri2);
 
         GeometricSegmentRatioEquation newEq = new GeometricSegmentRatioEquation(ratio1, ratio2);
 

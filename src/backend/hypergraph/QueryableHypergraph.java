@@ -36,7 +36,7 @@ import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.AlgebraicProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricProportionalAngles;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.Descriptors.parallel.AlgebraicParallel;
 import backend.ast.Descriptors.parallel.GeometricParallel;
@@ -574,9 +574,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
                 }
             }
         }
-        else if (data instanceof SegmentRatio)
+        else if (data instanceof ProportionalSegments)
         {
-            for (SegmentRatio sr : _segmentRatios)
+            for (ProportionalSegments sr : _segmentRatios)
             {
                 if (data.structurallyEquals(sr))
                 {
@@ -1278,7 +1278,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
     public HashSet<CongruentSegments> _congruentSegments;
     public HashSet<GeometricCongruentSegments> _geometricCongruentSegments;
     public HashSet<AlgebraicCongruentSegments> _algebraicCongruentSegments;
-    public HashSet<SegmentRatio> _segmentRatios;
+    public HashSet<ProportionalSegments> _segmentRatios;
     public Set<SegmentRatioEquation> _segmentRatioEquations;
 
     //
@@ -1401,7 +1401,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         _congruentSegments = new HashSet<CongruentSegments>();
         _geometricCongruentSegments = new HashSet<GeometricCongruentSegments>();
         _algebraicCongruentSegments = new HashSet<AlgebraicCongruentSegments>();
-        _segmentRatios = new HashSet<SegmentRatio>();
+        _segmentRatios = new HashSet<ProportionalSegments>();
         _segmentRatioEquations = new HashSet<SegmentRatioEquation>();
 
         //
@@ -1659,9 +1659,9 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         {
             _medians.add((Median) data);
         }
-        else if (data instanceof SegmentRatio)
+        else if (data instanceof ProportionalSegments)
         {
-            _segmentRatios.add((SegmentRatio) data);
+            _segmentRatios.add((ProportionalSegments) data);
         }
         else if (data instanceof SegmentRatioEquation)
         {
@@ -2257,7 +2257,7 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         return _equationHandler.getAlgebraicAngleArcEqs();
     }
 
-    public HashSet<SegmentRatio> getSegmentRatios()
+    public HashSet<ProportionalSegments> getSegmentRatios()
     {
         return _segmentRatios;
     }

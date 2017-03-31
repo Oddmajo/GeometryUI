@@ -3,6 +3,7 @@ package backend.ast.figure.delegates;
 import backend.ast.figure.components.Circle;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Ray;
+import backend.ast.figure.components.Segment;
 import backend.utilities.math.MathUtilities;
 
 /*
@@ -70,6 +71,9 @@ public class RayDelegate
      */
     public static boolean overlays(Ray thisRay, Ray thatRay)
     {
+        // Sanity check
+        if (thisRay == null || thatRay == null) return false;
+        
         // Same ray?
         if (thisRay.equals(thatRay)) return true;
         
@@ -81,6 +85,10 @@ public class RayDelegate
         
         // Rays pointing in the same direction?
         // Avoid: <--------------------- . ---------------->
-        return MathUtilities.doubleEquals(thisRay.standardAngleMeasure(), thatRay.standardAngleMeasure());
+        //      V------------W------------Z
+                              // middle                 endpoint              endpoint
+        return Segment.Between(thatRay.getNonOrigin(), thisRay.getOrigin(), thisRay.getNonOrigin()) ||
+               Segment.Between(thisRay.getNonOrigin(), thisRay.getOrigin(), thatRay.getNonOrigin());
+        // CTA: THis is buggy and needs attention        return MathUtilities.doubleEquals(thisRay.standardAngleMeasure(), thatRay.standardAngleMeasure());
     }
 }

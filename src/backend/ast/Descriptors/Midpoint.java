@@ -34,7 +34,7 @@ public class Midpoint extends InMiddle
 {
 	public Midpoint(InMiddle im)
 	{
-		super(im.point, im.segment);
+		super(im._point, im._segment);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class Midpoint extends InMiddle
 		if(obj != null && obj instanceof Midpoint)
 		{
 			Midpoint midptObj = (Midpoint)obj;
-			return point.structurallyEquals(midptObj.point) && segment.structurallyEquals(midptObj.segment);
+			return _point.structurallyEquals(midptObj._point) && _segment.structurallyEquals(midptObj._segment);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
@@ -55,7 +55,7 @@ public class Midpoint extends InMiddle
 		if(obj != null && obj instanceof Midpoint)
 		{
 			Midpoint midptObj = (Midpoint)obj;
-			return point.equals(midptObj.point) && segment.equals(midptObj.segment) && super.equals(obj);
+			return _point.equals(midptObj._point) && _segment.equals(midptObj._segment) && super.equals(obj);
 		}
 		//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
@@ -64,6 +64,6 @@ public class Midpoint extends InMiddle
 	@Override
 	public String toString()
 	{
-		return "Midpoint(" + point.toString() + ", " + segment.toString() + ") " + justification;
+		return "Midpoint(" + _point.toString() + ", " + _segment.toString() + ") " + justification;
 	}
 }

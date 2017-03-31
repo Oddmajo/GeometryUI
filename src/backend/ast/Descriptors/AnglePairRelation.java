@@ -69,8 +69,8 @@ public abstract class AnglePairRelation extends Descriptor
 	// Return the shared angle in both congruences
     public Angle AngleShared(CongruentAngles cas)
     {
-        if (angle1.equates(cas.GetFirstAngle()) || angle1.equates(cas.GetSecondAngle())) return angle1;
-        if (angle2.equates(cas.GetFirstAngle()) || angle2.equates(cas.GetSecondAngle())) return angle2;
+        if (angle1.equates(cas.first()) || angle1.equates(cas.second())) return angle1;
+        if (angle2.equates(cas.first()) || angle2.equates(cas.second())) return angle2;
 
         return null;
     }

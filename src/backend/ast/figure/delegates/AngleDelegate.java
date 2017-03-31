@@ -68,9 +68,12 @@ public class AngleDelegate extends FigureDelegate
         // Vertices must equate
         if (!thisA.getVertex().equals(that.getVertex())) return false;
 
-        // Rays must originate at the vertex and emanate outward
-        return (thisA.getRay1().overlays(that.getRay1()) && thisA.getRay2().overlays(that.getRay2())) ||
-               (thisA.getRay2().overlays(that.getRay1()) && thisA.getRay1().overlays(that.getRay2()));
+        //
+        // Rays must originate at the vertex and emanate outward (2 cases to check)
+        //
+        if (thisA.getRay1().overlays(that.getRay1()) && thisA.getRay2().overlays(that.getRay2())) return true;
+        
+        return thisA.getRay2().overlays(that.getRay1()) && thisA.getRay1().overlays(that.getRay2());
     }
     
     /*

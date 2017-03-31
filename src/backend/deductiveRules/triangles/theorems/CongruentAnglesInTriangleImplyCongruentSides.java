@@ -61,7 +61,7 @@ public class CongruentAnglesInTriangleImplyCongruentSides extends Theorem
         {
             for (CongruentAngles cas : congruentAngles)
             {
-                if (tri.HasAngle(cas.GetFirstAngle()) && tri.HasAngle(cas.GetSecondAngle()) && !cas.isReflexive())
+                if (tri.HasAngle(cas.first()) && tri.HasAngle(cas.second()) && !cas.isReflexive())
                 {
                     deductions.add(deduceCongruentAnglesInTriangleImplyCongruentSides(tri, cas));
 
@@ -77,7 +77,7 @@ public class CongruentAnglesInTriangleImplyCongruentSides extends Theorem
     //
     private static Deduction deduceCongruentAnglesInTriangleImplyCongruentSides(Triangle tri, CongruentAngles cas)
     {
-        CongruentSegments newConSegs = new CongruentSegments(tri.OtherSide(cas.GetFirstAngle()), tri.OtherSide(cas.GetSecondAngle()));
+        CongruentSegments newConSegs = new CongruentSegments(tri.OtherSide(cas.first()), tri.OtherSide(cas.second()));
 
         List<GroundedClause> antecedent = new ArrayList<GroundedClause>();
         antecedent.add(cas);

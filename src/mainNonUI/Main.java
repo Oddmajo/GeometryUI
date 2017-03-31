@@ -10,7 +10,7 @@ import backend.ast.figure.components.arcs.Arc;
 import backend.factComputer.FactComputer;
 import backend.factComputer.FactComputerContainer;
 import backend.hypergraph.QueryableHypergraph;
-import backend.precomputer.CoordinatePrecomputer;
+import backend.precomputer.Precomputer;
 import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
 import channels.fromUI.Diagram;
@@ -35,19 +35,19 @@ public class Main
         try
         {
             LoggerFactory.initialize();
-            //TestManager.run();
-            CoordinatePrecomputer compute = new CoordinatePrecomputer(c,a,s,p);
+            TestManager.run();
+            Precomputer compute = new Precomputer(c,a,s,p);
             FactComputer facts = new FactComputer(compute.getCircles(),compute.getArcs(),compute.getSegments(),compute.getPoints(),compute.getSectors());
-            FactComputerContainer container = facts.getLists(); // may not need once I see what has been done in Hypergrap
+            //FactComputerContainer container = facts.getLists(); // may not need once I see what has been done in Hypergrap
             //QueryableHypergraph graph = new QueryableHypergraph();
-            for(Segment segs : container.getSegments())
-            {
-                System.out.println(segs.toString());
-            }
-            for(Point po : container.getPoints())
-            {
-                System.out.println(po.toString());
-            }
+//            for(Segment segs : container.getSegments())
+//            {
+//                System.out.println(segs.toString());
+//            }
+//            for(Point po : container.getPoints())
+//            {
+//                System.out.println(po.toString());
+//            }
             
         }
         catch (Exception e)

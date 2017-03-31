@@ -8,7 +8,7 @@ import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
-import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatio;
+import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.triangles.Triangle;
@@ -120,12 +120,12 @@ public class SimilarTriangles extends Descriptor
         //
         // Cycle through the points creating the angles: ABC - DEF ; BCA - EFD ; CAB - FDE
         //
-        List<SegmentRatio> ratios = new ArrayList<SegmentRatio>();
+        List<ProportionalSegments> ratios = new ArrayList<ProportionalSegments>();
         for (int i = 0; i < orderedTriOnePts.size(); i++)
         {
             Segment cs1 = new Segment(orderedTriOnePts.get(0), orderedTriOnePts.get(1));
             Segment cs2 = new Segment(orderedTriTwoPts.get(0), orderedTriTwoPts.get(1));
-            SegmentRatio ratio = new SegmentRatio(cs1, cs2);
+            ProportionalSegments ratio = new ProportionalSegments(cs1, cs2);
 
             ratios.add(ratio);
 

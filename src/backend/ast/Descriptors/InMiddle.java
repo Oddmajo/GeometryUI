@@ -35,11 +35,11 @@ import backend.utilities.ast_helper.Utilities;
 
 public class InMiddle extends Descriptor
 {
-    protected Point point;
-    public Point getPoint() { return point; }
+    protected Point _point;
+    public Point getPoint() { return _point; }
 
-    protected Segment segment;
-    public Segment getSegment() { return segment; }
+    protected Segment _segment;
+    public Segment getSegment() { return _segment; }
     
     /// <summary>
     /// Create a new InMiddle statement
@@ -49,8 +49,8 @@ public class InMiddle extends Descriptor
     public InMiddle(Point p, Segment segment)// :base()
     {
     	super();
-        this.point = p;
-        this.segment = segment;
+        this._point = p;
+        this._segment = segment;
     }
     
 //    @Override
@@ -65,7 +65,7 @@ public class InMiddle extends Descriptor
     //
     public Strengthened canBeStrengthened()
     {
-    	if (Utilities.CompareValues(Point.calcDistance(point, segment.getPoint1()), Point.calcDistance(point, segment.getPoint2())))
+    	if (Utilities.CompareValues(Point.calcDistance(_point, _segment.getPoint1()), Point.calcDistance(_point, _segment.getPoint2())))
         {
             return new Strengthened(this, new Midpoint(this));
         }
@@ -79,11 +79,17 @@ public class InMiddle extends Descriptor
     	if(gc != null && gc instanceof Midpoint)
     	{
     		Midpoint midpoint = (Midpoint)gc;
-    		return this.point.structurallyEquals(midpoint.point) && this.segment.structurallyEquals(midpoint.segment);
+    		return this._point.structurallyEquals(midpoint._point) && this._segment.structurallyEquals(midpoint._segment);
     	}
     	
     	//this is untested but if the if statement isn't hit then it probably should return false anyways
     	return false;
+    }
+    
+    @Override
+    public int hashCode()
+    {
+        return _point.hashCode() + _segment.hashCode();
     }
     
     @Override
@@ -95,7 +101,7 @@ public class InMiddle extends Descriptor
     	{
     		InMiddle im = (InMiddle)obj;
     		
-    		return im.point.equals(point) && im.segment.equals(segment);
+    		return im._point.equals(_point) && im._segment.equals(_segment);
     	}
     	
     	//this is untested but if the if statement isn't hit then it probably should return false anyways
@@ -109,7 +115,7 @@ public class InMiddle extends Descriptor
         {
             InMiddle im = (InMiddle)obj;
             
-            return im.point.structurallyEquals(point) && im.segment.structurallyEquals(segment);
+            return im._point.structurallyEquals(_point) && im._segment.structurallyEquals(_segment);
         }
         
         //this is untested but if the if statement isn't hit then it probably should return false anyways
@@ -119,7 +125,7 @@ public class InMiddle extends Descriptor
     @Override
     public String toString()
     {
-    	return "InMiddle(" + point.toString() + ", " + segment.toString() + ") " + justification;
+    	return "InMiddle(" + _point.toString() + ", " + _segment.toString() + ") " + justification;
     }
     
 }
