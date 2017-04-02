@@ -11,6 +11,8 @@ import backend.hypergraph.Annotation;
 import backend.hypergraph.DeductionFlags;
 import backend.hypergraph.QueryableHypergraph;
 import backend.precomputer.Precomputer;
+import backend.utilities.AngleEquivalenceRelation;
+import backend.utilities.PointFactory;
 import backend.utilities.logger.LoggerFactory;
 import channels.fromUI.Diagram;
 
@@ -21,17 +23,21 @@ public class TestDeductiveRule
     public static Boolean test(Diagram d, int expected, ArrayList<Integer> flags) throws IOException
     {        
         LoggerFactory.initialize();
+        PointFactory.clear();
+        AngleEquivalenceRelation.getInstance().clear();
         
         // set flags
         // activate specific flags
         DeductionFlags.setFlags(flags);
         
         // create the precomputer object
-        Precomputer precomp = new Precomputer(null, null, d.getSegments(), d.getPoints());
+        Precomputer precomp = new Precomputer(d.getPoints(), d.getSegments());
+        precomp.analyze();
         
         // create fact computer object and get lists
-        FactComputer factComp = new FactComputer(precomp.getCircles(), precomp.getArcs(), precomp.getSegments(), precomp.getPoints(), precomp.getSectors());
-        FactComputerContainer container = factComp.getLists();        
+        FactComputer factComp = new FactComputer(precomp);
+        factComp.analyze();
+        FactComputerContainer container = factComp.getFacts();        
         
         // create qhg
         System.out.println("Creating QHG");
