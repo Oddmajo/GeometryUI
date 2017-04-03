@@ -9,10 +9,9 @@ import backend.deductiveRules.RuleFactory.JustificationSwitch.DeductionJustType;
 import backend.deductiveRules.angles.axioms.AngleAdditionAxiom;
 import backend.deductiveRules.angles.axioms.AnglesOfEqualMeasureAreCongruent;
 import backend.deductiveRules.angles.axioms.CongruentCorrespondingAnglesImplyParallel;
-import backend.deductiveRules.angles.axioms.CorrespondingAnglesOFParallelLines;
+import backend.deductiveRules.angles.axioms.CorrespondingAnglesOfParallelLines;
 import backend.deductiveRules.angles.definitions.AngleBisectorDefinition;
 import backend.deductiveRules.angles.definitions.ComplementaryDefinition;
-import backend.deductiveRules.angles.definitions.PerpendicularBisectorDefinition;
 import backend.deductiveRules.angles.definitions.RightAngleDefinition;
 import backend.deductiveRules.angles.definitions.StraightAngleDefinition;
 import backend.deductiveRules.angles.definitions.SupplementaryDefinition;
@@ -54,6 +53,7 @@ import backend.deductiveRules.quadrilaterals.theorems.OppositeSidesOfParallelogr
 import backend.deductiveRules.segments.axioms.CongruentSegmentsImplySegmentRatioDefinition;
 import backend.deductiveRules.segments.axioms.SegmentAdditionAxiom;
 import backend.deductiveRules.segments.definitions.MidpointDefinition;
+import backend.deductiveRules.segments.definitions.PerpendicularBisectorDefinition;
 import backend.deductiveRules.segments.definitions.PerpendicularDefinition;
 import backend.deductiveRules.segments.definitions.PerpendicularSegments;
 import backend.deductiveRules.segments.definitions.SegmentBisectorDefinition;
@@ -165,7 +165,7 @@ public class FactConnector
 
         if (!DeductionFlags.dFlags[DeductionJustType.CORRESPONDING_ANGLES_OF_PARALLEL_LINES.ordinal()]) 
         {
-            CorrespondingAnglesOFParallelLines correspondingAnglesOFParallelLines = new CorrespondingAnglesOFParallelLines((QueryableHypergraph<GroundedClause, Annotation>) _qhg);
+            CorrespondingAnglesOfParallelLines correspondingAnglesOFParallelLines = new CorrespondingAnglesOfParallelLines((QueryableHypergraph<GroundedClause, Annotation>) _qhg);
             deductions.addAll(correspondingAnglesOFParallelLines.deduce());
         }
 
@@ -182,11 +182,11 @@ public class FactConnector
             deductions.addAll(complementaryDefinition.deduce());
         }
 
-        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal()]) 
-        {
-            PerpendicularBisectorDefinition perpendicularBisectorDefinition = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) _qhg);
-            deductions.addAll(perpendicularBisectorDefinition.deduce());
-        }
+//        if (!DeductionFlags.dFlags[DeductionJustType.PERPENDICULAR_BISECTOR_DEFINITION.ordinal()]) 
+//        {
+//            PerpendicularBisectorDefinition perpendicularBisectorDefinition = new PerpendicularBisectorDefinition((QueryableHypergraph<GroundedClause, Annotation>) _qhg);
+//            deductions.addAll(perpendicularBisectorDefinition.deduce());
+//        }
 
         if (!DeductionFlags.dFlags[DeductionJustType.RIGHT_ANGLE_DEFINITION.ordinal()]) 
         {
