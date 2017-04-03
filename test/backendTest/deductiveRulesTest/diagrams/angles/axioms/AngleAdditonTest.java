@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.angles.axioms;
 
 import static org.junit.Assert.*;
 
@@ -12,26 +12,23 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SegmentAdditionAxiomTest
+public class AngleAdditonTest
 {
 
     /**
-     * A     M     B
-     * *-----*-----*
-     * 
-     * AM + MB = AB
+     * Angles not being created -Nick 4/2
      * @throws IOException
      */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_Midpoint();
+        Diagram diagram = DiagramGenerator.premade_AngleBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_ADDITION_AXIOM.ordinal());
-
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal());
+        
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 

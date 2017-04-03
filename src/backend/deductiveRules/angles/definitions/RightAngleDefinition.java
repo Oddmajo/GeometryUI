@@ -37,7 +37,8 @@ public class RightAngleDefinition extends Definition
     public RightAngleDefinition(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
-        // TODO Auto-generated constructor stub
+        DEF_ANNOTATION.active = RuleFactory.JustificationSwitch.RIGHT_ANGLE_DEFINITION;
+        TRANS_ANNOTATION.active = RuleFactory.JustificationSwitch.TRANSITIVE_CONGRUENT_ANGLE_WITH_RIGHT_ANGLE;
     }
 
     @Override
@@ -138,9 +139,10 @@ public class RightAngleDefinition extends Definition
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> lhs = eq.getLHS().collectTerms();
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> rhs = eq.getRHS().collectTerms();
 
-        //TODO Not sure how collectTerms works now. Check this code -Nick 3/28
+        //TODO Not sure how collectTerms works now. CTA -Nick 3/28
         Angle angle = null;
         NumericValue value = null;
+        
         if (lhs.second().get(0) instanceof Angle && rhs.second().get(0) instanceof NumericValue)
         {
             angle = (Angle)lhs.second().get(0);

@@ -1,16 +1,11 @@
 package backend.deductiveRules.angles.definitions;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.AngleBisector;
-import backend.ast.Descriptors.PerpendicularBisector;
-import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
-import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.deductiveRules.Deduction;
@@ -19,7 +14,6 @@ import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
 import backend.utilities.Pair;
-import backend.utilities.list.Utilities;
 
 public class AngleBisectorDefinition extends Definition
 {
@@ -90,8 +84,6 @@ public class AngleBisectorDefinition extends Definition
     //
     //
     
-    private static List<Segment> candidateSegments;
-    private static List<GeometricCongruentAngles> candidateCongruent;
     public Set<Deduction> deduceToAngleBisectors()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();

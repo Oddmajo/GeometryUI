@@ -12,20 +12,17 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class PerpendicularDefinitionTest
+public class PerpendicularSegmentsTest
 {
-    
+
     /**
-     * Check Stands on Endpoint? OR check if deductions are being added -Nick 3/28
-     *      Check if the intersection is even being found - JPN 3/29
+     * Not Finding Deductive Rules
      *         C
      *         |
      *         |
      * A-------M
 
      * @throws IOException
-     * 
-     * Intersections are ignoring endpoints, only checking betweenness @author Drew W
      */
     @Test
     public void testOnEnd() throws IOException
@@ -35,23 +32,19 @@ public class PerpendicularDefinitionTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_SEGMENTS.ordinal());
         
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 
     /**
-     * Previous issues resolved.
-     *      finds 2 deductions, no edges added
-     *       - JPN 3/29
+     * Not finding Deductions -Nick 3/28
      *         C
      *         |
      *         |
      * A-------M--------B
 
      * @throws IOException
-     * 
-     * 
      */
     @Test
     public void testOn() throws IOException
@@ -61,17 +54,13 @@ public class PerpendicularDefinitionTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_SEGMENTS.ordinal());
         
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 
     
     /**
-     * Previous issues fixed.
-     *      12 deductions found
-     *      All failed to be added as edges (Target Node DNE)
-     *      - JPN 3/29
      * 
      *         C
      *         |
@@ -82,8 +71,6 @@ public class PerpendicularDefinitionTest
      *         D
 
      * @throws IOException
-     * 
-     * PerpendicularBisector block needs strenghthened and perpendicular objects added
      */
     @Test
     public void testCrossing() throws IOException
@@ -93,7 +80,7 @@ public class PerpendicularDefinitionTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_SEGMENTS.ordinal());
         
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }

@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.angles.definitions;
 
 import static org.junit.Assert.*;
 
@@ -12,27 +12,23 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SegmentAdditionAxiomTest
+public class StraightAngleDefinitionTest
 {
 
     /**
-     * A     M     B
-     * *-----*-----*
-     * 
-     * AM + MB = AB
+     * Not Finding collinear points 
      * @throws IOException
      */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_Midpoint();
+        Diagram diagram = DiagramGenerator.premade_StraightAngles();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_ADDITION_AXIOM.ordinal());
-
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.STRAIGHT_ANGLE_DEFINITION.ordinal());
+        
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
-
 }

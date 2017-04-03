@@ -255,11 +255,11 @@ public class DiagramGenerator
     }
     /**
      * This method will purge the diagram of any components, then create a default diagram for testing purposes.
-     *      
-     *         |
-     *         |
-     *         |
-     *   ______|
+     *          C
+     *          | 
+     *          |
+     *          |
+     *   A______|M
      */
     public static Diagram premade_Perpendicular()
     {
@@ -267,16 +267,16 @@ public class DiagramGenerator
         
         Point a = new Point("A", 0, 0);
         Point c = new Point("C", 1, 1);
-        Point m = new Point("M", 2, 0);
+        Point m = new Point("M", 1, 0);
         
-        Segment ab = new Segment(a, c);
+        Segment am = new Segment(a, m);
         Segment cm = new Segment(c, m);
         
         d.addPoint(a);
         d.addPoint(c);
         d.addPoint(m);
         
-        d.addSegment(ab);
+        d.addSegment(am);
         d.addSegment(cm);
         
         return d;
@@ -320,6 +320,45 @@ public class DiagramGenerator
     /**
      * This method will purge the diagram of any components, then create a default diagram for testing purposes.
      *      
+     *      _________|__________
+     *               |        
+     *      _________|__________
+     *               |
+     */
+    public static Diagram premade_PerpendicularTransversal()
+    {
+        Diagram d = new Diagram();
+        
+        Point A = new Point("A", -2.0, 1.0);
+        Point B = new Point("B", 2.0, 1.0);
+        
+        Point C = new Point("C", -2.0, -1.0);
+        Point D = new Point("D", 2.0, -1.0);
+        
+        Point E = new Point("E", 0.0, 2.0);
+        Point F = new Point("F", 0.0, -2.0);
+        
+        d.addPoint(A);
+        d.addPoint(B);
+        d.addPoint(C);
+        d.addPoint(D);
+        d.addPoint(E);
+        d.addPoint(F);
+        
+        Segment top = new Segment(A, B);
+        Segment bottom = new Segment(C, D);
+        Segment trans = new Segment(E, F);
+        
+        d.addSegment(top);
+        d.addSegment(bottom);
+        d.addSegment(trans);
+        
+        return d;
+    }
+    
+    /**
+     * This method will purge the diagram of any components, then create a default diagram for testing purposes.
+     *      
      *    _________________
      *    
      *    _________________
@@ -356,4 +395,191 @@ public class DiagramGenerator
         
         return diagram;
     }
+    
+    //-------------------------------------- Angles --------------------------------------
+  
+    
+    /**
+     *       D    C
+     *       /   /
+     *      /  /
+     *     / /
+     *    //  
+     *  B/_______A
+     *  mABC = 30*
+     *  mCBD = 30*
+     */
+    public static Diagram premade_AngleBisector()
+    {
+        Diagram diagram = new Diagram();
+        
+        
+        Point a = new Point("A", 1, 0);
+        Point b = new Point("B", 0, 0);
+        Point c = new Point("C", Math.sqrt(3)/2, 1/2);
+        Point d = new Point("D", 1/2, Math.sqrt(3)/2); 
+        
+        Segment ab = new Segment(a, b);
+        Segment cb = new Segment(c, b);
+        Segment db = new Segment(d, b);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(cb);
+        diagram.addSegment(db);
+        
+        return diagram;
+    }
+    
+    /**
+     *     /              /
+     *    /              /
+     *   /              /
+     *  /____          /_____
+     *  Angle:          Angle:
+     *  Pi/4            Pi/4
+     */
+    public static Diagram premade_TwoEqualAngles()
+    {
+        Diagram diagram = new Diagram();
+        
+        Point a = new Point("A", 1, 1);
+        Point b = new Point("B", 0, 0);
+        Point c = new Point("C", 1, 0);
+        
+        
+        Point d = new Point("D", 3, 1); 
+        Point e = new Point("E", 2, 0);
+        Point f = new Point("F", 3, 0);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        
+        Segment de = new Segment(d, e);
+        Segment ef = new Segment(e, f);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(de);
+        diagram.addSegment(ef);
+        
+        return diagram;
+    }
+    
+    /**
+     *   C        D
+     *   |       /
+     *   |     /
+     *   |   /
+     *   | /  
+     *  B/_______A
+     */
+    public static Diagram premade_Complementary()
+    {
+        Diagram diagram = new Diagram();
+        
+        // RightAngle(A, B, C), Angle(A, B, D) + Angle(D, B, C) = 90 -> Complementary(Angle(A, B, D), Angle(D, B, C))
+        Point a = new Point("A", 1, 0);
+        Point b = new Point("B", 0, 0);
+        Point c = new Point("C", 0, 1);
+        Point d = new Point("D", 1/2, Math.sqrt(3)/2); 
+        
+        Segment ab = new Segment(a, b);
+        Segment cb = new Segment(c, b);
+        Segment db = new Segment(d, b);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(cb);
+        diagram.addSegment(db);
+        
+        return diagram;
+    }
+    
+    /**
+     *     /              /
+     *    /              /
+     *   /              /
+     *  /____          /_____
+     *  Angle:          Angle:
+     *  Pi/4            Pi/4
+     */
+    public static Diagram premade_TwoRightAngles()
+    {
+        Diagram diagram = new Diagram();
+        
+        Point a = new Point("A", 0, 1);
+        Point b = new Point("B", 0, 0);
+        Point c = new Point("C", 1, 0);
+        
+        
+        Point d = new Point("D", 2, 1); 
+        Point e = new Point("E", 2, 0);
+        Point f = new Point("F", 3, 0);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        
+        Segment de = new Segment(d, e);
+        Segment ef = new Segment(e, f);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(de);
+        diagram.addSegment(ef);
+        
+        return diagram;
+    }
+    
+    /** 
+     * This method will purge the diagram of any components, and then create a default diagram for testing purposes.
+     *      
+     *      o ____ o ____ o
+     */
+    public static Diagram premade_StraightAngles()
+    {
+        Diagram d = new Diagram();
+        
+        Point A = new Point("A", 0.0, 0.0);
+        Point B = new Point("B", 1.0, 0.0);
+        Point C = new Point("C", 2.0, 0.0);
+        Point D = new Point("D", 3.0, 0.0);
+        
+        d.addPoint(A);
+        d.addPoint(B);
+        d.addPoint(C);
+        d.addPoint(D);
+        
+        Segment one = new Segment(A,D);
+        Segment two = new Segment(B,C);
+        
+        d.addSegment(one);
+        d.addSegment(two);
+        
+        return d;
+    }
+    
+    
 }

@@ -25,7 +25,7 @@ import backend.utilities.Pair;
 public class ComplementaryDefinition extends Definition
 {
 
-    private static final String NAME = "Median Definition";
+    private static final String NAME = "Complementary Definition";
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
@@ -135,7 +135,7 @@ public class ComplementaryDefinition extends Definition
         // Acquire the two angles from the equation
         //
         
-        //TODO Not sure how collectTerms works now. Check this code -Nick 3/28
+        //TODO Not sure how collectTerms works now. CTA -Nick 3/28
         Pair<Integer, Integer> cards = eq.getCardinalities();
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> terms = cards.getKey() == 2 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
         Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> singleton = cards.getKey() == 1 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();

@@ -2,7 +2,6 @@ package backend.deductiveRules.angles.axioms;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
