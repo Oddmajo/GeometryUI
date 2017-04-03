@@ -19,7 +19,7 @@ import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
 import backend.utilities.Pair;
 
-public class CorrespondingAnglesOFParallelLines extends Axiom
+public class CorrespondingAnglesOfParallelLines extends Axiom
 {
     private static String NAME = "Corresponding Angles"; // "If Two Parallel Lines are Cut by a Transversal, then Corresponding Angles are Congruent (Axiom)";
 
@@ -30,7 +30,7 @@ public class CorrespondingAnglesOFParallelLines extends Axiom
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
 
-    public CorrespondingAnglesOFParallelLines(QueryableHypergraph<GroundedClause, Annotation> qhg)
+    public CorrespondingAnglesOfParallelLines(QueryableHypergraph<GroundedClause, Annotation> qhg)
     {
         super(qhg);
         ANNOTATION.active = RuleFactory.JustificationSwitch.CORRESPONDING_ANGLES_OF_PARALLEL_LINES;
