@@ -1,9 +1,12 @@
 package backend.utilities;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import backend.ast.figure.components.MaximalSegment;
 import backend.ast.figure.components.Segment;
+import backend.utilities.exception.DebugException;
+import backend.utilities.exception.ExceptionHandler;
 
 /**
  * A class to keep track of all MaximalSegments and return a segment's 
@@ -32,8 +35,8 @@ public class MaximalSegments
     
     /**
      * Add a MaximalSegment to the list if not already contained
-     * @param ms
-     * @return
+     * @param ms MaximalSegment object to add 
+     * @return true if MaximalSegment is added
      */
     public boolean addMaximalSegment(MaximalSegment ms)
     {
@@ -48,6 +51,44 @@ public class MaximalSegments
         
         // not contained, add the Maximal Segment
         return _maximalSegments.add(ms);
+    }
+    
+    /**
+     * Add a set of MaximalSegment objects to the list if not already 
+     * contained
+     * @param msSet set of MaximalSegment objects to add
+     * @return true if all objects added
+     */
+    public boolean addMaximalSegments(Set<MaximalSegment> msSet)
+    {
+        // bool to check if all Maximal Segments are added, default true
+        boolean allAdded = true;
+        int added = 0;
+        int total = 0;
+        
+        // loop over set and call singular addMaximalSegment
+        for (MaximalSegment ms : msSet)
+        {
+            // if Maximal Segment isn't added, flip allAdded
+            if (!addMaximalSegment(ms))
+            {
+                ExceptionHandler.throwException(new DebugException("MaximalSegment not added: " + ms));
+                allAdded = false;
+            }
+            else
+            {
+                added++;
+            }
+            total++;
+        }
+        
+        if (!allAdded)
+        {
+            ExceptionHandler.throwException(new DebugException("addMaximalSegments: added " + added + " of " + total));
+        }
+        
+        // return whether or not all maximal segments were added
+        return allAdded;
     }
     
     /**
@@ -69,6 +110,25 @@ public class MaximalSegments
         
         // no coinciding MaximalSegments
         return false;
+    }
+    
+    public boolean addSubsegments(Set<Segment> subSet)
+    {
+        // bool to check if all Maximal Segments are added, default true
+        boolean allAdded = true;
+        
+        // loop over set and call singular addSubsegment
+        for (Segment s : subSet)
+        {
+            // if Maximal Segment isn't added, flip allAdded
+            if (!addSubsegment(s))
+            {
+                allAdded = false;
+            }
+        }
+        
+        // return whether or not all maximal segments were added
+        return allAdded;
     }
     
     public Segment getMaximalSegment(Segment sub)
