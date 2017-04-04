@@ -8,6 +8,8 @@ import backend.ast.figure.components.arcs.MinorArc;
 import backend.symbolicAlgebra.NumericValue;
 import backend.ast.GroundedClause;
 import backend.utilities.list.Utilities;
+import backend.utilities.math.MathUtilities;
+import backend.utilities.Pair;
 import backend.utilities.exception.ArgumentException;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -24,10 +26,13 @@ public class AngleEquation extends Equation
     {
         super(left, right);
         
-        double sumL = SumSide(left.collectTerms().getValue());
-        double sumR = SumSide(right.collectTerms().getValue());
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> leftSide = left.collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> rightSide = right.collectTerms();
+        
+        double sumL = SumSide(leftSide.getKey(), leftSide.getValue());
+        double sumR = SumSide(rightSide.getKey(), rightSide.getValue());
 
-        if (!backend.utilities.ast_helper.Utilities.CompareValues(sumL, sumR))
+        if (!MathUtilities.doubleEquals(sumL, sumR))
         {
             try
             {
@@ -41,31 +46,38 @@ public class AngleEquation extends Equation
         }
     }
 
-    private double SumSide(List<GroundedClause> side)
+    private double SumSide(List<Double> multipliers, List<GroundedClause> clauses)
     {
         double sum = 0;
-        for (GroundedClause clause: side)
+        for (int m = 0; m < multipliers.size(); m++)
         {
-            if (clause instanceof NumericValue)
+            // The current clause
+            GroundedClause gc = clauses.get(m);
+            
+            //
+            // Acquire the numeric value
+            //
+            double clauseValue = 0;
+            if (gc instanceof NumericValue)
             {
-                sum += (((NumericValue) clause).getDoubleValue());
+                clauseValue = (((NumericValue)gc).getDoubleValue());
             }
-
-            else if (clause instanceof Angle)
+            else if (gc instanceof Angle)
             {
-                sum += ((Angle)clause).getMeasure();
+                clauseValue = ((Angle)gc).getMeasure();
             }
             
-            else if (clause instanceof MinorArc)
+            else if (gc instanceof MinorArc)
             {
-                sum += ((MinorArc)clause).GetMinorArcMeasureDegrees();
+                clauseValue = ((MinorArc)gc).GetMinorArcMeasureDegrees();
             }
 
-            else if (clause instanceof MajorArc)
+            else if (gc instanceof MajorArc)
             {
-                sum +=  ((MajorArc)clause).GetMajorArcMeasureDegrees();
-            }
+                clauseValue =  ((MajorArc)gc).GetMajorArcMeasureDegrees();
+            }        
             
+            sum += multipliers.get(m) * clauseValue;
         }
 
         return sum;

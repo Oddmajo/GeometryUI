@@ -16,68 +16,50 @@ public class Subtraction extends ArithmeticOperation
         super(left, right);
     }
 
-    //Fix this
-    //Use Multiplication collectTerms() as a basis
-    //Make Addition have a collectTerms() as well, with no negative multiplication
-    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
+    /**
+     * @return parallel arrays of (1) multipliers and (2) terms
+     * Example: X - (2 * Y)   results in  multipliers = [1, -2] and terms = [X, Y]
+     */
+    @Override
+    public Pair<ArrayList<Double>, ArrayList<GroundedClause>> collectTerms()
     {
-        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
+        ArrayList<Double> multipliers = new ArrayList<Double>();
         ArrayList<GroundedClause> terms = new ArrayList<GroundedClause>();
 
+        // Example: 2 - 7  results in  multipliers = [1] and terms = [-5]
         if (leftExp instanceof NumericValue && rightExp instanceof NumericValue)
         {
-            multipliers.add(new NumericValue(1));
-            terms.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() - ((NumericValue)rightExp).getDoubleValue()));
+            multipliers.add(1.0);
+            terms.add(new NumericValue(-1.0 * ((NumericValue)rightExp).getDoubleValue()));
+        }
 
-        }
-        else if (leftExp instanceof NumericValue)
+        //
+        // Example: Left - (X + Y)  results in  multipliers = [Left-Multis, -1, -1] and terms = [Left-Terms, X, Y]
+        //
+        else
         {
-            if (!(rightExp instanceof ArithmeticOperation))
-                for (GroundedClause gc : rightExp.collectTerms().getKey())
-                {
-                    terms.add(gc);
-                    multipliers.add(leftExp);                 
-                }
-            if(rightExp instanceof ArithmeticOperation)
-            {
-                ArrayList<GroundedClause> gcMultipliers = rightExp.collectTerms().getKey();
-                ArrayList<GroundedClause> gcTerms = rightExp.collectTerms().getValue();
-                for(int i = 0; i < gcMultipliers.size(); i++)
-                {
-                    terms.add(gcTerms.get(i));
-                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * -1));
-                }
-            }
-        }
-        else if (rightExp instanceof NumericValue)
-        {
-            if (!(leftExp instanceof ArithmeticOperation))
-                for (GroundedClause gc : leftExp.collectTerms().getKey())
-                {
-                    terms.add(gc);
-                    multipliers.add(rightExp);
-                }
-            if(leftExp instanceof ArithmeticOperation)
-            {
-                ArrayList<GroundedClause> gcMultipliers = leftExp.collectTerms().getKey();
-                ArrayList<GroundedClause> gcTerms = leftExp.collectTerms().getValue();
-                for(int i = 0; i < gcMultipliers.size(); i++)
-                {
-                    terms.add(gcTerms.get(i));
-                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * -1));
-                }
-            }
-        }
-        else if ((!(leftExp instanceof ArithmeticOperation)) && (!(rightExp instanceof ArithmeticOperation)))
-        {
-            terms.add(leftExp);
-            multipliers.add(new NumericValue(1));
+            // Sub-expressions on the left get copied like normal
+            multipliers = leftExp.collectTerms().getKey();
+            terms = leftExp.collectTerms().getValue();
 
-            terms.add(rightExp);
-            multipliers.add(new NumericValue(1));
+            // Right-hand side we collect and negate those multipliers.
+            Pair<ArrayList<Double>, ArrayList<GroundedClause>> right = rightExp.collectTerms();
+            ArrayList<Double> rightMultipliers = right.getKey();
+            ArrayList<GroundedClause> rightTerms = right.getValue();
+
+            // Multiply each of the terms by negative 1 (subtracting)
+            for (int m = 0; m < rightMultipliers.size(); m++)
+            {
+                rightMultipliers.set(m, -1.0 * rightMultipliers.get(m));
+            }
+
+            // Add the right expressions to the multiplier and term lists
+            multipliers.addAll(rightMultipliers);
+            terms.addAll(rightTerms);
         }
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
-        return list;
+
+        // Return the new <multiplier, term> set
+        return new Pair<ArrayList<Double>, ArrayList<GroundedClause>>(multipliers, terms);
     }
 
     public String toString()

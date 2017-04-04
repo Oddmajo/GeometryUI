@@ -158,15 +158,17 @@ public abstract class GroundedClause implements Cloneable
     public String getJustification() { return justification; }
     public void setJustification(String j) { justification = j; }
 
-    //
-    // For equation simplification
-    //
-    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
+    /**
+     * @return parallel arrays of (1) multipliers and (2) terms
+     * Example: 2 * (X + Y)  results in  multipliers = [2, 2] and terms = [X, Y]
+     */
+    public Pair<ArrayList<Double>, ArrayList<GroundedClause>> collectTerms()
     {
-     //   return new ArrayList<GroundedClause>(Utilities.makeList(this));
-        ArrayList<GroundedClause> first = new ArrayList<GroundedClause>(Utilities.makeList(new NumericValue(1)));
-        ArrayList<GroundedClause> second = new ArrayList<GroundedClause>(Utilities.makeList(this));
-        return new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(first, second);
+        ArrayList<Double> multipliers = new ArrayList<Double>();
+        ArrayList<GroundedClause> gcs = new ArrayList<GroundedClause>();
+        multipliers.add(1.0);
+        gcs.add(this);
+        return new Pair<ArrayList<Double>, ArrayList<GroundedClause>>(multipliers, gcs);
     }
 
     

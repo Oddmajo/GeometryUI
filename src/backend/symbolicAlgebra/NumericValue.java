@@ -71,11 +71,6 @@ public class NumericValue extends ArithmeticNode implements Cloneable
         else
             return toString();
     }
-    
-    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
-    {
-        return new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(Utilities.MakeList(new NumericValue(1)), Utilities.MakeList(this));
-    }
 
     //This method is bypassed when called from an arithmetic operation - Ryan
     public boolean containsClause(GroundedClause clause)

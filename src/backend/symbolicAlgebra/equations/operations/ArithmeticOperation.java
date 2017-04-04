@@ -34,23 +34,21 @@ public class ArithmeticOperation extends ArithmeticNode
         return rightExp;
     }
 
-    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
+    public Pair<ArrayList<Double>, ArrayList<GroundedClause>> collectTerms()
     {
+        ArrayList<Double> multipliers = new ArrayList<Double>();
         ArrayList<GroundedClause> list = new ArrayList<GroundedClause>();
-        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
 
-        list.addAll(leftExp.collectTerms().getKey());
-        list.addAll(rightExp.collectTerms().getKey());
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> left = leftExp.collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> right = rightExp.collectTerms();
+        
+        multipliers.addAll(left.getKey());
+        multipliers.addAll(right.getKey());
+        
+        list.addAll(left.getValue());
+        list.addAll(right.getValue());
 
-        GroundedClause copyGC = null;
-        for(GroundedClause gc : rightExp.collectTerms().getKey())
-        {
-            copyGC = gc.deepCopy();
-            list.add(copyGC);
-            multipliers.add(new NumericValue(1));
-        }
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> pair = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(list, multipliers);
-        return pair;
+        return new Pair<ArrayList<Double>, ArrayList<GroundedClause>>(multipliers, list);
     }
 
     public boolean containsClause(GroundedClause newG)

@@ -63,7 +63,7 @@ public class FactComputer
     //
     // Angles and Points are made available via the AngleFactory and PointFactory.
     //
-    private ArrayList<Strengthened> strengthens; //I believe this is an old concept and should be deleted
+    //private ArrayList<Strengthened> strengthens; //I believe this is an old concept and should be deleted
 
     private ArrayList<Circle> circles;
     public ArrayList<Circle> getCircles() { return circles; }
@@ -169,6 +169,8 @@ public class FactComputer
     private ArrayList<SegmentEquation> segmentEquations;
     private ArrayList<ArcEquation> arcEquations;
     private ArrayList<AngleEquation> angleEquations;
+    public ArrayList<AngleEquation> getAngleEquations() { return angleEquations; }
+    
     private ArrayList<AngleArcEquation> angleArcEquations;
 
     //
@@ -182,14 +184,14 @@ public class FactComputer
     //
     ArrayList<ArrayList<Polygon>> polygons;
 
-    public ArrayList<Strengthened> getStrengthened()
-    {
-        return strengthens;
-    }
+//    public ArrayList<Strengthened> getStrengthened()
+//    {
+//        return strengthens;
+//    }
 
     public FactComputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p, ArrayList<Sector> sec)
     {
-        strengthens = new ArrayList<Strengthened>();
+//        strengthens = new ArrayList<Strengthened>();
 
         initializeLists();
 
@@ -213,7 +215,7 @@ public class FactComputer
             ExceptionHandler.throwException("Precomputer analysis was not invoked prior to fact computation.");
         }
         
-        strengthens = new ArrayList<Strengthened>();
+        //strengthens = new ArrayList<Strengthened>();
 
         initializeLists();
 
@@ -275,7 +277,7 @@ public class FactComputer
         angleEquations.addAll(GeometryFactComputerDelegate.computeEqualAngleEquations(this));
         // Proportional Angles
         proportionalAngles.addAll(GeometryFactComputerDelegate.computeProportionalAngles(this));
-        // CTA TO DEAL WITH angleEquations.addAll(GeometryFactComputerDelegate.computeProportionalAngleEquations(this));
+        angleEquations.addAll(GeometryFactComputerDelegate.computeProportionalAngleEquations(this));
         // Complementary, Supplementary
         complementary.addAll(GeometryFactComputerDelegate.computeComplementaryAngles());
         angleEquations.addAll(GeometryFactComputerDelegate.computeComplementaryEquations(this));

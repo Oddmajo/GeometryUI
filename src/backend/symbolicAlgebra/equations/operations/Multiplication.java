@@ -28,83 +28,79 @@ public class Multiplication extends ArithmeticOperation
         return leftExp.toPrettyString() + " * " + rightExp.toPrettyString();
     }
 
-    //
-    // In an attempt to avoid issues, all terms collected are copies of the originals.
-    //
-    public Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> collectTerms()
+    /**
+     * @return parallel arrays of (1) multipliers and (2) terms
+     * Example: 2 X   results in  multipliers = [1] and terms = [X]
+     * Example: 2 X   results in  multipliers = [1] and terms = [X] 
+     */
+    @Override
+    public Pair<ArrayList<Double>, ArrayList<GroundedClause>> collectTerms()
     {
-        ArrayList<GroundedClause> multipliers = new ArrayList<GroundedClause>();
+        ArrayList<Double> multipliers = new ArrayList<Double>();
         ArrayList<GroundedClause> terms = new ArrayList<GroundedClause>();
 
+        // Example: 2 * 4  results in  multipliers = [1] and terms = [8]
         if (leftExp instanceof NumericValue && rightExp instanceof NumericValue)
         {
-            multipliers.add(new NumericValue(1));
+            multipliers.add(1.0);
             terms.add(new NumericValue(((NumericValue)leftExp).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
-            
-            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
-            return list;
         }
 
+        //
+        // Multiply each of the terms by the constant
+        //
+        // Example: 2 * (Sub-Exp = X + Y)  results in  multipliers = [2, 2] and terms = [X, Y]
+        //
         else if (leftExp instanceof NumericValue)
         {
-            if (!(rightExp instanceof ArithmeticOperation))
-                for (GroundedClause gc : rightExp.collectTerms().getValue())
-                {
-                    terms.add(gc);
-                    multipliers.add(leftExp);
-                }
-            if(rightExp instanceof ArithmeticOperation)
+            // Left constant
+            double leftMultiplier = ((NumericValue)leftExp).getDoubleValue();
+
+            // Sub-expression multipliers and terms
+            multipliers = rightExp.collectTerms().getKey();
+            terms = rightExp.collectTerms().getValue();
+
+            // Multiply the left multiplier of the set of multipliers
+            for (int m = 0; m < multipliers.size(); m++)
             {
-                ArrayList<GroundedClause> gcMultipliers = rightExp.collectTerms().getKey();
-                ArrayList<GroundedClause> gcTerms = rightExp.collectTerms().getValue();
-                for(int i = 0; i < gcMultipliers.size(); i++)
-                {
-                    terms.add(gcTerms.get(i));
-                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * ((NumericValue)leftExp).getDoubleValue()));
-                }
+                multipliers.set(m, leftMultiplier * multipliers.get(m));
             }
-            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
-            return list;
         }
 
+        // Same as the previous code, but with the right sub-expression
         else if (rightExp instanceof NumericValue)
         {
-            if (!(leftExp instanceof ArithmeticOperation))
-                for (GroundedClause gc : leftExp.collectTerms().getValue())
-                {
-                    terms.add(gc);
-                    multipliers.add(rightExp);
-                }
-            if(leftExp instanceof ArithmeticOperation)
-            {
-                ArrayList<GroundedClause> gcMultipliers = leftExp.collectTerms().getKey();
-                ArrayList<GroundedClause> gcTerms = leftExp.collectTerms().getValue();
-                for(int i = 0; i < gcMultipliers.size(); i++)
-                {
-                    terms.add(gcTerms.get(i));
-                    multipliers.add(new NumericValue(((NumericValue)(gcMultipliers.get(i))).getDoubleValue() * ((NumericValue)rightExp).getDoubleValue()));
-                }
-            }
-            Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
-            return list;
-        }
-        else if ((!(leftExp instanceof ArithmeticOperation)) && (!(rightExp instanceof ArithmeticOperation)))
-        {
-            terms.add(leftExp);
-            multipliers.add(new NumericValue(1));
-            
-            terms.add(rightExp);
-            multipliers.add(new NumericValue(1));
-        }
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> list = new Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>>(multipliers, terms);
-        return list;
+            // Right constant
+            double rightMultiplier = ((NumericValue)rightExp).getDoubleValue();
 
+            // Sub-expression multipliers and terms
+            multipliers = leftExp.collectTerms().getKey();
+            terms = leftExp.collectTerms().getValue();
+
+            // Multiply the left multiplier of the set of multipliers
+            for (int m = 0; m < multipliers.size(); m++)
+            {
+                multipliers.set(m, rightMultiplier * multipliers.get(m));
+            }
+        }
+
+        //
+        // Multiply each of the terms by the term: distribute
+        //
+        else if (leftExp instanceof ArithmeticOperation && rightExp instanceof ArithmeticOperation)
+        {
+            ExceptionHandler.throwException("Multiplication: (X+Y)*(A*B) in multiplication unimplemented.");
+        }
+
+        // Return the new <multiplier, term> set
+        return new Pair<ArrayList<Double>, ArrayList<GroundedClause>>(multipliers, terms);
     }
+
     public Multiplication deepCopy()
     {
         return new Multiplication(leftExp.deepCopy(), rightExp.deepCopy());
     }
-    
+
     public boolean Equals(Object obj)
     {
         if (obj == null || (Multiplication)obj == null) return false;
