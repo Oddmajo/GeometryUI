@@ -416,8 +416,8 @@ public class DiagramGenerator
         
         Point a = new Point("A", 1, 0);
         Point b = new Point("B", 0, 0);
-        Point c = new Point("C", Math.sqrt(3)/2, 1/2);
-        Point d = new Point("D", 1/2, Math.sqrt(3)/2); 
+        Point c = new Point("C", Math.sqrt(3)/2, .5);
+        Point d = new Point("D", .5, Math.sqrt(3)/2); 
         
         Segment ab = new Segment(a, b);
         Segment cb = new Segment(c, b);
@@ -493,7 +493,7 @@ public class DiagramGenerator
         Point a = new Point("A", 1, 0);
         Point b = new Point("B", 0, 0);
         Point c = new Point("C", 0, 1);
-        Point d = new Point("D", 1/2, Math.sqrt(3)/2); 
+        Point d = new Point("D", .5, Math.sqrt(3)/2); 
         
         Segment ab = new Segment(a, b);
         Segment cb = new Segment(c, b);
@@ -512,12 +512,10 @@ public class DiagramGenerator
     }
     
     /**
-     *     /              /
-     *    /              /
-     *   /              /
-     *  /____          /_____
-     *  Angle:          Angle:
-     *  Pi/4            Pi/4
+     *  |              |
+     *  |              |
+     *  |              | 
+     *  |____          |_____
      */
     public static Diagram premade_TwoRightAngles()
     {
@@ -556,7 +554,7 @@ public class DiagramGenerator
     /** 
      * This method will purge the diagram of any components, and then create a default diagram for testing purposes.
      *      
-     *      o ____ o ____ o
+     *      o ____ o ____ o ____ o
      */
     public static Diagram premade_StraightAngles()
     {
