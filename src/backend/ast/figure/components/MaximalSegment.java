@@ -91,8 +91,9 @@ public class MaximalSegment extends Segment
     }
     
     /**
-     * @param ms
-     * @return
+     * Check if another MaximalSegment is structurally equal to this
+     * @param ms other maximal segment object
+     * @return true if equal
      */
     @Override
     public boolean equals(Object obj)
@@ -100,7 +101,6 @@ public class MaximalSegment extends Segment
         if (obj != null && obj instanceof MaximalSegment)
         {
             MaximalSegment ms = (MaximalSegment) obj;
-            //TODO Check if we want to see if they are coinciding
             // We only care if the maximal segments are the same
             if (_maximalSegment.structurallyEquals(ms.getMaximalSegment()))
             {
@@ -109,6 +109,20 @@ public class MaximalSegment extends Segment
             
         }
         return false;
+    }
+    
+    @Override
+    public String toString()
+    {
+        String output = "maximal segment(" + getMaximalSegment() + "): subsegments {";
+        if (getSubsegments() != null)
+        for (Segment sub : getSubsegments())
+        {
+            output += sub.toString() + ", ";
+        }
+        output += "}";
+        
+        return output;
     }
 
 }

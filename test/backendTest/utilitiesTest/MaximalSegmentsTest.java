@@ -78,7 +78,6 @@ public class MaximalSegmentsTest
             System.out.print("Failed\n");
             assertTrue(false);
         }
-        
     }
     
     @Test
@@ -128,7 +127,6 @@ public class MaximalSegmentsTest
             System.out.print("Failed\n");
             assertTrue(false);
         }       
-        
     }
     
     @Test
@@ -167,7 +165,7 @@ public class MaximalSegmentsTest
         
         // get maximal segment of a subsegment
         Segment newSub = new Segment(new Point("10", 0, 0), new Point("11", 2, 0));
-        Segment returnedMaxSeg = maximalSegments.getMaximalSegment(newSub);
+        Segment returnedMaxSeg = MaximalSegments.getMaximalSegment(newSub);
         
         if (returnedMaxSeg.structurallyEquals(ms1.getMaximalSegment()))
         {

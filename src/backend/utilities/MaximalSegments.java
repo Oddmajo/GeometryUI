@@ -16,8 +16,8 @@ import backend.utilities.exception.ExceptionHandler;
  */
 public class MaximalSegments
 {
-    // Set of MaximalSegmnts
-    private HashSet<MaximalSegment> _maximalSegments;
+    // Set of MaximalSegments
+    static private HashSet<MaximalSegment> _maximalSegments;
     public HashSet<MaximalSegment> getMaximalSegments() { return _maximalSegments; }
     
 
@@ -131,7 +131,12 @@ public class MaximalSegments
         return allAdded;
     }
     
-    public Segment getMaximalSegment(Segment sub)
+    /**
+     * Given a subsegment, return the corresponding MaximalSegment's segment
+     * @param sub
+     * @return
+     */
+    static public Segment getMaximalSegment(Segment sub)
     {
         // check if coinciding with each MaximalSegment
         for (MaximalSegment max : _maximalSegments)
@@ -153,19 +158,14 @@ public class MaximalSegments
         return null;
     }
     
+    @Override
     public String toString()
     {
         String output = "Maximal Segments [\n";
         
         for (MaximalSegment max : _maximalSegments)
         {
-            output += "maximal segment(" + max.getMaximalSegment() + "): subsegments {";
-            if (max.getSubsegments() != null)
-            for (Segment sub : max.getSubsegments())
-            {
-                output += sub.toString() + ", ";
-            }
-            output += "}\n";
+            output += max.toString() + "\n";
         }
         output += "]";
         
