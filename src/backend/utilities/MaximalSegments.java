@@ -11,28 +11,38 @@ import backend.utilities.exception.ExceptionHandler;
 /**
  * A class to keep track of all MaximalSegments and return a segment's 
  * MaximalSegment
+ * <p>
+ * Uses the Singleton design
  * @author Drew W
  *
  */
 public class MaximalSegments
 {
-    // Set of MaximalSegments
-    static private HashSet<MaximalSegment> _maximalSegments;
-    public HashSet<MaximalSegment> getMaximalSegments() { return _maximalSegments; }
-    
 
-    public MaximalSegments()
+    // The instance
+    private static MaximalSegments instance = null;
+
+    // Set of MaximalSegments
+    private static HashSet<MaximalSegment> _maximalSegments;
+    public HashSet<MaximalSegment> getMaximalSegments() { return _maximalSegments; }
+
+
+    protected MaximalSegments()
     {
         // initialize MaximalSegments list
         _maximalSegments = new HashSet<>();
     }
-    
-    public MaximalSegments(HashSet<MaximalSegment> maxSegs)
+
+    public static MaximalSegments getInstance()
     {
-        // initialize MaximalSegments list
-        _maximalSegments = maxSegs;
+        if(instance == null) 
+        {
+            instance = new MaximalSegments();            
+        }
+
+        return instance;
     }
-    
+
     /**
      * Add a MaximalSegment to the list if not already contained
      * @param ms MaximalSegment object to add 
@@ -43,16 +53,16 @@ public class MaximalSegments
         //check if contained already
         for (MaximalSegment max : _maximalSegments)
         {
-            if (ms.equals(max))
+            if (ms.getMaximalSegment().containedIn(max))
             {
                 return false; // already exists
             }
         }
-        
+
         // not contained, add the Maximal Segment
         return _maximalSegments.add(ms);
     }
-    
+
     /**
      * Add a set of MaximalSegment objects to the list if not already 
      * contained
@@ -65,7 +75,7 @@ public class MaximalSegments
         boolean allAdded = true;
         int added = 0;
         int total = 0;
-        
+
         // loop over set and call singular addMaximalSegment
         for (MaximalSegment ms : msSet)
         {
@@ -81,16 +91,16 @@ public class MaximalSegments
             }
             total++;
         }
-        
+
         if (!allAdded)
         {
             ExceptionHandler.throwException(new DebugException("addMaximalSegments: added " + added + " of " + total));
         }
-        
+
         // return whether or not all maximal segments were added
         return allAdded;
     }
-    
+
     /**
      * Add a subsegment to the appropriate MaximalSegment object
      * @param sub the subsegment to add
@@ -107,16 +117,16 @@ public class MaximalSegments
                 return max.addSubsegment(sub);
             }
         }
-        
+
         // no coinciding MaximalSegments
         return false;
     }
-    
+
     public boolean addSubsegments(Set<Segment> subSet)
     {
         // bool to check if all Maximal Segments are added, default true
         boolean allAdded = true;
-        
+
         // loop over set and call singular addSubsegment
         for (Segment s : subSet)
         {
@@ -126,17 +136,17 @@ public class MaximalSegments
                 allAdded = false;
             }
         }
-        
+
         // return whether or not all maximal segments were added
         return allAdded;
     }
-    
+
     /**
      * Given a subsegment, return the corresponding MaximalSegment's segment
      * @param sub
      * @return
      */
-    static public Segment getMaximalSegment(Segment sub)
+    public Segment getMaximalSegment(Segment sub)
     {
         // check if coinciding with each MaximalSegment
         for (MaximalSegment max : _maximalSegments)
@@ -153,22 +163,27 @@ public class MaximalSegments
                 }
             }
         }
-        
+
         // No match found, return null
         return null;
     }
     
+    public static void clear()
+    {
+        _maximalSegments.clear();
+    }
+
     @Override
     public String toString()
     {
         String output = "Maximal Segments [\n";
-        
+
         for (MaximalSegment max : _maximalSegments)
         {
             output += max.toString() + "\n";
         }
         output += "]";
-        
+
         return output;
     }
 

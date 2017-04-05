@@ -58,6 +58,7 @@ import backend.ast.figure.components.quadrilaterals.Trapezoid;
 import backend.ast.figure.components.triangles.*;
 import backend.deductiveRules.Deduction;
 import backend.symbolicAlgebra.equations.*;
+import backend.utilities.AngleEquivalenceRelation;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -1368,7 +1369,12 @@ public class QueryableHypergraph<T, A extends Annotation> extends Hypergraph<T, 
         _complementaryAngles = new HashSet<Complementary>();
         _CongruentAngles = new HashSet<CongruentAngles>();
         _supplementaryAngles = new HashSet<Supplementary>();
-        _angles = new HashSet<Angle>();
+        
+        //_angles = new HashSet<Angle>();
+        // get all angles form AngleEquivalenceRelation
+        AngleEquivalenceRelation angleFactory = AngleEquivalenceRelation.getInstance();
+        _angles = angleFactory.getAllAngles();
+        
         _anglePairRelations = new HashSet<AnglePairRelation>();
         _geomtricCongruentAngles = new HashSet<GeometricCongruentAngles>();
         _algebraicCongruentAngles = new HashSet<AlgebraicCongruentAngles>();

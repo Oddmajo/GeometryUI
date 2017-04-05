@@ -43,6 +43,7 @@ public class MaximalIntersections
         // check if contained already
         for (MaximalIntersection max : _maximalIntersections)
         {
+            // TODO: check if contained in another MaximalIntersection
             if (mi.equals(max))
             {
                 return false; // already exists
