@@ -52,7 +52,7 @@ public class MaximalSegmentsTest
         maxSegList.add(ms1); // should not be added, duplicate
         
         // Create MaximalSegments object and add stuff to it
-        MaximalSegments maximalSegments = new MaximalSegments();
+        MaximalSegments maximalSegments = MaximalSegments.getInstance();
         
         // add single maximal segment
         assertTrue(maximalSegments.addMaximalSegment(ms1));
@@ -78,6 +78,8 @@ public class MaximalSegmentsTest
             System.out.print("Failed\n");
             assertTrue(false);
         }
+        
+        MaximalSegments.clear();
     }
     
     @Test
@@ -106,7 +108,7 @@ public class MaximalSegmentsTest
         subSegs.add(sub4);
         
         // create MaximalSegments object
-        MaximalSegments maximalSegments = new MaximalSegments();
+        MaximalSegments maximalSegments = MaximalSegments.getInstance();
         maximalSegments.addMaximalSegment(ms1);
         
         // add subsegments
@@ -127,6 +129,8 @@ public class MaximalSegmentsTest
             System.out.print("Failed\n");
             assertTrue(false);
         }       
+        
+        MaximalSegments.clear();
     }
     
     @Test
@@ -154,8 +158,8 @@ public class MaximalSegmentsTest
         subSegs.add(sub3);
         subSegs.add(sub4);
         
-        // create MaximalSegments object
-        MaximalSegments maximalSegments = new MaximalSegments();
+        // get MaximalSegments instance
+        MaximalSegments maximalSegments = MaximalSegments.getInstance();
         maximalSegments.addMaximalSegment(ms1);
         
         // add subsegments
@@ -165,7 +169,7 @@ public class MaximalSegmentsTest
         
         // get maximal segment of a subsegment
         Segment newSub = new Segment(new Point("10", 0, 0), new Point("11", 2, 0));
-        Segment returnedMaxSeg = MaximalSegments.getMaximalSegment(newSub);
+        Segment returnedMaxSeg = maximalSegments.getMaximalSegment(newSub);
         
         if (returnedMaxSeg.structurallyEquals(ms1.getMaximalSegment()))
         {
@@ -177,6 +181,8 @@ public class MaximalSegmentsTest
             System.out.print("Failed\n");
             assertTrue(false);
         } 
+        
+        MaximalSegments.clear();
     }
 
 }

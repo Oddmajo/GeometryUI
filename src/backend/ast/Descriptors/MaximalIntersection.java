@@ -56,20 +56,25 @@ public class MaximalIntersection extends Intersection
     {
         // check if segments are subsegments of the MaximalSegments that
         // make up the maximal intersection
-        if ( (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getlhs() && 
-                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getrhs()) ||
-                (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getrhs() && 
-                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getlhs()))
-        {
-            if (this.contains(i))
-            {
-                return false; // not added, already contained
-            }
-            else // add the subintersection
-            {
-                return _subintersections.add(i);
-            }
-        }
+        
+//        // get MaximalSegments instance
+//        MaximalSegments maximalSegments = MaximalSegments.getInstance();
+//        
+//        // first check that the points are the same
+//        if ( (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getlhs() && 
+//                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getrhs()) ||
+//                (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getrhs() && 
+//                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getlhs()))
+//        {
+//            if (this.contains(i))
+//            {
+//                return false; // not added, already contained
+//            }
+//            else // add the subintersection
+//            {
+//                return _subintersections.add(i);
+//            }
+//        }
         // not a subintersection; return false
         return false;
     }

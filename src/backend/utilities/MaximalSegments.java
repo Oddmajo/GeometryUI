@@ -20,7 +20,7 @@ public class MaximalSegments
 {
 
     // The instance
-    private static MaximalSegments instance = null;
+    private static MaximalSegments _instance = null;
 
     // Set of MaximalSegments
     private static HashSet<MaximalSegment> _maximalSegments;
@@ -35,12 +35,12 @@ public class MaximalSegments
 
     public static MaximalSegments getInstance()
     {
-        if(instance == null) 
+        if(_instance == null) 
         {
-            instance = new MaximalSegments();            
+            _instance = new MaximalSegments();            
         }
 
-        return instance;
+        return _instance;
     }
 
     /**
@@ -171,6 +171,7 @@ public class MaximalSegments
     public static void clear()
     {
         _maximalSegments.clear();
+        _instance = null;
     }
 
     @Override
