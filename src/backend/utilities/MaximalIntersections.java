@@ -16,21 +16,28 @@ import backend.utilities.exception.ExceptionHandler;
  */
 public class MaximalIntersections
 {
+    // The instance
+    private static MaximalIntersections _instance = null;
+    
     // set of MaximalIntersections
     static private HashSet<MaximalIntersection> _maximalIntersections;
     public HashSet<MaximalIntersection> getMaximalIntersections() { return _maximalIntersections; }
     
     
-    public MaximalIntersections()
+    protected MaximalIntersections()
     {
         // initialize MaximalIntersections list
         _maximalIntersections = new HashSet<>();
     }
     
-    public MaximalIntersections(HashSet<MaximalIntersection> maxInters)
+    public static MaximalIntersections getInstance()
     {
-     // initialize MaximalIntersections list
-        _maximalIntersections = maxInters;
+        if(_instance == null) 
+        {
+            _instance = new MaximalIntersections();            
+        }
+
+        return _instance;
     }
     
     /**
@@ -43,8 +50,9 @@ public class MaximalIntersections
         // check if contained already
         for (MaximalIntersection max : _maximalIntersections)
         {
-            // TODO: check if contained in another MaximalIntersection
-            if (mi.equals(max))
+            // if mi equals another maximal intersection or if mi is a 
+            // subintersection of max
+            if (mi.equals(max) || max.contains(mi.getMaximalIntersection()))
             {
                 return false; // already exists
             }
@@ -89,73 +97,37 @@ public class MaximalIntersections
         
         // return whether or not all maximal segments were added
         return allAdded;
-    }
-    
-    public boolean addSubintersection(Intersection sub)
-    {
-        // try to add to each MaximalIntersection (is check on addition, returns 
-        // false if not a subintersection)
-        for (MaximalIntersection max : _maximalIntersections)
-        {
-            // if successfully added, return true
-            if (max.addSubintersection(sub))
-            {
-                return true;
-            }
-        }
-        
-        // not a subintersection of any Maximal Intersections, return false
-        return false;
-    }
-    
-    public boolean addSubintersections(Set<Intersection> subSet)
-    {
-        // bool to check if all Maximal Segments are added, default true
-        boolean allAdded = true;
-        
-        // loop over set and call singular addSubsegment
-        for (Intersection i : subSet)
-        {
-            // if Maximal Segment isn't added, flip allAdded
-            if (!addSubintersection(i))
-            {
-                allAdded = false;
-            }
-        }
-        
-        // return whether or not all maximal segments were added
-        return allAdded;
-    }
+    }      
     
     /**
      * Given an intersections, return the corresponding MaximalIntersection's intersection
      * @param i
      * @return
      */
-    static public Intersection getMaximalIntersection(Intersection i)
+    public Intersection getMaximalIntersection(Intersection i)
     {
         // go through all Maximal Intersections
         for (MaximalIntersection max : _maximalIntersections)
         {
             // if i is a subintersection of max
-            if ( (MaximalSegments.getMaximalSegment(i.getlhs()) == max.getlhs() && 
-                    MaximalSegments.getMaximalSegment(i.getrhs()) == max.getrhs()) ||
-                    (MaximalSegments.getMaximalSegment(i.getlhs()) == max.getrhs() && 
-                    MaximalSegments.getMaximalSegment(i.getrhs()) == max.getlhs()))
+            if (max.contains(i))
             {
-                // make sure the subintersectin is actually contained in the maximal intersection
-                for (Intersection maximalSub : max.getSubintersections())
-                {
-                    if (maximalSub.structurallyEquals(i))
-                    {
-                        return max.getMaximalIntersection();
-                    }
-                }
+                // contains checks if the points are the same and then
+                // that the segments of i are subsegments of max
+                
+                // return the maximal intersection
+                return max.getMaximalIntersection();
             }
         }
         
         // no match found, return null
         return null;
+    }
+    
+    public static void clear()
+    {
+        _maximalIntersections.clear();
+        _instance = null;
     }
     
     @Override

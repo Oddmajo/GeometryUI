@@ -20,65 +20,23 @@ public class MaximalIntersection extends Intersection
     // The "main" or maximal intersection
     private Intersection _maximalIntersection;
     public Intersection getMaximalIntersection() { return _maximalIntersection; }
-    
-    // List of "sub-intersections" within the maximal intersection
-    private HashSet<Intersection> _subintersections;
-    public HashSet<Intersection> getSubintersections() { return _subintersections; }
-    
+
     public MaximalIntersection(Intersection in)
     {
         super();
-        
+
         // set the maximal intersection
         _maximalIntersection = in;
-        
-        // initialize subintersections list
-        _subintersections = new HashSet<>();
     }
-    
+
     public MaximalIntersection(Point i, Segment l, Segment r)
     {
         super(i,l,r);
-        
+
         // set the maximal intersection
         _maximalIntersection = new Intersection(i,l,r);
-        
-        // initialize subsegments list
-        _subintersections = new HashSet<>();
     }
-    
-    /**
-     * Allows addition of subintersections
-     * @param i subintersection to be added
-     * @return true if addition is successful
-     */
-    public boolean addSubintersection(Intersection i)
-    {
-        // check if segments are subsegments of the MaximalSegments that
-        // make up the maximal intersection
-        
-//        // get MaximalSegments instance
-//        MaximalSegments maximalSegments = MaximalSegments.getInstance();
-//        
-//        // first check that the points are the same
-//        if ( (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getlhs() && 
-//                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getrhs()) ||
-//                (MaximalSegments.getMaximalSegment(i.getlhs()) == _maximalIntersection.getrhs() && 
-//                MaximalSegments.getMaximalSegment(i.getrhs()) == _maximalIntersection.getlhs()))
-//        {
-//            if (this.contains(i))
-//            {
-//                return false; // not added, already contained
-//            }
-//            else // add the subintersection
-//            {
-//                return _subintersections.add(i);
-//            }
-//        }
-        // not a subintersection; return false
-        return false;
-    }
-    
+
     /**
      * Checks if the provided intersection is STRUCTURALLY contained within the 
      * subintersections lsit.
@@ -88,19 +46,42 @@ public class MaximalIntersection extends Intersection
      */
     public boolean contains(Intersection i)
     {
-        // check each intersection in the subintersections list
-        for (Intersection subInt : _subintersections)
+        // get point and segments from i
+        Point p = i.getIntersect();
+        Segment s1 = i.getlhs();
+        Segment s2 = i.getrhs();
+
+        // compute whether intersection is contained and return
+        return computeContains(p, s1, s2);
+    }
+
+    public boolean contains(Point p, Segment s1, Segment s2)
+    {        
+        // compute whether intersection is contained and return
+        return computeContains(p, s1, s2);       
+    }
+
+    private boolean computeContains(Point p, Segment s1, Segment s2)
+    {
+        // check if the intersection is at the same point first
+        if (_maximalIntersection.getIntersect().structurallyEquals(p))
         {
-            if (i.structurallyEquals(subInt))
+            // then check if the segments are subsegments 
+            // get MaximalSegments instance
+            MaximalSegments maximalSegments = MaximalSegments.getInstance();
+            if ((maximalSegments.getMaximalSegment(s1).structurallyEquals(_maximalIntersection.getlhs()) && 
+                    maximalSegments.getMaximalSegment(s2).structurallyEquals(_maximalIntersection.getrhs())) ||
+                    (maximalSegments.getMaximalSegment(s1).structurallyEquals(_maximalIntersection.getrhs()) && 
+                    maximalSegments.getMaximalSegment(s2).structurallyEquals(_maximalIntersection.getlhs())))
             {
-                return true;
+                return true; // segments are subsegments of maximal intersection's segments
             }
         }
-        
+
         // no match
         return false;
     }
-    
+
     /* (non-Javadoc)
      * @see backend.ast.Descriptors.Intersection#equals(java.lang.Object)
      * 
@@ -112,7 +93,7 @@ public class MaximalIntersection extends Intersection
         if (obj != null && obj instanceof MaximalIntersection)
         {
             MaximalIntersection mi = (MaximalIntersection) obj;
-            
+
             // we only care if the maximal intersections are the same
             if (_maximalIntersection.structurallyEquals(mi.getMaximalIntersection()))
             {
@@ -121,18 +102,12 @@ public class MaximalIntersection extends Intersection
         }        
         return false;
     }
-    
+
     @Override
     public String toString()
     {
-        String output = "maximal intersection(" + getMaximalIntersection() + "): subsegments {";
-        if (getSubintersections() != null)
-        for (Intersection sub : getSubintersections())
-        {
-            output += sub.toString() + ", ";
-        }
-        output += "}";
-        
+        String output = "maximal intersection(" + getMaximalIntersection() + ")";
+
         return output;
     }
 }
