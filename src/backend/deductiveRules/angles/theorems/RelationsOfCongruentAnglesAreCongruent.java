@@ -8,8 +8,6 @@ import java.util.Set;
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.AnglePairRelation;
 import backend.ast.Descriptors.Complementary;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Supplementary;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;

@@ -12,7 +12,7 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class RightAngleDefinition
+public class RightAngleDefinitionTest
 {
 
     @Test

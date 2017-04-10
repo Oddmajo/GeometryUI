@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.angles.definitions;
+package backendTest.deductiveRulesTest.diagrams.angles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,24 +12,20 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class AngleBisectorDefinition
+public class SupplementaryAndCongruentImplyRightAnglesTest
 {
 
-    /**
-     * Angles not being created -Nick 4/2
-     * @throws IOException
-     */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_AngleBisector();
+        Diagram diagram = DiagramGenerator.premade_CongruentSupplementary();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_BISECTOR_DEFINITION.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.CONGRUENT_SUPPLEMENTARY_ANGLES_IMPLY_RIGHT_ANGLES.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 2, flags));
     }
 
 }

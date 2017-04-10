@@ -8,10 +8,8 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Intersection;
-import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.Supplementary;
 import backend.ast.Descriptors.parallel.Parallel;
-import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;
 import backend.deductiveRules.Deduction;

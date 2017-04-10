@@ -7,8 +7,6 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Complementary;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.figure.components.Segment;
 import backend.ast.figure.components.angles.Angle;

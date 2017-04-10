@@ -12,25 +12,20 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class AngleAdditonTest
+public class CongruentCorrespondingAnglesImplyParallelTest
 {
 
-    /**
-     *  GeometricEquation((Angle( mABD = 60.000) + Angle( mABC = 30.000)) = Angle( mCBD = 30.000))
-     *  60 + 30 = 30??? -Nick 4/10
-     * @throws IOException
-     */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_AngleBisector();
+        Diagram diagram = DiagramGenerator.premade_ParallelTransversal();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.CONGRUENT_CORRESPONDING_ANGLES_IMPLY_PARALLEL.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 4, flags));
     }
 
 }

@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.angles.axioms;
+package backendTest.deductiveRulesTest.diagrams.angles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,25 +12,24 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class AngleAdditonTest
+public class PerpendicularCongruentAdjacentAnglesTest
 {
 
     /**
-     *  GeometricEquation((Angle( mABD = 60.000) + Angle( mABC = 30.000)) = Angle( mCBD = 30.000))
-     *  60 + 30 = 30??? -Nick 4/10
+     * It is duplicating two of the deductions , Should find 4, is finding 6 -Nick 4/10
      * @throws IOException
      */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_AngleBisector();
+        Diagram diagram = DiagramGenerator.premade_ThroughPerpendicularBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.PERPENDICULAR_IMPLY_CONGRUENT_ADJACENT_ANGLES.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 4, flags));
     }
 
 }

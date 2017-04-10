@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.angles.axioms;
+package backendTest.deductiveRulesTest.diagrams.angles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,12 +12,11 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class AngleAdditonTest
+public class AngleBisectorTheoremTest
 {
 
     /**
-     *  GeometricEquation((Angle( mABD = 60.000) + Angle( mABC = 30.000)) = Angle( mCBD = 30.000))
-     *  60 + 30 = 30??? -Nick 4/10
+     * No Congruent Angles being Found -Nick 4/10
      * @throws IOException
      */
     @Test
@@ -28,9 +27,8 @@ public class AngleAdditonTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_ADDITION_AXIOM.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ANGLE_BISECTOR_THEOREM.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 2, flags));
     }
-
 }

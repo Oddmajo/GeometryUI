@@ -45,11 +45,12 @@ public class CongruentAdjacentAnglesImplyPerpendicular extends Theorem
     // Intersection(M, Segment(A,B), Segment(C, D)),
     // Congruent(Angle(C, M, B), Angle(D, M, B)) -> Perpendicular(Segment(A, B), Segment(C, D))
     //
-    //                                            B
-    //                                           /
-    //                              C-----------/-----------D
-    //                                         / M
-    //                                        /
+    //                                          B
+    //                                          |
+    //                              C-----------|-----------D
+    //                                          | M
+    //                                          |
+    //                                          A
     //  
     public Set<Deduction> duduceImpliedPerpendiculars()
     {

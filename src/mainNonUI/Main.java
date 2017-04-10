@@ -14,6 +14,7 @@ import backend.precomputer.Precomputer;
 import backend.utilities.logger.LoggerFactory;
 import backend.utilities.test.TestManager;
 import channels.fromUI.Diagram;
+import channels.fromUI.DiagramGenerator;
 
 public class Main
 {
@@ -25,11 +26,11 @@ public class Main
         ArrayList<Arc> a = new ArrayList<Arc>();
         ArrayList<Segment> s = new ArrayList<Segment>();
         ArrayList<Point> p = new ArrayList<Point>();
-        Diagram test = new Diagram();
+        Diagram test = DiagramGenerator.premade_Triangles();
         //test.premade_Midpoint();
         //s = test.getSegments();
         //p = test.getPoints();
-        test.premade_Triangles();
+//        test.premade_Triangles();
         s = test.getSegments();
         p = test.getPoints();
         try

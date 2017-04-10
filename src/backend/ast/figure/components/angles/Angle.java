@@ -328,7 +328,7 @@ public class Angle extends Figure
     //
     public boolean IsOnInterior(Angle thatAngle)
     {
-        if (this.measure < thatAngle.measure) return false;
+        if (this.measure > thatAngle.measure) return false;
 
         return this.IsOnInterior(thatAngle.A) && this.IsOnInterior(thatAngle.B) && this.IsOnInterior(thatAngle.C);
     }

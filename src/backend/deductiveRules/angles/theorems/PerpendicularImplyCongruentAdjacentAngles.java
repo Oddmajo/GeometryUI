@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Perpendicular;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
 import backend.ast.figure.components.angles.Angle;
@@ -48,12 +46,12 @@ public class PerpendicularImplyCongruentAdjacentAngles extends Theorem
     //
     // Perpendicular(Segment(A, B), Segment(C, D)), Angle(A, M, D), Angle(D, M, B) -> Congruent(Angle(A, M, D), Angle(D, M, B)) 
     //
-    //                                            B
-    //                                           /
-    //                              C-----------/-----------D
-    //                                         / M
-    //                                        /
-    //                                       A
+    //                                          B
+    //                                          |
+    //                              C-----------|-----------D
+    //                                          | M
+    //                                          |
+    //                                          A
     public Set<Deduction> deduceTheorem()
     {
         HashSet<Deduction> deductions = new HashSet<Deduction>();
