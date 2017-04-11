@@ -42,7 +42,7 @@ public class SSS extends Axiom
         return deductions;
     }
     
-//  A             D
+    //      A             D
     //      /\           / \
     //     /  \         /   \
     //    /    \       /     \

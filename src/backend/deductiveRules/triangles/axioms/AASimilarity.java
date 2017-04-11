@@ -72,7 +72,7 @@ public class AASimilarity extends Axiom
 
         for(int i = 0; i < conAngles.length - 1; i++)
         {
-            for(int j = i + 1 ; j < conAngles.length; i++)
+            for(int j = i + 1 ; j < conAngles.length; j++)
             {
                 // Check all combinations of triangles to see if they are congruent
                 // This congruence must include the new segment congruence

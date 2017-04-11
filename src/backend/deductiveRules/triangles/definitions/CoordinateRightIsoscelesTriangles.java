@@ -1,14 +1,10 @@
 package backend.deductiveRules.triangles.definitions;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Strengthened;
-import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
@@ -18,7 +14,7 @@ import backend.utilities.exception.ExceptionHandler;
 
 public class CoordinateRightIsoscelesTriangles extends Definition
 {
-    private static final String NAME = "Median Definition";
+    private static final String NAME = "Composing Right / Isosceles Triangles";
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 

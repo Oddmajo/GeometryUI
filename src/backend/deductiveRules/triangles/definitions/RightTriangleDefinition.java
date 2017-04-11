@@ -6,13 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
-import backend.ast.Descriptors.Midpoint;
-import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
-import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
-import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.triangles.RightTriangle;
 import backend.ast.figure.components.triangles.Triangle;
@@ -21,12 +15,6 @@ import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
-import backend.symbolicAlgebra.NumericValue;
-import backend.symbolicAlgebra.equations.AngleEquation;
-import backend.symbolicAlgebra.equations.Equation;
-import backend.symbolicAlgebra.equations.GeometricAngleEquation;
-import backend.utilities.ast_helper.Utilities;
-import backend.utilities.exception.ExceptionHandler;
 
 public class RightTriangleDefinition extends Definition
 {

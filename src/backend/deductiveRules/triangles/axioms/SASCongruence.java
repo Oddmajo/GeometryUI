@@ -45,7 +45,7 @@ public class SASCongruence extends Axiom
         return deductions;
     }
 
-    //  A             D
+    //      A             D
     //      /\           / \
     //     /  \         /   \
     //    /    \       /     \

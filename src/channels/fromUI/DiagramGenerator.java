@@ -738,4 +738,203 @@ public class DiagramGenerator
         return d;
     }
     
+    //-------------------------------------- Triangles --------------------------------------
+    
+    /**
+     *      /|             
+     *     / |             
+     *    /  |            
+     *   /   |           
+     *  /____|          
+     */
+    public static Diagram premade_RightTriangle()
+    {
+        Diagram diagram = new Diagram();
+        
+        Point a = new Point("A", 1.0, 1.0);
+        Point b = new Point("B", 0.0, 0.0);
+        Point c = new Point("C", 1.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(ac);
+        
+
+        
+        return diagram;
+    }
+    /**
+     *      /|              /|
+     *     / |             / |
+     *    /  |            /  | 
+     *   /   |           /   |
+     *  /____|          /____| 
+     */
+    public static Diagram premade_CongruentTriangles()
+    {
+        Diagram diagram = new Diagram();
+        
+        Point a = new Point("A", 1.0, 1.0);
+        Point b = new Point("B", 0.0, 0.0);
+        Point c = new Point("C", 1.0, 0.0);
+        
+        
+        Point d = new Point("D", 3.0, 1.0); 
+        Point e = new Point("E", 2.0, 0.0);
+        Point f = new Point("F", 3.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
+        
+        Segment de = new Segment(d, e);
+        Segment ef = new Segment(e, f);
+        Segment df = new Segment(d, f);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(ac);
+        
+        diagram.addSegment(de);
+        diagram.addSegment(ef);
+        diagram.addSegment(df);
+        
+        return diagram;
+    }
+    
+    
+    
+    /**  
+     *     /|\
+     *    / | \       
+     *   /  |  \
+     *  /___|___\
+     */
+    public static Diagram premade_TriangleWithAltitude()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 1.0, 1.0);
+        Point c = new Point("C", 2.0, 0.0);
+        Point m = new Point("M", 1.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        Segment bm = new Segment(b, m);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        d.addPoint(m);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        d.addSegment(bm);
+        
+        return d;
+    }
+    
+    public static Diagram premade_EquilateralTriangle()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 3.0, Math.sqrt(27.0));
+        Point c = new Point("C", 6.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        
+        return d;
+    }
+    
+    public static Diagram premade_IsoscelesTriangle()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 1.0, 1.0);
+        Point c = new Point("C", 2.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        
+        return d;
+    }
+    
+    
+    /**
+     *     B ---------V---------A
+     *      \          \       /
+     *           \      \     /
+     *               \   \  /
+     *                  \ \/
+     *                     C
+     *
+     */
+    public static Diagram premade_TriangleWithMedian()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 2.0);
+        Point b = new Point("B", 6.0, 2.0);
+        Point c = new Point("C", 4.0, 0.0);
+        Point v = new Point("V", 3.0, 2.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        Segment vc = new Segment(v, c);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        d.addPoint(v);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        d.addSegment(vc);
+        
+        return d;
+    }
+    
+    
 }

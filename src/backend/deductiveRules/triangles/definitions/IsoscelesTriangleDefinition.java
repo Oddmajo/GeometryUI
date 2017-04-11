@@ -6,13 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
-import backend.ast.Descriptors.SegmentBisector;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentSegments;
-import backend.ast.figure.components.triangles.EquilateralTriangle;
 import backend.ast.figure.components.triangles.IsoscelesTriangle;
 import backend.ast.figure.components.triangles.Triangle;
 import backend.deductiveRules.Deduction;
