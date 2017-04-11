@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.figure.components.triangles.Triangle;
@@ -23,7 +21,7 @@ public class CongruentSidesInTriangleImplyCongruentAngles extends Theorem
     public String getName() { return NAME; }
     public String getDescription() { return getName(); }
 
-    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.MEDIAN_DEFINITION);
+    private final static Annotation ANNOTATION = new Annotation(NAME, RuleFactory.JustificationSwitch.CONGRUENT_SIDES_IN_TRIANGLE_IMPLY_CONGRUENT_ANGLES);
     @Override public Annotation getAnnotation() { return ANNOTATION; }
 
     public CongruentSidesInTriangleImplyCongruentAngles(QueryableHypergraph<GroundedClause, Annotation> qhg)

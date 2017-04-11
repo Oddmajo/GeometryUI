@@ -779,7 +779,7 @@ public class DiagramGenerator
      *   /   |           /   |
      *  /____|          /____| 
      */
-    public static Diagram premade_CongruentTriangles()
+    public static Diagram premade_CongruentRightTriangles()
     {
         Diagram diagram = new Diagram();
         
@@ -818,39 +818,54 @@ public class DiagramGenerator
         return diagram;
     }
     
-    
-    
-    /**  
-     *     /|\
-     *    / | \       
-     *   /  |  \
-     *  /___|___\
+    /** 
+     * 
+     * 
+     *                        /|
+     *                       / |
+     *      /|              /  |
+     *     / |             /   |
+     *    /  |            /    |
+     *   /   |           /     |
+     *  /____|          /______| 
      */
-    public static Diagram premade_TriangleWithAltitude()
+    public static Diagram premade_SimilarRightTriangles()
     {
-        Diagram d = new Diagram();
+        Diagram diagram = new Diagram();
         
-        Point a = new Point("A", 0.0, 0.0);
-        Point b = new Point("B", 1.0, 1.0);
-        Point c = new Point("C", 2.0, 0.0);
-        Point m = new Point("M", 1.0, 0.0);
+        Point a = new Point("A", 1.0, 1.0);
+        Point b = new Point("B", 0.0, 0.0);
+        Point c = new Point("C", 1.0, 0.0);
+        
+        
+        Point d = new Point("D", 4.0, 2.0); 
+        Point e = new Point("E", 2.0, 0.0);
+        Point f = new Point("F", 4.0, 0.0);
         
         Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
         Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        Segment bm = new Segment(b, m);
         
-        d.addPoint(a);
-        d.addPoint(b);
-        d.addPoint(c);
-        d.addPoint(m);
+        Segment de = new Segment(d, e);
+        Segment ef = new Segment(e, f);
+        Segment df = new Segment(d, f);
         
-        d.addSegment(ab);
-        d.addSegment(ac);
-        d.addSegment(cb);
-        d.addSegment(bm);
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
         
-        return d;
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(ac);
+        
+        diagram.addSegment(de);
+        diagram.addSegment(ef);
+        diagram.addSegment(df);
+        
+        return diagram;
     }
     
     public static Diagram premade_EquilateralTriangle()
@@ -936,5 +951,111 @@ public class DiagramGenerator
         return d;
     }
     
+    /**  
+     *     /|\
+     *    / | \       
+     *   /  |  \
+     *  /___|___\
+     */
+    public static Diagram premade_IsoscelesTriangleWithAngleBisectorAsPerpendicularBisector()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 1.0, 1.0);
+        Point c = new Point("C", 2.0, 0.0);
+        Point m = new Point("M", 1.0, 0.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        Segment bm = new Segment(b, m);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        d.addPoint(m);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        d.addSegment(bm);
+        
+        return d;
+    }
+    
+    /**
+     *      /|             
+     *     / |             
+     *    /  |            
+     *   / \ |           
+     *  /___\|          
+     */
+    public static Diagram premade_RightTriangleWithAltitude()
+    {
+        Diagram diagram = new Diagram();
+        
+        Point a = new Point("A", 1.0, 1.0);
+        Point b = new Point("B", 0.0, 0.0);
+        Point c = new Point("C", 1.0, 0.0);
+        Point m = new Point("M", 0.5, 0.5);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
+        Segment cm = new Segment(c, m);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        diagram.addPoint(m);
+        
+        
+        diagram.addSegment(ab);
+        diagram.addSegment(bc);
+        diagram.addSegment(ac);
+        diagram.addSegment(cm);
+        
+
+        
+        return diagram;
+    }
+    
+    /**    
+     *      /\
+     *     /  \
+     *    /____\       
+     *   /      \
+     *  /________\
+     */
+    public static Diagram premade_ProportionalTriangles()
+    {
+        Diagram d = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 4.0, 4.0);
+        Point c = new Point("C", 8.0, 0.0);
+        Point x = new Point("X", 2.0, 2.0);
+        Point y = new Point("Y", 6.0, 2.0);
+        
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        
+        Segment xy = new Segment(x, y);
+        
+        d.addPoint(a);
+        d.addPoint(b);
+        d.addPoint(c);
+        d.addPoint(x);
+        d.addPoint(y);
+        
+        d.addSegment(ab);
+        d.addSegment(ac);
+        d.addSegment(cb);
+        d.addSegment(xy);
+        
+        return d;
+    }
     
 }

@@ -40,7 +40,7 @@ public class TwoPairsCongruentAnglesImplyThirdPairCongruent extends Theorem
         return deductions;
     }
 
-    //  A              D
+    //      A              D
     //      /\             /\
     //     /  \           /  \
     //    /    \         /    \

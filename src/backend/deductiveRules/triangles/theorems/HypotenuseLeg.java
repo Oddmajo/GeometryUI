@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
@@ -120,7 +118,7 @@ public class HypotenuseLeg extends Theorem
                 {
                     for (int l = k + 1; l < cSegList.length; l++)
                     {
-                        deductions.addAll(ReconfigureAndCheck((RightTriangle)strengList[i], (RightTriangle)strengList[j], (CongruentSegments)cSegList[k], (CongruentSegments)cSegList[l]));
+                        deductions.addAll(ReconfigureAndCheck((RightTriangle)((Strengthened)strengList[i]).getStrengthened(), (RightTriangle)((Strengthened)strengList[j]).getStrengthened(), (CongruentSegments)cSegList[k], (CongruentSegments)cSegList[l]));
                     }
                 }
             }

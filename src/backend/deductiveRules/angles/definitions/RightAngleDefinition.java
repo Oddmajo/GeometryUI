@@ -136,8 +136,8 @@ public class RightAngleDefinition extends Definition
         if (atomicity != Equation.BOTH_ATOMIC) return deductions;
 
         //Check that the terms equate an angle to a measure
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> lhs = eq.getLHS().collectTerms();
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> rhs = eq.getRHS().collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> lhs = eq.getLHS().collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> rhs = eq.getRHS().collectTerms();
 
         //TODO Not sure how collectTerms works now. CTA -Nick 3/28
         Angle angle = null;

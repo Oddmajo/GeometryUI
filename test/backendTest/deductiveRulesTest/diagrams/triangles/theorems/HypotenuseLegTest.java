@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.triangles.axioms;
+package backendTest.deductiveRulesTest.diagrams.triangles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,11 +12,11 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SASCongruenceTest
+public class HypotenuseLegTest
 {
 
     /**
-     * Fails to connect edges -Nick 4/10
+     * Edges not being created -Nick 4/11
      * @throws IOException
      */
     @Test
@@ -27,9 +27,8 @@ public class SASCongruenceTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SAS_CONGRUENCE.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.HYPOTENUSE_LEG.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 42, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 22, flags));
     }
-
 }

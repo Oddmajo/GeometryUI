@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.segments.axioms;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +13,7 @@ import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 
-public class CongruentSegmentsIMplySegmentRationDefinitionTest
+public class CongruentSegmentsImplySegmentRationDefinitionTest
 {
 
     /**

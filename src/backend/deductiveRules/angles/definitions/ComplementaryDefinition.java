@@ -137,8 +137,8 @@ public class ComplementaryDefinition extends Definition
         
         //TODO Not sure how collectTerms works now. CTA -Nick 3/28
         Pair<Integer, Integer> cards = eq.getCardinalities();
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> terms = cards.getKey() == 2 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
-        Pair<ArrayList<GroundedClause>, ArrayList<GroundedClause>> singleton = cards.getKey() == 1 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> terms = cards.getKey() == 2 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
+        Pair<ArrayList<Double>, ArrayList<GroundedClause>> singleton = cards.getKey() == 1 ? eq.getLHS().collectTerms() : eq.getRHS().collectTerms();
 
         Angle angle1 = (Angle) terms.second().get(0);
         Angle angle2 = (Angle) terms.second().get(1);

@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.segments.definitions;
 
 import static org.junit.Assert.*;
 

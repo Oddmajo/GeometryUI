@@ -5,7 +5,6 @@ import java.util.List;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Descriptor;
-import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Proportionalities.GeometricSegmentRatioEquation;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;

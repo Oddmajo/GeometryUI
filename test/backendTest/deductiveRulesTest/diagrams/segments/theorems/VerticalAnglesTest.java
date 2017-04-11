@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.segments.theorems;
 
 import static org.junit.Assert.*;
 
@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import backend.ast.figure.components.Point;
-import backend.ast.figure.components.Segment;
 import backend.deductiveRules.RuleFactory;
 import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;

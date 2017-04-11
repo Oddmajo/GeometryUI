@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.triangles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,26 +12,23 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SegmentAdditionAxiomTest
+public class SumAnglesInTriangleTest
 {
 
     /**
-     * A     M     B
-     * *-----*-----*
-     * 
-     * AM + MB = AB
+     * Not Creating Edges -Nick 4/11
      * @throws IOException
      */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_Midpoint();
+        Diagram diagram = DiagramGenerator.premade_IsoscelesTriangle();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SEGMENT_ADDITION_AXIOM.ordinal());
-
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SUM_ANGLES_IN_TRIANGLE_180.ordinal());
+        
         assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 

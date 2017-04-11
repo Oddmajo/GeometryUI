@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.triangles.axioms;
+package backendTest.deductiveRulesTest.diagrams.triangles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,24 +12,25 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SASCongruenceTest
+public class AltitudeOfRightTrianglesImpliesSimilarTest
 {
+    
 
     /**
-     * Fails to connect edges -Nick 4/10
+     * toString Null pointer -Nick 4/11
      * @throws IOException
      */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_CongruentRightTriangles();
+        Diagram diagram = DiagramGenerator.premade_RightTriangleWithAltitude();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SAS_CONGRUENCE.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ALTITUDE_OF_RIGHT_TRIANGLES_IMPLIES_SIMILAR.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 42, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
     }
 
 }

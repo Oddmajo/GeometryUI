@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.Relations.Proportionalities.SegmentRatioEquation;
 import backend.ast.figure.components.Point;
@@ -18,7 +16,6 @@ import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Theorem;
 import backend.hypergraph.Annotation;
 import backend.hypergraph.QueryableHypergraph;
-import backend.symbolicAlgebra.equations.SegmentEquation;
 import backend.utilities.Pair;
 
 public class SSSSimilarity extends Theorem

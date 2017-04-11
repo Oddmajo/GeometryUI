@@ -15,6 +15,10 @@ import channels.fromUI.DiagramGenerator;
 public class IsoscelesTriangleDefinitionTest
 {
 
+    /**
+     * Not adding some of the edges -Nick 4/11
+     * @throws IOException
+     */
     @Test
     public void test() throws IOException
     {

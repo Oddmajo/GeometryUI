@@ -23,7 +23,7 @@ public class AltitudeDefinitionTest
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_TriangleWithAltitude();
+        Diagram diagram = DiagramGenerator.premade_IsoscelesTriangleWithAngleBisectorAsPerpendicularBisector();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();

@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.triangles.axioms;
+package backendTest.deductiveRulesTest.diagrams.triangles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,13 +12,9 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SASCongruenceTest
+public class TwoPairsCongruentAnglesImplyThirdPairCongruentTest
 {
 
-    /**
-     * Fails to connect edges -Nick 4/10
-     * @throws IOException
-     */
     @Test
     public void test() throws IOException
     {
@@ -27,9 +23,9 @@ public class SASCongruenceTest
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SAS_CONGRUENCE.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.TWO_PAIRS_CONGRUENT_ANGLES_IMPLY_THIRD_PAIR_CONGRUENT.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 42, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 6, flags));
     }
 
 }

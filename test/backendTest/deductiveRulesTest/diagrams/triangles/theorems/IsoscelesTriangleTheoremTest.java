@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.triangles.axioms;
+package backendTest.deductiveRulesTest.diagrams.triangles.theorems;
 
 import static org.junit.Assert.*;
 
@@ -12,24 +12,20 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class SASCongruenceTest
+public class IsoscelesTriangleTheoremTest
 {
 
-    /**
-     * Fails to connect edges -Nick 4/10
-     * @throws IOException
-     */
     @Test
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_CongruentRightTriangles();
+        Diagram diagram = DiagramGenerator.premade_IsoscelesTriangle();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SAS_CONGRUENCE.ordinal());
+        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.ISOSCELES_TRIANGLE_THEOREM.ordinal());
         
-        assertTrue(TestDeductiveRule.test(diagram, 42, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 2, flags));
     }
 
 }

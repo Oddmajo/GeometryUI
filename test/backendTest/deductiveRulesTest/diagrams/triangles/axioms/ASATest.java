@@ -23,7 +23,7 @@ public class ASATest
     public void test() throws IOException
     {
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_CongruentTriangles();
+        Diagram diagram = DiagramGenerator.premade_CongruentRightTriangles();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();

@@ -1,4 +1,4 @@
-package backendTest.deductiveRulesTest.diagrams.segments;
+package backendTest.deductiveRulesTest.diagrams.segments.definitions;
 
 import static org.junit.Assert.*;
 
@@ -12,30 +12,9 @@ import backendTest.deductiveRulesTest.TestDeductiveRule;
 import channels.fromUI.Diagram;
 import channels.fromUI.DiagramGenerator;
 
-public class MidpointTest
+public class MidpointDefinitionTest
 {
-    
 
-    /**
-     *  Midpoint Test
-     *   A          M          B
-     * @throws IOException 
-     *   @----------@----------@
-     *   
-     */
-    @Test
-    public void testTheorem() throws IOException
-    {
-        // create diagram
-        Diagram midpointDiagram = DiagramGenerator.premade_Midpoint();
-        
-        // create flags array
-        ArrayList<Integer> flags = new ArrayList<>();
-        flags.add(RuleFactory.JustificationSwitch.DeductionJustType.MIDPOINT_THEOREM.ordinal());
-        
-        assertTrue(TestDeductiveRule.test(midpointDiagram, 4, flags));
-    }
-    
     @Test
     public void testDefinition() throws IOException
     {
@@ -48,4 +27,5 @@ public class MidpointTest
         
         assertTrue(TestDeductiveRule.test(midpointDiagram, 5, flags));
     }
+
 }

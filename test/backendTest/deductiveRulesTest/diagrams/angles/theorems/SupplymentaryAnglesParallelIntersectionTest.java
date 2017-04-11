@@ -14,19 +14,23 @@ import channels.fromUI.DiagramGenerator;
 
 public class SupplymentaryAnglesParallelIntersectionTest
 {
+    
 
+    /**
+     * Null Pointer in collectTerms -Nick 4/11
+     * @throws IOException
+     */
     @Test
     public void test() throws IOException
     {
-        fail("Needs diagram");
         // create diagram
-        Diagram diagram = DiagramGenerator.premade_AngleBisector();
+        Diagram diagram = DiagramGenerator.premade_ParallelTransversal();
         
         // create flags array
         ArrayList<Integer> flags = new ArrayList<>();
         flags.add(RuleFactory.JustificationSwitch.DeductionJustType.SUPPLEMENTARY_ANGLES_PARALLEL_INTERSECTION.ordinal());
         
-//        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
+        assertTrue(TestDeductiveRule.test(diagram, 1, flags));
 
     }
 

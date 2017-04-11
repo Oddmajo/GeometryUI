@@ -6,11 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Relations.Congruences.CongruentAngles;
 import backend.ast.Descriptors.Relations.Congruences.CongruentSegments;
-import backend.ast.Descriptors.Relations.Congruences.CongruentTriangles;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentTriangles;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
@@ -49,7 +46,7 @@ public class AAS extends Theorem
         return deductions;
     }
 
-//  A
+   //      A
    //      /\ 
    //     /  \
    //    /    \
@@ -86,6 +83,7 @@ public class AAS extends Theorem
                     {
                         for (int n = m + 1; n < congruentAngleList.length; n++)
                         {
+                            
                             deductions.addAll(deduceAAS(triangleList[i], triangleList[j], congruentAngleList[m], congruentAngleList[n], css));
                         }
                     }
