@@ -60,6 +60,20 @@ public class MaximalIntersection extends Intersection
         // compute whether intersection is contained and return
         return computeContains(p, s1, s2);       
     }
+    
+    public boolean contains(Segment s1, Segment s2)
+    {        
+        // computer if segments intersections; if so get intersection point
+        Point p = s1.segmentIntersection(s2);
+        if (p != null)
+        {
+            // compute whether intersection is contained and return
+            return computeContains(p, s1, s2);      
+        }
+        
+        // segments do not intersection, return false
+        return false;
+    }
 
     private boolean computeContains(Point p, Segment s1, Segment s2)
     {

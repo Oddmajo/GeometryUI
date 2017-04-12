@@ -5,6 +5,8 @@ import java.util.Set;
 
 import backend.ast.Descriptors.Intersection;
 import backend.ast.Descriptors.MaximalIntersection;
+import backend.ast.figure.components.Point;
+import backend.ast.figure.components.Segment;
 import backend.utilities.exception.DebugException;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -122,6 +124,43 @@ public class MaximalIntersections
         
         // no match found, return null
         return null;
+    }
+    
+    public boolean contains(Intersection i)
+    {
+        // get segments
+        Segment s1 = i.getlhs();
+        Segment s2 = i.getrhs();
+        
+        // call computeContains
+        return contains(s1, s2);
+    }
+    
+    public boolean contains(Point p, Segment s1, Segment s2)
+    {
+        // call computeContains
+        return contains(s1, s2);
+    }
+    
+    
+    public boolean contains(Segment s1, Segment s2)
+    {
+        // go through all Maximal Intersections
+        for (MaximalIntersection max : _maximalIntersections)
+        {
+            // if intersection between to given segments is a subintersection of max
+            if (max.contains(s1, s2))
+            {
+                // contains checks if the points are the same and then
+                // that the segments subsegments of max
+                
+                // is contained
+                return true;
+            }
+        }
+        
+        // no match found, return false
+        return false;
     }
     
     public static void clear()

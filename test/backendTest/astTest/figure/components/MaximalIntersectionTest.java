@@ -173,9 +173,18 @@ public class MaximalIntersectionTest
         maximalSegments.addSubsegment(seg5);
         maximalSegments.addSubsegment(seg6);
         
+        /////////////// IMPORTANT NOTE ////////////////////////////
+        // This is currently failing because it is failing to calculate
+        // the intersection between s1 and s2 because they intersect at
+        // their endpoint.  The system is currently actively avoiding
+        // intersections between segement endpoints.
+        //////////////////////////////////////////////////////////        
+        System.out.print("_" + mi1.contains(s1, s2) + "_");
+        
         // check contains           
         if (mi1.contains(sub1) && mi1.contains(sub2) && !mi1.contains(nonSub3) &&
-                mi1.contains(c, s1, s2) && mi1.contains(p7, seg3, seg4) && !mi1.contains(p10, seg5, seg6))
+                mi1.contains(c, s1, s2) && mi1.contains(p7, seg3, seg4) && !mi1.contains(p10, seg5, seg6) &&
+                mi1.contains(s1, s2))
         {
             System.out.print("Passed\n");
             assertTrue(true);
