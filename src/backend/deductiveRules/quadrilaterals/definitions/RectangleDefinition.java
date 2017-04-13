@@ -7,12 +7,10 @@ import java.util.Set;
 
 import backend.ast.GroundedClause;
 import backend.ast.Descriptors.Strengthened;
-import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.quadrilaterals.Rectangle;
 import backend.ast.figure.components.angles.Angle;
 import backend.ast.figure.components.angles.RightAngle;
 import backend.ast.figure.components.quadrilaterals.Parallelogram;
-import backend.ast.figure.components.quadrilaterals.Quadrilateral;
 import backend.deductiveRules.Deduction;
 import backend.deductiveRules.RuleFactory;
 import backend.deductiveRules.generalRules.Definition;

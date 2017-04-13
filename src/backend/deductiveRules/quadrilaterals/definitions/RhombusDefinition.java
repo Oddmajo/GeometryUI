@@ -58,7 +58,7 @@ public class RhombusDefinition extends Definition
 
         Set<Rhombus> rhombuses = _qhg.getRhombuses();
         Set<Strengthened> strengs = _qhg.getStrengthenedRhombuses();
-
+        
         for (Rhombus rhombus : rhombuses)
         {
             deductions.addAll(deduceFromRhombus(rhombus, rhombus));

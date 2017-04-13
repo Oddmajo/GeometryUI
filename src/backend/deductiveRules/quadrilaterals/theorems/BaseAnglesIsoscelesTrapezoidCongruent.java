@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 import backend.ast.GroundedClause;
-import backend.ast.Descriptors.InMiddle;
-import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Strengthened;
 import backend.ast.Descriptors.Relations.Congruences.GeometricCongruentAngles;
 import backend.ast.figure.components.quadrilaterals.IsoscelesTrapezoid;

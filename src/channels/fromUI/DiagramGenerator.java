@@ -52,8 +52,10 @@ public class DiagramGenerator
         
         d.addPoint(A);
         d.addPoint(B);
+        
         d.addPoint(C);
         d.addPoint(D);
+        
         d.addPoint(E);
         d.addPoint(F);
         
@@ -175,14 +177,15 @@ public class DiagramGenerator
         Point c = new Point("C", 1.0, 2.0);
         Point m = new Point("M", 2.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment cm = new Segment(c, m);
-        
         d.addPoint(a);
         d.addPoint(b);
+        
         d.addPoint(c);
         d.addPoint(m);
         
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+
         d.addSegment(ab);
         d.addSegment(cm);
         
@@ -209,14 +212,14 @@ public class DiagramGenerator
         Point c = new Point("C", 1.0, 2.0);
         Point d = new Point("D", 3.0, -2.0);
         
-        Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
         diagram.addPoint(c);
         diagram.addPoint(d);
         
+        Segment ab = new Segment(a, b);
+        Segment cd = new Segment(c, d);
+
         diagram.addSegment(ab);
         diagram.addSegment(cd);
         
@@ -240,14 +243,14 @@ public class DiagramGenerator
         Point c = new Point("C", 2.0, 1.0);
         Point m = new Point("M", 2.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment cm = new Segment(c, m);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         d.addPoint(m);
         
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+
         d.addSegment(ab);
         d.addSegment(cm);
         
@@ -269,13 +272,13 @@ public class DiagramGenerator
         Point c = new Point("C", 1.0, 1.0);
         Point m = new Point("M", 1.0, 0.0);
         
-        Segment am = new Segment(a, m);
-        Segment cm = new Segment(c, m);
-        
         d.addPoint(a);
         d.addPoint(c);
         d.addPoint(m);
         
+        Segment am = new Segment(a, m);
+        Segment cm = new Segment(c, m);
+
         d.addSegment(am);
         d.addSegment(cm);
         
@@ -303,14 +306,14 @@ public class DiagramGenerator
         Point c = new Point("C", 2.0, 1.0);
         Point m = new Point("M", 2.0, -1.0);
         
-        Segment ab = new Segment(a, b);
-        Segment cm = new Segment(c, m);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         d.addPoint(m);
         
+        Segment ab = new Segment(a, b);
+        Segment cm = new Segment(c, m);
+
         d.addSegment(ab);
         d.addSegment(cm);
         
@@ -340,8 +343,10 @@ public class DiagramGenerator
         
         d.addPoint(A);
         d.addPoint(B);
+        
         d.addPoint(C);
         d.addPoint(D);
+        
         d.addPoint(E);
         d.addPoint(F);
         
@@ -378,17 +383,19 @@ public class DiagramGenerator
         Point e = new Point("E", 0.0, 4.0);
         Point f = new Point("F", 2.0, 4.0);
         
-        Segment ab = new Segment(a, b);
-        Segment cd = new Segment(c, d);
-        Segment ef = new Segment(e, f);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
+        
         diagram.addPoint(c);
         diagram.addPoint(d);
+        
         diagram.addPoint(e);
         diagram.addPoint(f);
         
+        Segment ab = new Segment(a, b);
+        Segment cd = new Segment(c, d);
+        Segment ef = new Segment(e, f);
+
         diagram.addSegment(ab);
         diagram.addSegment(cd);
         diagram.addSegment(ef);
@@ -419,15 +426,15 @@ public class DiagramGenerator
         Point c = new Point("C", Math.sqrt(3.0)/2.0, .5);
         Point d = new Point("D", .5, Math.sqrt(3.0)/2.0); 
         
-        Segment ab = new Segment(a, b);
-        Segment cb = new Segment(c, b);
-        Segment db = new Segment(d, b);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
         diagram.addPoint(c);
         diagram.addPoint(d);
         
+        Segment ab = new Segment(a, b);
+        Segment cb = new Segment(c, b);
+        Segment db = new Segment(d, b);
+
         diagram.addSegment(ab);
         diagram.addSegment(cb);
         diagram.addSegment(db);
@@ -451,26 +458,27 @@ public class DiagramGenerator
         Point b = new Point("B", 0.0, 0.0);
         Point c = new Point("C", 1.0, 0.0);
         
-        
         Point d = new Point("D", 3.0, 1.0); 
         Point e = new Point("E", 2.0, 0.0);
         Point f = new Point("F", 3.0, 0.0);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
         
         Segment ab = new Segment(a, b);
         Segment bc = new Segment(b, c);
         
         Segment de = new Segment(d, e);
         Segment ef = new Segment(e, f);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
+        
         diagram.addSegment(de);
         diagram.addSegment(ef);
         
@@ -495,15 +503,15 @@ public class DiagramGenerator
         Point c = new Point("C", 0.0, 1.0);
         Point d = new Point("D", .5, Math.sqrt(3.0)/2.0); 
         
-        Segment ab = new Segment(a, b);
-        Segment cb = new Segment(c, b);
-        Segment db = new Segment(d, b);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
         diagram.addPoint(c);
         diagram.addPoint(d);
         
+        Segment ab = new Segment(a, b);
+        Segment cb = new Segment(c, b);
+        Segment db = new Segment(d, b);
+   
         diagram.addSegment(ab);
         diagram.addSegment(cb);
         diagram.addSegment(db);
@@ -525,26 +533,27 @@ public class DiagramGenerator
         Point b = new Point("B", 0.0, 0.0);
         Point c = new Point("C", 1.0, 0.0);
         
-        
         Point d = new Point("D", 2.0, 1.0); 
         Point e = new Point("E", 2.0, 0.0);
         Point f = new Point("F", 3.0, 0.0);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
         
         Segment ab = new Segment(a, b);
         Segment bc = new Segment(b, c);
         
         Segment de = new Segment(d, e);
         Segment ef = new Segment(e, f);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
+        
         diagram.addSegment(de);
         diagram.addSegment(ef);
         
@@ -599,7 +608,6 @@ public class DiagramGenerator
         
         Point a = new Point("A", 0.0, 0.0);
         Point b = new Point("B", 4.0, 0.0);
-        
         Point c = new Point("C", 0.0, 4.0);
 
         Point d = new Point("D", 0.0, 2.0); 
@@ -608,22 +616,25 @@ public class DiagramGenerator
         Point f = new Point("F", 1.0, 2.0);
         
         Point g = new Point("G", 1.0, 4.0);
-
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        
+        diagram.addPoint(f);
+        
+        diagram.addPoint(g);
+        
         
         Segment ab = new Segment(a, b);
         Segment ac = new Segment(a, c);
         Segment de = new Segment(d, e);
         Segment af = new Segment(a, f);
         Segment dg = new Segment(d, g);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        diagram.addPoint(g);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(ac);
         diagram.addSegment(de);
@@ -665,6 +676,22 @@ public class DiagramGenerator
         Point k = new Point("K", 6.0, 4.0);
         Point l = new Point("L", 5.0, 5.0);
 
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
+        
+        diagram.addPoint(g);
+        diagram.addPoint(h);
+        diagram.addPoint(i);
+        
+        diagram.addPoint(j);
+        diagram.addPoint(k);
+        diagram.addPoint(l);
+        
         
         Segment ab = new Segment(a, b);
         Segment bc = new Segment(b, c);
@@ -677,26 +704,16 @@ public class DiagramGenerator
         
         Segment jk = new Segment(j, k);
         Segment jl = new Segment(j, l);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        diagram.addPoint(g);
-        diagram.addPoint(h);
-        diagram.addPoint(i);
-        diagram.addPoint(j);
-        diagram.addPoint(k);
-        diagram.addPoint(l);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
+        
         diagram.addSegment(de);
         diagram.addSegment(ef);
+        
         diagram.addSegment(gh);
         diagram.addSegment(gi);
+        
         diagram.addSegment(jk);
         diagram.addSegment(jl);
         
@@ -720,7 +737,6 @@ public class DiagramGenerator
         Point B = new Point("B", 2.0, 0.0);
         Point D = new Point("D", 0.0, 1.0);
         Point E = new Point("E", 2.0, 1.0);
-        
         
         d.addPoint(A);
         d.addPoint(B);
@@ -755,20 +771,17 @@ public class DiagramGenerator
         Point b = new Point("B", 0.0, 0.0);
         Point c = new Point("C", 1.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment bc = new Segment(b, c);
-        Segment ac = new Segment(a, c);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
         diagram.addPoint(c);
 
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
         
         diagram.addSegment(ab);
         diagram.addSegment(bc);
         diagram.addSegment(ac);
-        
-
         
         return diagram;
     }
@@ -787,10 +800,17 @@ public class DiagramGenerator
         Point b = new Point("B", 0.0, 0.0);
         Point c = new Point("C", 1.0, 0.0);
         
-        
         Point d = new Point("D", 3.0, 1.0); 
         Point e = new Point("E", 2.0, 0.0);
         Point f = new Point("F", 3.0, 0.0);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
         
         Segment ab = new Segment(a, b);
         Segment bc = new Segment(b, c);
@@ -799,14 +819,7 @@ public class DiagramGenerator
         Segment de = new Segment(d, e);
         Segment ef = new Segment(e, f);
         Segment df = new Segment(d, f);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
         diagram.addSegment(ac);
@@ -837,10 +850,17 @@ public class DiagramGenerator
         Point b = new Point("B", 0.0, 0.0);
         Point c = new Point("C", 1.0, 0.0);
         
-        
         Point d = new Point("D", 4.0, 2.0); 
         Point e = new Point("E", 2.0, 0.0);
         Point f = new Point("F", 4.0, 0.0);
+        
+        diagram.addPoint(a);
+        diagram.addPoint(b);
+        diagram.addPoint(c);
+        
+        diagram.addPoint(d);
+        diagram.addPoint(e);
+        diagram.addPoint(f);
         
         Segment ab = new Segment(a, b);
         Segment bc = new Segment(b, c);
@@ -849,14 +869,7 @@ public class DiagramGenerator
         Segment de = new Segment(d, e);
         Segment ef = new Segment(e, f);
         Segment df = new Segment(d, f);
-        
-        diagram.addPoint(a);
-        diagram.addPoint(b);
-        diagram.addPoint(c);
-        diagram.addPoint(d);
-        diagram.addPoint(e);
-        diagram.addPoint(f);
-        
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
         diagram.addSegment(ac);
@@ -876,14 +889,14 @@ public class DiagramGenerator
         Point b = new Point("B", 3.0, Math.sqrt(27.0));
         Point c = new Point("C", 6.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+
         d.addSegment(ab);
         d.addSegment(ac);
         d.addSegment(cb);
@@ -899,14 +912,14 @@ public class DiagramGenerator
         Point b = new Point("B", 1.0, 1.0);
         Point c = new Point("C", 2.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+
         d.addSegment(ab);
         d.addSegment(ac);
         d.addSegment(cb);
@@ -933,16 +946,16 @@ public class DiagramGenerator
         Point c = new Point("C", 4.0, 0.0);
         Point v = new Point("V", 3.0, 2.0);
         
-        Segment ab = new Segment(a, b);
-        Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        Segment vc = new Segment(v, c);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         d.addPoint(v);
         
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        Segment vc = new Segment(v, c);
+
         d.addSegment(ab);
         d.addSegment(ac);
         d.addSegment(cb);
@@ -966,16 +979,16 @@ public class DiagramGenerator
         Point c = new Point("C", 2.0, 0.0);
         Point m = new Point("M", 1.0, 0.0);
         
-        Segment ab = new Segment(a, b);
-        Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        Segment bm = new Segment(b, m);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         d.addPoint(m);
         
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
+        Segment bm = new Segment(b, m);
+
         d.addSegment(ab);
         d.addSegment(ac);
         d.addSegment(cb);
@@ -1000,17 +1013,16 @@ public class DiagramGenerator
         Point c = new Point("C", 1.0, 0.0);
         Point m = new Point("M", 0.5, 0.5);
         
-        Segment ab = new Segment(a, b);
-        Segment bc = new Segment(b, c);
-        Segment ac = new Segment(a, c);
-        Segment cm = new Segment(c, m);
-        
         diagram.addPoint(a);
         diagram.addPoint(b);
         diagram.addPoint(c);
         diagram.addPoint(m);
         
-        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment ac = new Segment(a, c);
+        Segment cm = new Segment(c, m);
+
         diagram.addSegment(ab);
         diagram.addSegment(bc);
         diagram.addSegment(ac);
@@ -1038,18 +1050,18 @@ public class DiagramGenerator
         Point x = new Point("X", 2.0, 2.0);
         Point y = new Point("Y", 6.0, 2.0);
         
-        Segment ab = new Segment(a, b);
-        Segment ac = new Segment(a, c);
-        Segment cb = new Segment(c, b);
-        
-        Segment xy = new Segment(x, y);
-        
         d.addPoint(a);
         d.addPoint(b);
         d.addPoint(c);
         d.addPoint(x);
         d.addPoint(y);
+      
+        Segment ab = new Segment(a, b);
+        Segment ac = new Segment(a, c);
+        Segment cb = new Segment(c, b);
         
+        Segment xy = new Segment(x, y);
+  
         d.addSegment(ab);
         d.addSegment(ac);
         d.addSegment(cb);
@@ -1058,4 +1070,408 @@ public class DiagramGenerator
         return d;
     }
     
+    //-------------------------------------- Quadrilaterals --------------------------------------
+    
+    
+    /**
+     *    ______
+     *   /      \
+     *  /________\
+     */
+    public static Diagram premade_IsoscelesTrapezoid()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 1.0, 2.0);
+        Point c = new Point("C", 3.0, 2.0);
+        Point d = new Point("D", 4.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    /**
+     * 
+     *       /\
+     *      /  \
+     *      \  /
+     *       \/
+     */
+    public static Diagram premade_Kite()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", -1.0, 2.0);
+        Point c = new Point("C", 0.0, 5.0);
+        Point d = new Point("D", 1.0, 2.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    /**
+     *     ______________
+     *    /             /
+     *   /             /
+     *  /_____________/
+     */
+    public static Diagram premade_Parallelogram()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 2.0, 3.0);
+        Point c = new Point("C", 7.0, 3.0);
+        Point d = new Point("D", 5.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    
+    /**
+     *   _____________
+     *  |             |
+     *  |             |
+     *  |_____________|
+     */
+    public static Diagram premade_Rectangle()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 0.0, 3.0);
+        Point c = new Point("C", 5.0, 3.0);
+        Point d = new Point("D", 5.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    /**
+     *     ______
+     *    /     /       
+     *   /     /        
+     *  /_____/
+     */
+    public static Diagram premade_Rhombus()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 3.0, 4.0);
+        Point c = new Point("C", 8.0, 4.0);
+        Point d = new Point("D", 5.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    /**
+     *   ______
+     *  |      |
+     *  |      |
+     *  |______|
+     */
+    public static Diagram premade_Square()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 0.0, 1.0);
+        Point c = new Point("C", 1.0, 1.0);
+        Point d = new Point("D", 1.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        return di;
+    }
+    
+    /**
+     *      
+     *      o______________o
+     *      \\             /\
+     *       \   \        /  \
+     *        \     \    /    \
+     *         \      \ /      \
+     *          \      /\       \
+     *           \    /     \    \
+     *            \  /         \  \
+     *            o\/_____________\\o
+     */
+    public static Diagram premade_ParallelogramBisectors()
+    {
+        Diagram d = new Diagram();
+        
+        Point A = new Point("A", -1.0, 1.0);
+        Point B = new Point("B", 0.0, -1.0);
+        Point C = new Point("C", 1.0, 1.0);
+        Point D = new Point("D", 2.0, -1.0);
+        
+        d.addPoint(A);
+        d.addPoint(B);
+        d.addPoint(C);
+        d.addPoint(D);
+        
+        Segment left = new Segment(A, B);
+        Segment bottom = new Segment(B, D);
+        Segment right = new Segment(D, C);
+        Segment top = new Segment(C, A);
+        Segment diagonal1 = new Segment(C, B);
+        Segment diagonal2 = new Segment(A, D);
+        
+        d.addSegment(left);
+        d.addSegment(bottom);
+        d.addSegment(right);
+        d.addSegment(top);
+        d.addSegment(diagonal1);
+        d.addSegment(diagonal2);
+        
+        return d;
+    }
+    
+    /**
+     * 
+     *       /\
+     *      /\/\
+     *      \/\/
+     *       \/
+     */
+    public static Diagram premade_KiteDiagonals()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", -1.0, 2.0);
+        Point c = new Point("C", 0.0, 5.0);
+        Point d = new Point("D", 1.0, 2.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        Segment db = new Segment(d, b);
+        Segment ac = new Segment(a, c);
+        
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        di.addSegment(db);
+        di.addSegment(ac);
+        
+        return di;
+    }
+    
+    /**
+     *   _____________
+     *  |  \       /  |
+     *  |      x      |
+     *  |__/_______\__|
+     */
+    public static Diagram premade_RectangleDiagonals()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 0.0, 3.0);
+        Point c = new Point("C", 5.0, 3.0);
+        Point d = new Point("D", 5.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        Segment db = new Segment(d, b);
+        Segment ac = new Segment(a, c);
+
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        di.addSegment(db);
+        di.addSegment(ac);
+        
+        return di;
+    }
+    
+    /**
+     *     ______
+     *    /     /       
+     *   /  x  /        
+     *  /_____/
+     */
+    public static Diagram premade_RhombusDiagonals()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 3.0, 4.0);
+        Point c = new Point("C", 8.0, 4.0);
+        Point d = new Point("D", 5.0, 0.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        Segment db = new Segment(d, b);
+        Segment ac = new Segment(a, c);
+
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        di.addSegment(db);
+        di.addSegment(ac);
+        
+        return di;
+    }
+    
+    /**
+     *    ______
+     *   /______\
+     *  /________\
+     */
+    public static Diagram premade_TrapezoidWithMedian()
+    {
+        Diagram di = new Diagram();
+        
+        Point a = new Point("A", 0.0, 0.0);
+        Point b = new Point("B", 1.0, 2.0);
+        Point c = new Point("C", 3.0, 2.0);
+        Point d = new Point("D", 4.0, 0.0);
+        
+        Point x = new Point("X", 0.5, 1.0);
+        Point y = new Point("Y", 3.5, 1.0);
+        
+        di.addPoint(a);
+        di.addPoint(b);
+        di.addPoint(c);
+        di.addPoint(d);
+        
+        di.addPoint(x);
+        di.addPoint(y);
+        
+        Segment ab = new Segment(a, b);
+        Segment bc = new Segment(b, c);
+        Segment cd = new Segment(c, d);
+        Segment da = new Segment(d, a);
+        
+        Segment xy = new Segment(x, y);
+
+        di.addSegment(ab);
+        di.addSegment(bc);
+        di.addSegment(cd);
+        di.addSegment(da);
+        
+        di.addSegment(xy);
+        
+        return di;
+    }
 }

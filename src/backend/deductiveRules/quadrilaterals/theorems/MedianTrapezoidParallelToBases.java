@@ -40,7 +40,7 @@ public class MedianTrapezoidParallelToBases extends Theorem
         return deductions;
     }
     
-//  A    _______  B
+    //  A    _______  B
     //      /       \
     //   Y /_________\ Z
     //    /           \

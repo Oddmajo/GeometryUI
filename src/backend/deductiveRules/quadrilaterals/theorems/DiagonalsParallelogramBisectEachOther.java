@@ -41,7 +41,7 @@ public class DiagonalsParallelogramBisectEachOther extends Theorem
         return deductions;
     }
     
-//  A _________________ B
+    //     A _________________ B
     //      /                /
     //     /                /
     //    /                /

@@ -59,7 +59,6 @@ public class BothPairsOppAnglesCongruentImpliesParallelogram extends Theorem
 
         // get list
         Object[] congruentAnglesList = congruentAngles.toArray();
-
         for (Quadrilateral q : quads)
         {
             for (int i = 0; i < congruentAnglesList.length - 1; i++)

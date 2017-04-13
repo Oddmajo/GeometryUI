@@ -60,6 +60,7 @@ public class OnePairOppSidesCongruentParallelImpliesParallelogram extends Theore
         
         for(Quadrilateral quad : quads)
         {
+            System.out.println("Hello");
             if (!quad.IsStrictQuadrilateral()) return deductions;
 
             for (CongruentSegments conSeg : conSegs)

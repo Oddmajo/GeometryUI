@@ -49,13 +49,10 @@ public class Parallelogram extends Quadrilateral
     {
         if (obj == null) return false;
         if(!(obj instanceof Parallelogram));
-        Parallelogram thatPara = (Parallelogram)obj;
-        
-
-        if (thatPara instanceof Rhombus || thatPara instanceof Rectangle) return false;
+        if (obj instanceof Rhombus || obj instanceof Rectangle) return false;
 
         //return base.StructurallyEquals(obj);
-        return super.HasSamePoints((Quadrilateral)thatPara);
+        return super.HasSamePoints((Quadrilateral)obj);
     }
 
     @Override

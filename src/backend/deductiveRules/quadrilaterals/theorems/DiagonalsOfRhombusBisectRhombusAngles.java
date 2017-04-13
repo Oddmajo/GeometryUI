@@ -41,7 +41,7 @@ public class DiagonalsOfRhombusBisectRhombusAngles extends Theorem
         return deductions;
     }
     
-//  A __________  B
+    //  A __________  B
     //   |          |
     //   |          |
     //   |          |
