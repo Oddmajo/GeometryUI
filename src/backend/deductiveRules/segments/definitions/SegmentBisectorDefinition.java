@@ -144,13 +144,18 @@ public class SegmentBisectorDefinition extends Definition
 
             // The segments need to be collinear
             if (!cs.getcs1().isCollinearWith(cs.getcs2())) return deductions;
+            
+            // The congruent segments need to share an endpoint (adjacent congruent segments)
+            /////////////////// NOTE ////////////////////////
+            // This will return false because segmentIntersection() actively ignores endpoint
+            // intersections.  This needs to be fixed.
+            // @author Drew Whitmire
+            /////////////////////////////////////////////////
+            Point shared = cs.getcs1().segmentIntersection(cs.getcs2());
+            if (shared == null) return deductions;
 
             for (Intersection i : intersections)
             {
-                // The congruent segments need to share an endpoint (adjacent congruent segments)
-                Point shared = i.getIntersect();
-                if (shared == null) return deductions;
-
                 // If we have a corner situation, we are not interested
                 if (i.StandsOnEndpoint()) return deductions;
 
