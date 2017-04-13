@@ -63,7 +63,8 @@ public class FactComputerContainer
     //private ArrayList<Strengthened> strengthens;
     private ArrayList<Circle> circles;
     private ArrayList<Arc> arcs;
-    private ArrayList<Segment> segments;
+    private ArrayList<Segment> segments; //This is legacy and should be phased out
+    private ArrayList<Segment> subSegments; 
     private ArrayList<Sector> sectors;
     
     private ArrayList<CongruentArcs> congruentArcs;
@@ -147,6 +148,7 @@ public class FactComputerContainer
         master.add(new HashSet<>(circles));
         master.add(new HashSet<>(arcs));
         master.add(new HashSet<>(segments));
+        master.add(new HashSet<>(subSegments));
         
         master.add(new HashSet<>(sectors));
         master.add(new HashSet<>(congruentArcs));
@@ -275,15 +277,25 @@ public class FactComputerContainer
     }
 
 
-    public HashSet<Segment> getSegments()
+    public HashSet<Segment> getSegments() //This should be phased out
     {
         return new HashSet<Segment>(segments);
     }
 
 
-    public void setSegments(ArrayList<Segment> segments)
+    public void setSegments(ArrayList<Segment> segments) //This should be phased out
     {
         this.segments = segments;
+    }
+    
+    public HashSet<Segment> getSubSegments()
+    {
+        return new HashSet<Segment>(subSegments);
+    }
+    
+    public void setSubSegments(ArrayList<Segment> subsegments)
+    {
+        this.subSegments = subsegments;
     }
 
 

@@ -55,6 +55,8 @@ import backend.symbolicAlgebra.equations.AngleEquation;
 import backend.symbolicAlgebra.equations.ArcEquation;
 import backend.symbolicAlgebra.equations.SegmentEquation;
 import backend.utilities.AngleEquivalenceRelation;
+import backend.utilities.MaximalIntersections;
+import backend.utilities.MaximalSegments;
 import backend.utilities.PointFactory;
 import backend.utilities.exception.ExceptionHandler;
 
@@ -71,8 +73,11 @@ public class FactComputer
     private ArrayList<Arc> arcs;
     public ArrayList<Arc> getArcs() { return arcs; }
 
-    private ArrayList<Segment> segments;
-    public ArrayList<Segment> getSegments() { return segments; }
+    private ArrayList<Segment> segments;//This is legacy and should be phased out
+    public ArrayList<Segment> getSegments() { return segments; }//This is legacy and should be phased out
+    private MaximalSegments maximalSegments;
+    public MaximalSegments getMaximalSegments() {return maximalSegments; }
+    private ArrayList<Segment> subSegments;
 
     private ArrayList<Sector> sectors;
 
@@ -85,8 +90,10 @@ public class FactComputer
     public ArrayList<AngleBisector> getAngleBisectors() { return angleBisectors; }
 
     private ArrayList<Altitude> altitudes;
-    private ArrayList<Intersection> intersections;
-    public ArrayList<Intersection> getIntersections() { return intersections; }
+    private ArrayList<Intersection> intersections; //This is legacy and should be phased out
+    public ArrayList<Intersection> getIntersections() { return intersections; } //This is legacy and should be phased out
+    private MaximalIntersections maximalIntersections;
+    public MaximalIntersections getMaximalIntersections() { return maximalIntersections; } 
 
     private ArrayList<Parallel> parallels;
 
@@ -189,7 +196,7 @@ public class FactComputer
 //        return strengthens;
 //    }
 
-    public FactComputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p, ArrayList<Sector> sec)
+    public FactComputer(ArrayList<Circle> c, ArrayList<Arc> a, ArrayList<Segment> s, ArrayList<Point> p, ArrayList<Sector> sec, MaximalSegments ms)
     {
 //        strengthens = new ArrayList<Strengthened>();
 
@@ -197,9 +204,11 @@ public class FactComputer
 
         circles = c != null ? c : new ArrayList<Circle>();
         arcs = a != null ? a : new ArrayList<Arc>();
-        segments = s != null ? s : new ArrayList<Segment>();
+        segments = s != null ? s : new ArrayList<Segment>(); //Old and should be phased out
+        maximalSegments = ms != null ? ms : MaximalSegments.getInstance();
         //points = p != null ? p : new ArrayList<Point>();
         sectors = sec != null ? sec : new ArrayList<Sector>();
+        maximalIntersections = MaximalIntersections.getInstance();
     }
 
     /**
@@ -221,9 +230,11 @@ public class FactComputer
 
         circles = pc.getCircles();
         arcs = pc.getArcs();
-        segments = pc.getSegments();
+        segments = pc.getSegments();//Old and should be phased out
+        maximalSegments = pc.getMaximalSegments();
         //points = p != null ? p : new ArrayList<Point>();
         sectors = pc.getSectors();
+        maximalIntersections = MaximalIntersections.getInstance();
     }
     
     public void analyze()
@@ -261,7 +272,12 @@ public class FactComputer
         // Parallel
         parallels.addAll(GeometryFactComputerDelegate.computeParallel(this));
         // Intersections: Perpendicular, Bisector, Perpendicular Bisector
-        intersections.addAll(GeometryFactComputerDelegate.computeSegmentSegmentIntersections(this));
+        //intersections.addAll(GeometryFactComputerDelegate.computeSegmentSegmentIntersections(this));
+        //maximalIntersections.addMaximalIntersections(GeometryFactComputerDelegate.computeSegmentSegmentIntersections(this)); //Do I need this since maximalIntersections is a singleton therefore it is already in it?
+        GeometryFactComputerDelegate.computeSegmentSegmentIntersections(this);
+        
+        
+        
         GeometryFactComputerDelegate.computeSpecificIntersections(this, perpendiculars, segmentBisectors, perpBisectors);
         // Proportions
         proportionalSegments.addAll(GeometryFactComputerDelegate.computeProportionalSegments(this));
@@ -386,7 +402,7 @@ public class FactComputer
         _factContainer.setEquilateralTriangles(equilateralTriangles);
         _factContainer.setInMiddles(inMiddles);
         _factContainer.setArcInMiddles(arcInMiddles);
-        _factContainer.setIntersections(intersections);
+        _factContainer.setIntersections(intersections); //Should be phased out
         _factContainer.setIsoscelesTrapezoids(isoscelesTrapezoids);
         _factContainer.setIsoscelesTriangles(isoscelesTriangles);
         _factContainer.setKites(kites);
@@ -406,8 +422,9 @@ public class FactComputer
         _factContainer.setSectors(sectors);
         _factContainer.setSegmentBisectors(segmentBisectors);
         _factContainer.setSegmentEquation(segmentEquations);
+        _factContainer.setSubSegments(subSegments);
         _factContainer.setSegmentRatios(proportionalSegments);
-        _factContainer.setSegments(segments);
+        _factContainer.setSegments(segments); //Should be phased out
         _factContainer.setSimilarTriangles(similarTriangles);
         _factContainer.setSquares(squares);
         _factContainer.setStrengthAngleEquations(strengthAngleEquations);
@@ -434,7 +451,8 @@ public class FactComputer
     {
         circles = new ArrayList<Circle>();
         arcs = new ArrayList<Arc>();
-        segments = new ArrayList<Segment>();
+        segments = new ArrayList<Segment>(); //This is legacy and should be phased out
+        subSegments = new ArrayList<Segment>();
         //        points = new ArrayList<Point>();
 
         congruentArcs = new ArrayList<CongruentArcs>();

@@ -15,6 +15,7 @@ import backend.ast.Descriptors.Complementary;
 import backend.ast.Descriptors.Descriptor;
 import backend.ast.Descriptors.InMiddle;
 import backend.ast.Descriptors.Intersection;
+import backend.ast.Descriptors.MaximalIntersection;
 import backend.ast.Descriptors.Median;
 import backend.ast.Descriptors.Midpoint;
 import backend.ast.Descriptors.Perpendicular;
@@ -35,6 +36,7 @@ import backend.ast.Descriptors.Relations.Proportionalities.ProportionalAngles;
 import backend.ast.Descriptors.Relations.Proportionalities.ProportionalSegments;
 import backend.ast.Descriptors.parallel.Parallel;
 import backend.ast.figure.components.Circle;
+import backend.ast.figure.components.MaximalSegment;
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Sector;
 import backend.ast.figure.components.Segment;
@@ -68,6 +70,8 @@ import backend.symbolicAlgebra.equations.SegmentEquation;
 import backend.symbolicAlgebra.equations.operations.Addition;
 import backend.symbolicAlgebra.equations.operations.Multiplication;
 import backend.utilities.AngleEquivalenceRelation;
+import backend.utilities.MaximalIntersections;
+import backend.utilities.MaximalSegments;
 import backend.utilities.Pair;
 import backend.utilities.PointFactory;
 import backend.utilities.ast_helper.Utilities;
@@ -323,30 +327,52 @@ public class GeometryFactComputerDelegate
      * @param fc -- a fact computer containing access to segments
      * @return the list of all intersection objects
      * An intersection is defined as two segments maintaining a single point of intersection (but not coinciding)
+     * 
+     * This method of intersection calculation currently excludes when either of them are intersecting at an endpoint
+     * This is caused by segmentIntersection returning null when it occurs at an endpoint
      */
-    public static ArrayList<Intersection> computeSegmentSegmentIntersections(FactComputer fc)
+    public static MaximalIntersections computeSegmentSegmentIntersections(FactComputer fc)
     {
-        ArrayList<Segment> segments = fc.getSegments();
-        ArrayList<Intersection> intersections = new ArrayList<Intersection>();
-
-        for(int s1 = 0; s1 < segments.size() - 1; s1++)
+        MaximalSegments mss = fc.getMaximalSegments();
+        MaximalIntersections mi = MaximalIntersections.getInstance();
+        ArrayList<MaximalSegment> maxsegs = new ArrayList<MaximalSegment>(mss.getMaximalSegments());
+        
+        for(int ms1 = 0; ms1 < maxsegs.size() -1; ms1++)
         {
-            for(int s2 = s1 + 1; s2 < segments.size(); s2++)
+            for(int ms2 = ms1 +1; ms2< maxsegs.size(); ms2++)
             {
-                // Intersects
-                Point inter = segments.get(s1).segmentIntersection(segments.get(s2));
-                if (inter != null)
+                Point inter = maxsegs.get(ms1).segmentIntersection(maxsegs.get(ms2));
+                if(inter != null)
                 {
-                    // Not coinciding
-                    if(!segments.get(s1).coinciding(segments.get(s2)))
+                    if(!maxsegs.get(ms1).coinciding(maxsegs.get(ms2)))
                     {
-                        intersections.add(new Intersection(inter, segments.get(s1), segments.get(s2)));
+                        mi.addMaximalIntersection(new MaximalIntersection(inter, maxsegs.get(ms1), maxsegs.get(ms2)));
                     }
                 }
             }
         }
-
-        return intersections;
+        
+        return mi;
+//        ArrayList<Intersection> intersections = new ArrayList<Intersection>();
+//
+//        for(int s1 = 0; s1 < segments.size() - 1; s1++)
+//        {
+//            for(int s2 = s1 + 1; s2 < segments.size(); s2++)
+//            {
+//                // Intersects
+//                Point inter = segments.get(s1).segmentIntersection(segments.get(s2));
+//                if (inter != null)
+//                {
+//                    // Not coinciding
+//                    if(!segments.get(s1).coinciding(segments.get(s2)))
+//                    {
+//                        intersections.add(new Intersection(inter, segments.get(s1), segments.get(s2)));
+//                    }
+//                }
+//            }
+//        }
+//
+//        return intersections;
     }
 
     /*
