@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import backend.ast.figure.components.Point;
 import backend.ast.figure.components.Segment;
+import backend.ast.figure.delegates.intersections.IntersectionDelegate;
 import rene.zirkel.objects.LineObject;
 import rene.zirkel.objects.ParallelObject;
 import rene.zirkel.objects.PointObject;
@@ -32,14 +33,7 @@ public class FromUITranslate
     }
     public static Segment translateLine(LineObject l, Diagram b)
     {
-        /* The Diagram 'b' includes 4 points within its ArrayList<Point>
-         * They will be in the following order:
-         * 0, Bottom Left
-         * 1, Bottom Right
-         * 2, Top Right
-         * 3, Top Left
-         */
-        ArrayList<Point> corners = b.getPoints();
+        
         /* The Diagram 'boundary' included 4 segments within its ArrayList<Segment>
          * They will be in the following order:
          * 0, Left
@@ -49,84 +43,72 @@ public class FromUITranslate
          */
         ArrayList<Segment> borders = b.getSegments();
         
-        System.out.println(b.toString());
-        
         Point initPoint1 = translatePoint(l.getP1());
         Point initPoint2 = translatePoint(l.getP2());
+        Segment sSegment = new Segment(initPoint1, initPoint2);
+        //For each border, find the line intersection, then check to see if that is within the diagram
+        //that intersection will either be outside the border or on it.
         
-        Segment initSegment = new Segment(initPoint1, initPoint2);
-        double slope = initSegment.slope();
-        
-        
-        double dXLeft = initPoint1.getX() - corners.get(0).getX();
-        double dYLeft = dXLeft * slope;
-        Point leftAnchor = new Point("Left Anchor", initPoint1.getX()-dXLeft, initPoint1.getY()-dYLeft);
-        //Check if this point is above or below the Y-borders
-        
-        double dXRight = corners.get(2).getX() - initPoint1.getX();
-        double dYRight = dXRight * slope;
-        Point rightAnchor = new Point("Right Anchor", initPoint1.getX()+dXRight, initPoint1.getY()+dYRight);
-        //Check if this point is above or below the Y-borders
-        
-        Segment lineSegment = new Segment(leftAnchor, rightAnchor);
-        System.out.println(lineSegment.toString());
-        /* Intersect Cases:
-         *   1: Left and Right
-         *   2: Left and Bottom
-         *   3: Left and Top
-         *   4: Right and Bottom
-         *   5: Right and Top
-         *   6: Top and Bottom
-         */
-        if(lineSegment.LooseCrosses(borders.get(0)) && lineSegment.LooseCrosses(borders.get(2)))
+        ArrayList<Point> intersections = new ArrayList<Point>();
+        Point check;
+        for(Segment border : borders)
         {
-            //The line intersects the left and right borders - nothing else needs to be done
-            System.out.println("1");
-            return lineSegment;
+            check = IntersectionDelegate.lineIntersection(border, sSegment);
+            if(border.pointLiesOn(check))
+                intersections.add(check);
         }
-        
-        if(lineSegment.LooseCrosses(borders.get(0)) && lineSegment.LooseCrosses(borders.get(1)))
+        //There should only be two intersections
+        if(intersections.size() > 2)
         {
-            //The line intersects the left and bottom borders - find the bottom intersection and create a new segment
-            Point bottom = lineSegment.segmentIntersection(borders.get(1));
-            System.out.println("2");
-            return new Segment(leftAnchor, bottom);
+            //This should go through each point to check what happened
+            //  duplicate points would have been made if one or more intersection occurs exactly at a corner
+            //  go through and get 2 non-equal points, purge the others
+            //  TODO: Verify this happens, implement handling
+            return new Segment(intersections.get(0),intersections.get(1));
+            
         }
-        if(lineSegment.LooseCrosses(borders.get(0)) && lineSegment.LooseCrosses(borders.get(3)))
+        else
         {
-            //The line intersects the left and top borders - find the top intersection and create a new segment
-            Point top = lineSegment.segmentIntersection(borders.get(3));
-            System.out.println("3");
-            return new Segment(leftAnchor, top);
-        }
-        if(lineSegment.LooseCrosses(borders.get(2)) && lineSegment.LooseCrosses(borders.get(1)))
-        {
-            //The line intersects the right and bottom borders - find bottom intersection and create a new segment
-            Point bottom = lineSegment.segmentIntersection(borders.get(1));
-            System.out.println("4");
-            return new Segment(bottom, rightAnchor);
-        }
-        if(lineSegment.LooseCrosses(borders.get(2)) && lineSegment.LooseCrosses(borders.get(3)))
-        {
-            //The line intersects the right and top borders - find the top intersection and create a new segment
-            Point top = lineSegment.segmentIntersection(borders.get(3));
-            System.out.println("5");
-            return new Segment(top, rightAnchor);
-        }
-        else //if(lineSegment.crosses(borders.get(1)) && lineSegment.crosses(borders.get(3)))
-        {
-            //The line intersects the top and bottom borders - find the intersections and create a new segment
-            Point top = lineSegment.segmentIntersection(borders.get(3));
-            Point bottom = lineSegment.segmentIntersection(borders.get(1));
-            System.out.println("6");
-            return new Segment(top, bottom);
+            return new Segment(intersections.get(0),intersections.get(1));
         }
     }
     
-    public static LineObject translateParallel(ParallelObject l)
+    public static Segment translateParallel(ParallelObject l, Diagram b)
     {
-        LineObject original = (LineObject) l.getL();
-        PointObject point = l.getP1();
+        Segment original = translateLine((LineObject)l.getL(), d);
+        Point point = translatePoint(l.getP1());
+        
+        Point temp = new Point("", point.getX()+1, point.getY()+original.slope());
+        
+        Segment line = new Segment(point, temp);
+        
+        //From here it is the same logic as translating a line
+        ArrayList<Segment> borders = b.getSegments();
+        
+        ArrayList<Point> intersections = new ArrayList<Point>();
+        Point check;
+        for(Segment border : borders)
+        {
+            check = IntersectionDelegate.lineIntersection(border, line);
+            if(border.pointLiesOn(check))
+                intersections.add(check);
+        }
+        //There should only be two intersections
+        if(intersections.size() > 2)
+        {
+            //This should go through each point to check what happened
+            //  duplicate points would have been made if one or more intersection occurs exactly at a corner
+            //  go through and get 2 non-equal points, purge the others
+            //  TODO: Verify this happens, implement handling
+            return new Segment(intersections.get(0),intersections.get(1));
+            
+        }
+        else
+        {
+            return new Segment(intersections.get(0),intersections.get(1));
+        }
+        
+        
         return null;
     }
 }

@@ -99,24 +99,8 @@ public class FromUI
                         
                         LineObject line = (LineObject) co;
                         
-                        try
-                        {
-                            System.out.println("Creating 'small' segment");
-                            D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) co));
-                        }
-                        catch (Exception e)
-                        {
-                            System.out.println("Failed to create 'small' segment");
-                        }
-                        try
-                        {
-                            System.out.println("Creating 'large' segment");
-                            D.addSegment(FromUITranslate.translateLine(line, boundary));
-                        }
-                        catch (Exception e)
-                        {
-                            System.out.println("Failed to create 'large' segment");
-                        }
+                        D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) co));
+                        D.addSegment(FromUITranslate.translateLine(line, boundary));
                         
                     }
                     else
@@ -128,7 +112,7 @@ public class FromUI
                 {
                     if( co instanceof ParallelObject)
                     {
-                        LineObject l = FromUITranslate.translateParallel((ParallelObject)co);
+                        LineObject l = FromUITranslate.translateParallel((ParallelObject)co, boundary);
                         D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) l));
                         D.addSegment(FromUITranslate.translateLine(l, boundary));
                     }
