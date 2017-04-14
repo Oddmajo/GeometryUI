@@ -354,8 +354,7 @@ public class Precomputer
     
     private void computeSegmentRelations()
     {
-        Object[] maximal1 = _maximalSegments.getMaximalSegments().toArray();
-        MaximalSegment[] ms1 = (MaximalSegment[])maximal1;
+        Object[] ms1 = _maximalSegments.getMaximalSegments().toArray();
         
         for(int msi = 0 ; msi < _maximalSegments.getMaximalSegments().size()-1; msi++)
         {
@@ -363,7 +362,7 @@ public class Precomputer
             ArrayList<Point> segPoints = new ArrayList<Point>();
             for(Point p: _points)
             {
-                if(ms1[msi].pointLiesOnSegment(p))
+                if(((Segment) ms1[msi]).pointLiesOnSegment(p))
                 {
                     segPoints.add(p);
                 }
@@ -374,7 +373,7 @@ public class Precomputer
                 for(int p2 = p1+1; p2<segPoints.size(); p2++)
                 {
                     Segment s = new Segment(segPoints.get(p1),segPoints.get(p2));
-                    ms1[msi].addSubsegment(s);
+                    ((MaximalSegments) ms1[msi]).addSubsegment(s);
                     _subsegments.add(s);
                 }
             }

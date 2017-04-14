@@ -543,8 +543,10 @@ public class FactComputer
      */
     public Segment getStructuralSegment(Segment that)
     {
-        for(Segment segment : segments)
+        System.out.println(subSegments);
+        for(Segment segment : subSegments)
         {
+            
             if (segment.structurallyEquals(that)) return segment;
         }
 

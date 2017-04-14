@@ -151,7 +151,20 @@ public class SegmentBisectorDefinition extends Definition
             // intersections.  This needs to be fixed.
             // @author Drew Whitmire
             /////////////////////////////////////////////////
-            Point shared = cs.getcs1().segmentIntersection(cs.getcs2());
+            //Point shared = cs.getcs1().segmentIntersection(cs.getcs2());
+            Point shared;
+            if (cs.getcs1().getPoint1().structurallyEquals(cs.getcs2().getPoint1()) || cs.getcs1().getPoint1().structurallyEquals(cs.getcs2().getPoint2()))
+            {
+                shared = cs.getcs1().getPoint1();
+            }
+            else if (cs.getcs1().getPoint2().structurallyEquals(cs.getcs2().getPoint1()) || cs.getcs1().getPoint2().structurallyEquals(cs.getcs2().getPoint2()))
+            {
+                shared = cs.getcs1().getPoint2();
+            }
+            else
+            {
+                shared = null;
+            }
             if (shared == null) return deductions;
 
             for (Intersection i : intersections)
