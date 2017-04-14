@@ -384,10 +384,11 @@ public class GeometryFactComputerDelegate
             ArrayList<SegmentBisector> segBisectors,
             ArrayList<PerpendicularBisector> perpBisectors)
     {
-        ArrayList<Intersection> intersections = fc.getIntersections();
+        MaximalIntersections intersections = fc.getMaximalIntersections();
 
-        for (Intersection inter : intersections)
+        for (MaximalIntersection intersect : intersections.getMaximalIntersections())
         {
+            Intersection inter = intersect.getMaximalIntersection();
             // General perpendicularity
             Point perpPoint = inter.getlhs().coordinatePerpendicular(inter.getrhs());
             if (perpPoint != null)
