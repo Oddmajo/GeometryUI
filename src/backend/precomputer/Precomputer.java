@@ -99,6 +99,9 @@ public class Precomputer
     protected MaximalSegments _maximalSegments;
     public MaximalSegments getMaximalSegments() { return _maximalSegments; }
     
+    protected ArrayList<Segment> _subsegments;
+    public ArrayList<Segment> getSubsegments() { return _subsegments; }
+    
     protected boolean _analyzed;
     /** @return Whether the Precomputer analysis was invoked and completed */
     public boolean analyzed() { return _analyzed; }
@@ -112,6 +115,7 @@ public class Precomputer
         _sectors = new ArrayList<Sector>();
         _collinears = new ArrayList<Collinear>();
         _maximalSegments = MaximalSegments.getInstance();
+        _subsegments = new ArrayList<Segment>();
 
         // Given a single list, split into constituencies
         filterClauses(figure);
@@ -136,6 +140,7 @@ public class Precomputer
         _sectors = new ArrayList<Sector>();
         _collinears = new ArrayList<Collinear>();
         _maximalSegments = MaximalSegments.getInstance();
+        _subsegments = new ArrayList<Segment>();
         
         _analyzed = false;
     }
@@ -155,6 +160,7 @@ public class Precomputer
         _sectors = new ArrayList<Sector>();
         _collinears = new ArrayList<Collinear>();
         _maximalSegments = MaximalSegments.getInstance();
+        _subsegments = new ArrayList<Segment>();
         
         _analyzed = false;
     }
@@ -367,7 +373,9 @@ public class Precomputer
             {
                 for(int p2 = p1+1; p2<segPoints.size(); p2++)
                 {
-                        ms1[msi].addSubsegment(new Segment(segPoints.get(p1),segPoints.get(p2)));
+                    Segment s = new Segment(segPoints.get(p1),segPoints.get(p2));
+                    ms1[msi].addSubsegment(s);
+                    _subsegments.add(s);
                 }
             }
         }

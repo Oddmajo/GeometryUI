@@ -209,6 +209,7 @@ public class FactComputer
         //points = p != null ? p : new ArrayList<Point>();
         sectors = sec != null ? sec : new ArrayList<Sector>();
         maximalIntersections = MaximalIntersections.getInstance();
+        subSegments = new ArrayList<Segment>();
     }
 
     /**
@@ -231,6 +232,7 @@ public class FactComputer
         circles = pc.getCircles();
         arcs = pc.getArcs();
         segments = pc.getSegments();//Old and should be phased out
+        subSegments = pc.getSubsegments();
         maximalSegments = pc.getMaximalSegments();
         //points = p != null ? p : new ArrayList<Point>();
         sectors = pc.getSectors();
