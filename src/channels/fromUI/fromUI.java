@@ -112,9 +112,7 @@ public class FromUI
                 {
                     if( co instanceof ParallelObject)
                     {
-                        LineObject l = FromUITranslate.translateParallel((ParallelObject)co, boundary);
-                        D.addSegment(FromUITranslate.translateSegment((TwoPointLineObject) l));
-                        D.addSegment(FromUITranslate.translateLine(l, boundary));
+                        d.addSegment(FromUITranslate.translateParallel((ParallelObject)co, boundary));
                     }
                     
                     //Do something

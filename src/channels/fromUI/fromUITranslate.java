@@ -75,7 +75,7 @@ public class FromUITranslate
     
     public static Segment translateParallel(ParallelObject l, Diagram b)
     {
-        Segment original = translateLine((LineObject)l.getL(), d);
+        Segment original = translateLine((LineObject)l.getL(), b);
         Point point = translatePoint(l.getP1());
         
         Point temp = new Point("", point.getX()+1, point.getY()+original.slope());
@@ -107,8 +107,5 @@ public class FromUITranslate
         {
             return new Segment(intersections.get(0),intersections.get(1));
         }
-        
-        
-        return null;
     }
 }
